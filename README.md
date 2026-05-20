@@ -13,6 +13,8 @@ Stewarding clean, reusable skills for agents who build with purpose.
 
 A personal collection of high-quality **Agent Skills** (`.agents/skills/`) built for long-running, reliable AI agents.
 
+The skills follow the official [Agent Skills specification](https://agentskills.io). The accompanying process layer is defined in [HARNESS-SPEC.md](HARNESS-SPEC.md) (stacked PRs, multi-tier verification harnesses, traceability, reviewability, and the PETC loop).
+
 Every skill follows the official [Agent Skills specification](https://agentskills.io) and is designed with the same ruthless standards I apply to my Rust code:
 
 - **Functional purity** first
