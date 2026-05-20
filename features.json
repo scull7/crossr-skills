@@ -10,7 +10,9 @@
       {"id": "pr6", "title": "rust-frontend anti-slop guidance", "status": "completed"},
       {"id": "pr7", "title": "new rust-tui skill", "status": "completed"},
       {"id": "pr8", "title": "harness-bootstrap + templates", "status": "completed"},
-      {"id": "pr9", "title": "Dogfood harness on crossr-skills", "status": "in_progress"}
+      {"id": "pr9", "title": "Dogfood harness on crossr-skills", "status": "completed"},
+      {"id": "pr10", "title": "Final README + documentation polish", "status": "completed"},
+      {"id": "verify", "title": "Post-merge verification + script fixes", "status": "completed"}
     ]
   }
 }

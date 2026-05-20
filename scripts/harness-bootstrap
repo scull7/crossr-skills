@@ -93,9 +93,7 @@ echo "    2. Commit the empty harness"
 echo "    3. Start tracking real work in features.json"
 echo ""
 echo "  For Claude compatibility, run the generate-claude-compat step (to be added in a future iteration of this script)."
-EOF
-chmod +x "$TARGET/scripts/harness-bootstrap"
-echo "  + Created scripts/harness-bootstrap (executable)"
+echo "  Run 'just harness-validate' after setup to check features.json against the schema."
 
 echo ""
 echo "Bootstrap complete. Review the generated files, then commit them as the first harness PR for this project."
