@@ -1,0 +1,16 @@
+## Plan Mode
+
+- Make every plan extremely concise. Sacrifice grammar for scannability.
+- At the end of each plan, give a bulleted list of unresolved questions.
+- Always follow the Plan → Execute → Test → Commit loop defined in HARNESS-SPEC.md.
+
+## Skills
+
+This project uses skills from crossr-skills (or a local copy).
+
+- `code-writer`
+- `rust-code-writer`
+- `agent-harness`
+- [add project-specific skills here]
+
+See HARNESS-SPEC.md for the full harness rules, artifacts, and rituals.

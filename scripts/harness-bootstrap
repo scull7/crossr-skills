@@ -1,0 +1,101 @@
+#!/usr/bin/env bash
+# harness-bootstrap
+# Scaffolds the minimal viable harness for a new project, following HARNESS-SPEC.md
+#
+# Usage: ./scripts/harness-bootstrap [target-dir]
+#        (defaults to current directory)
+
+set -euo pipefail
+
+TARGET="${1:-.}"
+
+echo "→ Bootstrapping harness in: $TARGET"
+
+mkdir -p "$TARGET/.agents/skills"
+mkdir -p "$TARGET/templates/harness"
+
+# 1. AGENTS.md (minimal)
+if [ ! -f "$TARGET/AGENTS.md" ]; then
+cat > "$TARGET/AGENTS.md" << 'EOF'
+## Plan Mode
+
+- Make every plan extremely concise. Sacrifice grammar for scannability.
+- At the end of each plan, give a bulleted list of unresolved questions.
+- Always follow the Plan → Execute → Test → Commit loop.
+
+## Core Skills
+
+- **`code-writer`** — Foundational coding philosophy (Grokking Simplicity + SICP)
+- **`rust-code-writer`** — Idiomatic, pure, stratified Rust
+- **`agent-harness`** — Persistent scaffolding for long-running agents
+
+See [HARNESS-SPEC.md](HARNESS-SPEC.md) for the full process and artifact requirements.
+
+All agents and contributors must follow the skills referenced above.
+EOF
+echo "  + Created AGENTS.md"
+fi
+
+# 2. features.json (phase 0 skeleton)
+if [ ! -f "$TARGET/features.json" ]; then
+cat > "$TARGET/features.json" << 'EOF'
+{
+  "phase0": {
+    "status": "in_progress",
+    "commits": []
+  }
+}
+EOF
+echo "  + Created features.json (phase0)"
+fi
+
+# 3. progress.md stub
+if [ ! -f "$TARGET/progress.md" ]; then
+cat > "$TARGET/progress.md" << 'EOF'
+# Implementation Progress
+
+## Verification Status
+- Tooling: pending
+- Reviews: pending
+EOF
+echo "  + Created progress.md stub"
+fi
+
+# 4. Basic justfile (if none exists)
+if [ ! -f "$TARGET/justfile" ]; then
+cat > "$TARGET/justfile" << 'EOF'
+default:
+    @just --list
+
+init:
+    echo "Run your environment bootstrap here (cargo check, etc.)"
+
+check:
+    cargo check --workspace
+
+test:
+    cargo test --workspace
+
+clippy:
+    cargo clippy --workspace -- -W clippy::pedantic -D warnings
+
+fmt:
+    cargo fmt --all --check
+EOF
+echo "  + Created justfile"
+fi
+
+echo ""
+echo "✓ Basic harness scaffolded."
+echo "  Next steps:"
+echo "    1. Run 'just init' (customize as needed)"
+echo "    2. Commit the empty harness"
+echo "    3. Start tracking real work in features.json"
+echo ""
+echo "  For Claude compatibility, run the generate-claude-compat step (to be added in a future iteration of this script)."
+EOF
+chmod +x "$TARGET/scripts/harness-bootstrap"
+echo "  + Created scripts/harness-bootstrap (executable)"
+
+echo ""
+echo "Bootstrap complete. Review the generated files, then commit them as the first harness PR for this project."
