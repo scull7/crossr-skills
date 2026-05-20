@@ -56,3 +56,16 @@ Use `rust-frontend` when the task involves:
 ---
 
 **Always maintain functional purity, stratified design, and flat code** from `rust-code-writer` even when building frontend components and data pipelines.
+
+## Anti "AI Slop" Guidance
+
+You have a strong tendency to converge on generic, safe, "on-distribution" outputs. This produces what users call "AI slop".
+
+For frontend work:
+
+- Be **creative and distinctive**. Make interfaces that feel deliberately designed for the specific context rather than generic modern web defaults.
+- Avoid overused fonts (Inter, Roboto, system sans), clichéd color schemes, and cookie-cutter component patterns.
+- Prioritize typography, motion, and atmosphere that give the product character.
+- The goal is interfaces that feel hand-crafted and surprising in a good way, not "AI-generated".
+
+Keep the guidance general and principle-based. Do not hard-code specific aesthetic references (e.g. particular OS themes or retro styles) unless the project itself has already chosen them.
