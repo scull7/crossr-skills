@@ -1,0 +1,270 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>crossr-skills • Harness &amp; Skills Improvement Plan — Final (v2, Approved)</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&amp;family=Space+Grotesk:wght@500;600&amp;display=swap');
+    
+    :root {
+      --font-sans: 'Inter', system_ui, sans-serif;
+      --font-display: 'Space Grotesk', 'Inter', sans-serif;
+    }
+    
+    body { font-family: var(--font-sans); }
+    .font-display { font-family: var(--font-display); }
+
+    .section-header { scroll-margin-top: 5rem; }
+
+    .plan-card {
+      transition: transform 0.2s cubic-bezier(0.4, 0, 0.2, 1), box-shadow 0.2s;
+    }
+    .plan-card:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
+    }
+
+    .nav-link { transition: all 0.1s ease; }
+    .nav-link:hover { color: #3b82f6; transform: translateX(2px); }
+
+    .rule { border-left: 3px solid #3b82f6; }
+
+    .status-pill {
+      font-size: 0.75rem; padding: 0.125rem 0.625rem; border-radius: 9999px;
+      font-weight: 600; letter-spacing: -.025em;
+    }
+
+    pre, code { font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace; }
+
+    .highlight-authz {
+      background: linear-gradient(145deg, #1e1b4b 0%, #312e81 100%);
+      border: 1px solid #6366f1;
+    }
+
+    .decision-card {
+      border-left: 4px solid #10b981;
+    }
+
+    .toc-container {
+      position: sticky;
+      top: 4rem;
+    }
+  </style>
+</head>
+<body class="bg-slate-950 text-slate-200">
+  <!-- Top nav -->
+  <nav class="sticky top-0 z-50 border-b border-slate-800 bg-slate-950/95 backdrop-blur">
+    <div class="max-w-screen-xl mx-auto px-6">
+      <div class="flex h-16 items-center justify-between">
+        <div class="flex items-center gap-x-3">
+          <div class="flex h-9 w-9 items-center justify-center rounded-xl bg-blue-600">
+            <i class="fa-solid fa-link text-white text-xl"></i>
+          </div>
+          <div>
+            <div class="font-display text-xl font-semibold tracking-tighter">crossr-skills</div>
+            <div class="text-[10px] text-slate-500 -mt-1">AGENTSKILLS.IO • HARNESS v2</div>
+          </div>
+          <div class="ml-3 px-3 py-1 text-xs rounded-full bg-emerald-500/10 text-emerald-400 border border-emerald-500/30 font-medium">APPROVED • FINAL</div>
+        </div>
+        
+        <div class="flex items-center gap-x-4 text-sm">
+          <a href="#learnings" class="text-slate-400 hover:text-white text-sm">Learnings</a>
+          <a href="#decisions" class="text-slate-400 hover:text-white text-sm">Decisions</a>
+          <a href="#deliverables" class="text-slate-400 hover:text-white text-sm">Deliverables</a>
+          <a href="#authz" class="text-indigo-400 hover:text-indigo-300 text-sm font-medium">Authz 16-PR Chain</a>
+        </div>
+      </div>
+    </div>
+  </nav>
+
+  <div class="max-w-screen-xl mx-auto px-6 pt-10 pb-24">
+    <!-- Hero -->
+    <div class="max-w-4xl">
+      <div class="inline-flex items-center gap-x-2 rounded-full bg-emerald-500/10 border border-emerald-500/30 px-3 py-1 text-xs tracking-[0.5px] font-medium text-emerald-400 mb-4">
+        <i class="fa-solid fa-check-double"></i>
+        <span>PLAN APPROVED — EXECUTION STARTED</span>
+      </div>
+      
+      <h1 class="font-display text-6xl font-semibold tracking-tighter leading-none mb-4">
+        Harness &amp; Skills<br>Improvement Plan
+      </h1>
+      <p class="text-2xl text-slate-400 tracking-tight">
+        <span class="text-white font-medium">crossr-skills</span> becomes the canonical, copyable base harness for every project.
+      </p>
+      
+      <div class="mt-6 flex flex-wrap items-center gap-x-3 text-sm">
+        <div class="flex items-center gap-x-2 bg-slate-900 border border-slate-800 rounded-lg px-4 h-10">
+          <span class="text-slate-500">Informed by</span>
+          <span class="font-medium text-amber-400">ferro-wave</span>
+          <span class="text-slate-600">•</span>
+          <span class="font-medium text-amber-400">ferro-wg</span>
+          <span class="text-slate-600">•</span>
+          <span class="font-medium text-indigo-400">16-PR Authz Chain (CD-1873)</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Status bar -->
+    <div class="mt-8 bg-slate-900 border border-slate-800 rounded-2xl p-4 flex items-center justify-between text-sm">
+      <div class="flex items-center gap-x-4">
+        <div><span class="font-semibold text-emerald-400">v2 — Final</span> <span class="text-slate-500">(post user decisions + authz investigation)</span></div>
+        <div class="text-xs px-2 py-0.5 rounded bg-slate-800">Strict <a href="https://agentskills.io" class="underline" target="_blank">agentskills.io</a> compliance</div>
+      </div>
+      <div class="text-xs text-slate-400">Claude compatibility = <span class="font-medium text-amber-300">generated output</span> (optional)</div>
+    </div>
+
+    <!-- Goals -->
+    <div class="mt-10">
+      <h2 class="font-display text-2xl font-semibold tracking-tight mb-3">Goal</h2>
+      <p class="text-lg text-slate-300">Evolve crossr-skills into the single source of truth + copyable base harness for all projects. Incorporate real-world patterns from ferro* (especially the 16-PR authz chain). Deliver a formal, executable <code class="font-mono bg-slate-900 px-1.5 py-px rounded">HARNESS-SPEC.md</code>.</p>
+    </div>
+
+    <!-- Key Learnings -->
+    <div id="learnings" class="mt-12 section-header">
+      <h2 class="font-display text-3xl font-semibold tracking-tight mb-4">Ferro* Learnings (Key Inputs)</h2>
+      
+      <div class="grid md:grid-cols-2 gap-4">
+        <div class="plan-card bg-slate-900 border border-slate-700 rounded-3xl p-5">
+          <div class="uppercase text-xs tracking-widest text-slate-400 font-medium mb-2">Distribution Model (Strict)</div>
+          <div class="text-sm text-slate-300">
+            Canonical source is always <code>.agents/skills/&lt;name&gt;/SKILL.md</code> per <a href="https://agentskills.io" class="underline" target="_blank">agentskills.io</a> spec (YAML frontmatter with <code>name</code> + <code>description</code>, Markdown body, progressive disclosure).<br><br>
+            <span class="text-amber-300 font-medium">Claude compatibility</span> (<code>.claude/skills/</code> + distilled <code>.claude/commands/</code>) is <strong>optional</strong> and produced by a generative script in the harness bootstrap — never hand-maintained duplicates.
+          </div>
+        </div>
+
+        <div class="plan-card bg-slate-900 border border-slate-700 rounded-3xl p-5">
+          <div class="uppercase text-xs tracking-widest text-slate-400 font-medium mb-2">features.json + Progress</div>
+          <div class="text-sm">Real production shape is phase → commits → granular feature IDs. Progress.md is commit-narrative + final verification block. This is the actual harness tracking used on large work.</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Prominent Authz Section -->
+    <div id="authz" class="mt-12 section-header">
+      <div class="highlight-authz rounded-3xl p-6">
+        <div class="flex items-center gap-x-3 mb-3">
+          <span class="px-3 py-1 rounded-full bg-indigo-500/20 text-indigo-300 text-xs font-semibold tracking-wider">HIGHEST VALUE INPUT</span>
+          <span class="font-display text-xl font-semibold text-white">Outstanding 16-PR Authz Chain (CD-1873)</span>
+        </div>
+        <p class="text-sm text-slate-200 mb-4">Massive, high-risk, security-sensitive subproject (new <strong>twave-authz</strong> ConnectRPC + mTLS service for SSH/NSS host authorization) decomposed into <strong>16 tiny stacked PRs</strong> (still open as of investigation). This is the strongest real-world validation of the harness philosophy yet.</p>
+        
+        <div class="grid md:grid-cols-3 gap-4 text-xs">
+          <div>
+            <div class="font-semibold text-indigo-300 mb-1">Decomposition &amp; Process</div>
+            <ul class="space-y-1 text-slate-300">
+              <li>• Each PR has explicit “this PR / next PR / verification”</li>
+              <li>• Risk notes + “reviewability comments” in code</li>
+              <li>• Traceability everywhere (tw-xxx, ADR-0002, Phase N)</li>
+              <li>• Decoupled docs PR (beautiful single-file static deploy guide webapp added last)</li>
+            </ul>
+          </div>
+          <div>
+            <div class="font-semibold text-indigo-300 mb-1">Verification “Harnesses” (literal term used)</div>
+            <ul class="space-y-1 text-slate-300">
+              <li>• Tier-1: in-process e2e + parity snapshot (LDAP legacy equivalence)</li>
+              <li>• Tier-2: real deb install + systemd VM + k3s/Helm cluster tests</li>
+              <li>• Policy gate <strong>before</strong> any DB/effectful work (mTLS CN-hostname binding)</li>
+            </ul>
+          </div>
+          <div>
+            <div class="font-semibold text-indigo-300 mb-1">Architecture &amp; Ops Patterns</div>
+            <ul class="space-y-1 text-slate-300">
+              <li>• Proto-first → thin core client → svc (handler + Mongo agg) → consumers (init, authkeys, userdb)</li>
+              <li>• First-class packaging (deb, distroless Docker, Helm with mTLS probes)</li>
+              <li>• Multiple cert provisioning strategies with dedicated tested scripts + CI workflow</li>
+              <li>• Subproject has its own .claude/ + heavy automated + human review</li>
+            </ul>
+          </div>
+        </div>
+        <div class="mt-4 text-xs text-indigo-300">Direct input for HARNESS-SPEC, agent-harness skill, rust-code-reviewer, and policy-gate patterns.</div>
+      </div>
+    </div>
+
+    <!-- Decisions -->
+    <div id="decisions" class="mt-12 section-header">
+      <h2 class="font-display text-3xl font-semibold tracking-tight mb-4">Decisions (User Feedback on v1)</h2>
+      <div class="grid md:grid-cols-2 gap-3 text-sm">
+        <div class="decision-card bg-slate-900 border border-slate-700 rounded-2xl p-4"><span class="font-semibold">1. rust-tui</span><br>Standalone skill (not folded into rust-frontend).</div>
+        <div class="decision-card bg-slate-900 border border-slate-700 rounded-2xl p-4"><span class="font-semibold">2. Fines / severity</span><br>Move upstream into <code>code-writer</code> + <code>rust-code-writer</code> to prevent bad code at generation time.</div>
+        <div class="decision-card bg-slate-900 border border-slate-700 rounded-2xl p-4"><span class="font-semibold">3. UI aesthetics</span><br>Generic “be creative, fight AI slop / generic outputs” only. No specific Apple/retro/Catppuccin examples in the skill.</div>
+        <div class="decision-card bg-slate-900 border border-slate-700 rounded-2xl p-4"><span class="font-semibold">4. Bootstrap</span><br>Real executable (<code>harness-bootstrap</code>) alongside docs + templates.</div>
+        <div class="decision-card bg-slate-900 border border-slate-700 rounded-2xl p-4"><span class="font-semibold">5. Sync mechanism</span><br>Needs live discussion; document 2–3 options in the SPEC.</div>
+        <div class="decision-card bg-slate-900 border border-slate-700 rounded-2xl p-4"><span class="font-semibold">6. features.json schema</span><br>Yes — add official JSON Schema + validation step in ritual / bootstrap / CI.</div>
+        <div class="decision-card bg-slate-900 border border-slate-700 rounded-2xl p-4"><span class="font-semibold">7. Timeline / PR size</span><br>Strictly incremental. Every PR must be deeply reviewable in &lt; 10 minutes.</div>
+        <div class="decision-card bg-slate-900 border border-slate-700 rounded-2xl p-4"><span class="font-semibold">8. Authz lessons</span><br>Fold stacked PRs, multi-tier harnesses, traceability, reviewability, policy-gate-before-effects primarily into agent-harness + SPEC + reviewer + code-writer. Defer dedicated connect skill unless a second production example appears.</div>
+      </div>
+    </div>
+
+    <!-- Deliverables -->
+    <div id="deliverables" class="mt-12 section-header">
+      <h2 class="font-display text-3xl font-semibold tracking-tight mb-4">Proposed Deliverables</h2>
+      
+      <div class="space-y-6">
+        <!-- 1 -->
+        <div class="plan-card bg-slate-900 border border-slate-700 rounded-3xl p-6">
+          <div class="font-semibold text-lg mb-2 flex items-center gap-x-2"><span class="text-blue-400">1.</span> <span>HARNESS-SPEC.md (formal, executable)</span></div>
+          <ul class="text-sm space-y-1 text-slate-300 pl-1">
+            <li>• Definition + mandatory artifacts (AGENTS.md, CLAUDE.md, features.json phase model, progress.md, justfile, git)</li>
+            <li>• <strong>Authz patterns baked in</strong>: stacked PR decomposition, literal multi-tier verification harnesses, traceability IDs, reviewability as gate, policy gates before effects, decoupled docs PRs</li>
+            <li>• JSON Schema for features.json + validation step in ritual</li>
+            <li>• <strong>Claude generator</strong>: bootstrap includes <code>generate-claude-compat</code> that derives optional .claude/ artifacts from canonical .agents/skills/</li>
+            <li>• Verification gates (self + reviewer + tester + architect GAN)</li>
+          </ul>
+        </div>
+
+        <!-- 2 -->
+        <div class="plan-card bg-slate-900 border border-slate-700 rounded-3xl p-6">
+          <div class="font-semibold text-lg mb-2 flex items-center gap-x-2"><span class="text-blue-400">2.</span> <span>Update agent-harness/SKILL.md</span></div>
+          <ul class="text-sm space-y-1 text-slate-300 pl-1">
+            <li>• Reference the new SPEC</li>
+            <li>• Add “Stacked PR + Multi-Tier Harness” guidance from the 16-PR authz chain</li>
+            <li>• Document the generate-claude-compat step and agentskills.io strictness</li>
+          </ul>
+        </div>
+
+        <!-- 3-4 -->
+        <div class="grid md:grid-cols-2 gap-4">
+          <div class="plan-card bg-slate-900 border border-slate-700 rounded-3xl p-6">
+            <div class="font-semibold mb-2">3. Enhance core skills</div>
+            <div class="text-xs text-slate-400 space-y-1">
+              <div><strong>code-writer + rust-code-writer</strong>: fines/severity rules moved here, &lt;10 min review target, etc.</div>
+              <div><strong>rust-axum-backend</strong>: ferro gateway patterns (AppError, extractors, thin crates, test-utils, compile_error, policy before DB)</div>
+              <div><strong>rust-frontend</strong>: generic anti-slop only</div>
+              <div><strong>rust-code-reviewer + rust-errors</strong>: reviewability comments, traceability, policy-gate enforcement</div>
+            </div>
+          </div>
+          <div class="plan-card bg-slate-900 border border-slate-700 rounded-3xl p-6">
+            <div class="font-semibold mb-2">4. New standalone <span class="text-violet-400">rust-tui</span> skill</div>
+            <div class="text-xs text-slate-400">Codifies the exact ferro-wg architecture: Component trait + two-phase dispatch, Action enum, sole AppState::dispatch, offload pattern, pure calc layer, TestBackend snapshots, InputMode + modals, Theme helpers.</div>
+          </div>
+        </div>
+
+        <!-- 5-7 -->
+        <div class="plan-card bg-slate-900 border border-slate-700 rounded-3xl p-6">
+          <div class="font-semibold mb-2">5. Bootstrap executable + templates</div>
+          <div class="text-sm text-slate-300">Real <code>harness-bootstrap</code> script that produces a ready-to-commit harness (including features.json with schema, .agents/ copy, and the Claude generator step).</div>
+        </div>
+
+        <div class="plan-card bg-slate-900 border border-slate-700 rounded-3xl p-6">
+          <div class="font-semibold mb-2">6 + 7. Dogfooding + Verification</div>
+          <div class="text-sm text-slate-300">Crossr-skills itself adopts the full harness (AGENTS.md, features.json tracking this work, progress.md, justfile, etc.). Final step: full reviewer/tester/architect GAN + manual bootstrap test + official spec audit of all current skills.</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Execution -->
+    <div class="mt-12 border-t border-slate-800 pt-8 text-sm">
+      <div class="font-semibold mb-2">Execution Method</div>
+      <div>PETC loop per deliverable + GAN cycles (producer vs reviewer/tester/architect). Every PR &lt; 10 minutes deep review. Track the entire improvement in the new harness itself.</div>
+    </div>
+
+    <div class="mt-10 text-center text-xs text-slate-500">
+      Plan approved • Execution in progress • First action: this HTML regenerated from final plan.md<br>
+      All content reflects strict agentskills.io compliance + user decisions + full authz chain investigation.
+    </div>
+  </div>
+</body>
+</html>
