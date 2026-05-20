@@ -20,4 +20,13 @@ fmt:
 
 # Harness-specific
 harness-validate:
-    echo "Run features.json validation here when schema is added"
+    @if command -v jq >/dev/null 2>&1; then \
+        jq -e 'if type == "object" then . else error("features.json must be an object") end' features.json > /dev/null && \
+        echo "features.json: basic structure OK" || \
+        (echo "features.json: invalid structure" && exit 1); \
+        if [ -f features.schema.json ]; then \
+            echo "Schema validation not yet implemented (requires ajv or similar)"; \
+        fi; \
+    else \
+        echo "jq not found — skipping features.json validation"; \
+    fi
