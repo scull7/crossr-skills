@@ -25,6 +25,10 @@ The full stacked PR chain (PRs #1–#10) has been merged.
 - features.json updated to mark the entire "harness-v2" effort as completed
 
 ## Final Status
-**Harness v2 is complete and the repository is now self-hosting its own process.**
+**Harness v2 + GAN Mechanization is complete.**
+
+The repository is now self-hosting its own process, including mechanical GAN agent definitions and improved tooling.
 
 All future work on crossr-skills (and consuming projects) should follow the rules in HARNESS-SPEC.md.
+
+The mechanization effort (GAN agent definitions + hardening) was delivered via a second stacked PR chain (`gan/01` through `gan/05`).
