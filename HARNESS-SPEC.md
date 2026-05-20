@@ -138,6 +138,26 @@ All reusable skills live here in strict `agentskills.io` format. This directory 
 
 ---
 
+## 4.5 HTML as the Primary Human-Facing Artifact Format
+
+For any artifact whose primary audience is a human — specifications, architecture reviews, PR summaries, reports, dashboards, prototypes, deployment guides, etc. — **generate a self-contained HTML file** as the main deliverable.
+
+**Rationale (The Unreasonable Effectiveness of HTML)**:
+- Humans read, understand, and engage with well-designed HTML far more effectively than raw Markdown.
+- Modern models produce exceptionally high-quality, single-file HTML (Tailwind via CDN + SVG/light JS) with very little prompting.
+- This dramatically improves the quality of human-in-the-loop feedback in the harness.
+
+**Guidelines**:
+- Output a single `.html` file (fully self-contained, no local dependencies).
+- Use Tailwind CSS via CDN for rapid, clean styling.
+- Make the document scannable, visually rich, and interactive where it adds value.
+- You may also produce a Markdown version for git or agent handoff, but treat the HTML as the primary human artifact.
+- Name files descriptively (e.g., `architecture-review.html`, `pr-42-summary.html`).
+
+This pattern is now a first-class recommendation in the harness.
+
+---
+
 ## 5. The PETC Loop + Stacked PR Discipline
 
 **P**lan → **E**xecute → **T**est → **C**ommit
