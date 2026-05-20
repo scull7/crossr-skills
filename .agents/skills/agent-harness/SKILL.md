@@ -9,12 +9,13 @@ description: |
   progress, and leave production-ready code across multiple sessions.
 ---
 
-# Agent Harness Skill (Tensorwave Edition)
+# Agent Harness Skill (Tensorwave Edition) — v2
 
 **This skill extends `code-writer` + `rust-code-writer`.**
 You **MUST** apply the core coding philosophy first, then layer on these
-harness-specific rules for any Tensorwave project (Rust backends, Leptos
-frontends, Axum APIs, Polars pipelines, GPU orchestration, etc.).
+harness-specific rules for any Tensorwave project.
+
+**Primary reference:** Read and follow [HARNESS-SPEC.md](/HARNESS-SPEC.md) (the formal, executable specification). This skill is the practical implementation guide.
 
 ## Purpose
 
@@ -36,47 +37,68 @@ Inspired by:
 
 ## Core Harness Artifacts
 
-> Create all five in every Tensorwave project.
+> Every project must have the items below. See HARNESS-SPEC.md for the full, normative definition.
 
-### 1. `init.sh`
+### 1. Canonical Skills Location (Strict agentskills.io)
 
-One-command environment bootstrap (start servers, DB, WASM build, GPU env
-vars, etc.). Agents **always** run `./init.sh` at session start.
+All reusable skills live in `.agents/skills/<name>/SKILL.md` and follow the official specification exactly.
 
-### 2. `features.json` (or `tasks.json`)
+**Claude compatibility is optional and generated.**  
+A `generate-claude-compat` step (provided by the harness bootstrap) produces `.claude/skills/` and distilled `.claude/commands/` from the canonical `.agents/` sources. Never maintain duplicate copies by hand.
 
-Structured, machine-readable task list. Example entry:
+### 2. `init.sh` / `justfile`
+
+One-command environment bootstrap and the exact build/test/clippy matrices used in CI and CLAUDE.md. Agents always use these.
+
+### 3. `features.json` (phase/commits/features model)
+
+Production shape proven on large work (ferro-wg and the 16-PR authz chain):
 
 ```json
 {
-  "id": "tw-42",
-  "category": "backend",
-  "description": "Implement Axum health-check endpoint with GPU metrics",
-  "steps": ["..."],
-  "status": "pending",
-  "verified": false,
-  "notes": ""
+  "phase7": {
+    "status": "in_progress",
+    "commits": [
+      { "id": "c3", "title": "Help overlay", "status": "completed",
+        "features": ["help_overlay_component", "help_overlay_tests"] }
+    ]
+  }
 }
 ```
 
-Agents update `status` **only** after running tests + self-critique.
+A JSON Schema + validation step is part of the harness.
 
-### 3. `progress.md`
+### 4. `progress.md`
 
-Human-readable session log. Agents append:
+Commit-narrative human log ending with a "Verification Status" block (tooling + adversary reviews).
 
-- What they did
-- Decisions made
-- Any unresolved questions
+### 5. Git + Session Ritual
 
-### 4. Git
+Clean commits + the mandatory start-of-session commands (see HARNESS-SPEC.md).
 
-Every session ends with a clean, descriptive commit. Agents must run
-`git status` and `git log --oneline -10` at session start.
+### 6. `AGENTS.md` (project root)
 
-### 5. `AGENTS.md` (project root)
+Contains skill references + the Plan Mode contract + link to this spec.
 
-Project-specific rules — see the **Plan Mode** section below.
+---
+
+## Stacked PR Decomposition + Multi-Tier Verification Harnesses
+
+The 16-PR `CD-1873-add-authz-subproject` chain in ferro-wave is the canonical real-world example of this harness at scale.
+
+**Key patterns to internalize and enforce:**
+
+- Decompose large or high-risk features into 8–16 small, stacked, reviewable PRs.
+- Each PR must have an explicit "What this PR contains / Next PR / Verification" summary and a risk note.
+- Use stable traceability IDs (tw-xxx, ADR-0002, Phase N, CD-1873, etc.) in PR titles, code comments, test names, and features.json.
+- Build **literal verification harnesses** at multiple tiers:
+  - Tier-1: in-process + parity snapshot tests (legacy equivalence)
+  - Tier-2: real packaging (deb, Docker, Helm) + VM / k8s substrate tests
+- Enforce **policy / security gates before any effectful or data-access work** (the mTLS CN-hostname binding check that runs before the Mongo lookup is the model).
+- Add "reviewability comments" liberally so a human or agent can understand intent in < 2 minutes.
+- Decouple documentation (beautiful single-file static deploy guide + its own CI) so docs never block code.
+
+Document which of these patterns your project is using in its `AGENTS.md` or a `docs/HARNESS.md`.
 
 ---
 
@@ -95,94 +117,60 @@ Project-specific rules — see the **Plan Mode** section below.
 
 Repeat every session:
 
-1. **Plan** — Read `progress.md` + `features.json` + `git log` → propose next
-   task + plan.
-2. **Execute** — Implement using appropriate skills (e.g. `rust-axum-backend`).
-3. **Test** — Unit tests, integration tests, E2E (Puppeteer-style if frontend),
-   `cargo test`, `cargo clippy -- -D warnings`.
-4. **Commit** — `git commit -m "TW-42: ..."` + update `features.json` + append
-   to `progress.md`.
+1. **Plan** — Read `progress.md` + `features.json` + `git log` → propose next task + plan.
+2. **Execute** — Implement using appropriate skills + reference to HARNESS-SPEC.md.
+3. **Test** — Full matrix + `rust-code-reviewer` + `rust-code-tester` + `rust-architect`.
+4. **Commit** — Small, reviewable diff + update artifacts + append to `progress.md`.
 
 ---
 
-## Agent Team Design Patterns (Revfactory-inspired)
+## Session Start Ritual (v2)
 
-Choose **one pattern per project** and document it in the harness README.
-
-| Pattern               | When to use              | Example for Tensorwave                                        |
-| --------------------- | ------------------------ | ------------------------------------------------------------- |
-| Pipeline              | Sequential stages        | Analyze → Design → Rust Backend → Frontend → QA              |
-| Supervisor + Specialists | Dynamic delegation    | Supervisor delegates to `rust-backend-agent`, `leptos-agent`, `gpu-bench-agent` |
-| Producer-Reviewer     | High-quality generation  | Code producer → `rust-code-reviewer`                         |
-| Hierarchical          | Deeply nested tasks      | Top-level feature → sub-tasks                                 |
-
-Agents and skills are generated into `.agents/agents/` and `.agents/skills/`
-using **progressive disclosure** (keep context small).
-
----
-
-## Session Start Ritual
-
-Every agent **must** run the following at the start of each session:
+Every agent **must** run (at minimum):
 
 ```bash
-pwd
-cat progress.md | tail -n 50
-git log --oneline -10
-cat features.json | jq '.[] | select(.status=="pending") | .id' | head -5
-./init.sh
-
-# Run basic smoke tests
+git status && git log --oneline -10
+cat progress.md | tail -n 30
+# Updated jq for phase/commits shape (see HARNESS-SPEC.md)
+./init.sh || just init
 cargo check && cargo test --quiet
 ```
 
-Only then pick the next pending feature.
+Then consult `features.json` for the next pending granular feature and the current phase/commit.
 
 ---
 
 ## Error Recovery & Self-Critique
 
-- Agents must self-verify before marking `"verified": true`.
+- Agents must self-verify before marking work complete.
 - Use `rust-code-reviewer` ruthlessly on every code change.
 - Git is the safety net — **never** force-push; always commit.
 - If state is broken → run `./init.sh` + revert to last good commit.
 
 ---
 
-## Activation Statement
+## Activation Statement (v2)
 
 > Using `code-writer` + `rust-code-writer` + `agent-harness` +
-> [relevant domain skills, e.g. `rust-axum-backend`, `rust-frontend`,
-> `rust-errors`] for this Tensorwave harness task.
+> [relevant domain skills] + reference to HARNESS-SPEC.md for this task.
 
-When bootstrapping a new Tensorwave project:
+When bootstrapping a new project:
 
-1. Say the activation statement above.
-2. Ask the agent to create the five core artifacts.
+1. Run the `harness-bootstrap` executable (or equivalent) from the templates.
+2. It creates the initial harness (AGENTS.md, features.json with schema, justfile, .agents/ guidance, Claude generator step, etc.).
 3. Commit the empty harness.
-4. From then on, every new session begins with:
-   **"Continue harness work on next feature."**
+4. All future work is tracked and executed inside the harness defined in HARNESS-SPEC.md.
 
 ---
 
 ## How to Include This Skill
 
 1. Save this file to `.agents/skills/agent-harness/SKILL.md`.
-2. Update your root `AGENTS.md` (Core Skills section):
-
-   ```markdown
-   - **`agent-harness`**
-     Specialized skill for effective long-running agent harnesses in
-     Tensorwave projects.
-   ```
-
-3. _(Optional but recommended)_ Create a template `AGENTS.md` in new project
-   roots using the **Plan Mode** section above.
+2. Update your root `AGENTS.md` (Core Skills section) with a link to `HARNESS-SPEC.md`.
+3. Run the harness bootstrap when starting a new project.
 
 ---
 
 ## One-Sentence Mandate
 
-> Build harnesses that make long-running agents **reliable**, **incremental**,
-> **self-verifying**, and **handover-clean** using persistent artifacts, concise
-> planning, and our existing skill system.
+> Build harnesses that make long-running agents **reliable**, **incremental**, **self-verifying**, and **handover-clean** using persistent artifacts, concise planning, strict agentskills.io compliance, and the stacked multi-tier verification patterns proven on large security-critical work.
