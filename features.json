@@ -1,0 +1,16 @@
+{
+  "harness-v2": {
+    "status": "in_progress",
+    "commits": [
+      {"id": "pr1", "title": "HARNESS-SPEC.md + planning HTML", "status": "completed"},
+      {"id": "pr2", "title": "agent-harness skill v2", "status": "completed"},
+      {"id": "pr3", "title": "Fines upstream into code-writer", "status": "completed"},
+      {"id": "pr4", "title": "reviewer + errors enhancements", "status": "completed"},
+      {"id": "pr5", "title": "rust-axum-backend patterns", "status": "completed"},
+      {"id": "pr6", "title": "rust-frontend anti-slop guidance", "status": "completed"},
+      {"id": "pr7", "title": "new rust-tui skill", "status": "completed"},
+      {"id": "pr8", "title": "harness-bootstrap + templates", "status": "completed"},
+      {"id": "pr9", "title": "Dogfood harness on crossr-skills", "status": "in_progress"}
+    ]
+  }
+}
