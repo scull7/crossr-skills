@@ -204,6 +204,17 @@ These patterns are now part of the expected discipline for any comparably large 
 This spec lives at the root of crossr-skills as `HARNESS-SPEC.md`.  
 Changes are proposed via the same harness process the spec itself defines (features.json entries, small reviewable PRs, full verification gates).
 
+## 11. Agent Definitions (GAN Mechanization)
+
+As of the 2026 GAN mechanization effort, reusable agent personas live in `.agents/agents/`.
+
+The canonical trio for quality enforcement is:
+- `rust-reviewer-agent`
+- `rust-tester-agent`
+- `rust-architect-agent`
+
+Projects are encouraged to run the full GAN sequence (Reviewer → Tester → Architect) on significant changes. See `.agents/agents/README.md` for the recommended invocation pattern.
+
 ---
 
 **Whatever you do, work at it with all your heart, as working for the Lord.** — Colossians 3:23
