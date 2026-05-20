@@ -14,13 +14,17 @@ This file tracks the work to evolve crossr-skills into the canonical base harnes
 - New standalone rust-tui skill
 - harness-bootstrap executable + templates
 
-## Current Phase
+## Verification & Completion (Post-Merge)
 
-### PR 9: Dogfooding the harness on crossr-skills itself
-- Adding AGENTS.md, features.json, progress.md, justfile, CLAUDE.md
-- Making the repo eat its own dogfood
+The full stacked PR chain (PRs #1–#10) has been merged.
 
-## Verification Status
-- All PRs follow < 10 minute deep review rule
-- Content reviewed against approved plan and HARNESS-SPEC.md
-- Stacked PR chain maintained on GitHub
+### Post-merge verification performed
+- All mandatory artifacts present (HARNESS-SPEC.md, AGENTS.md, features.json, progress.md, justfile, CLAUDE.md, rust-tui skill, bootstrap script + templates)
+- `scripts/harness-bootstrap` tested successfully in clean environments
+- Minor bugs in the bootstrap script fixed during verification (heredoc + chmod issues)
+- features.json updated to mark the entire "harness-v2" effort as completed
+
+## Final Status
+**Harness v2 is complete and the repository is now self-hosting its own process.**
+
+All future work on crossr-skills (and consuming projects) should follow the rules in HARNESS-SPEC.md.
