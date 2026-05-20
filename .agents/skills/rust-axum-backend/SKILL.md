@@ -32,6 +32,19 @@ You **MUST** apply `code-writer` + `rust-code-writer` first, then layer on these
 - Use `axum::response::IntoResponse` for custom error responses.
 - Prefer structured JSON errors over plain text.
 
+## Production Patterns from Ferro-Wave Event Gateway
+
+When building real Axum services at scale (see waveq-event-gateway):
+
+- **Thin transport crates**: The `*-http` crate should contain *only* handlers, extractors, and middleware. All domain logic, authz, validation, and error types live in a `*-core` crate.
+- **AppError newtype + exhaustive mapping**: Wrap the domain error and implement `IntoResponse` with a match that produces structured JSON. Never leak internal details on 5xx errors. Map policy denials to distinct status codes.
+- **Layered custom extractors**: Use `FromRequestParts` + `FromRef<AppState>` for things like `AuthedPrincipal`. Perform the security gate (e.g. CN-hostname binding) early, before any DB access.
+- **test-utils feature**: Expose test helpers from core under a `test-utils` feature so integration test crates can construct realistic state without leaking test code into production.
+- **router() + serve()**: Expose `pub fn router(state: AppState) -> Router` and `pub async fn serve(...)`. Document the route table in the module docs.
+- **Feature-gated transports**: In the server binary crate, use optional dependencies + `#[cfg(feature = "rest")]` / `#[cfg(feature = "grpc")]` with a `compile_error!` if neither is enabled.
+
+These patterns were battle-tested in the ferro-wave gateway and are now the expected baseline for new Axum work.
+
 ## When to Use This Skill
 
 Use `rust-axum-backend` whenever the task involves:
