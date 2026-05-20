@@ -1,0 +1,57 @@
+#!/usr/bin/env bash
+# sync-skills
+# Helps keep a project's .agents/skills/ in sync with a canonical crossr-skills checkout.
+#
+# Recommended usage:
+#   ./scripts/sync-skills /path/to/your/crossr-skills
+#
+# This is a simple starting point. Future versions may support remote fetching.
+
+set -euo pipefail
+
+if [ $# -eq 0 ]; then
+    cat <<EOF
+Usage: $0 /path/to/crossr-skills
+
+This script helps copy the canonical skills from a local crossr-skills checkout
+into your project's .agents/skills/ directory.
+
+Recommended workflow:
+1. Clone crossr-skills somewhere (e.g. ~/src/crossr-skills)
+2. Run: ./scripts/sync-skills ~/src/crossr-skills
+3. Review the diff and commit the updated skills
+
+You can also set CROSSR_SKILLS_PATH as an environment variable.
+EOF
+    exit 0
+fi
+
+SOURCE="${1:-${CROSSR_SKILLS_PATH:-}}"
+
+if [ -z "$SOURCE" ]; then
+    echo "Error: No crossr-skills path provided."
+    exit 1
+fi
+
+if [ ! -d "$SOURCE/.agents/skills" ]; then
+    echo "Error: $SOURCE does not look like a crossr-skills checkout (missing .agents/skills)"
+    exit 1
+fi
+
+DEST=".agents/skills"
+
+echo "→ Syncing skills from $SOURCE to $DEST"
+
+mkdir -p "$DEST"
+
+# Use rsync if available for a nicer experience, otherwise fall back to cp
+if command -v rsync >/dev/null 2>&1; then
+    rsync -a --delete --exclude '*/' "$SOURCE/.agents/skills/" "$DEST/"
+    echo "✓ Skills synced using rsync (with --delete)"
+else
+    cp -r "$SOURCE/.agents/skills/"* "$DEST/" 2>/dev/null || true
+    echo "✓ Skills copied (consider installing rsync for --delete behavior)"
+fi
+
+echo ""
+echo "Done. Review the changes in $DEST and commit them as a skill update PR."
