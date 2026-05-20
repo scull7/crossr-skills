@@ -14,7 +14,14 @@ Before writing or reviewing any Rust code, you **MUST** also apply the core `cod
 
 ## Core Mandates (Non-Negotiable)
 
-- Write **fluent, delightful, readable Rust** that strictly follows official Rust API Guidelines and idiomatic conventions.
+### Anti-Pattern Severity (Fines System)
+
+Bad patterns carry real project cost and are **prevented at generation time**:
+
+- Deep nesting (> 3–4 levels), `#[allow(clippy::too_many_*)]`, unoptimized or unreadable code, large commits/PRs, or emoji in source are treated as technical debt.
+- The harness makes the correct, flat, idiomatic path the easiest path.
+
+Write **fluent, delightful, readable Rust** that strictly follows official Rust API Guidelines and idiomatic conventions.
 - **Never** add `#[allow(clippy::too_many_*)]` — refactor instead (extract helpers or use config structs).
 - **Never** use `anyhow`. Use `thiserror` + dedicated error enums per module/layer only.
 - Maximize **flat code** and **combinator style**. Deep nesting (> 3–4 levels) is forbidden.

@@ -33,6 +33,13 @@ Inspired by *Grokking Simplicity* (Eric Normand) and *Structure and Interpretati
 
 ## Mandatory Rules
 
+### Anti-Pattern Severity
+
+Bad patterns carry real cost and are **prevented at generation time**, not merely caught in review:
+
+- Deep nesting, unreadable code, large commits/PRs, "AI slop", or (in Rust) `#[allow(clippy::too_many_*)]` are treated as technical debt.
+- The harness exists so the correct, clear, stratified path is also the easiest path for the agent.
+
 ### Actions, Calculations & Data
 - Prefer calculations. Push logic into pure functions.
 - Isolate actions at the edges of the system. Never mix actions with calculations.
