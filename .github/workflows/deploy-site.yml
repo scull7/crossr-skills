@@ -67,6 +67,21 @@ jobs:
           zola build --force
           echo "Built combined Zola + mdBook site successfully"
 
+      - name: Verify documentation was built
+        run: |
+          if [ ! -f "site/public/docs/index.html" ]; then
+            echo "❌ ERROR: site/public/docs/index.html does not exist!"
+            echo ""
+            echo "Contents of site/public/docs/ (if any):"
+            ls -la site/public/docs/ 2>/dev/null || echo "(directory missing or empty)"
+            echo ""
+            echo "This usually means the mdBook build produced no output."
+            echo "Check the previous 'Build documentation (mdBook)' step for errors."
+            exit 1
+          fi
+          echo "✅ Documentation successfully built at /docs/"
+          echo "   (site/public/docs/index.html exists, size: $(stat -c%s site/public/docs/index.html 2>/dev/null || stat -f%z site/public/docs/index.html) bytes)"
+
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
         with:
