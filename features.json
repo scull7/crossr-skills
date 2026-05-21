@@ -33,12 +33,23 @@
       {
         "id": "docs-01",
         "title": "mdBook documentation site (Phase C)",
-        "status": "in_progress",
+        "status": "completed",
         "features": [
           "mdbook-structure-and-content",
           "real-harness-reference-chapters",
           "just-book-build-serve-targets",
           "features-tracking-update"
+        ]
+      },
+      {
+        "id": "site-03",
+        "title": "Full site integration + HTML plan artifact (Phase D)",
+        "status": "in_progress",
+        "features": [
+          "combined-deploy-workflow",
+          "unified-docs-build-target",
+          "self-contained-html-artifact",
+          "final-polish-and-tracking"
         ]
       }
     ]

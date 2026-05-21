@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>CrossR Skills • Public Site (Zola + mdBook)</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Oswald:wght@500;600&family=Playfair+Display:wght@700&display=swap');
+
+    :root {
+      --abyss: #020617;
+      --gold: #eab308;
+      --flame: #f59e0b;
+    }
+
+    body { font-family: 'Inter', system_ui, sans-serif; }
+    .heading-font { font-family: 'Oswald', 'Playfair Display', system_ui, sans-serif; letter-spacing: -0.025em; }
+
+    .forge-bg { background: linear-gradient(180deg, #020617 0%, #0f172a 100%); }
+    .flame-gradient { background: linear-gradient(90deg, #f59e0b, #eab308, #fde047); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+
+    .section-header { font-family: 'Oswald', sans-serif; letter-spacing: -0.02em; }
+    .pillar-card { transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1); }
+    .pillar-card:hover { transform: translateY(-3px); border-color: #eab308; }
+
+    .pr-card { background: #0b0f1e; border: 1px solid #334155; }
+    .flame-bar { height: 3px; background: linear-gradient(to right, #f59e0b, #eab308, #fde047); }
+
+    .logo-glow { filter: drop-shadow(0 0 25px rgb(234 179 8 / 0.3)); }
+    .nav-link { transition: color 0.1s ease; }
+    .nav-link:hover { color: #eab308; }
+  </style>
+</head>
+<body class="bg-[#020617] text-slate-200 forge-bg">
+
+  <!-- NAV -->
+  <nav class="sticky top-0 z-50 border-b border-white/10 bg-[#020617]/95 backdrop-blur-lg">
+    <div class="max-w-screen-2xl mx-auto px-8 h-16 flex items-center justify-between">
+      <div class="flex items-center gap-x-3">
+        <img src="../brand/logo-icon.jpg" alt="CrossR" class="w-8 h-8 logo-glow rounded">
+        <div>
+          <span class="heading-font text-xl text-[#eab308]">CROSSR</span>
+          <span class="heading-font text-xl text-white/90">SKILLS</span>
+        </div>
+      </div>
+      <div class="flex items-center gap-x-6 text-sm">
+        <a href="#why" class="nav-link text-slate-300">Why</a>
+        <a href="#stack" class="nav-link text-slate-300">The Stack</a>
+        <a href="#dogfood" class="nav-link text-slate-300">Dogfooding</a>
+        <a href="https://github.com/scull7/crossr-skills" target="_blank" class="flex items-center gap-x-2 px-4 py-1.5 rounded-xl bg-white/5 hover:bg-white/10 text-sm">
+          <i class="fa-brands fa-github"></i> <span>GitHub</span>
+        </a>
+      </div>
+    </div>
+  </nav>
+
+  <!-- HERO -->
+  <header class="pt-12 pb-16 border-b border-white/10">
+    <div class="max-w-screen-2xl mx-auto px-8">
+      <div class="max-w-3xl">
+        <div class="inline-flex items-center gap-x-2 px-4 py-1 rounded-3xl bg-[#1e2937] text-[#eab308] text-sm mb-6">
+          <i class="fa-solid fa-fire-flame-curved"></i>
+          <span>ETERNAL FORGE • PUBLIC PRESENCE</span>
+        </div>
+
+        <h1 class="text-6xl md:text-7xl leading-none font-bold tracking-tighter mb-6">
+          <span class="heading-font">A public site</span><br>
+          <span class="heading-font flame-gradient">forged with the harness.</span>
+        </h1>
+
+        <p class="text-2xl text-slate-400 max-w-2xl">
+          We dogfooded our own process by building the CrossR Skills marketing site and documentation using only Rust tools — Zola and mdBook — deployed to GitHub Pages.
+        </p>
+
+        <div class="mt-8 flex flex-wrap gap-4">
+          <a href="https://scull7.github.io/crossr-skills/" target="_blank"
+             class="inline-flex items-center gap-x-3 px-7 py-3.5 rounded-2xl bg-[#eab308] hover:bg-[#fde047] text-[#020617] font-semibold text-lg transition-all">
+            Visit the Live Site <i class="fa-solid fa-arrow-up-right-from-square ml-1"></i>
+          </a>
+          <a href="https://github.com/scull7/crossr-skills" target="_blank"
+             class="inline-flex items-center gap-x-3 px-7 py-3.5 rounded-2xl border border-white/20 hover:bg-white/5 font-semibold text-lg">
+            View on GitHub
+          </a>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <!-- WHY -->
+  <section id="why" class="max-w-screen-2xl mx-auto px-8 py-16">
+    <div class="max-w-3xl">
+      <div class="text-[#eab308] text-xs uppercase tracking-[3px] mb-2">The Decision</div>
+      <h2 class="section-header text-5xl tracking-tighter mb-6">We needed a public face. We used our own tools.</h2>
+      <div class="text-xl text-slate-300 space-y-4">
+        <p>After completing the HTML-as-first-class-citizen work and the full GAN mechanization, the next natural step was obvious: <strong>dogfood the harness by shipping a real, beautiful public site.</strong></p>
+        <p>We chose only Rust-based tools (Zola for marketing, mdBook for documentation) to stay consistent with our technology preferences and to demonstrate that the harness works for non-Rust deliverables as well.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- THE THREE PRS -->
+  <section id="stack" class="bg-[#0b0f1e] py-16 border-y border-white/10">
+    <div class="max-w-screen-2xl mx-auto px-8">
+      <div class="mb-10">
+        <div class="text-[#eab308] text-xs uppercase tracking-[3px] mb-2">Stacked PR Discipline</div>
+        <h3 class="section-header text-5xl tracking-tighter">Delivered as three small, reviewable PRs</h3>
+      </div>
+
+      <div class="grid md:grid-cols-3 gap-6">
+        <!-- PR 1 -->
+        <div class="pr-card rounded-3xl p-7 pillar-card">
+          <div class="flex items-center gap-x-3 mb-4">
+            <div class="px-3 py-1 rounded-2xl bg-[#eab308] text-[#020617] text-xs font-bold">PR #17</div>
+            <div class="text-[#eab308] text-sm font-medium">MERGED</div>
+          </div>
+          <h4 class="text-2xl font-semibold tracking-tight mb-3">Eternal Forge Marketing Site</h4>
+          <ul class="space-y-2 text-[15px] text-slate-300">
+            <li>• Full branded Zola site using the hammer + cross + flame identity</li>
+            <li>• Rich hero, pillars, skills grid, and bootstrap CTA</li>
+            <li>• Just targets + marketing-only GitHub Pages workflow</li>
+            <li>• Brand assets integrated</li>
+          </ul>
+        </div>
+
+        <!-- PR 2 -->
+        <div class="pr-card rounded-3xl p-7 pillar-card">
+          <div class="flex items-center gap-x-3 mb-4">
+            <div class="px-3 py-1 rounded-2xl bg-[#eab308] text-[#020617] text-xs font-bold">PR #18</div>
+            <div class="text-[#eab308] text-sm font-medium">OPEN</div>
+          </div>
+          <h4 class="text-2xl font-semibold tracking-tight mb-3">mdBook Documentation</h4>
+          <ul class="space-y-2 text-[15px] text-slate-300">
+            <li>• Professional mdBook with HARNESS-SPEC-derived content</li>
+            <li>• Clean chapter structure (Harness, Skills, Getting Started)</li>
+            <li>• Real just targets for book build/serve</li>
+            <li>• High-quality reference material</li>
+          </ul>
+        </div>
+
+        <!-- PR 3 -->
+        <div class="pr-card rounded-3xl p-7 pillar-card border-[#eab308]">
+          <div class="flex items-center gap-x-3 mb-4">
+            <div class="px-3 py-1 rounded-2xl bg-[#eab308] text-[#020617] text-xs font-bold">PR #19</div>
+            <div class="text-[#eab308] text-sm font-medium">THIS PR</div>
+          </div>
+          <h4 class="text-2xl font-semibold tracking-tight mb-3">Full Integration + Artifact</h4>
+          <ul class="space-y-2 text-[15px] text-slate-300">
+            <li>• Combined deploy workflow (Zola + mdBook → /docs)</li>
+            <li>• Unified <code>just docs-build</code></li>
+            <li>• Self-contained HTML plan (this document)</li>
+            <li>• Final polish and tracking</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- DOGFOODING -->
+  <section id="dogfood" class="max-w-screen-2xl mx-auto px-8 py-16">
+    <div class="max-w-3xl">
+      <div class="text-[#eab308] text-xs uppercase tracking-[3px] mb-2">The Real Value</div>
+      <h3 class="section-header text-5xl tracking-tighter mb-6">This is the harness working.</h3>
+
+      <div class="space-y-6 text-lg text-slate-300">
+        <p>Every step followed the rules we defined:</p>
+        <ul class="space-y-3 pl-1">
+          <li class="flex gap-3"><span class="text-[#eab308] mt-1">→</span> <span>Tracked in <strong>features.json</strong> under <code>marketing-and-docs-site</code></span></li>
+          <li class="flex gap-3"><span class="text-[#eab308] mt-1">→</span> <span>Delivered in <strong>small stacked PRs</strong> (&lt; 10 min review target)</span></li>
+          <li class="flex gap-3"><span class="text-[#eab308] mt-1">→</span> <span>Used <strong>Plan Mode</strong> before major work</span></li>
+          <li class="flex gap-3"><span class="text-[#eab308] mt-1">→</span> <span>Produced a <strong>self-contained HTML artifact</strong> as the primary human record (this page)</span></li>
+          <li class="flex gap-3"><span class="text-[#eab308] mt-1">→</span> <span>Chose <strong>Rust tools only</strong> (Zola + mdBook) to stay consistent</span></li>
+        </ul>
+      </div>
+
+      <div class="mt-10 p-6 border border-white/10 rounded-3xl bg-[#0b0f1e]">
+        <div class="text-sm text-white/60 mb-2">Live Result</div>
+        <div class="font-mono text-[#fde047]">
+          https://scull7.github.io/crossr-skills/<br>
+          https://scull7.github.io/crossr-skills/docs/
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- OUTCOME -->
+  <section class="border-t border-white/10 py-12">
+    <div class="max-w-screen-2xl mx-auto px-8 text-center">
+      <p class="text-xl text-slate-400 max-w-lg mx-auto">
+        The CrossR Skills harness now has a public face that was built using the exact process it teaches.
+      </p>
+      <div class="mt-8 text-sm text-white/50">
+        Forged in the Cross • Alive in the Resurrection • Delivered with discipline
+      </div>
+    </div>
+  </section>
+
+  <footer class="text-center py-8 text-xs text-white/40 border-t border-white/10">
+    Generated as part of PR #19 • Follows the HTML-first rule from the harness
+  </footer>
+
+</body>
+</html>
