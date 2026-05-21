@@ -2,27 +2,82 @@
 
 **Where the Cross meets clean code.**
 
-Curated agent skills for functionally obsessed developers.
+High-quality agent skills and a battle-tested harness for building reliable, long-running AI coding agents.
 
-Skills that light the way for functionally obsessed agents.  
-Stewarding clean, reusable skills for agents who build with purpose.
+> Forged in the Cross. Built for craft.
+
+---
+
+## Live Public Presence
+
+This repository dogfoods its own harness. The public website and documentation were built using the exact process described here.
+
+- **Marketing Site**: [https://scull7.github.io/crossr-skills/](https://scull7.github.io/crossr-skills/)
+- **Documentation**: [https://scull7.github.io/crossr-skills/docs/](https://scull7.github.io/crossr-skills/docs/)
 
 ---
 
 ## What is this?
 
-A personal collection of high-quality **Agent Skills** (`.agents/skills/`) built for long-running, reliable AI agents.
+A curated collection of **Agent Skills** (`.agents/skills/`) plus a complete, self-hosting **harness process** for teams that want their AI agents to ship production-grade code across many sessions.
 
-The skills follow the official [Agent Skills specification](https://agentskills.io). The accompanying process layer is defined in [HARNESS-SPEC.md](HARNESS-SPEC.md) (stacked PRs, multi-tier verification harnesses, traceability, reviewability, and the PETC loop).
+The skills strictly follow the [agentskills.io](https://agentskills.io) specification. The process layer (stacked PR discipline, multi-tier verification, PETC loop, GAN reviews, HTML as a first-class human artifact, etc.) is defined in [HARNESS-SPEC.md](HARNESS-SPEC.md).
 
-New projects should use `scripts/harness-bootstrap` to get started with the full harness.
+New projects can be bootstrapped in minutes with:
 
-Every skill follows the official [Agent Skills specification](https://agentskills.io) and is designed with the same ruthless standards I apply to my Rust code:
+```bash
+./scripts/harness-bootstrap /path/to/your-project
+```
 
-- **Functional purity** first
-- **Stratified, layered design**
-- **Zero technical debt**
-- **Handover-clean** and self-verifying
+---
+
+## Quick Start
+
+```bash
+git clone https://github.com/scull7/crossr-skills.git
+./crossr-skills/scripts/harness-bootstrap /path/to/your-new-project
+cd /path/to/your-new-project
+just harness-validate
+```
+
+This creates a full harness including `AGENTS.md`, `features.json`, `progress.md`, `justfile`, and the canonical `.agents/skills/` directory.
+
+---
+
+## Skills
+
+All skills are designed with the same standards applied to production Rust code: functional purity, stratified design, zero technical debt, and handover-clean artifacts.
+
+| Skill                  | Purpose                                              | Category      |
+|------------------------|------------------------------------------------------|---------------|
+| `code-writer`          | Core coding philosophy (Grokking Simplicity + SICP) | Foundation    |
+| `rust-code-writer`     | Idiomatic, pure, stratified, flat-combinator Rust    | Rust Core     |
+| `rust-code-reviewer`   | Ruthless code quality guardian                       | Quality       |
+| `rust-code-tester`     | Obsessive test coverage & error-path verification    | Quality       |
+| `rust-architect`       | Torvalds-style system-level architecture gatekeeper  | Architecture  |
+| `rust-team-lead`       | GAN orchestrator for reliable multi-agent workflows  | Orchestration |
+| `rust-axum-backend`    | Clean, layered Axum HTTP APIs with policy gates      | Backend       |
+| `rust-frontend`        | Leptos + WASM + Polars with strong anti-slop guidance| Frontend      |
+| `rust-tui`             | ratatui Component + Action + two-phase dispatch      | TUI           |
+| `rust-errors`          | Layered `thiserror` error handling (no `anyhow`)     | Backend       |
+| `agent-harness`        | Full harness process (stacked PRs, GAN, HTML-first)  | Harness       |
+
+See the [full documentation](https://scull7.github.io/crossr-skills/docs/) for detailed guidance on each skill.
+
+---
+
+## The Harness
+
+This repo ships with a complete, production-proven harness:
+
+- **HARNESS-SPEC.md** – The canonical process specification
+- Stacked, reviewable PRs (< 10 min deep review target)
+- Mechanical GAN reviews (Reviewer + Tester + Architect agents)
+- `features.json` + `progress.md` for traceable incremental work
+- `scripts/harness-bootstrap` – one-command harness installation
+- HTML as the primary human-facing artifact format
+
+Everything in this repository (including the public website) was built using this harness.
 
 ---
 
@@ -30,49 +85,24 @@ Every skill follows the official [Agent Skills specification](https://agentskill
 
 > “Write code that is layered, modular, and built from pure calculations operating on immutable data; isolate all actions; prefer the language’s standard library; use abstraction and higher-order functions to control complexity so that any human reader can understand and safely modify the system.”
 
-This same mindset applies to every skill in this repo.
-
----
-
-## Skills Included
-
-| Skill                  | Purpose                                      | Category    |
-|------------------------|----------------------------------------------|-------------|
-| `code-writer`          | Core coding philosophy (Grokking Simplicity + SICP) | Foundation |
-| `rust-code-writer`     | Idiomatic, pure, stratified Rust             | Rust Core   |
-| `rust-code-reviewer`   | Ruthless code quality guardian               | Quality     |
-| `rust-code-tester`     | Obsessive test coverage & verification       | Quality     |
-| `rust-architect`       | Torvalds-style system-level architecture gatekeeper | Architecture |
-| `rust-team-lead`       | GAN orchestrator for reliable multi-agent workflows | Orchestration |
-| `rust-axum-backend`    | Axum HTTP APIs with clean layered design     | Backend     |
-| `rust-frontend`        | Leptos + WASM + Polars frontends             | Frontend    |
-| `rust-errors`          | Clean, layered error handling with `thiserror` | Backend     |
-| `agent-harness`        | Persistent scaffolding for long-running agents (Tensorwave Edition) | Harness |
-
----
-
-## How to Use
-
-1. Clone the repo:
-   ```bash
-   git clone https://github.com/scull7/crossr-skills.git
-   ```
-
-2. Copy the skills you need into your project:
-   ```bash
-   cp -r crossr-skills/.agents/skills/your-project/.agents/skills/
-   ```
-
-3. Reference them in your `AGENTS.md` or `CLAUDE.md`.
+This mindset applies to every skill and to the harness itself.
 
 ---
 
 ## Principles
 
-- **No garbage.** Every skill is reviewed by `rust-code-reviewer`, `rust-code-tester`, and `rust-architect` before blessing.
-- **Small, focused, reusable.** One skill = one clear purpose.
-- **Self-verifying.** Every skill includes usage rules.
-- **Christian foundation.** Built with excellence as worship — subtle but intentional.
+- **No garbage** — Every skill is reviewed by `rust-code-reviewer`, `rust-code-tester`, and `rust-architect`.
+- **Small and focused** — One skill = one clear responsibility.
+- **Self-verifying** — Skills contain their own usage rules and activation statements.
+- **Dogfooded** — The harness is used to maintain the harness (and its public site).
+
+---
+
+## Contributing
+
+Contributions are welcome, especially improvements to the harness process and new high-quality skills that follow the same standards.
+
+Please read [HARNESS-SPEC.md](HARNESS-SPEC.md) and follow the stacked PR + GAN discipline used in this repository.
 
 ---
 
