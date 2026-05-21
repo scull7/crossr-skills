@@ -19,9 +19,9 @@ concurrency:
   cancel-in-progress: false
 
 jobs:
-  # Phase B: Marketing site only
-  # Phase D will extend this job to also build mdBook and copy it into site/static/docs
   build:
+    # Builds both the Zola marketing site and the mdBook documentation.
+    # mdBook output is placed at /docs on the final site.
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
@@ -34,13 +34,23 @@ jobs:
           sudo mv zola /usr/local/bin/
           zola --version
 
+      - name: Install mdBook
+        run: |
+          cargo install mdbook --version 0.4.40 --locked
+          mdbook --version
+
+      - name: Build documentation (mdBook) into site
+        run: |
+          mdbook build book --dest-dir site/static/docs
+          echo "Built mdBook documentation"
+
       - name: Build marketing site (Zola)
         run: |
           cd site
           zola build --force
-          echo "Built Zola site successfully"
+          echo "Built combined Zola + mdBook site successfully"
 
-      - name: Upload artifact (marketing only for Phase B)
+      - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
         with:
           path: ./site/public
