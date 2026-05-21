@@ -58,13 +58,19 @@ jobs:
       - name: Build documentation (mdBook) → site/static/docs
         run: |
           mkdir -p site/static/docs
-          echo "=== Running mdbook build (verbose) ==="
-          mdbook build book --dest-dir site/static/docs --verbose 2>&1 || true
+          echo "=== Book source structure ==="
+          find book -type f | head -30
           echo ""
-          echo "=== Contents of site/static/docs after mdbook build ==="
-          find site/static/docs -type f | head -50 || echo "(no files found)"
+          echo "=== Current SUMMARY.md ==="
+          cat book/src/SUMMARY.md
           echo ""
-          echo "=== End of mdbook output ==="
+          echo "=== Running mdbook build ==="
+          RUST_LOG=info mdbook build book --dest-dir site/static/docs 2>&1 || true
+          echo ""
+          echo "=== Contents of site/static/docs after build ==="
+          find site/static/docs -type f | head -100 || echo "(no files found)"
+          echo ""
+          echo "=== End of mdbook debug output ==="
 
       - name: Build marketing site (Zola)
         run: |
