@@ -58,8 +58,13 @@ jobs:
       - name: Build documentation (mdBook) → site/static/docs
         run: |
           mkdir -p site/static/docs
-          mdbook build book --dest-dir site/static/docs
-          echo "Built mdBook documentation"
+          echo "=== Running mdbook build (verbose) ==="
+          mdbook build book --dest-dir site/static/docs --verbose 2>&1 || true
+          echo ""
+          echo "=== Contents of site/static/docs after mdbook build ==="
+          find site/static/docs -type f | head -50 || echo "(no files found)"
+          echo ""
+          echo "=== End of mdbook output ==="
 
       - name: Build marketing site (Zola)
         run: |
