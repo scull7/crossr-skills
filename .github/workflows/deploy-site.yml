@@ -48,7 +48,6 @@ jobs:
           sudo mv zola /usr/local/bin/
           zola --version
 
-<<<<<<< HEAD
       - name: Install mdBook (Rust documentation generator)
         run: |
           MDBOOK_VERSION="0.4.40"
@@ -59,15 +58,6 @@ jobs:
       - name: Build documentation (mdBook) → site/static/docs
         run: |
           mkdir -p site/static/docs
-=======
-      - name: Install mdBook
-        run: |
-          cargo install mdbook --version 0.4.40 --locked
-          mdbook --version
-
-      - name: Build documentation (mdBook) into site
-        run: |
->>>>>>> origin/main
           mdbook build book --dest-dir site/static/docs
           echo "Built mdBook documentation"
 
