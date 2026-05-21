@@ -29,6 +29,17 @@
           "just-site-build-serve-targets",
           "marketing-only-deploy-workflow"
         ]
+      },
+      {
+        "id": "docs-01",
+        "title": "mdBook documentation site (Phase C)",
+        "status": "in_progress",
+        "features": [
+          "mdbook-structure-and-content",
+          "real-harness-reference-chapters",
+          "just-book-build-serve-targets",
+          "features-tracking-update"
+        ]
       }
     ]
   }
