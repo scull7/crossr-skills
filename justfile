@@ -49,6 +49,11 @@ book-build:
 book-serve:
     cd book && mdbook serve --open
 
-# Combined docs (marketing site + book). Book is not yet embedded (Phase D).
-docs-build: site-build book-build
-    @echo "Built marketing site and documentation book."
+# Combined docs site (Zola marketing + mdBook at /docs)
+docs-build:
+    mdbook build book --dest-dir site/static/docs
+    cd site && zola build --force
+    @echo "Built combined site. Output in site/public (docs at site/public/docs/)"
+
+docs-serve:
+    @echo "For local combined serving, build with 'just docs-build' then serve site/public"
