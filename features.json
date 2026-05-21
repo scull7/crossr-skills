@@ -1,6 +1,6 @@
 {
   "harness-v2": {
-    "status": "in_progress",
+    "status": "completed",
     "commits": [
       {"id": "pr1", "title": "HARNESS-SPEC.md + planning HTML", "status": "completed"},
       {"id": "pr2", "title": "agent-harness skill v2", "status": "completed"},
@@ -13,6 +13,23 @@
       {"id": "pr9", "title": "Dogfood harness on crossr-skills", "status": "completed"},
       {"id": "pr10", "title": "Final README + documentation polish", "status": "completed"},
       {"id": "verify", "title": "Post-merge verification + script fixes", "status": "completed"}
+    ]
+  },
+  "marketing-and-docs-site": {
+    "status": "in_progress",
+    "commits": [
+      {
+        "id": "site-01",
+        "title": "Eternal Forge Zola marketing site + just targets + GitHub Pages workflow (Phase A+B)",
+        "status": "completed",
+        "features": [
+          "brand-assets-integrated",
+          "unique-forge-themed-landing-page",
+          "zola-build-passing",
+          "just-site-build-serve-targets",
+          "marketing-only-deploy-workflow"
+        ]
+      }
     ]
   }
 }

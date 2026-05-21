@@ -30,3 +30,25 @@ harness-validate:
     else \
         echo "jq not found — skipping features.json validation"; \
     fi
+
+# =============================================================================
+# Site & Documentation (Zola + mdBook) — dogfooding the harness
+# =============================================================================
+
+# Marketing site (Zola)
+site-build:
+    cd site && zola build --force
+
+site-serve:
+    cd site && zola serve
+
+# Documentation (mdBook) — will be expanded in later phases
+book-build:
+    @echo "mdBook build target will be added in Phase C"
+
+book-serve:
+    @echo "mdBook serve target will be added in Phase C"
+
+# Combined (marketing only for now)
+docs-build: site-build
+    @echo "Built marketing site. mdBook integration coming in Phase D."
