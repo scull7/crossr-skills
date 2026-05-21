@@ -1,0 +1,13 @@
+[book]
+authors = ["Nathan Sculli"]
+description = "The complete reference for the CrossR Skills harness and agent skills — forged for reliable, long-running AI coding agents."
+language = "en"
+multilingual = false
+src = "src"
+title = "CrossR Skills Documentation"
+
+[output.html]
+git-repository-url = "https://github.com/scull7/crossr-skills"
+edit-url-template = "https://github.com/scull7/crossr-skills/edit/main/book/{path}"
+site-url = "/docs/"
+cname = "scull7.github.io"

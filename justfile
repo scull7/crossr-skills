@@ -42,13 +42,13 @@ site-build:
 site-serve:
     cd site && zola serve
 
-# Documentation (mdBook) — will be expanded in later phases
+# Documentation (mdBook)
 book-build:
-    @echo "mdBook build target will be added in Phase C"
+    cd book && mdbook build
 
 book-serve:
-    @echo "mdBook serve target will be added in Phase C"
+    cd book && mdbook serve --open
 
-# Combined (marketing only for now)
-docs-build: site-build
-    @echo "Built marketing site. mdBook integration coming in Phase D."
+# Combined docs (marketing site + book). Book is not yet embedded (Phase D).
+docs-build: site-build book-build
+    @echo "Built marketing site and documentation book."
