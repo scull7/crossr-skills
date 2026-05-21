@@ -1,5 +1,15 @@
 name: Deploy CrossR Site
 
+# IMPORTANT SETUP STEP (one-time):
+# For this workflow to succeed, you MUST configure GitHub Pages to deploy from Actions:
+#
+#   1. Go to: https://github.com/scull7/crossr-skills/settings/pages
+#   2. Under "Build and deployment" → "Source", select "GitHub Actions"
+#   3. Save
+#
+# Without this setting, the `deploy` job will fail with a 404 when trying to
+# create the Pages deployment (this is the current known failure mode).
+
 on:
   push:
     branches: [main]
@@ -20,8 +30,9 @@ concurrency:
 
 jobs:
   build:
-    # Builds both the Zola marketing site and the mdBook documentation.
-    # mdBook output is placed at /docs on the final site.
+    # Builds the combined site:
+    # - mdBook documentation → copied into site/static/docs (served at /docs)
+    # - Zola marketing site (the main landing page)
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
@@ -59,6 +70,8 @@ jobs:
           path: ./site/public
 
   deploy:
+    # This job requires the repository to have GitHub Pages source set to "GitHub Actions"
+    # (see the IMPORTANT SETUP STEP comment at the top of this file).
     environment:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}
