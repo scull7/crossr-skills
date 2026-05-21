@@ -1,0 +1,5 @@
+# Generated site output — never commit builds
+site/public/
+
+# mdBook output (future)
+book/book/

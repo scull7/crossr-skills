@@ -1,0 +1,543 @@
+<!doctype html>
+<html lang="en" class="scroll-smooth">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta
+      name="description"
+      content="Official Brand Guide for CrossR Skills — Agent skills for functionally obsessed developers. Forged in the Cross, alive in the Resurrection."
+    />
+    <title>CrossR Skills • Brand Guide</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css"
+    />
+    <style>
+      @import url("https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&amp;family=Oswald:wght@500;700&amp;display=swap");
+
+      :root {
+        --tw-color-abyss: #020617;
+        --tw-color-gold: #eab308;
+        --tw-color-flame: #f59e0b;
+      }
+
+      .tail-container * {
+        font-family: "Inter", system_ui, sans-serif;
+      }
+
+      .heading-font {
+        font-family: "Oswald", sans-serif;
+      }
+
+      .hero-bg {
+        background: linear-gradient(180deg, #020617 0%, #1e2937 100%);
+      }
+
+      .flame-glow {
+        text-shadow:
+          0 0 20px #f59e0b,
+          0 0 40px #eab308;
+      }
+
+      .logo-container {
+        filter: drop-shadow(0 0 60px rgb(234 179 8 / 0.6));
+      }
+
+      .swatch {
+        transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+      }
+
+      .swatch:hover {
+        transform: scale(1.05);
+        box-shadow: 0 25px 50px -12px rgb(234 179 8 / 0.3);
+      }
+
+      .section-header {
+        position: relative;
+      }
+
+      .section-header::after {
+        content: "";
+        position: absolute;
+        width: 64px;
+        height: 3px;
+        background: linear-gradient(to right, #eab308, #f59e0b);
+        bottom: -6px;
+        left: 0;
+      }
+    </style>
+  </head>
+  <body class="tail-container bg-[#020617] text-[#f1f5f9] min-h-screen">
+    <!-- NAVBAR -->
+    <nav
+      class="border-b border-[#1e2937] bg-[#020617]/90 backdrop-blur-md sticky top-0 z-50"
+    >
+      <div
+        class="max-w-screen-2xl mx-auto px-8 py-5 flex items-center justify-between"
+      >
+        <div class="flex items-center gap-x-3">
+          <img
+            src="chTkg.jpg"
+            alt="CrossR Skills Logo"
+            class="h-10 w-10 object-contain logo-container"
+          />
+          <div>
+            <span class="heading-font text-2xl tracking-widest text-[#eab308]"
+              >CROSSR</span
+            >
+            <span class="heading-font text-2xl tracking-widest text-white"
+              >SKILLS</span
+            >
+          </div>
+        </div>
+        <div class="hidden md:flex items-center gap-x-8 text-sm font-medium">
+          <a href="#overview" class="hover:text-[#eab308] transition-colors"
+            >Overview</a
+          >
+          <a href="#logo" class="hover:text-[#eab308] transition-colors"
+            >Logo</a
+          >
+          <a href="#colors" class="hover:text-[#eab308] transition-colors"
+            >Colors</a
+          >
+          <a href="#typography" class="hover:text-[#eab308] transition-colors"
+            >Typography</a
+          >
+          <a href="#voice" class="hover:text-[#eab308] transition-colors"
+            >Voice &amp; Tone</a
+          >
+          <a href="#assets" class="hover:text-[#eab308] transition-colors"
+            >Assets</a
+          >
+        </div>
+        <a
+          href="https://github.com/scull7/crossr-skills"
+          target="_blank"
+          class="flex items-center gap-x-2 px-5 py-2.5 bg-[#1e2937] hover:bg-[#eab308] hover:text-[#020617] rounded-2xl text-sm font-semibold transition-all"
+        >
+          <i class="fa-brands fa-github"></i>
+          <span>github.com/scull7/crossr-skills</span>
+        </a>
+      </div>
+    </nav>
+
+    <!-- HERO -->
+    <header class="hero-bg py-20 md:py-28 relative overflow-hidden">
+      <div
+        class="max-w-screen-2xl mx-auto px-8 grid md:grid-cols-2 gap-12 items-center"
+      >
+        <div class="space-y-8">
+          <div
+            class="inline-flex items-center gap-x-2 px-4 py-2 bg-[#1e2937] text-[#eab308] rounded-3xl text-sm font-medium"
+          >
+            <i class="fa-solid fa-fire-flame-curved animate-pulse"></i>
+            FORGED IN THE CROSS • ALIVE IN THE RESURRECTION
+          </div>
+
+          <h1
+            class="text-6xl md:text-7xl font-bold heading-font leading-none tracking-tighter"
+          >
+            CROSSR <span class="text-[#eab308]">SKILLS</span>
+          </h1>
+
+          <p class="text-2xl md:text-3xl text-[#f1f5f9]/90 max-w-lg">
+            Agent skills for functionally obsessed developers
+          </p>
+
+          <p class="text-xl text-[#f1f5f9]/70 max-w-md">
+            Where the Cross meets clean code.<br />
+            <span class="flame-glow"
+              >Forged in the Cross, alive in the Resurrection.</span
+            >
+          </p>
+
+          <div class="flex items-center gap-x-4">
+            <a
+              href="#logo"
+              class="px-8 py-4 bg-gradient-to-r from-[#eab308] to-[#f59e0b] text-[#020617] font-semibold rounded-3xl flex items-center gap-x-2 hover:scale-105 transition-all"
+            >
+              <i class="fa-solid fa-hammer"></i>
+              VIEW BRAND ASSETS
+            </a>
+            <a
+              href="https://github.com/scull7/crossr-skills"
+              target="_blank"
+              class="px-8 py-4 border border-[#eab308] text-[#eab308] font-semibold rounded-3xl hover:bg-[#eab308] hover:text-[#020617] transition-all"
+            >
+              VISIT REPO
+            </a>
+          </div>
+
+          <div class="flex items-center gap-x-8 text-sm">
+            <div class="flex items-center gap-x-2">
+              <div
+                class="w-3 h-3 bg-[#eab308] rounded-full animate-pulse"
+              ></div>
+              <span class="uppercase tracking-widest"
+                >Official Brand Guide</span
+              >
+            </div>
+            <div class="h-4 w-px bg-[#1e2937]"></div>
+            <span class="text-[#f1f5f9]/60">Version 1.0 • May 2026</span>
+          </div>
+        </div>
+
+        <!-- Logo Display -->
+        <div class="flex justify-center md:justify-end logo-container">
+          <img
+            src="chTkg.jpg"
+            alt="CrossR Skills Primary Logo — Hammer fused with Cross, engulfed in flames"
+            class="max-w-[420px] w-full h-auto drop-shadow-2xl"
+          />
+          <div
+            class="absolute inset-0 bg-gradient-to-br from-transparent via-[#f59e0b]/10 to-transparent pointer-events-none"
+          ></div>
+        </div>
+      </div>
+
+      <!-- Subtle flame decoration -->
+      <div
+        class="absolute bottom-0 left-1/2 -translate-x-1/2 text-[#f59e0b]/20 text-8xl pointer-events-none"
+      >
+        🔥
+      </div>
+    </header>
+
+    <div class="max-w-screen-2xl mx-auto px-8 py-12">
+      <!-- OVERVIEW -->
+      <section id="overview" class="mb-24">
+        <h2 class="section-header text-4xl heading-font mb-8">
+          Brand Overview
+        </h2>
+        <div class="grid md:grid-cols-12 gap-12">
+          <div class="md:col-span-7">
+            <p class="text-lg leading-relaxed text-[#f1f5f9]/80">
+              CrossR Skills is a curated collection of high-quality Agent Skills
+              for AI coding agents (Claude, Cursor, Codex, etc.). Built for
+              functionally obsessed developers who demand Rust-level excellence:
+              functional purity, layered architecture, zero technical debt, and
+              self-verifying code.
+            </p>
+            <p class="mt-6 text-lg leading-relaxed text-[#f1f5f9]/80">
+              Every skill is crafted with the same reverence as worship —
+              excellence as an act of faith (Colossians 3:23). The hammer
+              represents forging and craftsmanship. The Cross is our foundation.
+              The flames symbolize resurrection power and refining fire.
+            </p>
+          </div>
+          <div class="md:col-span-5 bg-[#1e2937] p-8 rounded-3xl">
+            <div class="space-y-6">
+              <div>
+                <div
+                  class="uppercase text-xs tracking-widest text-[#eab308] mb-1"
+                >
+                  Primary Tagline
+                </div>
+                <p class="text-2xl font-medium">
+                  "Agent skills for functionally obsessed developers — forged in
+                  the Cross, alive in the Resurrection."
+                </p>
+              </div>
+              <div>
+                <div
+                  class="uppercase text-xs tracking-widest text-[#eab308] mb-1"
+                >
+                  Secondary Tagline
+                </div>
+                <p class="text-2xl font-medium">
+                  "Where the Cross meets clean code."
+                </p>
+              </div>
+              <div class="pt-6 border-t border-[#334155]">
+                <span class="text-[#f1f5f9]/60 text-sm">Core Values</span>
+                <ul class="mt-4 grid grid-cols-2 gap-y-3 text-sm">
+                  <li class="flex items-center gap-x-2">
+                    <i class="fa-solid fa-check text-[#eab308]"></i> Functional
+                    purity
+                  </li>
+                  <li class="flex items-center gap-x-2">
+                    <i class="fa-solid fa-check text-[#eab308]"></i> Zero
+                    technical debt
+                  </li>
+                  <li class="flex items-center gap-x-2">
+                    <i class="fa-solid fa-check text-[#eab308]"></i> Excellence
+                    as worship
+                  </li>
+                  <li class="flex items-center gap-x-2">
+                    <i class="fa-solid fa-check text-[#eab308]"></i>
+                    Self-verifying code
+                  </li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- LOGO GUIDELINES -->
+      <section id="logo" class="mb-24">
+        <h2 class="section-header text-4xl heading-font mb-8">
+          Logo Guidelines
+        </h2>
+        <div class="bg-[#1e2937] rounded-3xl p-10">
+          <div class="flex flex-col lg:flex-row gap-12 items-start">
+            <div>
+              <h3 class="text-xl font-semibold mb-4">Primary Logo</h3>
+              <img
+                src="chTkg.jpg"
+                alt="Primary CrossR Skills Logo"
+                class="max-w-xs rounded-2xl border border-[#eab308]/30"
+              />
+              <p class="mt-6 text-sm text-[#f1f5f9]/70">
+                The attached image (chTkg.jpg) is the official, non-negotiable
+                primary logo.
+              </p>
+              <p class="text-xs mt-3 text-[#f1f5f9]/60">
+                Use on dark backgrounds only • Minimum width: 120 px
+              </p>
+            </div>
+
+            <div class="flex-1 space-y-8">
+              <div>
+                <h4 class="font-medium mb-3">Usage Rules</h4>
+                <ul class="space-y-4 text-sm">
+                  <li class="flex gap-x-4">
+                    <span class="text-[#eab308] font-mono">✓</span> Always pair
+                    with Abyss Black or Forge Steel backgrounds
+                  </li>
+                  <li class="flex gap-x-4">
+                    <span class="text-[#eab308] font-mono">✓</span> Maintain 20%
+                    clear space around logo
+                  </li>
+                  <li class="flex gap-x-4">
+                    <span class="text-[#eab308] font-mono">✓</span> Never
+                    distort, recolor flames, or remove fire effect
+                  </li>
+                  <li class="flex gap-x-4">
+                    <span class="text-red-400 font-mono">✕</span> Never place on
+                    light backgrounds without inversion
+                  </li>
+                </ul>
+              </div>
+
+              <div class="grid grid-cols-3 gap-4 text-center text-xs">
+                <div class="bg-[#020617] p-4 rounded-2xl">
+                  <div class="text-[#eab308]">Primary</div>
+                  <div class="text-[#f1f5f9]/60 mt-1">Full color on dark</div>
+                </div>
+                <div class="bg-[#020617] p-4 rounded-2xl">
+                  <div class="text-[#f1f5f9]">Monochrome Gold</div>
+                  <div class="text-[#f1f5f9]/60 mt-1">
+                    For dark mode accents
+                  </div>
+                </div>
+                <div class="bg-[#020617] p-4 rounded-2xl">
+                  <div class="text-white">Icon Only</div>
+                  <div class="text-[#f1f5f9]/60 mt-1">
+                    Favicon &amp; avatars
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- COLOR PALETTE -->
+      <section id="colors" class="mb-24">
+        <h2 class="section-header text-4xl heading-font mb-8">Color Palette</h2>
+        <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-7 gap-6">
+          <!-- Swatches will be populated by JS -->
+        </div>
+      </section>
+
+      <!-- TYPOGRAPHY -->
+      <section id="typography" class="mb-24">
+        <h2 class="section-header text-4xl heading-font mb-8">Typography</h2>
+        <div class="grid md:grid-cols-2 gap-12">
+          <div>
+            <div class="mb-6">
+              <span class="uppercase text-xs tracking-widest text-[#eab308]"
+                >Display / Headings</span
+              >
+              <p class="heading-font text-5xl leading-none mt-3">
+                Oswald or Cinzel
+              </p>
+              <p class="text-sm text-[#f1f5f9]/60 mt-2">
+                Strong, forged presence
+              </p>
+            </div>
+            <div>
+              <span class="uppercase text-xs tracking-widest text-[#eab308]"
+                >Body Text</span
+              >
+              <p class="text-3xl mt-3">Inter — clean &amp; modern</p>
+            </div>
+          </div>
+          <div class="bg-[#1e2937] p-8 rounded-3xl">
+            <p class="text-sm mb-4 text-[#f1f5f9]/60">Code / Monospace</p>
+            <pre
+              class="font-mono text-sm bg-[#020617] p-6 rounded-2xl overflow-x-auto text-[#eab308]"
+            >fn main() {<br>    // Pure, layered, zero-debt Rust<br>}</pre>
+            <p class="text-xs text-[#f1f5f9]/60 mt-6">
+              Recommended: JetBrains Mono or Fira Code
+            </p>
+          </div>
+        </div>
+      </section>
+
+      <!-- VOICE &amp; TONE -->
+      <section id="voice" class="mb-24">
+        <h2 class="section-header text-4xl heading-font mb-8">
+          Voice &amp; Tone
+        </h2>
+        <div
+          class="bg-gradient-to-br from-[#1e2937] to-[#020617] rounded-3xl p-10 text-lg"
+        >
+          Confident. Precise. Reverent.<br /><br />
+          Technical excellence meets spiritual depth.<br />
+          Short, impactful sentences. Words like
+          <span class="text-[#eab308]">forged</span>,
+          <span class="text-[#eab308]">refined</span>,
+          <span class="text-[#eab308]">resurrected</span>,
+          <span class="text-[#eab308]">pure</span>.
+        </div>
+      </section>
+
+      <!-- MARKETING ASSETS -->
+      <section id="assets" class="mb-24">
+        <h2 class="section-header text-4xl heading-font mb-8">
+          Usable Marketing Assets
+        </h2>
+        <div class="grid md:grid-cols-3 gap-8">
+          <div
+            class="bg-[#1e2937] rounded-3xl p-8 hover:ring-2 hover:ring-[#eab308]/30 transition-all"
+          >
+            <h4 class="font-semibold mb-4">GitHub README Banner</h4>
+            <p class="text-sm text-[#f1f5f9]/70">
+              1200 × 300 px • Place logo + tagline at top of README.md
+            </p>
+            <div
+              class="mt-6 text-xs bg-black/50 rounded-2xl p-4 text-center text-[#f1f5f9]/50"
+            >
+              Recommended prompt for Grok Imagine available in full guide
+            </div>
+          </div>
+          <div
+            class="bg-[#1e2937] rounded-3xl p-8 hover:ring-2 hover:ring-[#eab308]/30 transition-all"
+          >
+            <h4 class="font-semibold mb-4">Social Banners</h4>
+            <p class="text-sm text-[#f1f5f9]/70">
+              X / LinkedIn / YouTube — 1500 × 500 px
+            </p>
+            <p class="text-xs mt-8 text-[#eab308]">
+              Ready-to-use prompts included in the downloadable guide folder
+            </p>
+          </div>
+          <div
+            class="bg-[#1e2937] rounded-3xl p-8 hover:ring-2 hover:ring-[#eab308]/30 transition-all"
+          >
+            <h4 class="font-semibold mb-4">Favicon &amp; Icon Pack</h4>
+            <p class="text-sm text-[#f1f5f9]/70">
+              512×512 px icon-only version of hammer-cross
+            </p>
+            <p class="mt-6 text-xs">Add to /brand/assets/ in your repo</p>
+          </div>
+        </div>
+
+        <div class="mt-16 text-center">
+          <p class="text-[#f1f5f9]/60">
+            Save this HTML file as
+            <span class="font-mono bg-[#1e2937] px-3 py-1 rounded-xl"
+              >brand-guide.html</span
+            >
+            and place your logo image (<span class="font-medium">chTkg.jpg</span
+            >) in the same folder.
+          </p>
+          <p class="mt-8 text-xs text-[#f1f5f9]/40">
+            Built with reverence for the CrossR mission • Fully responsive •
+            Tailwind-powered
+          </p>
+        </div>
+      </section>
+    </div>
+
+    <!-- FOOTER -->
+    <footer class="bg-black/60 py-12 border-t border-[#1e2937]">
+      <div
+        class="max-w-screen-2xl mx-auto px-8 text-center text-xs text-[#f1f5f9]/40"
+      >
+        © 2026 CrossR Skills • Nathan Sculli (@scull7) •
+        <a
+          href="https://github.com/scull7/crossr-skills"
+          class="underline hover:text-[#eab308]"
+          >github.com/scull7/crossr-skills</a
+        >
+        <br />
+        Excellence as worship • Forged in the Cross • Alive in the Resurrection
+      </div>
+    </footer>
+
+    <script>
+      // Tailwind script initialization
+      function initializeTailwind() {
+        tailwind.config = {
+          content: [],
+          theme: {
+            extend: {},
+          },
+        };
+      }
+
+      // Color palette data
+      const colors = [
+        { name: "Abyss Black", hex: "#020617", rgb: "2 6 23" },
+        { name: "Forge Steel", hex: "#1e2937", rgb: "30 41 55" },
+        { name: "Divine Gold", hex: "#eab308", rgb: "234 179 8" },
+        { name: "Resurrection Flame", hex: "#f59e0b", rgb: "245 158 11" },
+        { name: "Holy Fire Glow", hex: "#fde047", rgb: "253 224 71" },
+        { name: "Light Text", hex: "#f1f5f9", rgb: "241 245 249" },
+        { name: "Neutral Slate", hex: "#64748b", rgb: "100 116 139" },
+      ];
+
+      // Render color swatches
+      function renderSwatches() {
+        const container = document.querySelector("#colors > div");
+        colors.forEach((color) => {
+          const swatchHTML = `
+                    <div onclick="copyToClipboard('${color.hex}')" class="swatch cursor-pointer bg-[#1e2937] rounded-3xl p-6 flex flex-col items-center justify-center text-center">
+                        <div class="w-20 h-20 rounded-2xl mb-4" style="background-color: ${color.hex}"></div>
+                        <div class="font-medium">${color.name}</div>
+                        <div class="font-mono text-xs text-[#f1f5f9]/70">${color.hex}</div>
+                        <div class="text-[10px] text-[#f1f5f9]/40">${color.rgb}</div>
+                    </div>
+                `;
+          container.innerHTML += swatchHTML;
+        });
+      }
+
+      // Copy hex to clipboard
+      window.copyToClipboard = function (hex) {
+        navigator.clipboard.writeText(hex).then(() => {
+          const toast = document.createElement("div");
+          toast.style.cssText =
+            "position:fixed; bottom:24px; left:50%; transform:translateX(-50%); background:#eab308; color:#020617; padding:12px 24px; border-radius:9999px; font-weight:600; box-shadow:0 10px 15px -3px rgb(234 179 8);";
+          toast.textContent = `✓ Copied ${hex}`;
+          document.body.appendChild(toast);
+          setTimeout(() => toast.remove(), 2000);
+        });
+      };
+
+      // Initialize everything
+      window.onload = function () {
+        initializeTailwind();
+        renderSwatches();
+        console.log(
+          "%c✅ CrossR Skills Brand Guide HTML loaded successfully",
+          "color:#eab308; font-family:monospace; font-size:13px",
+        );
+      };
+    </script>
+  </body>
+</html>
