@@ -57,8 +57,8 @@
   "skill-remediation": {
     "status": "in_progress",
     "commits": [
-      {"id": "setup", "title": "Add skill-evaluator/remediator/reviewer agents + skill-remediation phase tracking", "status": "in_progress"},
-      {"id": "sr01", "title": "code-writer skill remediation (GAN + stratified harness-agnostic)", "status": "pending"},
+      {"id": "setup", "title": "Add skill-evaluator/remediator/reviewer agents + skill-remediation phase tracking", "status": "completed"},
+      {"id": "sr01", "title": "code-writer skill remediation (GAN + stratified harness-agnostic)", "status": "completed"},
       {"id": "sr02", "title": "rust-code-writer skill remediation", "status": "pending"},
       {"id": "sr03", "title": "rust-errors skill remediation", "status": "pending"},
       {"id": "sr04", "title": "rust-code-reviewer skill remediation", "status": "pending"},

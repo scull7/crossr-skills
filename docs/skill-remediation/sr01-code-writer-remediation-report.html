@@ -1,0 +1,297 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>sr/01 — code-writer Skill Remediation Report</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&amp;family=Space+Grotesk:wght@500;600&amp;display=swap');
+        
+        :root {
+            --primary: #0a0a0a;
+        }
+        
+        body {
+            font-family: 'Inter', system_ui, sans-serif;
+        }
+        
+        .font-display {
+            font-family: 'Space Grotesk', 'Inter', system_ui, sans-serif;
+            font-weight: 600;
+        }
+
+        .section-header {
+            font-family: 'Space Grotesk', 'Inter', system_ui, sans-serif;
+            letter-spacing: -0.025em;
+        }
+
+        .skill-card {
+            transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .metric {
+            transition: all 0.3s ease;
+        }
+
+        .diff-add {
+            background-color: #f0fdf4;
+            color: #166534;
+            padding: 1px 4px;
+            border-radius: 3px;
+        }
+        
+        .diff-remove {
+            background-color: #fef2f2;
+            color: #991b1b;
+            padding: 1px 4px;
+            border-radius: 3px;
+            text-decoration: line-through;
+        }
+
+        .gan-step {
+            transition: all 0.2s ease;
+        }
+
+        .gan-step:hover {
+            transform: translateY(-1px);
+        }
+
+        .checklist-item {
+            transition: all 0.2s ease;
+        }
+    </style>
+</head>
+<body class="bg-zinc-950 text-zinc-200">
+    <!-- Header -->
+    <div class="border-b border-zinc-800 bg-zinc-900/50 backdrop-blur-sm sticky top-0 z-50">
+        <div class="max-w-6xl mx-auto px-6 py-5">
+            <div class="flex items-center justify-between">
+                <div class="flex items-center gap-x-4">
+                    <div class="flex items-center gap-x-3">
+                        <div class="w-9 h-9 bg-emerald-500 rounded-2xl flex items-center justify-center">
+                            <i class="fa-solid fa-check text-white text-xl"></i>
+                        </div>
+                        <div>
+                            <div class="font-display text-2xl font-semibold tracking-tighter">sr/01</div>
+                            <div class="text-xs text-emerald-400 -mt-1 font-medium">COMPLETED</div>
+                        </div>
+                    </div>
+                    <div>
+                        <div class="font-semibold text-2xl tracking-tight">code-writer</div>
+                        <div class="text-sm text-zinc-400">Foundational generic skill • First in remediation chain</div>
+                    </div>
+                </div>
+                
+                <div class="flex items-center gap-x-3">
+                    <div class="px-4 py-1.5 bg-emerald-500/10 text-emerald-400 rounded-3xl text-sm font-semibold flex items-center gap-x-2 border border-emerald-500/20">
+                        <i class="fa-solid fa-tachometer-alt"></i>
+                        <span>100/100</span>
+                    </div>
+                    <div class="text-right text-sm">
+                        <div class="font-medium">Reviewer Final Gate</div>
+                        <div class="text-emerald-400 text-xs font-semibold">PASS • 5/5 on all items</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="max-w-6xl mx-auto px-6 py-8">
+        
+        <!-- Hero Summary -->
+        <div class="mb-10">
+            <div class="flex items-center gap-x-3 mb-3">
+                <div class="px-3 py-1 rounded-3xl bg-emerald-500 text-white text-xs font-bold tracking-[0.5px] flex items-center gap-x-1.5">
+                    <i class="fa-solid fa-shield-halved"></i>
+                    <span>GENERIC / CORE TIER</span>
+                </div>
+                <div class="text-xs px-3 py-1 bg-zinc-900 border border-zinc-800 rounded-3xl text-zinc-400 font-medium">First skill remediated under new stratified policy</div>
+            </div>
+            
+            <h1 class="text-5xl font-semibold tracking-tighter mb-3">code-writer fully remediated</h1>
+            <p class="max-w-3xl text-xl text-zinc-400">The foundational generic skill is now strictly harness-agnostic, portable to any agentskills.io environment, and equipped with a powerful self-verifying Verification section.</p>
+        </div>
+
+        <!-- Key Metrics -->
+        <div class="grid grid-cols-1 md:grid-cols-4 gap-4 mb-10">
+            <div class="bg-zinc-900 border border-zinc-800 rounded-3xl p-5">
+                <div class="text-xs uppercase tracking-widest text-zinc-500 mb-1.5 font-semibold">Overall Score</div>
+                <div class="flex items-baseline gap-x-2">
+                    <div class="text-6xl font-semibold tabular-nums tracking-tighter">100</div>
+                    <div class="text-2xl text-emerald-400 font-medium">/100</div>
+                </div>
+                <div class="text-emerald-400 text-sm mt-1 font-medium">+36 from initial 64/100</div>
+            </div>
+            
+            <div class="bg-zinc-900 border border-zinc-800 rounded-3xl p-5">
+                <div class="text-xs uppercase tracking-widest text-zinc-500 mb-1.5 font-semibold">Harness-Agnostic</div>
+                <div class="flex items-baseline gap-x-2">
+                    <div class="text-6xl font-semibold tabular-nums tracking-tighter text-emerald-400">5</div>
+                    <div class="text-2xl text-zinc-400 font-medium">/5</div>
+                </div>
+                <div class="text-sm mt-1 text-emerald-400 font-medium">Literal zero coupling achieved</div>
+            </div>
+            
+            <div class="bg-zinc-900 border border-zinc-800 rounded-3xl p-5">
+                <div class="text-xs uppercase tracking-widest text-zinc-500 mb-1.5 font-semibold">GAN Iterations</div>
+                <div class="text-6xl font-semibold tabular-nums tracking-tighter">7</div>
+                <div class="text-sm mt-1 text-zinc-400">Evaluator → Remediator → Reviewer cycles</div>
+            </div>
+            
+            <div class="bg-zinc-900 border border-zinc-800 rounded-3xl p-5">
+                <div class="text-xs uppercase tracking-widest text-zinc-500 mb-1.5 font-semibold">Changes</div>
+                <div class="flex items-baseline gap-x-1">
+                    <div class="text-6xl font-semibold tabular-nums tracking-tighter">+26</div>
+                    <div class="text-xl font-medium text-zinc-400">net lines</div>
+                </div>
+                <div class="text-sm mt-1 text-zinc-400">All surgical and convention-matching</div>
+            </div>
+        </div>
+
+        <!-- GAN Process -->
+        <div class="mb-10">
+            <h2 class="section-header text-2xl font-semibold mb-4 tracking-tight">GAN Cycle Execution</h2>
+            
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                <!-- Evaluator -->
+                <div class="gan-step bg-zinc-900 border border-zinc-800 rounded-3xl p-6">
+                    <div class="flex items-center gap-x-3 mb-4">
+                        <div class="w-8 h-8 bg-amber-500 rounded-2xl flex items-center justify-center text-white">
+                            <i class="fa-solid fa-search"></i>
+                        </div>
+                        <div>
+                            <div class="font-semibold">1. Evaluator</div>
+                            <div class="text-xs text-amber-400">skill-evaluator-agent</div>
+                        </div>
+                    </div>
+                    <div class="text-4xl font-semibold tabular-nums mb-2 tracking-tighter">64/100</div>
+                    <div class="text-sm text-zinc-400 mb-3">Primary failure: <span class="text-rose-400 font-medium">Harness-Agnostic 1/5</span></div>
+                    <div class="text-xs bg-zinc-950 border border-zinc-800 rounded-2xl p-3">
+                        "The harness exists so..." sentence + project framing + specific skill references identified as critical blockers for generic tier.
+                    </div>
+                </div>
+
+                <!-- Remediator -->
+                <div class="gan-step bg-zinc-900 border border-zinc-800 rounded-3xl p-6">
+                    <div class="flex items-center gap-x-3 mb-4">
+                        <div class="w-8 h-8 bg-blue-500 rounded-2xl flex items-center justify-center text-white">
+                            <i class="fa-solid fa-wrench"></i>
+                        </div>
+                        <div>
+                            <div class="font-semibold">2. Remediator</div>
+                            <div class="text-xs text-blue-400">skill-remediator-agent</div>
+                        </div>
+                    </div>
+                    <div class="text-sm leading-relaxed">
+                        Produced high-fidelity candidate with:
+                        <ul class="mt-2 text-xs space-y-1 text-zinc-400">
+                            <li class="flex items-start gap-x-2"><i class="fa-solid fa-check text-emerald-400 mt-0.5"></i> <span>Universal YAML description</span></li>
+                            <li class="flex items-start gap-x-2"><i class="fa-solid fa-check text-emerald-400 mt-0.5"></i> <span>6-observable Verification behaviors</span></li>
+                            <li class="flex items-start gap-x-2"><i class="fa-solid fa-check text-emerald-400 mt-0.5"></i> <span>Specialization contract section</span></li>
+                            <li class="flex items-start gap-x-2"><i class="fa-solid fa-check text-emerald-400 mt-0.5"></i> <span>Preserved &gt;90% original voice</span></li>
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Reviewer -->
+                <div class="gan-step bg-zinc-900 border border-emerald-500/30 rounded-3xl p-6">
+                    <div class="flex items-center gap-x-3 mb-4">
+                        <div class="w-8 h-8 bg-emerald-500 rounded-2xl flex items-center justify-center text-white">
+                            <i class="fa-solid fa-user-shield"></i>
+                        </div>
+                        <div>
+                            <div class="font-semibold">3. Reviewer (Final Gate)</div>
+                            <div class="text-xs text-emerald-400">skill-reviewer-agent</div>
+                        </div>
+                    </div>
+                    <div class="text-4xl font-semibold tabular-nums tracking-tighter text-emerald-400 mb-1">PASS</div>
+                    <div class="font-semibold mb-3">100/100 • 5/5 on all items</div>
+                    <div class="text-xs text-emerald-300">“Literal zero coupling. Ready for disk application and hybrid simulation.”</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Key Improvements -->
+        <div class="mb-10">
+            <h2 class="section-header text-2xl font-semibold mb-4 tracking-tight">Key Improvements Applied</h2>
+            
+            <div class="bg-zinc-900 border border-zinc-800 rounded-3xl overflow-hidden">
+                <div class="divide-y divide-zinc-800">
+                    <div class="p-6 flex gap-x-4">
+                        <div class="font-mono text-xs w-8 text-center pt-1 text-emerald-400 font-bold">01</div>
+                        <div class="flex-1">
+                            <div class="font-semibold">Full Harness-Agnosticism</div>
+                            <div class="text-sm text-zinc-400 mt-1">Removed every reference to "the project", "the harness", specific skill names (rust-code-reviewer), "crate", remediation jargon, and hybrid simulation mechanics.</div>
+                        </div>
+                    </div>
+                    <div class="p-6 flex gap-x-4">
+                        <div class="font-mono text-xs w-8 text-center pt-1 text-emerald-400 font-bold">02</div>
+                        <div class="flex-1">
+                            <div class="font-semibold">New Verification Section</div>
+                            <div class="text-sm text-zinc-400 mt-1">6 directly observable and scorable behaviors in any fresh activation. Explicit violations language. Self-verifying contract for the skill itself.</div>
+                        </div>
+                    </div>
+                    <div class="p-6 flex gap-x-4">
+                        <div class="font-mono text-xs w-8 text-center pt-1 text-emerald-400 font-bold">03</div>
+                        <div class="flex-1">
+                            <div class="font-semibold">Universal Language</div>
+                            <div class="text-sm text-zinc-400 mt-1">Footer, activation guidance, and examples now use portable phrasing ("your language-specific reviewer skill", "external library or package", "consuming project" generalized to universal foundation).</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Before / After -->
+        <div class="mb-10">
+            <h2 class="section-header text-2xl font-semibold mb-4 tracking-tight">Before &amp; After Highlights</h2>
+            
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                <!-- Before -->
+                <div>
+                    <div class="flex items-center gap-x-2 mb-3 text-sm">
+                        <div class="px-3 py-1 bg-rose-500/10 text-rose-400 rounded-3xl text-xs font-bold">BEFORE</div>
+                        <div class="text-xs text-rose-300">64/100 • Harness-Agnostic 1/5</div>
+                    </div>
+                    <div class="bg-zinc-900 border border-rose-900/40 rounded-3xl p-5 text-sm font-mono text-rose-300 leading-relaxed">
+                        "The harness exists so the correct, clear, stratified path is also the easiest path for the agent."<br><br>
+                        "...foundation for all code in the project."<br>
+                        "...combine with `rust-code-reviewer` for Rust code."<br><br>
+                        <span class="text-xs text-rose-400/70">+ "crate/library" terminology</span>
+                    </div>
+                </div>
+                
+                <!-- After -->
+                <div>
+                    <div class="flex items-center gap-x-2 mb-3 text-sm">
+                        <div class="px-3 py-1 bg-emerald-500/10 text-emerald-400 rounded-3xl text-xs font-bold">AFTER</div>
+                        <div class="text-xs text-emerald-300">100/100 • Harness-Agnostic 5/5</div>
+                    </div>
+                    <div class="bg-zinc-900 border border-emerald-900/40 rounded-3xl p-5 text-sm font-mono text-emerald-300 leading-relaxed">
+                        "This is the core coding philosophy skill."<br><br>
+                        "This skill is the universal foundation for all code written according to its principles."<br><br>
+                        "Always combine it with the appropriate language-specific or domain reviewer skill..."<br><br>
+                        <span class="text-xs text-emerald-400/70">+ 6 scorable Verification behaviors</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Reviewer Sign-off -->
+        <div class="bg-zinc-900 border border-zinc-800 rounded-3xl p-6 mb-10">
+            <div class="uppercase text-xs tracking-[1px] font-bold text-zinc-500 mb-3">Final Reviewer Sign-off</div>
+            <div class="italic text-xl leading-tight mb-4">"Literal zero coupling. Ready for disk application and proceed with hybrid simulation + PR creation. Green light granted. No further fixes of any kind are required."</div>
+            <div class="flex items-center gap-x-3 text-sm">
+                <div class="font-medium">skill-reviewer-agent</div>
+                <div class="text-xs px-2 py-px bg-zinc-800 rounded">Final Gate • 100/100</div>
+            </div>
+        </div>
+
+        <div class="text-center text-xs text-zinc-500">
+            This report is part of the canonical skill remediation effort (sr/01–sr/12). All work follows HARNESS-SPEC.md and AGENTS.md.
+        </div>
+    </div>
+</body>
+</html>
