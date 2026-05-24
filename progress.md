@@ -32,3 +32,15 @@ The repository is now self-hosting its own process, including mechanical GAN age
 All future work on crossr-skills (and consuming projects) should follow the rules in HARNESS-SPEC.md.
 
 The mechanization effort (GAN agent definitions + hardening) was delivered via a second stacked PR chain (`gan/01` through `gan/05`).
+
+## Skill Remediation (2026 Dogfood of the Harness on Its Own Skills)
+
+**Phase initiated via Setup PR.**
+
+- Added permanent skill GAN agents (`.agents/agents/skill-evaluator-agent.md`, `skill-remediator-agent.md`, `skill-reviewer-agent.md`) modeled exactly on the rust-* trio.
+- Added `"skill-remediation"` phase + 13 traceable commits (setup + sr/01–sr/12) to `features.json`.
+- All work follows the approved plan (see session plan.md for full PETC + stratified harness-agnosticism policy + hybrid simulation verification rubric).
+- Explicit human approval gate required after Setup PR merges before sr/01 begins.
+- Each subsequent PR will contain: one skill (or self-remediation), its remediation-report.html, minimal impacted docs, features/progress updates, full GAN + hybrid simulation evidence, and `just harness-validate` PASS.
+
+**Current status:** Setup PR in preparation. 12 individual skill PRs to follow after gate.
