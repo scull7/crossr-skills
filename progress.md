@@ -189,3 +189,19 @@ The mechanization effort (GAN agent definitions + hardening) was delivered via a
 - `just harness-validate` + verification commands PASS.
 
 **Self-verifying handover:** Reviewer gave explicit green light after the full series of surgical fixes and final ultra-delta confirmation: "100/100 • Literal 5/5 Harness-Agnostic + 5/5 Harness Relationship (Stratified) • Green light." The skill is now the canonical portable domain authority on clean, stratified Axum HTTP backend development following agentskills.io standards.
+
+### Commit sr11: rust-frontend skill remediation (COMPLETED)
+
+- Full GAN cycle (evaluator 38/100 with 1/5 Harness Relationship (Stratified) → remediator → reviewer with ultra-delta hygiene pass).
+- Final reviewer gate (after 3 minimal surgical fixes): **PASS at 100/100** (5/5 on every item, including literal 5/5 Harness-Agnostic + 5/5 Harness Relationship (Stratified) for harness-layer domain tier).
+- Key changes:
+  - Added clean `## Harness Context (Stratified Disclosure)` block with precise qualified disclosure of the three specific realizations (exact `wasm-pack build --target web --out-dir web/pkg` command, the "10 rows" Polars analysis limit, and the distinctive hand-crafted aesthetic character via typography/motion/atmosphere).
+  - Adopted full canonical harness-layer structure (Verification with exactly 6 directly scorable behaviors + Specialization + One-Sentence Mandate in final position + portable footer).
+  - Removed duplication of portable rules from the disclosure block and generalized the last remaining project-tied phrasing.
+  - 100% preservation of the high-value portable content (deep computation in Rust only, Pico CSS + mandatory custom complementary CSS/SCSS, adaptive theming with toggle, distinctive modern typography with custom fonts, Polars-only tabular with small-subset discipline, and the strong anti-"AI slop" creative mandate for hand-crafted interfaces).
+  - Hybrid fidelity simulation (fresh activation using *only* the remediated skill + prerequisites on realistic Leptos data table + Polars server-function task): **30/30** — all 6 Verification behaviors directly and unambiguously demonstrated with zero violations.
+- Self-contained HTML report generated (`docs/skill-remediation/sr11-rust-frontend-remediation-report.html`).
+- Features + progress updated surgically.
+- `just harness-validate` + verification commands PASS.
+
+**Self-verifying handover:** Reviewer gave explicit green light after the full series of surgical fixes and final ultra-delta confirmation: "100/100 • Literal 5/5 Harness-Agnostic + 5/5 Harness Relationship (Stratified) • Green light." The skill is now the canonical portable domain authority on creative, stratified Rust frontend development with WASM, Leptos, and Polars following agentskills.io standards. It is a self-exemplar of the stratified disclosure policy it helps enforce on the harness layer.
