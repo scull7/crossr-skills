@@ -101,3 +101,17 @@ The mechanization effort (GAN agent definitions + hardening) was delivered via a
 - Features + progress updated.
 
 **Self-verifying handover:** Reviewer gave explicit green light after the 3 surgical heading fixes: "100/100 • Literal 5/5 Harness-Agnostic • Green light." The skill is now the canonical "guardian" of the generic/core tier and will be used to review future generic skills.
+
+### Commit sr05: rust-code-tester skill remediation (COMPLETED)
+
+- Full GAN cycle (evaluator 48/100 → remediator → reviewer).
+- Final reviewer gate: **PASS at 100/100** (5/5 on every item, including literal 5/5 Harness-Agnostic for generic/core tier).
+- Key changes:
+  - Removed all hard coupling (CLAUDE.md, progress.md, features.json, git status, ./docs/, exact repo cargo commands, "Update features.json", "MANDATORY PRE-FLIGHT").
+  - Adopted exact canonical generic structure from sr/01–sr/04 (Verification with 6 observable behaviors + Specialization contract + One-Sentence Mandate + portable footer).
+  - 100% preservation of the unapologetic "ruthless testing gatekeeper" voice, high-signal RUTHLESS CHECKLIST, strict delegation boundaries ("NEVER write production code"), and "It works on my machine is not an answer" personality.
+- Hybrid fidelity simulation pending (fresh activation using only the five clean generic skills).
+- Self-contained HTML report generated.
+- Features + progress updated.
+
+**Self-verifying handover:** Reviewer gave explicit green light (after 2 minimal surgical fixes): "100/100 • Literal 5/5 Harness-Agnostic • Green light." The skill is now the dedicated "tester" of the generic/core tier.
