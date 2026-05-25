@@ -221,3 +221,6 @@ The mechanization effort (GAN agent definitions + hardening) was delivered via a
 - `just harness-validate` + verification commands PASS.
 
 **Self-verifying handover:** Reviewer gave explicit green light after the full series of surgical fixes and final ultra-delta confirmation: "100/100 • Literal 5/5 Harness-Agnostic + 5/5 Harness Relationship (Stratified) • Green light." The skill is now the canonical portable domain authority on clean, unidirectional ratatui TUI development following agentskills.io standards. This completes the sr/01–sr/12 skill remediation phase. The document is a self-exemplar of the stratified disclosure policy it helps enforce on the harness layer.
+
+**Skill Remediation Phase — Officially Closed**  
+All 12 skills in `.agents/skills/` have been remediated to 100/100 (with 5/5 on tier-critical items) via the permanent GAN personas and the new Harness Relationship (Stratified) principle. The canonical portable skill structure is now the standard for this harness. See the individual `docs/skill-remediation/srNN-*-remediation-report.html` files and the updates to HARNESS-SPEC.md and AGENTS.md for the lasting record.

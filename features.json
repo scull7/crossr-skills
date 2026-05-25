@@ -55,7 +55,7 @@
     ]
   },
   "skill-remediation": {
-    "status": "in_progress",
+    "status": "completed",
     "commits": [
       {"id": "setup", "title": "Add skill-evaluator/remediator/reviewer agents + skill-remediation phase tracking", "status": "completed"},
       {"id": "sr01", "title": "code-writer skill remediation (GAN + stratified harness-agnostic)", "status": "completed"},

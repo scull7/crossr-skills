@@ -43,8 +43,8 @@ Run the appropriate commands before declaring work complete.
 ## Project Structure & Key Files
 
 - `HARNESS-SPEC.md` — The authoritative process specification. Read this for how work is done here.
-- `.agents/skills/` — All reusable capabilities (agentskills.io format).
-- `.agents/agents/` — Reusable agent personas (e.g., reviewer, tester, architect).
+- `.agents/skills/` — All reusable capabilities (agentskills.io format). All skills follow the canonical portable structure with proper Harness Relationship (Stratified) disclosure (see HARNESS-SPEC.md).
+- `.agents/agents/` — Reusable agent personas (e.g., reviewer, tester, architect). The permanent `skill-evaluator-agent`, `skill-remediator-agent`, and `skill-reviewer-agent` are used for all skill remediation work.
 - `features.json` + `progress.md` — Machine + human tracking of work (phase → commits → features model).
 - `scripts/harness-bootstrap` — Tool to scaffold the full harness in new projects.
 - `scripts/sync-skills` — Tool to keep skills in sync across projects.
