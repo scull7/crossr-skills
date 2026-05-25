@@ -64,7 +64,7 @@
       {"id": "sr04", "title": "rust-code-reviewer skill remediation", "status": "completed"},
       {"id": "sr05", "title": "rust-code-tester skill remediation", "status": "completed"},
       {"id": "sr06", "title": "rust-architect skill remediation", "status": "completed"},
-      {"id": "sr07", "title": "rust-team-lead skill remediation", "status": "pending"},
+      {"id": "sr07", "title": "rust-team-lead skill remediation", "status": "completed"},
       {"id": "sr08", "title": "skill-evaluator self-remediation (Harness Relationship (Stratified) section)", "status": "pending"},
       {"id": "sr09", "title": "agent-harness skill remediation", "status": "pending"},
       {"id": "sr10", "title": "rust-axum-backend skill remediation", "status": "pending"},

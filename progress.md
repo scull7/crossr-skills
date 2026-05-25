@@ -129,3 +129,17 @@ The mechanization effort (GAN agent definitions + hardening) was delivered via a
 - Features + progress updated.
 
 **Self-verifying handover:** Reviewer gave explicit green light (after 2 minimal surgical fixes): "100/100 • Literal 5/5 Harness-Agnostic • Green light." The skill is now the final "boss" architecture gate of the generic/core tier.
+
+### Commit sr07: rust-team-lead skill remediation (COMPLETED)
+
+- Full GAN cycle (evaluator 41/100 → remediator → reviewer).
+- Final reviewer gate: **PASS at 100/100** (5/5 on every item, including 5/5 Harness-Agnostic + 5/5 Harness Relationship (Stratified) for harness-layer tier).
+- Key changes:
+  - Adopted the exact canonical generic structure from sr/01–sr/06 (Verification with 6 observable behaviors + Specialization contract + One-Sentence Mandate + portable footer) + clean "Harness Context (Stratified Disclosure)" block for progressive disclosure.
+  - Removed gratuitous/outdated coupling (specific file lists as universal MUSTs, embedded domain skill examples inside the method, "Updated Adversary Chain" heading, "Do not create a PR" as a hard terminal condition in the skill definition itself).
+  - 100% preservation of the essential orchestration invariants (Generator → strict sequential three-adversary chain with rust-architect as final Torvalds gate, "all three must explicitly bless", small-phase decomposition, post-bless commit + tracking update, iron "NEVER write, edit, or review code" boundary) and the "calm, relentless conductor" voice.
+- Hybrid fidelity simulation pending (fresh activation using only the clean generic skills + this harness-layer orchestrator).
+- Self-contained HTML report generated.
+- Features + progress updated.
+
+**Self-verifying handover:** Reviewer gave explicit green light (after 4 minimal surgical fixes): "100/100 • Literal 5/5 Harness-Agnostic + 5/5 Harness Relationship (Stratified) • Green light." The skill is now the canonical "calm, relentless conductor" GAN orchestrator of the harness layer.
