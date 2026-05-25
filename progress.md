@@ -158,3 +158,18 @@ The mechanization effort (GAN agent definitions + hardening) was delivered via a
 - Features + progress updated.
 
 **Self-verifying handover:** Reviewer gave explicit green light (after all 7+1 surgical fixes + final hygiene excision): "100/100 • Literal 5/5 Harness-Agnostic + 5/5 Harness Relationship (Stratified) • Green light." The skill is now the 100/100 meta rubric authority that defines the 18-item checklist (including Harness Relationship (Stratified)) and canonical structure for the entire sr/01–sr/12 chain and all future agentskills.io work in CrossR harnesses.
+
+### Commit sr09: agent-harness skill remediation (COMPLETED)
+
+- Full GAN cycle (evaluator 38/100 with critical 1/5 Harness-Agnostic + 1/5 Harness Relationship (Stratified) → remediator → reviewer with multiple delta and ultra-delta hygiene passes).
+- Final reviewer gate (after 10 numbered surgical fixes + 2 ultra-delta hygiene fixes): **PASS at 100/100** (5/5 on every item, including literal 5/5 Harness-Agnostic + 5/5 Harness Relationship (Stratified) for harness-layer tier).
+- Key changes:
+  - Adopted the exact canonical harness-layer structure from sr/07–sr/08 precedent (Verification with exactly 6 observable behaviors + Specialization contract + One-Sentence Mandate in final position + portable footer) + clean `## Harness Context (Stratified Disclosure)` block with progressive disclosure.
+  - All heavy project coupling ("Tensorwave Edition", ferro-wg / CD-1873 examples, exact bash rituals with `./init.sh || just init` + `cargo check`, "every project must have the items below", "Do not create a PR" as hard terminal rule inside the skill, specific file paths and "update features.json" as universal mandates, embedded domain skill examples) moved into the Harness Context block (as "parameters supplied by the invoking harness at activation") or excised entirely from the main body.
+  - 100% preservation of the essential value and practical voice: synthesis of Anthropic long-running scaffolding + AIHero PETC loop + Revfactory harness patterns for state continuity across resets, incremental verifiable progress via small tasks, clean merge-ready handovers, self-critique, stacked small PRs with traceability, multi-tier verification harnesses, policy gates before effects, and the PETC loop as the repeatable rhythm for long-running agents.
+  - Hybrid fidelity simulation (fresh activation using *only* the remediated skill + code-writer on a greenfield TypeScript monorepo harness-design task): **30/30** — all 6 Verification behaviors directly and unambiguously demonstrated with zero violations (Mandate recited first, full disclosure treatment of concrete parameters, full PETC loop enforced on the response itself, three inspirations preserved and mapped portably, only qualified "typical / as disclosed" recommendations, explicit post-verification self-assessment block before completion).
+- Self-contained HTML report generated (`docs/skill-remediation/sr09-agent-harness-remediation-report.html`).
+- Features + progress updated surgically.
+- `just harness-validate`, `just check`, `just clippy`, `just fmt` all PASS.
+
+**Self-verifying handover:** Reviewer gave explicit green light after the complete series of surgical fixes and final ultra-delta confirmation pass: "100/100 • Literal 5/5 Harness-Agnostic + 5/5 Harness Relationship (Stratified) • Green light." The skill is now the canonical portable authority on the design and bootstrapping of effective harnesses for long-running AI agents following agentskills.io standards. It is a self-exemplar of the stratified disclosure policy it helps enforce on the harness layer.
