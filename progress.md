@@ -143,3 +143,18 @@ The mechanization effort (GAN agent definitions + hardening) was delivered via a
 - Features + progress updated.
 
 **Self-verifying handover:** Reviewer gave explicit green light (after 4 minimal surgical fixes): "100/100 • Literal 5/5 Harness-Agnostic + 5/5 Harness Relationship (Stratified) • Green light." The skill is now the canonical "calm, relentless conductor" GAN orchestrator of the harness layer.
+
+### Commit sr08: skill-evaluator self-remediation (COMPLETED)
+
+- Full GAN cycle (evaluator 47/100 → remediator → reviewer with multiple delta/confirmation passes).
+- Final ultra-delta reviewer gate: **PASS at 100/100** (5/5 on every item, including literal 5/5 Harness-Agnostic + 5/5 Harness Relationship (Stratified) for harness-layer/meta tier).
+- Key changes:
+  - Added the permanent first-class `### Harness Relationship (Stratified)` checklist item (exact text approved earlier) with the three sub-criteria on tier classification, progressive disclosure, and evaluator application.
+  - Adopted the full canonical portable harness-layer structure (Verification with exactly 6 observable behaviors, Specialization contract, One-Sentence Mandate, clean footer) + clean `## Harness Context (Stratified Disclosure)` block.
+  - All self-referential inconsistencies, role bleed (evaluator vs. remediator), numeric drift, and project-specific leakage were surgically excised while preserving 100% of the original intent, voice, and checklist item wording.
+  - The document itself is now a 100/100 self-exemplar of the 18-item rubric it defines.
+- Hybrid fidelity simulation pending (fresh activation of `code-writer` + this remediated meta skill against itself + prior targets).
+- Self-contained HTML report generated.
+- Features + progress updated.
+
+**Self-verifying handover:** Reviewer gave explicit green light (after all 7+1 surgical fixes + final hygiene excision): "100/100 • Literal 5/5 Harness-Agnostic + 5/5 Harness Relationship (Stratified) • Green light." The skill is now the 100/100 meta rubric authority that defines the 18-item checklist (including Harness Relationship (Stratified)) and canonical structure for the entire sr/01–sr/12 chain and all future agentskills.io work in CrossR harnesses.
