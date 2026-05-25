@@ -173,3 +173,19 @@ The mechanization effort (GAN agent definitions + hardening) was delivered via a
 - `just harness-validate`, `just check`, `just clippy`, `just fmt` all PASS.
 
 **Self-verifying handover:** Reviewer gave explicit green light after the complete series of surgical fixes and final ultra-delta confirmation pass: "100/100 • Literal 5/5 Harness-Agnostic + 5/5 Harness Relationship (Stratified) • Green light." The skill is now the canonical portable authority on the design and bootstrapping of effective harnesses for long-running AI agents following agentskills.io standards. It is a self-exemplar of the stratified disclosure policy it helps enforce on the harness layer.
+
+### Commit sr10: rust-axum-backend skill remediation (COMPLETED)
+
+- Full GAN cycle (evaluator 62/100 with 1/5 Harness Relationship (Stratified) → remediator → reviewer with ultra-delta hygiene pass).
+- Final reviewer gate (after 3 minimal surgical fixes): **PASS at 100/100** (5/5 on every item, including literal 5/5 Harness-Agnostic + 5/5 Harness Relationship (Stratified) for harness-layer domain tier).
+- Key changes:
+  - Added clean `## Harness Context (Stratified Disclosure)` block with precise qualified disclosure of all six ferro-wave battle-tested patterns (thin transport crates, AppError mapping, layered custom extractors, test-utils feature, router()+serve(), feature-gated transports).
+  - Adopted full canonical harness-layer structure (Verification with exactly 6 directly scorable behaviors + Specialization + One-Sentence Mandate in final position + portable footer).
+  - Removed duplicate usage section and generalized the last residual project-specific phrasing ("the project's layered error strategy" → "a centralized layered error strategy").
+  - 100% preservation of the high-value portable Axum content (thin handlers, layered extractors, State<AppState>, spawn_blocking for CPU work, AppError + IntoResponse, explicit tower middleware composition).
+  - Hybrid fidelity simulation (fresh activation using *only* the remediated skill + prerequisites on realistic authenticated GET /users/:id endpoint task): **30/30** — all 6 Verification behaviors directly and unambiguously demonstrated with zero violations.
+- Self-contained HTML report generated (`docs/skill-remediation/sr10-rust-axum-backend-remediation-report.html`).
+- Features + progress updated surgically.
+- `just harness-validate` + verification commands PASS.
+
+**Self-verifying handover:** Reviewer gave explicit green light after the full series of surgical fixes and final ultra-delta confirmation: "100/100 • Literal 5/5 Harness-Agnostic + 5/5 Harness Relationship (Stratified) • Green light." The skill is now the canonical portable domain authority on clean, stratified Axum HTTP backend development following agentskills.io standards.
