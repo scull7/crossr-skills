@@ -73,3 +73,17 @@ The mechanization effort (GAN agent definitions + hardening) was delivered via a
 - Features + progress updated.
 
 **Self-verifying handover:** Delta reviewer confirmed: "Full candidate now achieves 100/100. Green light for disk application + hybrid simulation + PR." Only one surgical footer sentence fix was needed after the main remediator pass.
+
+### Commit sr03: rust-errors skill remediation (COMPLETED)
+
+- Full GAN cycle (evaluator 68/100 → remediator → reviewer).
+- Final reviewer gate: **PASS at 100/100** (5/5 on every item, including literal 5/5 Harness-Agnostic for generic/core tier).
+- Key changes:
+  - Removed implicit project framing; added explicit portability language.
+  - Adopted canonical generic structure from sr/01 + sr/02 (Verification with 6 observable behaviors + Specialization contract + One-Sentence Mandate + portable footer).
+  - 100% preservation of the original's high-value content (especially the powerful "Corollary" diagnostic rule: appearance of .map_err signals missing From impl).
+- Hybrid fidelity simulation pending (fresh activation using only the remediated generic skills).
+- Self-contained HTML report generated.
+- Features + progress updated.
+
+**Self-verifying handover:** Reviewer gave explicit green light: "The candidate is the clean, convention-perfect outcome of the GAN process. 100/100. Green light. No further action required from the reviewer."
