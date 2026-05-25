@@ -69,7 +69,7 @@
       {"id": "sr09", "title": "agent-harness skill remediation (GAN + stratified harness-agnostic)", "status": "completed"},
       {"id": "sr10", "title": "rust-axum-backend skill remediation (GAN + stratified harness-agnostic)", "status": "completed"},
       {"id": "sr11", "title": "rust-frontend skill remediation (GAN + stratified harness-agnostic)", "status": "completed"},
-      {"id": "sr12", "title": "rust-tui skill remediation", "status": "pending"}
+      {"id": "sr12", "title": "rust-tui skill remediation (GAN + stratified harness-agnostic)", "status": "completed"}
     ]
   }
 }
