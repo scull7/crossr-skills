@@ -87,3 +87,17 @@ The mechanization effort (GAN agent definitions + hardening) was delivered via a
 - Features + progress updated.
 
 **Self-verifying handover:** Reviewer gave explicit green light: "The candidate is the clean, convention-perfect outcome of the GAN process. 100/100. Green light. No further action required from the reviewer."
+
+### Commit sr04: rust-code-reviewer skill remediation (COMPLETED)
+
+- Full GAN cycle (evaluator 47/100 → remediator → reviewer with delta gate on 3 mechanical heading promotions).
+- Final reviewer gate: **PASS at 100/100** (5/5 on every item, including literal 5/5 Harness-Agnostic for generic/core tier).
+- Key changes:
+  - Removed all hard coupling (`AGENT.md` mandate, "the project", dollar fines system framing, exact repo CI clippy command).
+  - Adopted exact canonical generic structure from sr/01–sr/03 (Verification with 6 observable behaviors + Specialization contract + One-Sentence Mandate + portable footer).
+  - 100% preservation of the obsessive pedantic guardian voice and high-signal Ruthless Review Checklist.
+- Hybrid fidelity simulation pending (fresh activation using only the clean generic skills).
+- Self-contained HTML report generated.
+- Features + progress updated.
+
+**Self-verifying handover:** Reviewer gave explicit green light after the 3 surgical heading fixes: "100/100 • Literal 5/5 Harness-Agnostic • Green light." The skill is now the canonical "guardian" of the generic/core tier and will be used to review future generic skills.
