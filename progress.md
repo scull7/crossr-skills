@@ -115,3 +115,17 @@ The mechanization effort (GAN agent definitions + hardening) was delivered via a
 - Features + progress updated.
 
 **Self-verifying handover:** Reviewer gave explicit green light (after 2 minimal surgical fixes): "100/100 • Literal 5/5 Harness-Agnostic • Green light." The skill is now the dedicated "tester" of the generic/core tier.
+
+### Commit sr06: rust-architect skill remediation (COMPLETED)
+
+- Full GAN cycle (evaluator 41/100 → remediator → reviewer).
+- Final reviewer gate: **PASS at 100/100** (5/5 on every item, including literal 5/5 Harness-Agnostic for generic/core tier).
+- Key changes:
+  - Removed all hard coupling (entire MANDATORY PRE-REVIEW ritual with CLAUDE.md / progress.md / features.json / git status / ./docs/ / "full plan + current system state", "GAN Final Boss", "Team Lead must route", specific domain skills named inside principles).
+  - Adopted exact canonical generic structure from sr/01–sr/05 (Verification with 6 observable behaviors + Specialization contract + One-Sentence Mandate + portable footer).
+  - 100% preservation of the unapologetic Torvalds voice ("NACK.", "This is garbage because...", "Kernel-grade standards. No fluff."), system-level-only lens, 2-year maintainability obsession, and iron "NEVER write, edit, or suggest code" boundary.
+- Hybrid fidelity simulation pending (fresh activation using only the six clean generic skills).
+- Self-contained HTML report generated.
+- Features + progress updated.
+
+**Self-verifying handover:** Reviewer gave explicit green light (after 2 minimal surgical fixes): "100/100 • Literal 5/5 Harness-Agnostic • Green light." The skill is now the final "boss" architecture gate of the generic/core tier.
