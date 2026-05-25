@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>sr/10 — rust-axum-backend Skill Remediation Report (Harness-Layer Domain Skill for Axum HTTP Backends)</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&amp;family=Space+Grotesk:wght@500;600&amp;display=swap');
+        body { font-family: 'Inter', system_ui, sans-serif; }
+        .font-display { font-family: 'Space Grotesk', 'Inter', system_ui, sans-serif; font-weight: 600; }
+        .section-header { font-family: 'Space Grotesk', 'Inter', system_ui, sans-serif; font-weight: 600; letter-spacing: -0.02em; }
+        pre { font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace; }
+    </style>
+</head>
+<body class="bg-zinc-950 text-zinc-200">
+    <!-- Sticky Header -->
+    <div class="border-b border-zinc-800 bg-zinc-900/50 backdrop-blur-sm sticky top-0 z-50">
+        <div class="max-w-6xl mx-auto px-6 py-5">
+            <div class="flex items-center justify-between">
+                <div class="flex items-center gap-x-4">
+                    <div class="flex items-center gap-x-3">
+                        <div class="w-9 h-9 bg-emerald-500 rounded-2xl flex items-center justify-center">
+                            <i class="fa-solid fa-check text-white text-xl"></i>
+                        </div>
+                        <div>
+                            <div class="font-display text-2xl font-semibold tracking-tighter">sr/10</div>
+                            <div class="text-xs text-emerald-400 -mt-1 font-medium">COMPLETED</div>
+                        </div>
+                    </div>
+                    <div>
+                        <div class="font-semibold text-2xl tracking-tight">rust-axum-backend</div>
+                        <div class="text-sm text-zinc-400">Harness-layer domain skill — Production Axum HTTP backend patterns (thin handlers, layered extractors, AppError + IntoResponse, spawn_blocking, tower middleware)</div>
+                    </div>
+                </div>
+                
+                <div class="flex items-center gap-x-3">
+                    <div class="px-4 py-1.5 bg-emerald-500/10 text-emerald-400 rounded-3xl text-sm font-semibold flex items-center gap-x-2 border border-emerald-500/20">
+                        <i class="fa-solid fa-tachometer-alt"></i>
+                        <span>100/100</span>
+                    </div>
+                    <div class="text-right text-sm">
+                        <div class="font-medium">Reviewer Final Gate</div>
+                        <div class="text-emerald-400 text-xs font-semibold">PASS • 5/5 Harness Relationship (Stratified) + 5/5 Harness-Agnostic</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="max-w-6xl mx-auto px-6 py-8">
+        <!-- Hero -->
+        <div class="mb-10">
+            <div class="flex items-center gap-x-3 mb-3">
+                <div class="px-3 py-1 rounded-3xl bg-emerald-500 text-white text-xs font-bold tracking-[0.5px] flex items-center gap-x-1.5">
+                    <i class="fa-solid fa-layer-group"></i>
+                    <span>HARNESS-LAYER / DOMAIN TIER</span>
+                </div>
+                <div class="text-xs px-3 py-1 bg-zinc-900 border border-zinc-800 rounded-3xl text-zinc-400 font-medium">Canonical portable authority on clean Axum HTTP backend development</div>
+            </div>
+            
+            <h1 class="text-5xl font-semibold tracking-tighter mb-3">rust-axum-backend fully remediated</h1>
+            <p class="max-w-3xl text-xl text-zinc-400">From 62/100 with heavy ferro-wave coupling and missing canonical structure (1/5 Harness Relationship) to a clean 100/100 self-exemplar with excellent stratified disclosure and 30/30 hybrid fidelity on a realistic authenticated endpoint task.</p>
+        </div>
+
+        <!-- Metrics Grid -->
+        <div class="grid grid-cols-1 md:grid-cols-4 gap-4 mb-10">
+            <div class="bg-zinc-900 border border-zinc-800 rounded-3xl p-5">
+                <div class="text-xs uppercase tracking-widest text-zinc-500 mb-1.5 font-semibold">Overall Score</div>
+                <div class="flex items-baseline gap-x-2">
+                    <div class="text-6xl font-semibold tabular-nums tracking-tighter">100</div>
+                    <div class="text-2xl text-emerald-400 font-medium">/100</div>
+                </div>
+                <div class="text-emerald-400 text-sm mt-1 font-medium">+38 from initial 62/100</div>
+            </div>
+            
+            <div class="bg-zinc-900 border border-zinc-800 rounded-3xl p-5">
+                <div class="text-xs uppercase tracking-widest text-zinc-500 mb-1.5 font-semibold">Harness Relationship (Stratified)</div>
+                <div class="flex items-baseline gap-x-2">
+                    <div class="text-6xl font-semibold tabular-nums tracking-tighter text-emerald-400">5</div>
+                    <div class="text-2xl text-zinc-400 font-medium">/5</div>
+                </div>
+                <div class="text-sm mt-1 text-emerald-400 font-medium">Excellent Harness Context block with qualified ferro-wave disclosure</div>
+            </div>
+            
+            <div class="bg-zinc-900 border border-zinc-800 rounded-3xl p-5">
+                <div class="text-xs uppercase tracking-widest text-zinc-500 mb-1.5 font-semibold">Hybrid Fidelity Simulation</div>
+                <div class="flex items-baseline gap-x-2">
+                    <div class="text-6xl font-semibold tabular-nums tracking-tighter text-emerald-400">30</div>
+                    <div class="text-2xl text-zinc-400 font-medium">/30</div>
+                </div>
+                <div class="text-sm mt-1 text-emerald-400 font-medium">All 6 Verification behaviors fully demonstrated on authenticated GET /users/:id endpoint</div>
+            </div>
+            
+            <div class="bg-zinc-900 border border-zinc-800 rounded-3xl p-5">
+                <div class="text-xs uppercase tracking-widest text-zinc-500 mb-1.5 font-semibold">Key Structural Additions</div>
+                <div class="text-sm mt-1 leading-tight">• Clean <code class="text-emerald-400">## Harness Context (Stratified Disclosure)</code> block<br>• Full canonical tail (Verification ×6 observables, Specialization, One-Sentence Mandate)<br>• All ferro-wave battle-tested patterns moved to qualified disclosure only</div>
+            </div>
+        </div>
+
+        <!-- Before / After -->
+        <div class="mb-10">
+            <h2 class="section-header text-2xl font-semibold mb-4 tracking-tight">From Project-Specific Implementation Guide to Portable Domain Skill</h2>
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-4">
+                <div class="bg-zinc-900 border border-red-500/30 rounded-3xl p-6">
+                    <div class="uppercase text-xs tracking-[1px] font-bold text-red-400 mb-2">Initial State (Evaluator)</div>
+                    <div class="text-sm space-y-2 text-zinc-300">
+                        <div><strong>62/100</strong> • 2/5 Harness-Agnostic • <strong>1/5</strong> Harness Relationship (Stratified)</div>
+                        <div class="text-red-300">• No Harness Context block — ferro-wave patterns mixed into main guidance</div>
+                        <div class="text-red-300">• "Production Patterns from Ferro-Wave Event Gateway" section presented as universal baseline</div>
+                        <div class="text-red-300">• Missing entire canonical tail (no Verification, Specialization, or proper One-Sentence Mandate)</div>
+                        <div class="text-red-300">• "the project's layered error strategy" language in portable rules</div>
+                        <div class="text-red-300">• Duplicate usage section + non-canonical structure</div>
+                    </div>
+                </div>
+                <div class="bg-zinc-900 border border-emerald-500/30 rounded-3xl p-6">
+                    <div class="uppercase text-xs tracking-[1px] font-bold text-emerald-400 mb-2">Final State (Post-Reviewer PASS)</div>
+                    <div class="text-sm space-y-2 text-zinc-300">
+                        <div><strong>100/100</strong> • 5/5 Harness-Agnostic • <strong>5/5</strong> Harness Relationship (Stratified)</div>
+                        <div class="text-emerald-300">• Excellent Harness Context block with precise qualified disclosure of all 6 ferro-wave patterns</div>
+                        <div class="text-emerald-300">• Full canonical harness-layer tail (Verification with 6 directly scorable behaviors, Specialization, One-Sentence Mandate)</div>
+                        <div class="text-emerald-300">• All portable rules fully generalized ("a centralized layered error strategy")</div>
+                        <div class="text-emerald-300">• Exact structural match to sr/07 + sr/09 precedent</div>
+                        <div class="text-emerald-300">• 30/30 hybrid fidelity on realistic authenticated endpoint task</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Hybrid Fidelity -->
+        <div class="mb-10">
+            <h2 class="section-header text-2xl font-semibold mb-4 tracking-tight flex items-center gap-x-3">
+                <span>Hybrid Fidelity Simulation</span>
+                <span class="px-3 py-1 text-xs bg-emerald-500/10 text-emerald-400 rounded-3xl border border-emerald-500/20 font-semibold">30/30 — All behaviors fully observed</span>
+            </h2>
+            
+            <div class="bg-zinc-900 border border-zinc-800 rounded-3xl p-6 mb-4">
+                <div class="text-sm text-zinc-400 mb-3">Fresh activation using <strong>only</strong> the remediated <code>rust-axum-backend</code> skill (+ prerequisites) on a canonical task:</div>
+                <div class="italic text-lg">"Implement a new authenticated GET <code>/users/:id</code> endpoint using a custom <code>AuthedPrincipal</code> extractor, <code>State&lt;AppState&gt;</code>, thin handler, <code>AppError</code> + <code>IntoResponse</code>, and <code>spawn_blocking</code> for CPU work."</div>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
+                <div class="bg-zinc-900 border border-emerald-500/20 rounded-3xl p-5">
+                    <div class="font-semibold text-emerald-400 mb-2 flex items-center gap-x-2"><i class="fa-solid fa-check"></i> <span>1. Mandate recited first</span></div>
+                    <div class="text-sm text-zinc-400">One-Sentence Mandate was the absolute first content, followed by explicit prerequisite activation statement.</div>
+                </div>
+                <div class="bg-zinc-900 border border-emerald-500/20 rounded-3xl p-5">
+                    <div class="font-semibold text-emerald-400 mb-2 flex items-center gap-x-2"><i class="fa-solid fa-check"></i> <span>2. Prerequisites enforced</span></div>
+                    <div class="text-sm text-zinc-400">Explicit statement that <code>code-writer</code> + <code>rust-code-writer</code> must be active first, matching Verification behavior 2.</div>
+                </div>
+                <div class="bg-zinc-900 border border-emerald-500/20 rounded-3xl p-5">
+                    <div class="font-semibold text-emerald-400 mb-2 flex items-center gap-x-2"><i class="fa-solid fa-check"></i> <span>3. Verbatim portable rules delivered</span></div>
+                    <div class="text-sm text-zinc-400">Core Axum Backend Rules and Recommended Patterns were quoted verbatim before any implementation (zero additions or omissions).</div>
+                </div>
+                <div class="bg-zinc-900 border border-emerald-500/20 rounded-3xl p-5">
+                    <div class="font-semibold text-emerald-400 mb-2 flex items-center gap-x-2"><i class="fa-solid fa-check"></i> <span>4–6. Perfect stratified isolation + closing ritual</span></div>
+                    <div class="text-sm text-zinc-400">All ferro-wave references confined to Harness Context with exact qualified language. No promotion outside the block. Response closed with activation statement + explicit direction to harness rituals (tests, clippy, reviewer gates, tracking).</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Reviewer Sign-off -->
+        <div class="bg-zinc-900 border border-emerald-500/30 rounded-3xl p-6 mb-10">
+            <div class="uppercase text-xs tracking-[1px] font-bold text-emerald-400 mb-3">Final Reviewer Sign-off (Ultra-Delta / Confirmation Gate)</div>
+            <div class="italic text-lg leading-tight mb-4">"100/100 • Literal 5/5 Harness-Agnostic + 5/5 Harness Relationship (Stratified) • Green light. The file is ready for hybrid fidelity simulation and HTML report generation."</div>
+            <div class="text-sm">skill-reviewer-agent • Full gate + ultra-delta hygiene pass (3 minimal surgical fixes) • Zero remaining issues of any severity</div>
+        </div>
+
+        <div class="text-center text-xs text-zinc-500">
+            sr/10 is the canonical portable domain skill for clean, stratified Axum HTTP backend development. This report is part of the canonical skill remediation effort (sr/01–sr/12).
+        </div>
+    </div>
+</body>
+</html>
