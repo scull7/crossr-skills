@@ -71,5 +71,11 @@
       {"id": "sr11", "title": "rust-frontend skill remediation (GAN + stratified harness-agnostic)", "status": "completed"},
       {"id": "sr12", "title": "rust-tui skill remediation (GAN + stratified harness-agnostic)", "status": "completed"}
     ]
+  },
+  "docs-verification": {
+    "status": "in_progress",
+    "commits": [
+      {"id": "dv-01", "title": "Basic documentation verification script + just docs-verify target", "status": "in_progress"}
+    ]
   }
 }

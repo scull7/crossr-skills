@@ -224,3 +224,14 @@ The mechanization effort (GAN agent definitions + hardening) was delivered via a
 
 **Skill Remediation Phase — Officially Closed**  
 All 12 skills in `.agents/skills/` have been remediated to 100/100 (with 5/5 on tier-critical items) via the permanent GAN personas and the new Harness Relationship (Stratified) principle. The canonical portable skill structure is now the standard for this harness. See the individual `docs/skill-remediation/srNN-*-remediation-report.html` files and the updates to HARNESS-SPEC.md and AGENTS.md for the lasting record.
+
+## Documentation Verification Improvements
+
+**Commit dv-01: Basic documentation verification script + just docs-verify target**
+
+- Introduced `scripts/verify-docs` — a simple, maintainable script for mechanical documentation checks.
+- Added `just docs-verify` target that runs the script.
+- Initial checks: mdBook build, Zola site build, and basic structural sanity on key files.
+- This is the foundation for ongoing documentation quality gates aligned with the post-remediation canonical standards.
+
+This work will be expanded in subsequent small stacked PRs.
