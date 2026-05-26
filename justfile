@@ -61,3 +61,6 @@ docs-serve:
 # Documentation verification (new quality gate)
 docs-verify:
     @./scripts/verify-docs
+
+docs-verify-report:
+    @./scripts/verify-docs --html

@@ -243,3 +243,9 @@ This work will be expanded in subsequent small stacked PRs.
   - Proper mention of canonical portable structure in AGENTS.md and book docs.
   - Early detection of ferro-wg or pre-remediation leakage in active documentation.
 - These checks help prevent drift from the standards established during the sr/01–sr/12 skill remediation campaign.
+
+**Commit dv-03: Add HTML report generation**
+
+- Added `--html` support to `scripts/verify-docs`.
+- New `just docs-verify-report` target that generates a self-contained Tailwind HTML report at `docs/docs-verification-report.html`.
+- Report follows the project's HTML-first convention and summarizes check results in a human-scannable format.

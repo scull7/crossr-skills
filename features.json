@@ -76,7 +76,8 @@
     "status": "in_progress",
     "commits": [
       {"id": "dv-01", "title": "Basic documentation verification script + just docs-verify target", "status": "completed"},
-      {"id": "dv-02", "title": "Expand docs-verify with post-remediation drift checks (Harness Relationship, canonical structure, etc.)", "status": "in_progress"}
+      {"id": "dv-02", "title": "Expand docs-verify with post-remediation drift checks (Harness Relationship, canonical structure, etc.)", "status": "completed"},
+      {"id": "dv-03", "title": "Add HTML report generation to docs-verify (docs-verify-report target)", "status": "in_progress"}
     ]
   }
 }
