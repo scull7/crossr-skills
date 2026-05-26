@@ -57,3 +57,7 @@ docs-build:
 
 docs-serve:
     @echo "For local combined serving, build with 'just docs-build' then serve site/public"
+
+# Documentation verification (new quality gate)
+docs-verify:
+    @./scripts/verify-docs

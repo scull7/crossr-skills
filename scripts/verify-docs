@@ -1,0 +1,85 @@
+#!/usr/bin/env bash
+#
+# verify-docs
+# Basic mechanical verification of the project's documentation.
+#
+# Usage: ./scripts/verify-docs
+#
+# This is the foundation for documentation quality gates in the harness.
+# It will be expanded in subsequent PRs with more sophisticated checks.
+
+set -euo pipefail
+
+echo "→ Running documentation verification..."
+
+FAILED=0
+
+# 1. Verify mdBook builds cleanly (if mdbook is available)
+echo ""
+echo "Checking mdBook documentation..."
+if command -v mdbook >/dev/null 2>&1; then
+    if cd book && mdbook build > /dev/null 2>&1; then
+        echo "  ✓ mdBook builds successfully"
+    else
+        echo "  ✗ mdBook build failed"
+        FAILED=1
+    fi
+    cd - > /dev/null
+else
+    echo "  (mdbook not installed — skipping)"
+fi
+
+# 2. Verify Zola site builds cleanly (if zola is available)
+echo ""
+echo "Checking Zola marketing site..."
+if command -v zola >/dev/null 2>&1; then
+    if cd site && zola build --force > /dev/null 2>&1; then
+        echo "  ✓ Zola site builds successfully"
+    else
+        echo "  ✗ Zola site build failed"
+        FAILED=1
+    fi
+    cd - > /dev/null
+else
+    echo "  (zola not installed — skipping)"
+fi
+
+# 3. Basic structural sanity checks (foundational - will be expanded)
+echo ""
+echo "Running basic structural checks..."
+
+# Check that key documentation files exist and have minimum expected content
+if [ -f "book/src/skills/overview.md" ]; then
+    if grep -q "agentskills.io" "book/src/skills/overview.md"; then
+        echo "  ✓ book/src/skills/overview.md looks reasonable"
+    else
+        echo "  ✗ book/src/skills/overview.md missing expected content"
+        FAILED=1
+    fi
+else
+    echo "  ✗ Missing book/src/skills/overview.md"
+    FAILED=1
+fi
+
+if [ -f "HARNESS-SPEC.md" ]; then
+    echo "  ✓ HARNESS-SPEC.md exists"
+else
+    echo "  ✗ Missing HARNESS-SPEC.md"
+    FAILED=1
+fi
+
+if [ -f "AGENTS.md" ]; then
+    echo "  ✓ AGENTS.md exists"
+else
+    echo "  ✗ Missing AGENTS.md"
+    FAILED=1
+fi
+
+echo ""
+if [ $FAILED -eq 0 ]; then
+    echo "✓ All documentation verification checks passed."
+    exit 0
+else
+    echo "✗ Documentation verification failed."
+    exit 1
+fi
