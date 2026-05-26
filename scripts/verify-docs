@@ -44,34 +44,47 @@ else
     echo "  (zola not installed — skipping)"
 fi
 
-# 3. Basic structural sanity checks (foundational - will be expanded)
+# 3. Post-remediation drift checks (expanded in dv-02)
 echo ""
-echo "Running basic structural checks..."
+echo "Running post-remediation drift checks..."
 
-# Check that key documentation files exist and have minimum expected content
-if [ -f "book/src/skills/overview.md" ]; then
-    if grep -q "agentskills.io" "book/src/skills/overview.md"; then
-        echo "  ✓ book/src/skills/overview.md looks reasonable"
-    else
-        echo "  ✗ book/src/skills/overview.md missing expected content"
-        FAILED=1
-    fi
+# Ensure the canonical Harness Relationship (Stratified) principle is documented
+if grep -q "Harness Relationship (Stratified)" HARNESS-SPEC.md; then
+    echo "  ✓ HARNESS-SPEC.md references Harness Relationship (Stratified) principle"
 else
-    echo "  ✗ Missing book/src/skills/overview.md"
+    echo "  ✗ HARNESS-SPEC.md missing Harness Relationship (Stratified) principle"
     FAILED=1
 fi
 
-if [ -f "HARNESS-SPEC.md" ]; then
-    echo "  ✓ HARNESS-SPEC.md exists"
+# Ensure AGENTS.md mentions the canonical structure
+if grep -q "canonical portable structure" AGENTS.md; then
+    echo "  ✓ AGENTS.md references canonical portable structure"
 else
-    echo "  ✗ Missing HARNESS-SPEC.md"
+    echo "  ✗ AGENTS.md missing reference to canonical portable structure"
     FAILED=1
 fi
 
-if [ -f "AGENTS.md" ]; then
-    echo "  ✓ AGENTS.md exists"
+# Ensure the skills overview in the book reflects the new standards
+if grep -q "Harness Relationship (Stratified)" book/src/skills/overview.md; then
+    echo "  ✓ book/src/skills/overview.md references Harness Relationship (Stratified)"
 else
-    echo "  ✗ Missing AGENTS.md"
+    echo "  ✗ book/src/skills/overview.md missing Harness Relationship (Stratified) reference"
+    FAILED=1
+fi
+
+# Check for inappropriate ferro-wg leakage in active docs (outside remediation reports)
+if grep -r "ferro-wg" --include="*.md" book/ site/content/ 2>/dev/null | grep -v remediation | grep -v "proven on ferro-wg" | grep -q .; then
+    echo "  ✗ Found potential ferro-wg leakage in book/ or site/ documentation"
+    FAILED=1
+else
+    echo "  ✓ No inappropriate ferro-wg leakage detected in active docs"
+fi
+
+# Basic existence checks for key files (kept from dv-01)
+if [ -f "book/src/skills/overview.md" ] && [ -f "HARNESS-SPEC.md" ] && [ -f "AGENTS.md" ]; then
+    echo "  ✓ Key documentation files present"
+else
+    echo "  ✗ One or more key documentation files missing"
     FAILED=1
 fi
 

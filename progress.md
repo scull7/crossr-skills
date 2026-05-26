@@ -235,3 +235,11 @@ All 12 skills in `.agents/skills/` have been remediated to 100/100 (with 5/5 on 
 - This is the foundation for ongoing documentation quality gates aligned with the post-remediation canonical standards.
 
 This work will be expanded in subsequent small stacked PRs.
+
+**Commit dv-02: Expand docs-verify with post-remediation drift checks**
+
+- Added targeted checks in `scripts/verify-docs` for:
+  - Presence of "Harness Relationship (Stratified)" references in core docs.
+  - Proper mention of canonical portable structure in AGENTS.md and book docs.
+  - Early detection of ferro-wg or pre-remediation leakage in active documentation.
+- These checks help prevent drift from the standards established during the sr/01–sr/12 skill remediation campaign.
