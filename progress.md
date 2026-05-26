@@ -249,3 +249,11 @@ This work will be expanded in subsequent small stacked PRs.
 - Added `--html` support to `scripts/verify-docs`.
 - New `just docs-verify-report` target that generates a self-contained Tailwind HTML report at `docs/docs-verification-report.html`.
 - Report follows the project's HTML-first convention and summarizes check results in a human-scannable format.
+
+**Commit dv-04: Deep integration of docs-verify**
+
+- `just harness-validate` now runs `docs-verify` as its first step.
+- Added recommendation in AGENTS.md to run `just docs-verify`.
+- Updated bootstrap documentation to mention the new verification command after bootstrapping.
+
+Documentation verification is now a first-class part of the standard harness workflow.
