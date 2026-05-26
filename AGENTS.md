@@ -34,7 +34,8 @@ Always use the `justfile` for canonical commands:
 - `just test`
 - `just clippy`
 - `just fmt`
-- `just harness-validate` — Validate `features.json` against the schema
+- `just harness-validate` — Validate `features.json` + run `docs-verify`
+- `just docs-verify` — Verify documentation alignment with current canonical standards
 
 Run the appropriate commands before declaring work complete.
 

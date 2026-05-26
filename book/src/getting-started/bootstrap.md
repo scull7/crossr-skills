@@ -33,6 +33,8 @@ just harness-validate
 just init
 ```
 
+`just harness-validate` now also runs `just docs-verify` to ensure documentation stays aligned with the current canonical standards.
+
 Then begin your first piece of work using the PETC loop.
 
 The bootstrap script itself is part of the harness and is maintained using the same process it enables.
