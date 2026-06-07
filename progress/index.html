@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>crossr-skills Progress Tracker</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&amp;family=Space+Grotesk:wght@500;600&amp;display=swap');
+  :root { --forge-orange: #f97316; }
+</style>
+</head>
+<body class="bg-zinc-950 text-zinc-100">
+  <div class="max-w-7xl mx-auto p-8">
+    <header class="flex items-center justify-between mb-12">
+      <div>
+        <h1 class="text-4xl font-bold tracking-tight" style="font-family: 'Space Grotesk', sans-serif;">crossr-skills</h1>
+        <p class="text-xl text-zinc-400">Progress Tracker • Powered by features.json + progress.md</p>
+      </div>
+      <a href="https://github.com/scull7/crossr-skills" target="_blank" class="flex items-center gap-2 px-6 py-3 bg-white text-zinc-900 rounded-2xl font-semibold hover:bg-amber-400 transition-colors">
+        <i class="fa-brands fa-github"></i>
+        View Repo
+      </a>
+    </header>
+
+    <div id="dashboard" class="space-y-12"></div>
+  </div>
+
+  <script>
+    // Embed or fetch features.json
+    async function loadData() {
+      // For demo, we'll hardcode the data from features.json for reliability
+      const features = { /* paste the features.json content here */ };
+      renderDashboard(features);
+    }
+
+    function renderDashboard(features) {
+      const dashboard = document.getElementById('dashboard');
+      let html = '';
+
+      Object.keys(features).forEach(key => {
+        const item = features[key];
+        const isCompleted = item.status === 'completed';
+        const completedCount = item.commits.filter(c => c.status === 'completed').length;
+        const totalCommits = item.commits.length;
+        const progress = totalCommits > 0 ? Math.round((completedCount / totalCommits) * 100) : 0;
+
+        html += `
+          <div class="bg-zinc-900 border border-zinc-800 rounded-3xl p-8">
+            <div class="flex items-start justify-between">
+              <div>
+                <span class="inline-flex items-center px-4 py-1.5 rounded-2xl text-sm font-medium ${isCompleted ? 'bg-emerald-500/10 text-emerald-400' : 'bg-amber-500/10 text-amber-400'}">
+                  ${item.status.toUpperCase()}
+                </span>
+                <h2 class="text-3xl font-semibold mt-4 tracking-tight">${key.replace(/-/g, ' ').toUpperCase()}</h2>
+              </div>
+              <div class="text-right">
+                <div class="text-5xl font-bold text-amber-400">${progress}%</div>
+                <div class="text-sm text-zinc-500">PROGRESS</div>
+              </div>
+            </div>
+            <div class="h-2 bg-zinc-800 rounded-2xl mt-8 mb-6 overflow-hidden">
+              <div class="h-2 bg-gradient-to-r from-amber-400 to-orange-500 transition-all" style="width: ${progress}%"></div>
+            </div>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+              ${item.commits.map(commit => `
+                <div class="flex items-center gap-3 bg-zinc-950 p-4 rounded-2xl">
+                  <i class="fa-solid ${commit.status === 'completed' ? 'fa-check-circle text-emerald-400' : 'fa-circle text-zinc-500'} text-xl"></i>
+                  <div class="flex-1">
+                    <div class="font-medium">${commit.title}</div>
+                    <div class="text-xs text-zinc-500">${commit.id}</div>
+                  </div>
+                </div>
+              `).join('')}
+            </div>
+          </div>
+        `;
+      });
+
+      dashboard.innerHTML = html;
+    }
+
+    // Load data on page load
+    window.onload = loadData;
+  </script>
+</body>
+</html>
