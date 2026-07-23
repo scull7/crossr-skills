@@ -56,6 +56,7 @@ All skills are designed with the same standards applied to production Rust code:
 | `rust-code-tester`     | Obsessive test coverage & error-path verification    | Quality       |
 | `rust-architect`       | Torvalds-style system-level architecture gatekeeper  | Architecture  |
 | `rust-team-lead`       | GAN orchestrator for reliable multi-agent workflows  | Orchestration |
+| `avril`                | Planning GAN — blessed PBIs (PO → QA → CTO)          | Orchestration |
 | `rust-axum-backend`    | Clean, layered Axum HTTP APIs with policy gates      | Backend       |
 | `rust-frontend`        | Leptos + WASM + Polars with strong anti-slop guidance| Frontend      |
 | `rust-tui`             | ratatui Component + Action + two-phase dispatch      | TUI           |
