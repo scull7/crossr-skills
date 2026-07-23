@@ -257,3 +257,23 @@ This work will be expanded in subsequent small stacked PRs.
 - Updated bootstrap documentation to mention the new verification command after bootstrapping.
 
 Documentation verification is now a first-class part of the standard harness workflow.
+
+## AVRIL Planning GAN
+
+**Commit avril-01: AVRIL skill + four agent personas (COMPLETED)**
+
+- Added `.agents/skills/avril/SKILL.md` — Automated Visionary Review Iteration Loop (planning GAN orchestrator).
+- Generator → Product Owner → QA Architect → Visionary CTO; explicit `BLESS` / `REJECT`; planning-only stop.
+- Pinto preferred when disclosed; portable PBI shape otherwise (stratified board backend).
+- Agents:
+  - `planning-architect-agent.md` (generator)
+  - `product-owner-agent.md`
+  - `qa-architect-agent.md`
+  - `visionary-cto-agent.md`
+- Updated `.agents/agents/README.md`, `HARNESS-SPEC.md` §12, `AGENTS.md`, `features.json` phase `avril-planning-gan`.
+- Deferred: `avril-02` execution bridge (blessed backlog → PETC / code GAN).
+
+## Verification Status
+- Artifacts present: avril skill + 4 agents + harness wiring
+- Execution bridge: not started (by design)
+

@@ -22,6 +22,8 @@ description: |
 
 The rest of the file contains the detailed guidance, rules, anti-patterns, and activation statements.
 
+All skills in this repository follow the **canonical portable structure** and the **Harness Relationship (Stratified)** principle. Generic/core skills are fully harness-agnostic. Harness-layer and domain skills include a `## Harness Context (Stratified Disclosure)` block that clearly separates portable principles from project-specific realizations (supplied by the invoking harness at activation). The `skill-evaluator` skill and its permanent GAN personas are the authority for maintaining this standard.
+
 ## Claude Compatibility
 
 **Claude compatibility is generated, never hand-maintained.**
@@ -39,7 +41,8 @@ See the individual skill documents linked from the table of contents for details
 - Core writing skills (`code-writer`, `rust-code-writer`)
 - Quality & architecture skills (`rust-code-reviewer`, `rust-code-tester`, `rust-architect`)
 - Domain skills (`rust-axum-backend`, `rust-frontend`, `rust-tui`, `rust-errors`)
-- Meta skills (`agent-harness`)
+- Meta skills (`agent-harness`, `avril`, `skill-evaluator`)
+- Planning orchestration (`avril` — AVRIL planning GAN)
 
 All skills are designed to be combined. The typical activation pattern is:
 

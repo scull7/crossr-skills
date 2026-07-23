@@ -238,6 +238,29 @@ The canonical trio for quality enforcement is:
 
 Projects are encouraged to run the full GAN sequence (Reviewer → Tester → Architect) on significant changes. See `.agents/agents/README.md` for the recommended invocation pattern.
 
+## 12. AVRIL — Planning GAN (Automated Visionary Review Iteration Loop)
+
+Before execution (PETC / code GAN), significant greenfield or prototype work SHOULD run **AVRIL** — the planning Generator-Adversary Network defined by the `avril` skill.
+
+**Loop (non-negotiable order):**
+
+1. **Generator** — `planning-architect-agent` proposes Product Backlog Items (PBIs).
+2. **Adversaries** (each item, every cycle):
+   1. `product-owner-agent` — value, scope, user outcomes
+   2. `qa-architect-agent` — testability, acceptance criteria, failure modes
+   3. `visionary-cto-agent` — strategic fit, two-year trajectory (final gate)
+3. Any `REJECT` returns to the Generator for a minimal revise; material edits invalidate prior blessings.
+4. An item is complete only when all three adversaries emit explicit `BLESS <id>`.
+5. Orchestrator emits a Blessed Backlog Summary and **stops**. Implementation is a separate follow-up skill (execution bridge).
+
+**Board backend (stratified):** Prefer [Pinto](https://github.com/moriturus/pinto) when the project discloses a `.pinto/` board and the `pinto` CLI is available. Otherwise persist the portable PBI shape defined in the `avril` skill. Concrete commands and paths are harness parameters, not hard-wired universals.
+
+**Activation:**
+
+> Using `code-writer` + `avril` to run the Automated Visionary Review Iteration Loop on the current intent until every PBI is triple-blessed.
+
+AVRIL is planning-only. It does not replace the code GAN (Reviewer → Tester → Architect) during implementation.
+
 ---
 
 **Whatever you do, work at it with all your heart, as working for the Lord.** — Colossians 3:23

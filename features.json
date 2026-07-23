@@ -80,5 +80,32 @@
       {"id": "dv-03", "title": "Add HTML report generation to docs-verify (docs-verify-report target)", "status": "completed"},
       {"id": "dv-04", "title": "Deep integration of docs-verify into harness workflow (harness-validate, AGENTS.md, bootstrap docs)", "status": "in_progress"}
     ]
+  },
+  "avril-planning-gan": {
+    "status": "in_progress",
+    "commits": [
+      {
+        "id": "avril-01",
+        "title": "AVRIL planning GAN skill + four agent personas (plan-only, Pinto-preferred)",
+        "status": "completed",
+        "features": [
+          "avril-orchestrator-skill",
+          "planning-architect-agent",
+          "product-owner-agent",
+          "qa-architect-agent",
+          "visionary-cto-agent",
+          "agents-readme-avril",
+          "harness-spec-avril-section"
+        ]
+      },
+      {
+        "id": "avril-02",
+        "title": "Execution bridge from blessed backlog to PETC / code GAN (deferred)",
+        "status": "pending",
+        "features": [
+          "blessed-backlog-to-execution-handoff"
+        ]
+      }
+    ]
   }
 }
