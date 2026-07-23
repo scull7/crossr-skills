@@ -45,7 +45,7 @@ Run the appropriate commands before declaring work complete.
 
 - `HARNESS-SPEC.md` — The authoritative process specification. Read this for how work is done here.
 - `.agents/skills/` — All reusable capabilities (agentskills.io format). All skills follow the canonical portable structure with proper Harness Relationship (Stratified) disclosure (see HARNESS-SPEC.md).
-- `.agents/agents/` — Reusable agent personas (e.g., reviewer, tester, architect). The permanent `skill-evaluator-agent`, `skill-remediator-agent`, and `skill-reviewer-agent` are used for all skill remediation work. Planning consensus uses AVRIL personas: `planning-architect-agent`, `product-owner-agent`, `qa-architect-agent`, `visionary-cto-agent` (skill: `avril`).
+- `.agents/agents/` — Reusable agent personas (e.g., reviewer, tester, architect). The permanent `skill-evaluator-agent`, `skill-remediator-agent`, and `skill-reviewer-agent` are used for all skill remediation work. Planning consensus uses AVRIL personas: `planning-architect-agent`, `product-owner-agent`, `qa-architect-agent`, `visionary-cto-agent` (skill: `avril`). Execution uses `axel-conductor-agent` (skill: `axel`) plus the code GAN trio.
 - `features.json` + `progress.md` — Machine + human tracking of work (phase → commits → features model).
 - `scripts/harness-bootstrap` — Tool to scaffold the full harness in new projects.
 - `scripts/sync-skills` — Tool to keep skills in sync across projects.
@@ -91,6 +91,7 @@ Example filenames: `architecture-review.html`, `pr-summary.html`, `deploy-guide.
 4. Produce HTML for human review artifacts when applicable.
 5. Follow the GAN cycle (Reviewer → Tester → Architect) for significant changes using the agents in `.agents/agents/`.
 5b. For significant planning / prototype backlog work, run AVRIL (`code-writer` + `avril`) until every PBI is triple-blessed (PO → QA → CTO) before execution.
+5c. For executing a blessed backlog, run AXEL (`code-writer` + `axel` + language stack; Rust: inner `rust-team-lead`) — PETC per phase, code GAN BLESS × 3, AC evidence, honest board/tracking.
 6. Deliver work in small, stacked, reviewable PRs.
 7. Update `features.json` + `progress.md` as you go.
 

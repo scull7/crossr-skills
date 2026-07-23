@@ -251,7 +251,7 @@ Before execution (PETC / code GAN), significant greenfield or prototype work SHO
    3. `visionary-cto-agent` — strategic fit, two-year trajectory (final gate)
 3. Any `REJECT` returns to the Generator for a minimal revise; material edits invalidate prior blessings.
 4. An item is complete only when all three adversaries emit explicit `BLESS <id>`.
-5. Orchestrator emits a Blessed Backlog Summary and **stops**. Implementation is a separate follow-up skill (execution bridge).
+5. Orchestrator emits a Blessed Backlog Summary and **stops**. Implementation is owned by **AXEL** (§13).
 
 **Board backend (stratified):** Prefer [Pinto](https://github.com/moriturus/pinto) when the project discloses a `.pinto/` board and the `pinto` CLI is available. Otherwise persist the portable PBI shape defined in the `avril` skill. Concrete commands and paths are harness parameters, not hard-wired universals.
 
@@ -260,6 +260,42 @@ Before execution (PETC / code GAN), significant greenfield or prototype work SHO
 > Using `code-writer` + `avril` to run the Automated Visionary Review Iteration Loop on the current intent until every PBI is triple-blessed.
 
 AVRIL is planning-only. It does not replace the code GAN (Reviewer → Tester → Architect) during implementation.
+
+## 13. AXEL — Execution Loop (Automated eXecution Loop)
+
+After AVRIL (or equivalent human authorization of a finite PBI set), significant implementation SHOULD run **AXEL** — the execution orchestrator defined by the `axel` skill.
+
+**End-to-end pipeline:**
+
+```
+Intent → AVRIL (plan GAN) → Blessed Backlog → AXEL (PETC + code GAN) → Done PBIs
+```
+
+**Loop (per blessed PBI):**
+
+1. **Intake gate** — Refuse work unless AVRIL-blessed, board-marked blessed, or explicitly human-authorized.
+2. **Select** — One ready PBI (dependencies complete; prefer `pinto next` when available).
+3. **Plan** — Concise PETC plan; unresolved questions blocking → stop for human.
+4. **Board** — `in-progress` while executing.
+5. **Decompose** — Smallest semantic phases; state “phase k of n”.
+6. **Code GAN** (each phase, fixed order):
+   1. Generator (`code-writer` + language/domain; Rust often via `rust-team-lead`)
+   2. Reviewer → Tester → Architect — each must emit explicit `BLESS`
+   3. On `REJECT`: minimal fix + full re-chain
+   4. Commit + update tracking (PBI id in message/artifacts)
+7. **AC evidence gate** — Every acceptance criterion needs recorded evidence; harness verification matrix green.
+8. **Board** — `review` then `done` only when AC are complete (incomplete AC is a hard stop).
+9. Emit PBI Completion Record; advance or stop.
+
+**Board backend:** Same stratified Pinto-preferred rules as AVRIL. AXEL keeps board status honest; it does not invent scope (scope changes return to AVRIL).
+
+**Rust pairing:** On Rust codebases, AXEL owns backlog/board/AC/tracking; `rust-team-lead` is the preferred **inner** code GAN for implementation phases. AXEL still enforces intake, AC evidence, and done criteria.
+
+**Activation:**
+
+> Using `code-writer` + `axel` (+ disclosed language/domain skills; Rust: `rust-code-writer` + `rust-team-lead` as inner GAN) to execute the next blessed PBI through PETC until AC are evidenced and the board is honest.
+
+AXEL conductors never write, edit, or review code themselves. Persona: `axel-conductor-agent`.
 
 ---
 
