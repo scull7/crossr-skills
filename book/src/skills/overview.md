@@ -41,8 +41,8 @@ See the individual skill documents linked from the table of contents for details
 - Core writing skills (`code-writer`, `rust-code-writer`)
 - Quality & architecture skills (`rust-code-reviewer`, `rust-code-tester`, `rust-architect`)
 - Domain skills (`rust-axum-backend`, `rust-frontend`, `rust-tui`, `rust-errors`)
-- Meta skills (`agent-harness`, `avril`, `skill-evaluator`)
-- Planning orchestration (`avril` — AVRIL planning GAN)
+- Meta skills (`agent-harness`, `avril`, `axel`, `skill-evaluator`)
+- Planning / execution orchestration (`avril` planning GAN → `axel` execution loop)
 
 All skills are designed to be combined. The typical activation pattern is:
 

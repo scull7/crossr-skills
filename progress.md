@@ -271,9 +271,17 @@ Documentation verification is now a first-class part of the standard harness wor
   - `qa-architect-agent.md`
   - `visionary-cto-agent.md`
 - Updated `.agents/agents/README.md`, `HARNESS-SPEC.md` §12, `AGENTS.md`, `features.json` phase `avril-planning-gan`.
-- Deferred: `avril-02` execution bridge (blessed backlog → PETC / code GAN).
+
+**Commit avril-02: AXEL execution loop (COMPLETED)**
+
+- Added `.agents/skills/axel/SKILL.md` — Automated eXecution Loop (blessed backlog → PETC + code GAN).
+- Intake gate (AVRIL blessing / marker / human ids); per-PBI plan → in-progress → phases → Reviewer→Tester→Architect BLESS → AC evidence → done.
+- Pinto preferred; pairs with `rust-team-lead` as inner Rust code GAN.
+- Agent: `axel-conductor-agent.md`.
+- Wired: `HARNESS-SPEC.md` §13, `AGENTS.md` 5c, agents README pipeline diagram, AVRIL handoff language.
+- Phase `avril-planning-gan` marked completed.
 
 ## Verification Status
-- Artifacts present: avril skill + 4 agents + harness wiring
-- Execution bridge: not started (by design)
+- Artifacts present: avril + axel skills, planning quartet + axel conductor, harness wiring
+- Pipeline: Intent → AVRIL → Blessed Backlog → AXEL → Done
 

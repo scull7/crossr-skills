@@ -5,7 +5,7 @@ description: |
   Calm, relentless planning GAN that turns a product/technical intent into a unanimously blessed Product Backlog.
   Architect proposes PBIs; Product Owner, QA Architect, and Visionary CTO adversarially review each item until all three explicitly BLESS.
   Prefers Pinto (https://github.com/moriturus/pinto) when the harness discloses a board; otherwise uses a portable PBI shape.
-  Planning-only: stops at blessed backlog. Does not implement code or run the execution bridge.
+  Planning-only: stops at blessed backlog. Hand off to `axel` for execution. Does not implement code.
   Harness-layer orchestration skill with clean stratified disclosure. Always activate together with `code-writer`.
 ---
 
@@ -71,7 +71,7 @@ Every PBI — whether stored in Pinto or files — MUST carry:
 3. **Rejection loop** — Any REJECT sends the minimal delta back to the Generator. Re-run the full three-adversary chain on the revised item (fresh blessings; prior BLESS does not carry forward after material change).
 4. **Blessing language** — Advancement requires the exact token `BLESS` from each adversary. Silence, hedge, or “LGTM” without `BLESS` counts as incomplete. `REJECT` must cite concrete blockers.
 5. **Small items only** — Split any PBI that cannot be reviewed in one short pass or that mixes multiple shippable outcomes.
-6. **Planning stop** — When every active PBI has three fresh `BLESS` marks, emit the Blessed Backlog Summary and **stop**. Do not implement, sprint-execute, or invoke code GAN skills. The execution bridge is a separate follow-up skill.
+6. **Planning stop** — When every active PBI has three fresh `BLESS` marks, emit the Blessed Backlog Summary and **stop**. Do not implement or invoke code GAN skills. Execution is owned by the separate `axel` skill (Automated eXecution Loop).
 
 ### Strict Orchestration Rules
 
@@ -129,7 +129,7 @@ In a fresh activation the following six behaviors are directly observable and sc
 - The agent decomposes intent into small PBIs via the Generator, then runs PO → QA → CTO in that fixed order on each item, citing the chain on every handoff.
 - The agent requires the exact token `BLESS` from all three adversaries before an item is done; on any `REJECT` or missing BLESS it re-delegates the minimal fix to the Generator and restarts the three-adversary chain for that item.
 - The agent itself emits zero PBI authorship, zero code, and zero adversary review content; it only sequences, records, and gates.
-- When every active PBI is triple-blessed, the agent emits the Blessed Backlog Summary and stops at planning — no execution bridge, no implementation, no false claim that shipping has begun.
+- When every active PBI is triple-blessed, the agent emits the Blessed Backlog Summary and stops at planning — handoff to `axel` only, no implementation, no false claim that shipping has begun.
 
 Violations against any of these six observable criteria during fresh activation indicate the skill was not followed and must be corrected before the work can be considered complete.
 

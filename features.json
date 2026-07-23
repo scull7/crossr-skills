@@ -82,7 +82,7 @@
     ]
   },
   "avril-planning-gan": {
-    "status": "in_progress",
+    "status": "completed",
     "commits": [
       {
         "id": "avril-01",
@@ -100,10 +100,14 @@
       },
       {
         "id": "avril-02",
-        "title": "Execution bridge from blessed backlog to PETC / code GAN (deferred)",
-        "status": "pending",
+        "title": "AXEL execution loop skill + conductor agent (blessed backlog → PETC / code GAN)",
+        "status": "completed",
         "features": [
-          "blessed-backlog-to-execution-handoff"
+          "axel-orchestrator-skill",
+          "axel-conductor-agent",
+          "avril-axel-handoff",
+          "harness-spec-axel-section",
+          "agents-readme-axel"
         ]
       }
     ]
