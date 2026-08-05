@@ -1,0 +1,216 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>crossr-skills • Public Docs Alignment Plan (AVRIL / AXEL)</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Space+Grotesk:wght@500;600&display=swap');
+    body { font-family: 'Inter', system-ui, sans-serif; }
+    .font-display { font-family: 'Space Grotesk', 'Inter', sans-serif; }
+    .section-header { scroll-margin-top: 5rem; }
+    pre, code { font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace; }
+  </style>
+</head>
+<body class="bg-slate-950 text-slate-200">
+  <nav class="sticky top-0 z-50 border-b border-slate-800 bg-slate-950/95 backdrop-blur">
+    <div class="max-w-5xl mx-auto px-6 h-14 flex items-center justify-between">
+      <div class="font-display font-semibold tracking-tight">Public Docs Alignment</div>
+      <div class="flex gap-4 text-xs text-slate-400">
+        <a href="#verdict" class="hover:text-white">Verdict</a>
+        <a href="#drift" class="hover:text-white">Drift</a>
+        <a href="#prs" class="hover:text-white">PRs</a>
+        <a href="#ac" class="hover:text-white">AC</a>
+      </div>
+      <span class="text-xs px-2 py-1 rounded-full bg-amber-500/10 text-amber-400 border border-amber-500/30">PLAN • READY</span>
+    </div>
+  </nav>
+
+  <main class="max-w-5xl mx-auto px-6 py-12 space-y-14">
+    <header>
+      <p class="text-sm text-slate-500 mb-2">crossr-skills · multi-persona review (Architect · PO · QA · User Dev)</p>
+      <h1 class="font-display text-4xl font-semibold tracking-tight text-white mb-4">Make public docs match the product</h1>
+      <p class="text-lg text-slate-300 max-w-3xl leading-relaxed">
+        AVRIL and AXEL are on <code class="text-emerald-400">main</code>. Marketing and mdBook still sell a skill grid without the plan→execute pipeline.
+        This plan is a <strong class="text-white">thin progressive lens</strong> over HARNESS-SPEC — not a second canon.
+      </p>
+      <div class="mt-6 p-4 rounded-2xl bg-zinc-900 border border-zinc-800 font-mono text-sm text-emerald-300 overflow-x-auto">
+        Intent → AVRIL (plan GAN) → Blessed Backlog → AXEL (PETC + code GAN) → Done
+      </div>
+    </header>
+
+    <section id="verdict" class="section-header">
+      <h2 class="font-display text-2xl font-semibold mb-4">Persona verdicts</h2>
+      <div class="grid md:grid-cols-2 gap-4">
+        <div class="p-5 rounded-2xl bg-zinc-900 border border-emerald-500/30">
+          <div class="text-emerald-400 text-xs font-semibold mb-1">ARCHITECT · BLESS (thin lens)</div>
+          <p class="text-sm text-slate-300">REJECT mirror-everything. Book owns pipeline digests + catalog table. Site owns one diagram + CTA. SKILL.md / HARNESS-SPEC remain SoT.</p>
+        </div>
+        <div class="p-5 rounded-2xl bg-zinc-900 border border-emerald-500/30">
+          <div class="text-emerald-400 text-xs font-semibold mb-1">PRODUCT OWNER · BLESS</div>
+          <p class="text-sm text-slate-300">Primary JTBD: decide in &lt;2 min, adopt in one sitting. Flagship is the pipeline hard stop + intake gate — not a skill supermarket.</p>
+        </div>
+        <div class="p-5 rounded-2xl bg-zinc-900 border border-amber-500/30">
+          <div class="text-amber-400 text-xs font-semibold mb-1">QA · BLESS (conditional)</div>
+          <p class="text-sm text-slate-300">Must ship public allowlist SSOT + docs-verify set/count/stub/TOC gates + honest HTML report. Without gates → REJECT.</p>
+        </div>
+        <div class="p-5 rounded-2xl bg-zinc-900 border border-amber-500/30">
+          <div class="text-amber-400 text-xs font-semibold mb-1">USER DEV · BLESS when specifics land</div>
+          <p class="text-sm text-slate-300">Homepage pipeline, honest catalog, paste-ready AVRIL/AXEL first-run, anti-drift CI, kill empty ferro-* proof or link it.</p>
+        </div>
+      </div>
+    </section>
+
+    <section id="value" class="section-header">
+      <h2 class="font-display text-2xl font-semibold mb-3">Value narrative</h2>
+      <p class="text-slate-300 mb-2"><strong class="text-white">One line:</strong> Stop agents from coding the wrong thing — AVRIL triple-blesses the backlog; AXEL executes only that backlog through PETC + code GAN until AC are proven.</p>
+      <p class="text-sm text-slate-400">Copy constraint: never blur planning and execution into one step. Hard planning stop + AXEL intake gate stay explicit.</p>
+    </section>
+
+    <section id="drift" class="section-header">
+      <h2 class="font-display text-2xl font-semibold mb-4">Known drift (P0/P1 bugs)</h2>
+      <ul class="space-y-2 text-sm">
+        <li class="flex gap-3"><span class="text-red-400 font-mono shrink-0">P0</span><span>Site: “11+ production-grade skills” + 10 pills omit <code>avril</code>, <code>axel</code>, <code>rust-team-lead</code></span></li>
+        <li class="flex gap-3"><span class="text-red-400 font-mono shrink-0">P0</span><span>Book skills overview promises TOC-linked individual skill docs — none exist</span></li>
+        <li class="flex gap-3"><span class="text-red-400 font-mono shrink-0">P0</span><span>AVRIL/AXEL only named once in book; absent from marketing</span></li>
+        <li class="flex gap-3"><span class="text-amber-400 font-mono shrink-0">P1</span><span>README missing <code>skill-evaluator</code> (and should not market <code>obsidian-cli</code> / empty diataxis stubs)</span></li>
+        <li class="flex gap-3"><span class="text-amber-400 font-mono shrink-0">P1</span><span><code>docs-verify</code> lacks catalog consistency; HTML report always shows PASS</span></li>
+        <li class="flex gap-3"><span class="text-slate-500 font-mono shrink-0">P2</span><span>ferro-wave / ferro-wg namedrops without links; rust-tui pill cites ferro-wg</span></li>
+      </ul>
+    </section>
+
+    <section id="ia" class="section-header">
+      <h2 class="font-display text-2xl font-semibold mb-4">Information architecture</h2>
+      <div class="overflow-x-auto rounded-2xl border border-zinc-800">
+        <table class="w-full text-sm">
+          <thead class="bg-zinc-900 text-slate-400 text-left">
+            <tr><th class="p-3">Surface</th><th class="p-3">Owns</th><th class="p-3">Must not own</th></tr>
+          </thead>
+          <tbody class="divide-y divide-zinc-800">
+            <tr><td class="p-3 font-medium text-white">Marketing</td><td class="p-3">Promise, pipeline diagram, CTAs, featured subset</td><td class="p-3">Full skill bodies, agent prompts</td></tr>
+            <tr><td class="p-3 font-medium text-white">mdBook</td><td class="p-3">Pipeline chapters, catalog table, bootstrap + first-run</td><td class="p-3">HARNESS-SPEC dump; per-skill pages (v1)</td></tr>
+            <tr><td class="p-3 font-medium text-white">README</td><td class="p-3">Full public catalog table, quick start, links</td><td class="p-3">Long narrative</td></tr>
+            <tr><td class="p-3 font-medium text-white">Canon</td><td class="p-3">HARNESS-SPEC, AGENTS.md, SKILL.md, agents</td><td class="p-3">—</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <h3 class="font-semibold mt-6 mb-2 text-white">Public catalog allowlist (v1)</h3>
+      <p class="text-sm text-slate-400 mb-2">SSOT file to add: <code class="text-emerald-400">docs/public-skills.json</code> (machine-checked).</p>
+      <p class="text-sm text-slate-300 font-mono leading-relaxed">
+        code-writer · rust-code-writer · rust-code-reviewer · rust-code-tester · rust-architect · rust-team-lead ·
+        avril · axel · rust-axum-backend · rust-frontend · rust-tui · rust-errors · agent-harness · skill-evaluator
+      </p>
+      <p class="text-sm text-slate-500 mt-2"><strong class="text-slate-400">Out:</strong> obsidian-cli · empty diataxis-* stubs · remediation HTML. <strong class="text-slate-400">TBD:</strong> diataxis (only when non-stub and useful).</p>
+    </section>
+
+    <section id="content" class="section-header">
+      <h2 class="font-display text-2xl font-semibold mb-4">Content requirements</h2>
+      <div class="grid md:grid-cols-2 gap-4 text-sm">
+        <div class="p-5 rounded-2xl bg-zinc-900 border border-zinc-800">
+          <h3 class="font-semibold text-white mb-2">Marketing (must)</h3>
+          <ul class="list-disc list-inside text-slate-300 space-y-1">
+            <li>Hero: pipeline named AVRIL → AXEL</li>
+            <li>Diagram matching book / agents README</li>
+            <li>Kill “11+”; exact count or “Featured” + full N</li>
+            <li>CTAs: Bootstrap · Pipeline docs · GitHub</li>
+            <li>Link or remove ferro-* proof</li>
+            <li>Tone: shop manual, not incense</li>
+          </ul>
+        </div>
+        <div class="p-5 rounded-2xl bg-zinc-900 border border-zinc-800">
+          <h3 class="font-semibold text-white mb-2">Book (must)</h3>
+          <ul class="list-disc list-inside text-slate-300 space-y-1">
+            <li><code>pipeline/overview.md</code></li>
+            <li><code>pipeline/avril.md</code> — activation, BLESS order, toy PBIs</li>
+            <li><code>pipeline/axel.md</code> — intake, PETC, AC evidence, rust-team-lead</li>
+            <li>Catalog table only (no per-skill pages v1)</li>
+            <li>Kill broken TOC-skill promise</li>
+            <li>Bootstrap: two paste-ready first-run prompts</li>
+          </ul>
+        </div>
+      </div>
+      <div class="mt-4 p-4 rounded-2xl border border-zinc-800 bg-zinc-900/50 text-sm text-slate-300">
+        <strong class="text-white">Book nav order:</strong> Intro → Pipeline (overview / AVRIL / AXEL) → Getting Started (bootstrap + first session) → Skills catalog → Harness deep dives
+      </div>
+    </section>
+
+    <section id="prs" class="section-header">
+      <h2 class="font-display text-2xl font-semibold mb-4">Stacked PRs (user-value order)</h2>
+      <div class="space-y-3">
+        <div class="p-4 rounded-xl bg-zinc-900 border border-zinc-800 flex gap-4">
+          <span class="font-mono text-emerald-400 shrink-0">docs-ia-01</span>
+          <div class="text-sm"><strong class="text-white">Truth + allowlist SSOT</strong> — <code>docs/public-skills.json</code>; fix README table; kill false counts/promises in copy that block trust. No full redesign yet.</div>
+        </div>
+        <div class="p-4 rounded-xl bg-zinc-900 border border-zinc-800 flex gap-4">
+          <span class="font-mono text-emerald-400 shrink-0">docs-ia-02</span>
+          <div class="text-sm"><strong class="text-white">Book pipeline chapters</strong> — overview + AVRIL + AXEL (thin contracts + activations + toy). SUMMARY wired.</div>
+        </div>
+        <div class="p-4 rounded-xl bg-zinc-900 border border-zinc-800 flex gap-4">
+          <span class="font-mono text-emerald-400 shrink-0">docs-ia-03</span>
+          <div class="text-sm"><strong class="text-white">Book catalog + bootstrap first-run</strong> — table = allowlist; paste-ready AVRIL/AXEL prompts; remove TOC lie.</div>
+        </div>
+        <div class="p-4 rounded-xl bg-zinc-900 border border-zinc-800 flex gap-4">
+          <span class="font-mono text-emerald-400 shrink-0">docs-ia-04</span>
+          <div class="text-sm"><strong class="text-white">Marketing reshape</strong> — pipeline section, skill section policy (featured subset OK if “full N” checked), drop “11+”.</div>
+        </div>
+        <div class="p-4 rounded-xl bg-zinc-900 border border-zinc-800 flex gap-4">
+          <span class="font-mono text-emerald-400 shrink-0">docs-ia-05</span>
+          <div class="text-sm"><strong class="text-white">Cross-link polish</strong> — README ↔ book ↔ site; intro consistency.</div>
+        </div>
+        <div class="p-4 rounded-xl bg-zinc-900 border border-zinc-800 flex gap-4">
+          <span class="font-mono text-emerald-400 shrink-0">docs-ia-06</span>
+          <div class="text-sm"><strong class="text-white">docs-verify gates</strong> — set equality, stub ban, count claim, TOC honesty, HTML report = exit code; CI requires mdbook+zola.</div>
+        </div>
+      </div>
+      <p class="text-xs text-slate-500 mt-3">Merge-order rule: no PR may leave a stricter surface claiming more skills than a weaker one. Prefer not to ship site-only catalog ahead of book.</p>
+    </section>
+
+    <section id="verify" class="section-header">
+      <h2 class="font-display text-2xl font-semibold mb-4">docs-verify must gain</h2>
+      <ul class="text-sm text-slate-300 space-y-1 list-disc list-inside">
+        <li>Parse <code>docs/public-skills.json</code>; every entry has non-empty SKILL.md</li>
+        <li>Extract names from site pills / README table / book catalog → equal allowlist (or documented featured subset + full N)</li>
+        <li>Ban stub names on public surfaces</li>
+        <li>Fail if overview promises TOC skill pages while SUMMARY has none</li>
+        <li>If public mentions AVRIL/AXEL → HARNESS-SPEC §12/§13 headings exist</li>
+        <li>HTML report status driven by <code>$FAILED</code> (no hardcoded PASS)</li>
+      </ul>
+    </section>
+
+    <section id="ac" class="section-header">
+      <h2 class="font-display text-2xl font-semibold mb-4">Definition of Done — public docs match product</h2>
+      <ul class="space-y-2 text-sm">
+        <li class="flex gap-2"><input type="checkbox" disabled class="mt-1"> Primary story is Intent → AVRIL → Blessed Backlog → AXEL → Done</li>
+        <li class="flex gap-2"><input type="checkbox" disabled class="mt-1"> Marketing: pipeline visual + CTA; no false skill counts</li>
+        <li class="flex gap-2"><input type="checkbox" disabled class="mt-1"> Book: pipeline chapters + catalog table only; zero broken skill-page promises</li>
+        <li class="flex gap-2"><input type="checkbox" disabled class="mt-1"> README catalog = public allowlist (includes skill-evaluator; excludes out-set)</li>
+        <li class="flex gap-2"><input type="checkbox" disabled class="mt-1"> Bootstrap path includes paste-ready AVRIL then AXEL</li>
+        <li class="flex gap-2"><input type="checkbox" disabled class="mt-1"> docs-verify enforces catalog/count/stub/TOC; report honest</li>
+        <li class="flex gap-2"><input type="checkbox" disabled class="mt-1"> Public copy does not contradict HARNESS-SPEC §12–13</li>
+        <li class="flex gap-2"><input type="checkbox" disabled class="mt-1"> Manual smoke on combined <code>just docs-build</code> artifact</li>
+      </ul>
+    </section>
+
+    <section id="nongoals" class="section-header">
+      <h2 class="font-display text-2xl font-semibold mb-3">Non-goals</h2>
+      <p class="text-sm text-slate-400">Mirror HARNESS-SPEC · per-skill book pages · public obsidian-cli · empty diataxis stubs · remediation campaign HTML · replacing agent-facing canon with marketing prose.</p>
+    </section>
+
+    <section id="unresolved" class="section-header border-t border-zinc-800 pt-10">
+      <h2 class="font-display text-2xl font-semibold mb-3">Unresolved questions</h2>
+      <ul class="text-sm text-slate-300 list-disc list-inside space-y-1">
+        <li>Include <code>diataxis</code> in public allowlist now (real SKILL.md exists) or wait for quadrant skills?</li>
+        <li>Site skill section: full allowlist pills vs labeled “Featured” subset?</li>
+        <li>ferro-wave / ferro-wg: link public artifacts, demote to internal note, or delete?</li>
+        <li>Should docs-ia-06 land before or after marketing (docs-ia-04) to lock gates first?</li>
+      </ul>
+    </section>
+
+    <footer class="text-xs text-slate-600 pt-8 border-t border-zinc-900">
+      Generated from Architect + Product Owner + QA + Example User Dev consensus. Canon: HARNESS-SPEC §12–13, AGENTS.md 5b/5c.
+    </footer>
+  </main>
+</body>
+</html>
