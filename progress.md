@@ -285,3 +285,17 @@ Documentation verification is now a first-class part of the standard harness wor
 - Artifacts present: avril + axel skills, planning quartet + axel conductor, harness wiring
 - Pipeline: Intent → AVRIL → Blessed Backlog → AXEL → Done
 
+## Public Docs Alignment (AVRIL / AXEL)
+
+**Commit docs-ia-00: Alignment plan HTML (COMPLETED)**
+
+- Multi-persona review: Software Architect, Product Owner, QA, Example User Dev.
+- Consensus: thin progressive lens over HARNESS-SPEC; pipeline-first public story; catalog table (no per-skill pages v1).
+- Plan artifact: `docs/plans/public-docs-avril-axel-alignment.html`
+- Stacked roadmap: docs-ia-01 … docs-ia-06 (allowlist → pipeline chapters → catalog/bootstrap → marketing → polish → docs-verify gates).
+- Public allowlist (proposed): foundation + rust stack + rust-team-lead + avril + axel + agent-harness + skill-evaluator.
+- Out of public catalog: obsidian-cli, empty diataxis stubs, remediation HTML.
+
+## Verification Status
+- Plan only (no public surface content changes in docs-ia-00)
+- Execution of docs-ia-01+ pending human approval of unresolved questions in the plan

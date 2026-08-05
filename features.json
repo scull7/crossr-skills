@@ -111,5 +111,57 @@
         ]
       }
     ]
+  },
+  "public-docs-alignment": {
+    "status": "in_progress",
+    "commits": [
+      {
+        "id": "docs-ia-00",
+        "title": "Public docs AVRIL/AXEL alignment plan (HTML + multi-persona consensus)",
+        "status": "completed",
+        "features": [
+          "public-docs-alignment-plan-html",
+          "multi-persona-review-verdicts",
+          "stacked-pr-roadmap-docs-ia-01-06"
+        ]
+      },
+      {
+        "id": "docs-ia-01",
+        "title": "Public skills allowlist SSOT + README truth table",
+        "status": "pending",
+        "features": ["public-skills-json", "readme-catalog-sync"]
+      },
+      {
+        "id": "docs-ia-02",
+        "title": "Book pipeline chapters (overview, AVRIL, AXEL)",
+        "status": "pending",
+        "features": ["pipeline-overview", "pipeline-avril", "pipeline-axel"]
+      },
+      {
+        "id": "docs-ia-03",
+        "title": "Book catalog table + bootstrap first-run prompts",
+        "status": "pending",
+        "features": ["skills-catalog-table", "bootstrap-first-run"]
+      },
+      {
+        "id": "docs-ia-04",
+        "title": "Marketing site pipeline + honest skill counts",
+        "status": "pending",
+        "features": ["site-pipeline-section", "site-skill-count-fix"]
+      },
+      {
+        "id": "docs-ia-05",
+        "title": "Cross-link polish README ↔ book ↔ site",
+        "status": "pending",
+        "features": ["cross-surface-links"]
+      },
+      {
+        "id": "docs-ia-06",
+        "title": "docs-verify catalog/count/stub/TOC gates + honest HTML report",
+        "status": "pending",
+        "features": ["docs-verify-allowlist-gates", "docs-verify-report-honesty"]
+      }
+    ]
   }
 }
+
