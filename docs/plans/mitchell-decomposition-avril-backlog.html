@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Blessed Backlog — Mitchell Decomposition (#43)</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-slate-950 text-slate-200">
+  <main class="max-w-3xl mx-auto px-6 py-12 space-y-8">
+    <header>
+      <p class="text-xs text-emerald-400 font-semibold tracking-wide">AVRIL · TRIPLE-BLESSED · PLANNING STOP</p>
+      <h1 class="text-3xl font-semibold text-white mt-2">Mitchell-style decomposition → AVRIL / AXEL</h1>
+      <p class="text-sm text-slate-400 mt-2">Source: <a class="text-emerald-400 underline" href="https://github.com/scull7/crossr-skills/issues/43">#43</a> · Board: Pinto T-7…T-10</p>
+    </header>
+
+    <section class="p-5 rounded-2xl bg-zinc-900 border border-zinc-800 text-sm space-y-3">
+      <h2 class="font-semibold text-white">Intent</h2>
+      <p>Integrate Mitchell Hashimoto’s optional “draw the owl → threshold → decompose → massage → parallel/recursive chunks → periodic re-owl” workflow into CrossR without breaking stacked PRs, AXEL intake, or AVRIL’s planning stop.</p>
+      <h2 class="font-semibold text-white pt-2">Locked decisions</h2>
+      <ul class="list-disc list-inside text-slate-300 space-y-1">
+        <li><strong class="text-white">Primary home:</strong> <code>axel</code> skill + conductor; light hooks in <code>avril</code> — <em>no</em> third orchestration skill in v1</li>
+        <li><strong class="text-white">Default off</strong> — opt-in via human (“mitchell” / “decomposition mode”) or harness disclosure</li>
+        <li><strong class="text-white">Threshold:</strong> 1500 LOC default; LOC = added+deleted from <code>git diff --numstat</code></li>
+        <li><strong class="text-white">Owl</strong> is a bounded spike: discovers seams; does <em>not</em> authorize AXEL without AVRIL triple-BLESS on real PBIs</li>
+        <li><strong class="text-white">Parallel</strong> optional; sequential fallback required</li>
+        <li><strong class="text-white">HITL</strong> remains required for UI/API/architecture invariants</li>
+      </ul>
+    </section>
+
+    <section>
+      <h2 class="font-semibold text-white mb-3">Blessed PBIs</h2>
+      <div class="space-y-3 text-sm">
+        <div class="p-4 rounded-xl border border-emerald-500/20 bg-zinc-900">
+          <div class="font-mono text-emerald-400">T-7 · 3pts · ready</div>
+          <div class="text-white font-medium">Specify Mitchell decomposition contract for AVRIL/AXEL</div>
+          <div class="text-slate-400 text-xs mt-1">docs/plans/mitchell-decomposition-contract.html — full rules + touchpoint map</div>
+        </div>
+        <div class="p-4 rounded-xl border border-emerald-500/20 bg-zinc-900">
+          <div class="font-mono text-emerald-400">T-8 · 5pts · deps T-7</div>
+          <div class="text-white font-medium">Integrate Mitchell decomposition gate into axel skill</div>
+          <div class="text-slate-400 text-xs mt-1">Mode-on threshold halt, decompose/massage/recurse, owl re-attempt w/ intake intact; mode-off unchanged</div>
+        </div>
+        <div class="p-4 rounded-xl border border-emerald-500/20 bg-zinc-900">
+          <div class="font-mono text-emerald-400">T-9 · 3pts · deps T-7</div>
+          <div class="text-white font-medium">Add AVRIL planning-size and optional owl-sketch hooks</div>
+          <div class="text-slate-400 text-xs mt-1">Split mega-PBIs; owl-sketch spike → massaged PBIs still triple-BLESS</div>
+        </div>
+        <div class="p-4 rounded-xl border border-emerald-500/20 bg-zinc-900">
+          <div class="font-mono text-emerald-400">T-10 · 3pts · deps T-8, T-9</div>
+          <div class="text-white font-medium">Wire HARNESS-SPEC, book pipeline, and tracking</div>
+          <div class="text-slate-400 text-xs mt-1">§12/§13 pointers, book lens, features.json phase, #43 comment</div>
+        </div>
+      </div>
+    </section>
+
+    <section class="p-5 rounded-2xl bg-zinc-900 border border-zinc-800 text-sm">
+      <h2 class="font-semibold text-white mb-2">How it fits the loops</h2>
+      <pre class="text-xs text-emerald-300 overflow-x-auto leading-relaxed">AVRIL (plan)
+  ├─ normal: small vertical PBIs, &lt;10 min review bar
+  └─ optional owl-sketch spike → massage → PO→QA→CTO BLESS
+           ↓ Blessed Backlog
+AXEL (execute)  [decomposition_mode off = today]
+  └─ mode on: Generate → measure numstat → 
+        if ≤1500: GAN → commit
+        if &gt;1500: halt → decompose+massage → chunk loop (recurse)
+                  optional bounded re-owl (still intake + GAN)</pre>
+    </section>
+
+    <section class="p-5 rounded-2xl bg-zinc-900 border border-zinc-800 text-sm">
+      <h2 class="font-semibold text-white mb-2">Cuts</h2>
+      <ul class="list-disc list-inside text-slate-400">
+        <li>Standalone <code>decomposition-workflow</code> skill (v1)</li>
+        <li>Default-on behavior</li>
+        <li>Owl output as silent execution authorization</li>
+        <li>Mandatory multi-agent parallelism</li>
+        <li>Replacing stacked PR / PETC discipline</li>
+      </ul>
+    </section>
+
+    <section class="p-5 rounded-2xl bg-zinc-900 border border-zinc-800 text-sm">
+      <h2 class="font-semibold text-white mb-2">Blessing log</h2>
+      <pre class="text-xs text-slate-300">T-7: PO BLESS | QA BLESS | CTO BLESS
+T-8: PO BLESS | QA BLESS | CTO BLESS  (after LOC + sequential fallback pins)
+T-9: PO BLESS | QA BLESS | CTO BLESS
+T-10: PO BLESS | QA BLESS | CTO BLESS</pre>
+    </section>
+
+    <section class="p-5 rounded-2xl border border-amber-500/30 bg-amber-500/5 text-sm">
+      <h2 class="font-semibold text-amber-400 mb-2">Planning stop</h2>
+      <p class="text-slate-300">AVRIL complete. Ready for AXEL: <strong class="text-white">T-7</strong> first.</p>
+      <pre class="mt-2 text-xs text-emerald-300 bg-black/40 p-3 rounded-lg">Using code-writer + axel to execute blessed PBI T-7 through PETC until AC are evidenced.</pre>
+    </section>
+  </main>
+</body>
+</html>

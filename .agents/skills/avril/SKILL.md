@@ -70,8 +70,9 @@ Every PBI — whether stored in Pinto or files — MUST carry:
    3. `visionary-cto-agent` — strategic fit, debt, 2-year trajectory (final gate)
 3. **Rejection loop** — Any REJECT sends the minimal delta back to the Generator. Re-run the full three-adversary chain on the revised item (fresh blessings; prior BLESS does not carry forward after material change).
 4. **Blessing language** — Advancement requires the exact token `BLESS` from each adversary. Silence, hedge, or “LGTM” without `BLESS` counts as incomplete. `REJECT` must cite concrete blockers.
-5. **Small items only** — Split any PBI that cannot be reviewed in one short pass or that mixes multiple shippable outcomes.
-6. **Planning stop** — When every active PBI has three fresh `BLESS` marks, emit the Blessed Backlog Summary and **stop**. Do not implement or invoke code GAN skills. Execution is owned by the separate `axel` skill (Automated eXecution Loop).
+5. **Small items only** — Split any PBI that cannot be reviewed in one short pass, that mixes multiple shippable outcomes, or that implies a multi-thousand-line blob (planning-time size bar aligned with &lt;10 minute deep review and AXEL’s optional ~1500 LOC threshold).
+6. **Optional owl-sketch spike** — When the human asks to “draw the owl” / explore an unknown domain, the Generator may run a **bounded** planning spike (label `spike`) to discover seams, then **massage** findings into general PBIs. Owl-sketch output is **not** AXEL authorization; every real PBI still needs PO → QA → CTO `BLESS`. See `docs/plans/mitchell-decomposition-contract.html`.
+7. **Planning stop** — When every active PBI has three fresh `BLESS` marks, emit the Blessed Backlog Summary and **stop**. Do not implement or invoke code GAN skills. Execution is owned by the separate `axel` skill (Automated eXecution Loop). Execution-time oversize diffs are handled by AXEL **decomposition mode** (opt-in), not by AVRIL.
 
 ### Strict Orchestration Rules
 
@@ -90,6 +91,8 @@ Every PBI — whether stored in Pinto or files — MUST carry:
 - Material edit after any BLESS invalidates all three blessings for that item.
 - No code, no execution harness updates beyond optional “planning complete” tracking note.
 - Blessed set is vertical-slice friendly (demoable outcomes, not pure horizontal layers) unless the intent explicitly demands a foundational spike (then label it `spike` and bound it).
+- Mega-PBIs that cannot be reviewed in &lt;10 minutes deep review are split before blessing.
+- Owl-sketch spikes never skip the adversary chain or hand unblessed work to AXEL.
 
 ### Output: Blessed Backlog Summary
 
@@ -131,7 +134,12 @@ In a fresh activation the following six behaviors are directly observable and sc
 - The agent itself emits zero PBI authorship, zero code, and zero adversary review content; it only sequences, records, and gates.
 - When every active PBI is triple-blessed, the agent emits the Blessed Backlog Summary and stops at planning — handoff to `axel` only, no implementation, no false claim that shipping has begun.
 
-Violations against any of these six observable criteria during fresh activation indicate the skill was not followed and must be corrected before the work can be considered complete.
+**Additionally (size / owl-sketch):**
+
+- The agent rejects or splits Generator output that mixes multiple shippable outcomes or cannot be reviewed in one short pass (&lt;10 min deep review bar).
+- If an owl-sketch spike is used, the agent still requires full PO→QA→CTO `BLESS` on massaged PBIs before claiming AXEL-ready authorization.
+
+Violations against any of these observable criteria during fresh activation indicate the skill was not followed and must be corrected before the work can be considered complete.
 
 ## Specialization
 
