@@ -126,6 +126,16 @@
         ]
       },
       {
+        "id": "docs-ia-00b",
+        "title": "AVRIL blessed backlog (T-1..T-6) + OpenCode /avril /axel command plan",
+        "status": "completed",
+        "features": [
+          "pinto-board-public-docs",
+          "blessed-backlog-html",
+          "opencode-avril-axel-commands-plan"
+        ]
+      },
+      {
         "id": "docs-ia-01",
         "title": "Public skills allowlist SSOT + README truth table",
         "status": "pending",
