@@ -299,3 +299,18 @@ Documentation verification is now a first-class part of the standard harness wor
 ## Verification Status
 - Plan only (no public surface content changes in docs-ia-00)
 - Execution of docs-ia-01+ pending human approval of unresolved questions in the plan
+
+### AVRIL session: public-docs-alignment backlog (BLESSED)
+
+- Intent: align public docs with AVRIL/AXEL product reality (plan artifact docs-ia-00).
+- Pinto board initialized at `.pinto/`; PBIs T-1…T-6 triple-blessed (PO → QA → CTO).
+- Summary: `docs/plans/public-docs-blessed-backlog.html`
+- Cycle-1 rejects fixed: JSON schema (T-1), hard-stop ACs (T-2), site verify deferred to T-5 (T-4).
+- **Planning stop.** Execution requires AXEL on T-1 (or T-2).
+
+### Plan: OpenCode /avril and /axel commands
+
+- Artifact: `docs/plans/opencode-avril-axel-commands.html`
+- Shape: `.opencode/command/{avril,axel}.md` + agents wrapping existing skills
+- Free-text `$ARGUMENTS` router; empty args = status
+- Delivery: cmd-01…cmd-04 (not implemented in this PR)

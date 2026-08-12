@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Blessed Backlog — Public Docs Alignment</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    body { font-family: Inter, system-ui, sans-serif; }
+    .font-display { font-family: "Space Grotesk", Inter, system-ui, sans-serif; }
+    code { font-family: ui-monospace, SFMono-Regular, Menlo, monospace; }
+  </style>
+</head>
+<body class="bg-slate-950 text-slate-200">
+  <main class="max-w-4xl mx-auto px-6 py-12 space-y-10">
+    <header>
+      <p class="text-xs text-emerald-400 font-semibold tracking-wide mb-2">AVRIL · TRIPLE-BLESSED · PLANNING STOP</p>
+      <h1 class="font-display text-3xl font-semibold text-white mb-3">Blessed Backlog Summary</h1>
+      <p class="text-slate-400 text-sm">Public documentation alignment (phase <code>public-docs-alignment</code>). Source plan: <code>docs/plans/public-docs-avril-axel-alignment.html</code>. Board: Pinto <code>.pinto/</code> (T-1…T-6).</p>
+    </header>
+
+    <section class="p-5 rounded-2xl bg-zinc-900 border border-zinc-800">
+      <h2 class="font-semibold text-white mb-2">Intent</h2>
+      <p class="text-sm text-slate-300 leading-relaxed">Make marketing (Zola), mdBook, and README match the real product: <strong class="text-white">Intent → AVRIL → Blessed Backlog → AXEL → Done</strong>. Thin progressive lens over HARNESS-SPEC — not a second canon. Kill false skill counts, broken TOC promises, and unlinked ferro-* proof.</p>
+    </section>
+
+    <section class="p-5 rounded-2xl bg-zinc-900 border border-zinc-800">
+      <h2 class="font-semibold text-white mb-2">Resolved decisions (from plan open questions)</h2>
+      <ul class="text-sm text-slate-300 space-y-1 list-disc list-inside">
+        <li><strong class="text-white">diataxis</strong> — out of v1 public allowlist (deferred in <code>out[]</code>)</li>
+        <li><strong class="text-white">Site skills</strong> — Featured subset + “full catalog (N)”; featured must include code-writer, avril, axel, rust-team-lead</li>
+        <li><strong class="text-white">ferro-*</strong> — remove unlinked namedrops</li>
+        <li><strong class="text-white">docs-verify order</strong> — README/book/allowlist gates (T-4) before marketing (T-5); site pill/count enforcement enabled in T-5 so main stays green after T-4 alone</li>
+      </ul>
+    </section>
+
+    <section>
+      <h2 class="font-semibold text-white mb-4">Blessed PBIs (execution order)</h2>
+      <div class="space-y-4">
+        <article class="p-4 rounded-xl border border-emerald-500/20 bg-zinc-900">
+          <div class="flex justify-between gap-4 mb-1">
+            <h3 class="font-mono text-emerald-400">T-1</h3>
+            <span class="text-xs text-slate-500">3 pts · no deps</span>
+          </div>
+          <p class="font-medium text-white">Ship public skills allowlist SSOT + README catalog</p>
+          <p class="text-xs text-slate-400 mt-1">docs/public-skills.json schema (version, skills[], out[]); N=14; README table set-equality</p>
+        </article>
+        <article class="p-4 rounded-xl border border-emerald-500/20 bg-zinc-900">
+          <div class="flex justify-between gap-4 mb-1">
+            <h3 class="font-mono text-emerald-400">T-2</h3>
+            <span class="text-xs text-slate-500">5 pts · no deps</span>
+          </div>
+          <p class="font-medium text-white">Add book pipeline chapters (overview, AVRIL, AXEL)</p>
+          <p class="text-xs text-slate-400 mt-1">SUMMARY pipeline section; hard stop + intake gate ACs; link §12/§13</p>
+        </article>
+        <article class="p-4 rounded-xl border border-emerald-500/20 bg-zinc-900">
+          <div class="flex justify-between gap-4 mb-1">
+            <h3 class="font-mono text-emerald-400">T-3</h3>
+            <span class="text-xs text-slate-500">5 pts · deps T-1, T-2</span>
+          </div>
+          <p class="font-medium text-white">Book skills catalog table + bootstrap first-run prompts</p>
+          <p class="text-xs text-slate-400 mt-1">Catalog == allowlist; kill TOC lie; paste-ready AVRIL then AXEL</p>
+        </article>
+        <article class="p-4 rounded-xl border border-emerald-500/20 bg-zinc-900">
+          <div class="flex justify-between gap-4 mb-1">
+            <h3 class="font-mono text-emerald-400">T-4</h3>
+            <span class="text-xs text-slate-500">5 pts · deps T-1, T-3</span>
+          </div>
+          <p class="font-medium text-white">Harden docs-verify (catalog, stubs, honest report)</p>
+          <p class="text-xs text-slate-400 mt-1">No site pill FAIL yet; HTML report matches exit code</p>
+        </article>
+        <article class="p-4 rounded-xl border border-emerald-500/20 bg-zinc-900">
+          <div class="flex justify-between gap-4 mb-1">
+            <h3 class="font-mono text-emerald-400">T-5</h3>
+            <span class="text-xs text-slate-500">5 pts · deps T-1, T-2, T-4</span>
+          </div>
+          <p class="font-medium text-white">Marketing homepage pipeline + honest skill presentation</p>
+          <p class="text-xs text-slate-400 mt-1">Pipeline hero; kill 11+; featured set; enable site docs-verify checks</p>
+        </article>
+        <article class="p-4 rounded-xl border border-emerald-500/20 bg-zinc-900">
+          <div class="flex justify-between gap-4 mb-1">
+            <h3 class="font-mono text-emerald-400">T-6</h3>
+            <span class="text-xs text-slate-500">2 pts · deps T-3, T-5</span>
+          </div>
+          <p class="font-medium text-white">Cross-link polish README, book, and site</p>
+          <p class="text-xs text-slate-400 mt-1">CTA paths, intro pointers, phase closeout, smoke no-404</p>
+        </article>
+      </div>
+    </section>
+
+    <section class="p-5 rounded-2xl bg-zinc-900 border border-zinc-800">
+      <h2 class="font-semibold text-white mb-2">Explicit cuts</h2>
+      <ul class="text-sm text-slate-400 list-disc list-inside space-y-1">
+        <li>Mirror HARNESS-SPEC / full SKILL.md into site or book</li>
+        <li>Per-skill mdBook pages (v1)</li>
+        <li>Public catalog: obsidian-cli, diataxis, empty diataxis-* stubs</li>
+        <li>Remediation campaign HTML as product docs</li>
+        <li>Brand system redesign; agent prompt dumps</li>
+      </ul>
+    </section>
+
+    <section class="p-5 rounded-2xl bg-zinc-900 border border-zinc-800">
+      <h2 class="font-semibold text-white mb-2">Blessing log (cycle 2)</h2>
+      <pre class="text-xs text-slate-300 overflow-x-auto leading-relaxed">T-1: PO BLESS | QA BLESS | CTO BLESS
+T-2: PO BLESS | QA BLESS | CTO BLESS
+T-3: PO BLESS | QA BLESS | CTO BLESS
+T-4: PO BLESS | QA BLESS | CTO BLESS
+T-5: PO BLESS | QA BLESS | CTO BLESS
+T-6: PO BLESS | QA BLESS | CTO BLESS</pre>
+      <p class="text-xs text-slate-500 mt-3">Cycle 1 REJECTS addressed: T-1 JSON schema; T-2 hard-stop ACs; T-4 site enforcement deferred to T-5.</p>
+    </section>
+
+    <section class="p-5 rounded-2xl border border-amber-500/30 bg-amber-500/5">
+      <h2 class="font-semibold text-amber-400 mb-2">Planning stop — AXEL handoff</h2>
+      <p class="text-sm text-slate-300">AVRIL is complete. Do <strong class="text-white">not</strong> implement in this session unless explicitly starting AXEL.</p>
+      <p class="text-sm text-slate-400 mt-2">Activate execution with:</p>
+      <pre class="mt-2 text-xs text-emerald-300 bg-black/40 p-3 rounded-lg overflow-x-auto">Using code-writer + axel to execute the next blessed PBI (start T-1) through PETC until AC are evidenced and the board is honest.</pre>
+      <p class="text-xs text-slate-500 mt-3">Ready set now: <code>T-1</code>, <code>T-2</code> (no unmet deps). Map to features.json: docs-ia-01…06 ≈ T-1…T-6 (order: verify before marketing).</p>
+    </section>
+
+    <footer class="text-xs text-slate-600 border-t border-zinc-900 pt-6">
+      Conductor: AVRIL · Generator: planning-architect · Adversaries: product-owner → qa-architect → visionary-cto · Board: pinto 0.2.0
+    </footer>
+  </main>
+</body>
+</html>

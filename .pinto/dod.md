@@ -1,0 +1,4 @@
+- [ ] Acceptance criteria are falsifiable checkboxes
+- [ ] Public surfaces do not contradict HARNESS-SPEC §12–13
+- [ ] just harness-validate / docs-verify pass when applicable
+- [ ] PR reviewable in < 10 minutes

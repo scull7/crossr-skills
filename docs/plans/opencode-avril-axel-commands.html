@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Plan · /avril and /axel OpenCode Commands</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    body { font-family: Inter, system-ui, sans-serif; }
+    .font-display { font-family: "Space Grotesk", Inter, system-ui, sans-serif; }
+    code, pre { font-family: ui-monospace, SFMono-Regular, Menlo, monospace; }
+    .section { scroll-margin-top: 4rem; }
+  </style>
+</head>
+<body class="bg-slate-950 text-slate-200">
+  <nav class="sticky top-0 z-40 border-b border-slate-800 bg-slate-950/95 backdrop-blur">
+    <div class="max-w-4xl mx-auto px-6 h-12 flex items-center justify-between text-sm">
+      <span class="font-display font-semibold">/avril · /axel commands</span>
+      <span class="text-xs px-2 py-0.5 rounded-full border border-amber-500/40 text-amber-400">PLAN</span>
+    </div>
+  </nav>
+
+  <main class="max-w-4xl mx-auto px-6 py-10 space-y-12">
+    <header>
+      <h1 class="font-display text-3xl font-semibold text-white mb-3">Implement <code class="text-emerald-400">/avril</code> and <code class="text-emerald-400">/axel</code></h1>
+      <p class="text-slate-400 leading-relaxed">
+        Goal: type natural language after a slash command and get the correct planning or execution conductor —
+        e.g. <code class="text-slate-200">/avril please give me a summary of the current project state</code>
+        or <code class="text-slate-200">/axel run the next blessed PBI</code>.
+      </p>
+      <p class="text-sm text-slate-500 mt-3">Mechanism: OpenCode custom commands (markdown templates + <code>$ARGUMENTS</code>) + dedicated agents + existing <code>avril</code>/<code>axel</code> skills under <code>.agents/skills/</code>.</p>
+    </header>
+
+    <section class="section p-5 rounded-2xl bg-zinc-900 border border-zinc-800">
+      <h2 class="font-semibold text-white mb-2">1. Recommended shape (v1)</h2>
+      <pre class="text-xs text-emerald-300 overflow-x-auto leading-relaxed">User types /avril $ARGUMENTS
+        │
+        ▼
+.opencode/command/avril.md   ← prompt template + preflight shell
+        │  agent: avril
+        ▼
+.opencode/agent/avril.md     ← conductor persona (orchestrator)
+        │  skill tool loads
+        ▼
+.agents/skills/avril/SKILL.md + personas under .agents/agents/
+        │
+        ▼
+Pinto board / Blessed Backlog / planning-only stop</pre>
+      <p class="text-sm text-slate-400 mt-3">Same pattern for <code>/axel</code> → agent <code>axel</code> → skill <code>axel</code>. Keep <strong class="text-white">one entrypoint per loop</strong>; route intent from free-text <code>$ARGUMENTS</code>, not a dozen micro-commands.</p>
+    </section>
+
+    <section class="section">
+      <h2 class="font-display text-xl font-semibold text-white mb-3">2. Why not only skills?</h2>
+      <ul class="text-sm text-slate-300 space-y-2 list-disc list-inside">
+        <li>Skills load on demand via the <code>skill</code> tool; they are not slash-addressable by themselves.</li>
+        <li>Commands are first-class in the TUI (<code>/</code> menu) and inject a fixed prompt + optional shell preflight.</li>
+        <li>Agents pin permissions/mode so AVRIL cannot “helpfully” implement, and AXEL stays conductor-only unless generation is delegated.</li>
+      </ul>
+    </section>
+
+    <section class="section">
+      <h2 class="font-display text-xl font-semibold text-white mb-3">3. UX contract</h2>
+      <div class="overflow-x-auto rounded-xl border border-zinc-800">
+        <table class="w-full text-sm">
+          <thead class="bg-zinc-900 text-slate-400 text-left">
+            <tr><th class="p-3">Invocation</th><th class="p-3">Behavior</th></tr>
+          </thead>
+          <tbody class="divide-y divide-zinc-800">
+            <tr>
+              <td class="p-3 font-mono text-emerald-400">/avril</td>
+              <td class="p-3">Default: status — board, blessed set, ready PBIs, open questions. No mutations.</td>
+            </tr>
+            <tr>
+              <td class="p-3 font-mono text-emerald-400">/avril &lt;free text&gt;</td>
+              <td class="p-3">Interpret as planning request (status, propose, review item, bless loop, summarize). Never implement code.</td>
+            </tr>
+            <tr>
+              <td class="p-3 font-mono text-emerald-400">/axel</td>
+              <td class="p-3">Default: next ready blessed PBI summary + ask confirm before execute.</td>
+            </tr>
+            <tr>
+              <td class="p-3 font-mono text-emerald-400">/axel &lt;free text&gt;</td>
+              <td class="p-3">Execute / status / evidence / board move per AXEL intake gate. Conductor only.</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <p class="text-sm text-slate-500 mt-3">Optional verb prefixes (documented, not required): <code>status</code>, <code>plan</code>, <code>review T-1</code>, <code>next</code>, <code>run T-1</code>, <code>help</code>. Free English always works via the same router in the command template.</p>
+    </section>
+
+    <section class="section">
+      <h2 class="font-display text-xl font-semibold text-white mb-3">4. File layout (project-scoped dogfood)</h2>
+      <pre class="text-xs bg-zinc-900 border border-zinc-800 rounded-xl p-4 overflow-x-auto text-slate-300 leading-relaxed">.opencode/
+  opencode.jsonc              # $schema; optional skills/permission tweaks
+  command/
+    avril.md                  # /avril
+    axel.md                   # /axel
+  agent/
+    avril.md                  # primary or subagent conductor
+    axel.md                   # primary or subagent conductor
+
+.agents/skills/avril/SKILL.md # already exists (SoT for loop rules)
+.agents/skills/axel/SKILL.md
+.agents/agents/*-agent.md     # personas (PO, QA, CTO, conductor, …)</pre>
+      <p class="text-sm text-slate-400 mt-3"><strong class="text-white">Discovery:</strong> OpenCode already loads <code>.agents/skills/*/SKILL.md</code>. Commands live under <code>.opencode/command/</code> (docs also accept <code>commands/</code> — pick one; skill docs say both; use <code>command/</code> to match customize-opencode skill).</p>
+      <p class="text-sm text-slate-400 mt-2"><strong class="text-white">Portability:</strong> later copy the same four files into <code>templates/harness/</code> + <code>harness-bootstrap</code> so new projects get <code>/avril</code> and <code>/axel</code>.</p>
+    </section>
+
+    <section class="section">
+      <h2 class="font-display text-xl font-semibold text-white mb-3">5. Command template design</h2>
+      <h3 class="text-white font-medium mb-2">5.1 Preflight (shell injection)</h3>
+      <p class="text-sm text-slate-400 mb-2">Each command starts with a short status dump so “summary of project state” is cheap and consistent:</p>
+      <pre class="text-xs bg-zinc-900 border border-zinc-800 rounded-xl p-4 overflow-x-auto text-slate-300">Git:!`git status -sb && git log --oneline -8`
+Progress tail:!`tail -n 40 progress.md 2>/dev/null || true`
+Features snapshot:!`python3 -c "…" # pending commits from features.json`
+Pinto (if present):!`command -v pinto >/dev/null && pinto list --json || echo "no pinto"`
+Blessed summary path:!`ls docs/plans/*blessed* 2>/dev/null || true`</pre>
+      <p class="text-xs text-slate-500 mt-2">Keep preflight read-only. Fail soft if tools missing.</p>
+
+      <h3 class="text-white font-medium mt-6 mb-2">5.2 Prompt body (sketch)</h3>
+      <pre class="text-xs bg-zinc-900 border border-zinc-800 rounded-xl p-4 overflow-x-auto text-slate-300 leading-relaxed">---
+description: AVRIL planning conductor (status, propose PBIs, blessing loop)
+agent: avril
+---
+
+You are the AVRIL conductor. Load skill `avril` and `code-writer` via the skill tool first.
+Recite the One-Sentence Mandate, then handle the user request.
+
+User request:
+$ARGUMENTS
+
+If $ARGUMENTS is empty, run **status**: board + blessed set + ready items + blockers.
+Routing hints (non-exclusive):
+- status / summary / state → read-only project + backlog report
+- plan / propose / backlog → Generator proposes PBIs (Pinto preferred)
+- review / bless → PO→QA→CTO cycle on named ids
+- help → list capabilities; do not implement code
+
+Hard rules: planning-only stop; never write production code; explicit BLESS tokens;
+prefer Pinto; emit Blessed Backlog Summary when loop completes.</pre>
+      <p class="text-sm text-slate-400 mt-3">Mirror for <code>axel.md</code>: load <code>axel</code> + language stack; intake gate; PETC; never write code as conductor; default empty args = next ready PBI + confirm.</p>
+    </section>
+
+    <section class="section">
+      <h2 class="font-display text-xl font-semibold text-white mb-3">6. Agent design</h2>
+      <div class="grid md:grid-cols-2 gap-4 text-sm">
+        <div class="p-4 rounded-xl bg-zinc-900 border border-zinc-800">
+          <h3 class="text-emerald-400 font-mono mb-2">avril</h3>
+          <ul class="text-slate-300 space-y-1 list-disc list-inside">
+            <li><code>mode: primary</code> (Tab-switchable) <em>or</em> <code>subagent</code> if you only want slash invoke</li>
+            <li><code>permission.edit</code>: allow for board/docs only if needed; prefer ask on broad edits</li>
+            <li>bash: allow read-only git/pinto/jq; ask on writes</li>
+            <li>Prompt: thin — point at skill SoT, don’t duplicate full SKILL.md</li>
+            <li>color: e.g. planning blue</li>
+          </ul>
+        </div>
+        <div class="p-4 rounded-xl bg-zinc-900 border border-zinc-800">
+          <h3 class="text-emerald-400 font-mono mb-2">axel</h3>
+          <ul class="text-slate-300 space-y-1 list-disc list-inside">
+            <li>Same mode choice as avril</li>
+            <li>edit: ask (conductor delegates generation; should rarely edit itself)</li>
+            <li>task: allow code GAN / rust-team-lead style subagents</li>
+            <li>Intake gate enforced in agent prompt + skill</li>
+            <li>color: e.g. execution amber</li>
+          </ul>
+        </div>
+      </div>
+      <p class="text-sm text-slate-500 mt-3"><strong class="text-white">Recommendation:</strong> <code>mode: primary</code> so Tab can switch Plan-like conductors; commands still force the right agent via frontmatter <code>agent:</code>.</p>
+    </section>
+
+    <section class="section">
+      <h2 class="font-display text-xl font-semibold text-white mb-3">7. Permissions &amp; safety</h2>
+      <ul class="text-sm text-slate-300 space-y-2 list-disc list-inside">
+        <li><strong class="text-white">AVRIL must not implement.</strong> Command + agent text restate planning stop; optional <code>permission.edit: ask</code> globally for avril agent.</li>
+        <li><strong class="text-white">AXEL intake gate.</strong> Refuse unblessed ids unless user explicitly authorizes in <code>$ARGUMENTS</code>.</li>
+        <li><strong class="text-white">Pinto writes</strong> only when user request clearly mutates backlog (propose/revise), not on status.</li>
+        <li>No secrets in command templates; no force-push bash allows.</li>
+      </ul>
+    </section>
+
+    <section class="section">
+      <h2 class="font-display text-xl font-semibold text-white mb-3">8. Stacked delivery</h2>
+      <div class="space-y-3 text-sm">
+        <div class="p-3 rounded-xl bg-zinc-900 border border-zinc-800 flex gap-3">
+          <span class="font-mono text-emerald-400 shrink-0">cmd-01</span>
+          <span><strong class="text-white">Scaffold</strong> — <code>.opencode/command/{avril,axel}.md</code> + <code>agent/{avril,axel}.md</code> minimal; empty-args = status; load skills. Restart opencode smoke test.</span>
+        </div>
+        <div class="p-3 rounded-xl bg-zinc-900 border border-zinc-800 flex gap-3">
+          <span class="font-mono text-emerald-400 shrink-0">cmd-02</span>
+          <span><strong class="text-white">Preflight</strong> — shell injections for git/progress/features/pinto; document required tools.</span>
+        </div>
+        <div class="p-3 rounded-xl bg-zinc-900 border border-zinc-800 flex gap-3">
+          <span class="font-mono text-emerald-400 shrink-0">cmd-03</span>
+          <span><strong class="text-white">Router polish</strong> — help text, verb hints, examples in command descriptions; AGENTS.md one-liner for /avril /axel.</span>
+        </div>
+        <div class="p-3 rounded-xl bg-zinc-900 border border-zinc-800 flex gap-3">
+          <span class="font-mono text-emerald-400 shrink-0">cmd-04</span>
+          <span><strong class="text-white">Bootstrap portability</strong> — copy into <code>templates/harness/</code> + harness-bootstrap; short book/README mention.</span>
+        </div>
+      </div>
+    </section>
+
+    <section class="section">
+      <h2 class="font-display text-xl font-semibold text-white mb-3">9. Acceptance criteria</h2>
+      <ul class="text-sm space-y-2">
+        <li class="flex gap-2"><span class="text-slate-500">□</span> Typing <code>/avril</code> appears in command palette with clear description</li>
+        <li class="flex gap-2"><span class="text-slate-500">□</span> <code>/avril please give me a summary of the current project state</code> yields read-only status using preflight + board (no code edits)</li>
+        <li class="flex gap-2"><span class="text-slate-500">□</span> <code>/avril</code> with empty args ≡ status behavior</li>
+        <li class="flex gap-2"><span class="text-slate-500">□</span> <code>/axel</code> empty args reports next blessed/ready PBI or explains intake failure</li>
+        <li class="flex gap-2"><span class="text-slate-500">□</span> Agents load <code>avril</code>/<code>axel</code> skills (visible in skill tool list from <code>.agents/skills/</code>)</li>
+        <li class="flex gap-2"><span class="text-slate-500">□</span> AVRIL session does not implement production code when asked to “just build it”</li>
+        <li class="flex gap-2"><span class="text-slate-500">□</span> After config change, docs note: <strong>restart opencode</strong></li>
+        <li class="flex gap-2"><span class="text-slate-500">□</span> <code>just harness-validate</code> still passes (no docs-verify breakage)</li>
+      </ul>
+    </section>
+
+    <section class="section">
+      <h2 class="font-display text-xl font-semibold text-white mb-3">10. Non-goals (v1)</h2>
+      <ul class="text-sm text-slate-400 list-disc list-inside space-y-1">
+        <li>Separate slash commands per verb (<code>/avril-status</code>, <code>/avril-plan</code>, …) — free text is enough</li>
+        <li>Rewriting AVRIL/AXEL skills (commands wrap them)</li>
+        <li>GUI beyond OpenCode TUI command menu</li>
+        <li>Auto-running full blessing loops without user intent in <code>$ARGUMENTS</code></li>
+      </ul>
+    </section>
+
+    <section class="section border-t border-zinc-800 pt-8">
+      <h2 class="font-display text-xl font-semibold text-white mb-3">Unresolved questions</h2>
+      <ul class="text-sm text-slate-300 list-disc list-inside space-y-1">
+        <li>Agents <code>mode</code>: <strong>primary</strong> (Tab) vs <strong>subagent</strong> (slash/@ only)?</li>
+        <li>Scope: this repo only first, or global <code>~/.config/opencode/</code> as well?</li>
+        <li>Should empty <code>/axel</code> auto-start execution or always confirm?</li>
+        <li>Commit <code>.pinto/</code> board with the repo, or gitignore and local-only?</li>
+      </ul>
+    </section>
+
+    <footer class="text-xs text-slate-600 pt-4">
+      Refs: opencode.ai/docs/commands · agents · skills · customize-opencode skill · HARNESS-SPEC §12–13 · .agents/skills/{avril,axel}
+    </footer>
+  </main>
+</body>
+</html>
