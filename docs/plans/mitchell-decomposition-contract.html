@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Mitchell Decomposition Contract — AVRIL / AXEL</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-slate-950 text-slate-200">
+  <main class="max-w-3xl mx-auto px-6 py-12 space-y-8 text-sm leading-relaxed">
+    <header>
+      <p class="text-xs text-emerald-400 font-semibold">CONTRACT · v1 · ISSUE #43 · PBI T-7</p>
+      <h1 class="text-3xl font-semibold text-white mt-2">Mitchell-style decomposition</h1>
+      <p class="text-slate-400 mt-2">Optional workflow for oversize agent diffs. Primary home: <code class="text-emerald-300">axel</code>. Light hooks: <code class="text-emerald-300">avril</code>. Default: <strong class="text-white">off</strong>.</p>
+      <p class="text-slate-500 text-xs mt-1">Reference: <a class="underline text-emerald-400" href="https://github.com/scull7/crossr-skills/issues/43">#43</a> · Mitchell Hashimoto pattern (draw the owl → threshold → decompose).</p>
+    </header>
+
+    <section class="p-5 rounded-2xl bg-zinc-900 border border-zinc-800 space-y-2">
+      <h2 class="text-white font-semibold">1. Purpose</h2>
+      <p>Any agent-generated diff that is hard to review signals the problem must be decomposed. This contract turns that human workflow into explicit AVRIL/AXEL rules without replacing stacked PRs, PETC, intake gates, or code GAN BLESS.</p>
+    </section>
+
+    <section class="p-5 rounded-2xl bg-zinc-900 border border-zinc-800 space-y-2">
+      <h2 class="text-white font-semibold">2. Activation (opt-in only)</h2>
+      <ul class="list-disc list-inside text-slate-300 space-y-1">
+        <li><strong class="text-white">Default off.</strong> Mode-off AXEL/AVRIL behavior is unchanged — no new mandatory steps.</li>
+        <li><strong class="text-white">On when:</strong> human says “mitchell”, “decomposition mode”, “draw the owl”, or harness discloses <code>decomposition_mode: true</code> (or equivalent).</li>
+        <li>Threshold override: harness disclosure <code>decomposition_loc_threshold</code> (number). Default <strong>1500</strong>.</li>
+      </ul>
+    </section>
+
+    <section class="p-5 rounded-2xl bg-zinc-900 border border-zinc-800 space-y-2">
+      <h2 class="text-white font-semibold">3. LOC measurement</h2>
+      <ul class="list-disc list-inside text-slate-300 space-y-1">
+        <li><strong class="text-white">LOC</strong> = sum of <em>added + deleted</em> lines from <code>git diff --numstat</code> on the phase (or uncommitted) diff unless the harness discloses another scope.</li>
+        <li>Ignore pure renames/binary noise when numstat reports “-” where practical; when uncertain, count conservatively (treat as over threshold if ambiguous and large).</li>
+        <li>Compare to threshold <strong>T</strong> (default 1500). Over threshold ⇒ decomposition path; at or under ⇒ normal commit path (still GAN + AC).</li>
+      </ul>
+      <pre class="text-xs bg-black/40 p-3 rounded-lg text-emerald-300 overflow-x-auto mt-2">git diff --numstat
+# LOC = sum(col1) + sum(col2) over rows with numeric cols</pre>
+    </section>
+
+    <section class="p-5 rounded-2xl bg-zinc-900 border border-zinc-800 space-y-2">
+      <h2 class="text-white font-semibold">4. Phases</h2>
+      <ol class="list-decimal list-inside text-slate-300 space-y-2">
+        <li><strong class="text-white">Draw the owl (bounded spike)</strong> — Loose implement/explore to discover seams. Label <code>spike</code>. Time-box. Output is learning + candidate task list, <em>not</em> merge authorization.</li>
+        <li><strong class="text-white">Threshold check</strong> — Measure LOC. If ≤ T and reviewable (&lt;10 min deep review target), continue normal AXEL GAN → commit.</li>
+        <li><strong class="text-white">Decompose</strong> — If &gt; T (or unreviewable), <strong>do not commit</strong>. Break into atomic incremental tasks.</li>
+        <li><strong class="text-white">Massage</strong> — Rewrite tasks away from “the shape we just hacked” into general, maintainable vertical slices with clear AC.</li>
+        <li><strong class="text-white">Execute chunks</strong> — Each chunk through PETC + code GAN; recurse threshold on each chunk. Parallel Task subagents optional; <strong>sequential fallback required</strong>.</li>
+        <li><strong class="text-white">Periodic re-owl</strong> — Optional bounded re-attempt of the whole feature; still subject to threshold, intake, GAN, AC. Never a shortcut around AVRIL blessing.</li>
+      </ol>
+    </section>
+
+    <section class="p-5 rounded-2xl bg-zinc-900 border border-zinc-800 space-y-2">
+      <h2 class="text-white font-semibold">5. Touchpoints</h2>
+      <table class="w-full text-left text-xs">
+        <thead class="text-slate-400"><tr><th class="py-1 pr-2">Loop</th><th class="py-1">Integration</th></tr></thead>
+        <tbody class="text-slate-300">
+          <tr class="border-t border-zinc-800"><td class="py-2 pr-2 font-mono text-emerald-400">AVRIL</td><td>Planning-time size/split; optional owl-sketch spike → massaged PBIs still need PO→QA→CTO BLESS before AXEL</td></tr>
+          <tr class="border-t border-zinc-800"><td class="py-2 pr-2 font-mono text-emerald-400">AXEL</td><td>Mode-on: measure after Generate / before Commit; halt if over T; decompose+massage; recurse; optional re-owl</td></tr>
+          <tr class="border-t border-zinc-800"><td class="py-2 pr-2 font-mono text-emerald-400">Intake</td><td>Unchanged. Owl output ≠ blessed backlog. Scope changes still return to AVRIL.</td></tr>
+          <tr class="border-t border-zinc-800"><td class="py-2 pr-2 font-mono text-emerald-400">Code GAN</td><td>Unchanged order Reviewer→Tester→Architect; BLESS still required per chunk</td></tr>
+          <tr class="border-t border-zinc-800"><td class="py-2 pr-2 font-mono text-emerald-400">Stacked PR</td><td>Aligned: each commit/chunk &lt;10 min deep review; large blobs forbidden when mode on</td></tr>
+        </tbody>
+      </table>
+    </section>
+
+    <section class="p-5 rounded-2xl bg-zinc-900 border border-zinc-800 space-y-2">
+      <h2 class="text-white font-semibold">6. HITL</h2>
+      <p class="text-slate-300">Human-in-the-loop remains required for UI, public APIs, and architectural invariants. Decomposition mode does not auto-merge or skip human gates the harness already requires.</p>
+    </section>
+
+    <section class="p-5 rounded-2xl bg-zinc-900 border border-zinc-800 space-y-2">
+      <h2 class="text-white font-semibold">7. Non-goals</h2>
+      <ul class="list-disc list-inside text-slate-400">
+        <li>Third orchestration skill in v1</li>
+        <li>Default-on behavior</li>
+        <li>Owl as silent execution authorization</li>
+        <li>Mandatory multi-agent parallelism</li>
+        <li>Replacing PETC, stacked PRs, or code GAN</li>
+        <li>CI LOC enforcer binary (process/skill only unless a later PBI adds tooling)</li>
+      </ul>
+    </section>
+
+    <section class="p-5 rounded-2xl bg-zinc-900 border border-zinc-800 space-y-2">
+      <h2 class="text-white font-semibold">8. Issue #43 map</h2>
+      <ul class="list-disc list-inside text-slate-300 space-y-1">
+        <li>Draw the owl → §4.1 + AVRIL owl-sketch</li>
+        <li>~1500 LOC threshold → §3</li>
+        <li>Decompose + massage → §4.3–4.4 + AXEL skill</li>
+        <li>Parallel agents → §4.5 optional</li>
+        <li>Periodic re-owl → §4.6</li>
+        <li>Optional mode / config → §2</li>
+        <li>HITL → §6</li>
+      </ul>
+    </section>
+
+    <footer class="text-xs text-slate-600 border-t border-zinc-900 pt-4">
+      Skills: <code>axel</code>, <code>avril</code> · Spec: HARNESS-SPEC §12–13 · No open questions for v1 contract.
+    </footer>
+  </main>
+</body>
+</html>

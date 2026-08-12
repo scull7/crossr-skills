@@ -328,3 +328,17 @@ Executed blessed PBIs end-to-end:
 
 Verification: `just harness-validate` PASS. Pinto board: all done.
 
+### AVRIL: Mitchell decomposition (#43) — BLESSED
+
+- Intent: optional Mitchell-style owl→threshold→decompose workflow in AXEL; AVRIL size/owl-sketch hooks.
+- Pinto T-7…T-10 triple-blessed. Summary: `docs/plans/mitchell-decomposition-avril-backlog.html`
+- **Planning stop.** Next: AXEL on T-7.
+
+## AXEL: Mitchell decomposition T-7…T-10 (#43)
+
+- **T-7 / #55** — `docs/plans/mitchell-decomposition-contract.html`
+- **T-8 / #56** — `axel` skill + conductor: opt-in decomposition mode (numstat, 1500, halt/decompose)
+- **T-9 / #57** — `avril` skill + planning-architect: size bar + owl-sketch
+- **T-10 / #58** — HARNESS-SPEC §12/§13 + book pipeline + features phase `mitchell-decomposition`
+- Mode default **off**. Contract linked from skills and docs.
+

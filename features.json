@@ -302,5 +302,22 @@
         ]
       }
     ]
+  },
+  "mitchell-decomposition": {
+    "status": "completed",
+    "commits": [
+      {
+        "id": "md-01",
+        "title": "Mitchell decomposition contract + axel/avril hooks + harness docs (T-7..T-10)",
+        "status": "completed",
+        "features": [
+          "mitchell-decomposition-contract",
+          "axel-decomposition-mode",
+          "avril-owl-sketch-hooks",
+          "harness-spec-decomposition",
+          "book-pipeline-decomposition"
+        ]
+      }
+    ]
   }
 }

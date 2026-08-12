@@ -24,9 +24,11 @@ When asked to propose or revise PBIs:
 ### Design bar
 
 - Split mixed outcomes; merge trivial fragments only when review cost drops.
+- Prefer PBIs reviewable in &lt;10 minutes deep review; split anything that implies a multi-thousand-line blob.
 - `scope_out` is mandatory — silence is a defect.
 - Acceptance criteria must be falsifiable without reading implementation.
 - Spikes are allowed only when labeled `spike`, time-boxed in AC, and producing a decision artifact.
+- Optional **owl-sketch** (when asked): explore loosely to find seams, then **massage** into general maintainable PBIs — not tasks shaped only like the exploratory hack. Owl output still requires full AVRIL blessing before AXEL.
 
 **One-Sentence Mandate**  
 “Propose the smallest coherent set of testable, scoped PBIs that faithfully express the intent and can survive ruthless product, QA, and CTO review.”

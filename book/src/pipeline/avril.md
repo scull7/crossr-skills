@@ -44,3 +44,9 @@ Each item needs testable checkbox AC and explicit `scope_out`.
 ## Output
 
 A Blessed Backlog Summary lists ordered ids, cuts, empty open questions, and the blessing log. Then **stop** — do not start coding under AVRIL.
+
+## Size bar and optional owl-sketch
+
+Split PBIs that cannot be reviewed in a short deep-review pass. Optional **owl-sketch** spikes (“draw the owl”) may explore unknown domains, then massage findings into general PBIs — still requiring full PO → QA → CTO `BLESS` before AXEL. Owl output alone never authorizes execution.
+
+Execution-time mega-diffs use AXEL’s optional [decomposition mode](axel.md#optional-mitchell-decomposition-mode) (default off). Contract: [mitchell-decomposition-contract.html](https://github.com/scull7/crossr-skills/blob/main/docs/plans/mitchell-decomposition-contract.html).

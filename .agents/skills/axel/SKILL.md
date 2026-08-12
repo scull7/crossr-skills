@@ -25,8 +25,9 @@ This is a harness-layer execution orchestration skill. It coordinates delivery i
 - Session ritual + verification commands (`just test`, `just clippy`, etc., as disclosed)
 - Code GAN stack for the language in play (see Language stack below)
 - Agent personas under the harness agents directory (typical code trio: `rust-reviewer-agent`, `rust-tester-agent`, `rust-architect-agent`)
+- Optional **decomposition mode** parameters (see Mitchell decomposition): `decomposition_mode` (bool, default false), `decomposition_loc_threshold` (number, default 1500)
 
-Concrete artifact names, column names, commit message format, and CLI flags are harness parameters disclosed at activation. The invariants (blessed intake only, PETC per unit, three-adversary code BLESS, AC evidence gate, orchestrator never touches code, small reviewable commits) are enforced uniformly.
+Concrete artifact names, column names, commit message format, and CLI flags are harness parameters disclosed at activation. The invariants (blessed intake only, PETC per unit, three-adversary code BLESS, AC evidence gate, orchestrator never touches code, small reviewable commits) are enforced uniformly. Decomposition mode is **off by default** and adds no steps when off.
 
 ### Relationship to other skills
 
@@ -36,6 +37,7 @@ Concrete artifact names, column names, commit message format, and CLI flags are 
 | `rust-team-lead` | **Inner code GAN** for Rust phases. AXEL may delegate a phase or whole PBI implementation cycle to it; AXEL still owns intake, board moves, AC evidence, and tracking. |
 | `agent-harness` | Supplies PETC, stacked-PR, and session-ritual discipline AXEL obeys. |
 | `code-writer` (+ language/domain) | **Generator** stack for implementation. |
+| Mitchell decomposition (opt-in) | When **decomposition mode** is on, oversize phase diffs are halted and forced through decompose→massage→chunk loops (see below). Contract: `docs/plans/mitchell-decomposition-contract.html`. |
 
 ### Board backend (stratified)
 
@@ -114,18 +116,51 @@ For the selected PBI id:
 ### 4. PETC + code GAN (each phase)
 
 ```
-Plan (phase) → Generate → Reviewer → Tester → Architect → Commit + track
+Plan (phase) → Generate → [decomposition check if mode on] → Reviewer → Tester → Architect → Commit + track
 ```
 
 1. **Generate** — Delegate implementation + tests to the Generator stack (or to `rust-team-lead` for an entire Rust inner cycle).
-2. **Reviewer** — Code quality / style / simplicity. Requires explicit `BLESS`.
-3. **Tester** — Coverage of calculations and AC-relevant paths; error paths. Requires explicit `BLESS`.
-4. **Architect** — Stratification, long-term coherence (final gate). Requires explicit `BLESS`.
-5. On any `REJECT` or missing `BLESS`: re-delegate minimal fix to Generator; **restart the full three-adversary chain** for that phase (prior blessings do not carry across material change).
-6. **Commit** — Small, reviewable commit whose message references the PBI id (and phase id if any).
-7. **Track** — Update harness tracking artifacts (features.json entry / progress.md append or equivalent) with PBI id traceability.
+2. **Decomposition check (only if decomposition mode is on)** — See [Mitchell decomposition mode](#mitchell-decomposition-mode-opt-in). If over threshold, **do not proceed to adversaries/commit**; enter decompose path first.
+3. **Reviewer** — Code quality / style / simplicity. Requires explicit `BLESS`.
+4. **Tester** — Coverage of calculations and AC-relevant paths; error paths. Requires explicit `BLESS`.
+5. **Architect** — Stratification, long-term coherence (final gate). Requires explicit `BLESS`.
+6. On any `REJECT` or missing `BLESS`: re-delegate minimal fix to Generator; **restart the full three-adversary chain** for that phase (prior blessings do not carry across material change).
+7. **Commit** — Small, reviewable commit whose message references the PBI id (and phase id if any).
+8. **Track** — Update harness tracking artifacts (features.json entry / progress.md append or equivalent) with PBI id traceability.
 
 Orchestrator emits **zero** code, **zero** review prose, **zero** test implementations — only sequence, record, and gate.
+
+## Mitchell decomposition mode (opt-in)
+
+**Default: off.** When off, skip this entire section — zero new mandatory steps.
+
+**On when:** human requests “mitchell”, “decomposition mode”, or “draw the owl”, **or** harness discloses `decomposition_mode: true`.
+
+**Contract (normative detail):** `docs/plans/mitchell-decomposition-contract.html` (issue #43).
+
+### Threshold
+
+- Measure phase (or uncommitted) diff with `git diff --numstat`.
+- **LOC** = sum of added + deleted numeric columns (default definition).
+- **Threshold T** = harness `decomposition_loc_threshold` or **1500**.
+- If LOC **> T** (or the blob is clearly unreviewable in &lt;10 minutes): **halt the commit path**.
+
+### Over-threshold path (mandatory when mode on)
+
+1. **Do not commit** the oversize blob.
+2. **Decompose** into atomic incremental tasks (still under the current blessed PBI or return to AVRIL if new product scope appears).
+3. **Massage** task titles/AC into general maintainable slices — not “the hack shape we just produced.”
+4. Execute each chunk through PETC + code GAN; **re-measure** each chunk; recurse if still over T.
+5. **Parallel** Task subagents are optional when available; **sequential fallback is always valid and required** if parallel is unavailable or unclear.
+6. Optional **bounded re-owl**: another exploratory spike to rediscover a thinner path. Results still need intake (no new unblessed scope), GAN BLESS, and AC evidence. Re-owl **never** bypasses the intake gate or adversary chain.
+
+### Draw-the-owl spike
+
+Allowed only as a **time-boxed spike** to discover seams. Spike output is learning + candidate decomposition — not a license to merge a mega-diff. If the spike invents new product scope, route through `avril` before treating it as blessed work.
+
+### HITL
+
+Human-in-the-loop remains required for UI, public APIs, and architectural invariants. Decomposition mode does not auto-merge.
 
 ### 5. Acceptance Criteria evidence gate
 
@@ -194,6 +229,7 @@ HTML preferred for human-facing summaries; Markdown OK for agent handoff.
 - **BLESS token required** from each code adversary (same discipline as AVRIL/rust-team-lead). Silence ≠ approval.
 - **Traceability:** PBI id in commits, tests names where natural, tracking artifacts, and board links.
 - **Stacked reviewability:** each commit reviewable in < 10 minutes deep review.
+- **Decomposition mode (opt-in):** over-threshold diffs never commit; mode-off adds no steps.
 - **Do not open a PR** unless the human explicitly asks (matches `rust-team-lead`).
 - **Fail loud:** missing deps, red matrix, incomplete AC, undisclosed language stack → stop and surface.
 
@@ -225,7 +261,12 @@ In a fresh activation the following six behaviors are directly observable and sc
 - The agent itself emits zero code, zero edits, and zero adversary review content; it only sequences, records evidence, updates board/tracking via delegation or explicit post-bless ritual direction, and gates.
 - The agent blocks `done` until every acceptance criterion has recorded evidence and the disclosed verification matrix is green, then emits a PBI Completion Record before advancing.
 
-Violations against any of these six observable criteria during fresh activation indicate the skill was not followed and must be corrected before the work can be considered complete.
+**Additionally, when decomposition mode is on** (opt-in; scorers may treat these as seventh/eighth observables):
+
+- Before any commit of Generator output, the agent measures phase LOC via `git diff --numstat` (added+deleted) against threshold T (default 1500) and **halts commit** when LOC &gt; T, entering decompose→massage→chunk recursion instead.
+- When decomposition mode is **off**, the agent introduces **zero** new mandatory steps beyond the six behaviors above (mode-off path unchanged).
+
+Violations against any of these observable criteria during fresh activation indicate the skill was not followed and must be corrected before the work can be considered complete.
 
 ## Specialization
 

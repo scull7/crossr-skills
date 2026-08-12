@@ -261,6 +261,8 @@ Before execution (PETC / code GAN), significant greenfield or prototype work SHO
 
 AVRIL is planning-only. It does not replace the code GAN (Reviewer → Tester → Architect) during implementation.
 
+**Planning size / optional owl-sketch:** Generators MUST split PBIs that cannot be reviewed in under ~10 minutes deep review. An optional bounded “draw the owl” planning spike may explore seams, but its output is not executable authorization — massaged PBIs still require triple `BLESS`. Execution-time oversize diffs are handled by AXEL’s optional **decomposition mode** (§13), not by skipping AVRIL. Contract: `docs/plans/mitchell-decomposition-contract.html` (issue #43).
+
 ## 13. AXEL — Execution Loop (Automated eXecution Loop)
 
 After AVRIL (or equivalent human authorization of a finite PBI set), significant implementation SHOULD run **AXEL** — the execution orchestrator defined by the `axel` skill.
@@ -296,6 +298,8 @@ Intent → AVRIL (plan GAN) → Blessed Backlog → AXEL (PETC + code GAN) → D
 > Using `code-writer` + `axel` (+ disclosed language/domain skills; Rust: `rust-code-writer` + `rust-team-lead` as inner GAN) to execute the next blessed PBI through PETC until AC are evidenced and the board is honest.
 
 AXEL conductors never write, edit, or review code themselves. Persona: `axel-conductor-agent`.
+
+**Optional Mitchell decomposition mode (default off):** When the human or harness enables decomposition mode (`decomposition_mode` / “mitchell” / “draw the owl”), AXEL measures each phase diff with `git diff --numstat` (LOC = added + deleted; default threshold **1500**, overridable via `decomposition_loc_threshold`). Over-threshold work **must not commit**; the conductor decomposes and massages tasks, executes reviewable chunks (sequential fallback required if parallel subagents are unavailable), and may run a bounded re-owl only without bypassing intake or code GAN BLESS. When mode is off, AXEL behavior is unchanged. Full contract: `docs/plans/mitchell-decomposition-contract.html` (issue #43). Skill: `axel`.
 
 ---
 
