@@ -123,6 +123,7 @@
       </div>
 
       <div class="hidden md:flex items-center gap-x-9 text-sm font-medium">
+        <a href="#pipeline" class="nav-link text-slate-300 hover:text-[#eab308]">Pipeline</a>
         <a href="#philosophy" class="nav-link text-slate-300 hover:text-[#eab308]">Philosophy</a>
         <a href="#pillars" class="nav-link text-slate-300 hover:text-[#eab308]">The Forge</a>
         <a href="#skills" class="nav-link text-slate-300 hover:text-[#eab308]">Skills</a>
@@ -161,23 +162,32 @@
         </div>
 
         <h1 class="text-6xl md:text-7xl lg:text-8xl leading-[0.92] font-bold tracking-tighter mb-6">
-          <span class="heading-font text-white">Agent skills</span><br>
-          <span class="heading-font flame-gradient">forged for craft.</span>
+          <span class="heading-font text-white">Plan until three roles BLESS.</span><br>
+          <span class="heading-font flame-gradient">Execute until AC have evidence.</span>
         </h1>
 
-        <p class="max-w-2xl text-2xl text-slate-400 font-light tracking-tight mb-10">
-          A complete, self-hosting harness of high-quality skills and process for building reliable, long-running AI coding agents that ship production code across many sessions.
+        <p class="max-w-2xl text-2xl text-slate-400 font-light tracking-tight mb-6">
+          Stop agents from coding the wrong thing. <strong class="text-white">AVRIL</strong> triple-blesses the backlog;
+          <strong class="text-white">AXEL</strong> runs only that backlog through PETC + code GAN until done is honest.
         </p>
+
+        <div class="mb-10 font-mono text-sm md:text-base text-emerald-300/90 bg-black/40 border border-white/10 rounded-2xl px-5 py-4 overflow-x-auto" data-public-skill-count="14">
+          Intent → <span class="text-[#fde047]">AVRIL</span> → Blessed Backlog → <span class="text-[#fde047]">AXEL</span> → Done
+        </div>
 
         <div class="flex flex-wrap gap-4">
           <a href="#start" 
              class="inline-flex items-center justify-center gap-x-3 px-8 py-4 rounded-2xl bg-[#eab308] hover:bg-[#fde047] text-[#020617] font-semibold text-lg transition-all active:scale-[0.985]">
-            <span>Start Forging</span>
+            <span>Bootstrap</span>
             <i class="fa-solid fa-arrow-right"></i>
           </a>
-          <a href="docs/" 
+          <a href="docs/pipeline/overview.html" 
              class="inline-flex items-center justify-center gap-x-3 px-8 py-4 rounded-2xl border border-white/20 hover:bg-white/5 font-semibold text-lg transition-all">
-            <span>Enter the Docs</span>
+            <span>Read the pipeline</span>
+          </a>
+          <a href="https://github.com/scull7/crossr-skills" target="_blank"
+             class="inline-flex items-center justify-center gap-x-3 px-8 py-4 rounded-2xl border border-white/20 hover:bg-white/5 font-semibold text-lg transition-all">
+            <span>GitHub</span>
           </a>
         </div>
 
@@ -187,7 +197,7 @@
             <div class="w-2 h-2 rounded-full bg-[#f59e0b]"></div>
             <div class="w-2 h-2 rounded-full bg-[#fde047]"></div>
           </div>
-          <span>Used on real production systems (ferro-wave, ferro-wg)</span>
+          <span>14 public skills · dogfooded on this repository</span>
         </div>
       </div>
     </div>
@@ -196,8 +206,27 @@
     <div class="absolute bottom-0 left-0 right-0 h-px flame-bar"></div>
   </header>
 
+  <!-- PIPELINE -->
+  <section id="pipeline" class="max-w-screen-2xl mx-auto px-8 pt-16 pb-8">
+    <div class="rounded-3xl border border-white/10 bg-[#0b0f1e] p-8 md:p-10">
+      <div class="text-[#eab308] uppercase tracking-[3px] text-xs font-semibold mb-3">Flagship loop</div>
+      <h2 class="section-header text-4xl tracking-tighter font-semibold mb-4">AVRIL plans. AXEL executes.</h2>
+      <p class="text-slate-300 max-w-3xl mb-6">Hard planning stop after triple BLESS. Intake gate before any implementation. Small PRs. Agents do not mark done on vibes.</p>
+      <ol class="grid md:grid-cols-5 gap-3 text-sm">
+        <li class="rounded-2xl bg-black/40 border border-white/10 p-4"><span class="text-[#eab308] font-semibold">1. Intent</span><div class="text-slate-400 mt-1">Human goal</div></li>
+        <li class="rounded-2xl bg-black/40 border border-white/10 p-4"><span class="text-[#eab308] font-semibold">2. AVRIL</span><div class="text-slate-400 mt-1">PO → QA → CTO BLESS</div></li>
+        <li class="rounded-2xl bg-black/40 border border-white/10 p-4"><span class="text-[#eab308] font-semibold">3. Backlog</span><div class="text-slate-400 mt-1">Finite authorized set</div></li>
+        <li class="rounded-2xl bg-black/40 border border-white/10 p-4"><span class="text-[#eab308] font-semibold">4. AXEL</span><div class="text-slate-400 mt-1">PETC + code GAN</div></li>
+        <li class="rounded-2xl bg-black/40 border border-white/10 p-4"><span class="text-[#eab308] font-semibold">5. Done</span><div class="text-slate-400 mt-1">AC evidenced</div></li>
+      </ol>
+      <a href="docs/pipeline/overview.html" class="inline-flex mt-6 text-[#eab308] hover:text-[#fde047] font-medium gap-2 items-center">
+        Pipeline docs <i class="fa-solid fa-arrow-right text-xs"></i>
+      </a>
+    </div>
+  </section>
+
   <!-- PHILOSOPHY -->
-  <section id="philosophy" class="max-w-screen-2xl mx-auto px-8 pt-20 pb-16">
+  <section id="philosophy" class="max-w-screen-2xl mx-auto px-8 pt-12 pb-16">
     <div class="max-w-3xl">
       <div class="uppercase tracking-[3px] text-xs font-semibold text-[#eab308] mb-3">The CrossR Creed</div>
       <h2 class="section-header text-5xl tracking-tighter font-semibold mb-6">We don’t prompt. We forge.</h2>
@@ -226,7 +255,7 @@
             <i class="fa-solid fa-book text-2xl text-[#eab308]"></i>
           </div>
           <h4 class="font-semibold text-xl mb-2 tracking-tight">Curated Skills</h4>
-          <p class="text-slate-400 text-[15px]">11+ production-grade skills following the official agentskills.io spec. Every one reviewed by reviewer + tester + architect agents.</p>
+          <p class="text-slate-400 text-[15px]">14 public skills (see full catalog) following agentskills.io. Orchestration pair: AVRIL + AXEL; Rust quality stack via code GAN.</p>
         </div>
 
         <div class="pillar-card group border border-white/10 bg-[#020617] rounded-3xl p-7">
@@ -264,163 +293,33 @@
     </div>
   </section>
 
-  <!-- SKILLS -->
-  <section id="skills" class="max-w-screen-2xl mx-auto px-8 py-20">
+  <!-- SKILLS (featured subset; full catalog N=14) -->
+  <section id="skills" class="max-w-screen-2xl mx-auto px-8 py-20" data-public-skill-count="14">
     <div class="mb-10 flex flex-col md:flex-row md:items-end md:justify-between gap-y-4">
       <div>
-        <div class="text-[#eab308] text-xs uppercase tracking-[3px] font-semibold mb-2">The Library</div>
-        <h3 class="section-header text-5xl tracking-tighter">Skills forged in production</h3>
+        <div class="text-[#eab308] text-xs uppercase tracking-[3px] font-semibold mb-2">Featured</div>
+        <h3 class="section-header text-5xl tracking-tighter">Skills that drive the loop</h3>
+        <p class="text-slate-400 mt-2">Featured subset below. Full catalog (14) in the docs.</p>
       </div>
-      <a href="docs/" class="text-[#eab308] hover:text-[#fde047] font-medium flex items-center gap-x-2 group">
-        Browse the full catalog in the docs 
+      <a href="docs/skills/overview.html" class="text-[#eab308] hover:text-[#fde047] font-medium flex items-center gap-x-2 group">
+        See full catalog (14)
         <i class="fa-solid fa-arrow-right transition group-hover:translate-x-0.5"></i>
       </a>
     </div>
 
     <div class="grid sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
-      <!-- code-writer -->
-      <div class="skill-pill rounded-2xl px-5 py-4 flex gap-4 items-start">
-        <div class="mt-1 w-5 h-5 flex-shrink-0 rounded bg-[#1e2937] flex items-center justify-center">
-          <i class="fa-solid fa-hammer text-[#eab308] text-xs"></i>
-        </div>
-        <div class="min-w-0">
-          <div class="flex items-baseline gap-x-2">
-            <span class="font-semibold">code-writer</span>
-            <span class="text-xs px-2 py-px rounded bg-white/5 text-white/60">Foundation</span>
-          </div>
-          <div class="text-sm text-slate-400 mt-1 leading-snug">Grokking Simplicity + SICP philosophy for all code</div>
-        </div>
-      </div>
-
-      <!-- rust-code-writer -->
-      <div class="skill-pill rounded-2xl px-5 py-4 flex gap-4 items-start">
-        <div class="mt-1 w-5 h-5 flex-shrink-0 rounded bg-[#1e2937] flex items-center justify-center">
-          <i class="fa-solid fa-hammer text-[#eab308] text-xs"></i>
-        </div>
-        <div class="min-w-0">
-          <div class="flex items-baseline gap-x-2">
-            <span class="font-semibold">rust-code-writer</span>
-            <span class="text-xs px-2 py-px rounded bg-white/5 text-white/60">Rust Core</span>
-          </div>
-          <div class="text-sm text-slate-400 mt-1 leading-snug">Idiomatic, pure, stratified, flat combinator Rust</div>
-        </div>
-      </div>
-
-      <!-- rust-code-reviewer -->
-      <div class="skill-pill rounded-2xl px-5 py-4 flex gap-4 items-start">
-        <div class="mt-1 w-5 h-5 flex-shrink-0 rounded bg-[#1e2937] flex items-center justify-center">
-          <i class="fa-solid fa-hammer text-[#eab308] text-xs"></i>
-        </div>
-        <div class="min-w-0">
-          <div class="flex items-baseline gap-x-2">
-            <span class="font-semibold">rust-code-reviewer</span>
-            <span class="text-xs px-2 py-px rounded bg-white/5 text-white/60">Quality</span>
-          </div>
-          <div class="text-sm text-slate-400 mt-1 leading-snug">Ruthless enforcement of every rule in the stack</div>
-        </div>
-      </div>
-
-      <!-- rust-code-tester -->
-      <div class="skill-pill rounded-2xl px-5 py-4 flex gap-4 items-start">
-        <div class="mt-1 w-5 h-5 flex-shrink-0 rounded bg-[#1e2937] flex items-center justify-center">
-          <i class="fa-solid fa-hammer text-[#eab308] text-xs"></i>
-        </div>
-        <div class="min-w-0">
-          <div class="flex items-baseline gap-x-2">
-            <span class="font-semibold">rust-code-tester</span>
-            <span class="text-xs px-2 py-px rounded bg-white/5 text-white/60">Quality</span>
-          </div>
-          <div class="text-sm text-slate-400 mt-1 leading-snug">Obsessive coverage, property tests, error paths</div>
-        </div>
-      </div>
-
-      <!-- rust-architect -->
-      <div class="skill-pill rounded-2xl px-5 py-4 flex gap-4 items-start">
-        <div class="mt-1 w-5 h-5 flex-shrink-0 rounded bg-[#1e2937] flex items-center justify-center">
-          <i class="fa-solid fa-hammer text-[#eab308] text-xs"></i>
-        </div>
-        <div class="min-w-0">
-          <div class="flex items-baseline gap-x-2">
-            <span class="font-semibold">rust-architect</span>
-            <span class="text-xs px-2 py-px rounded bg-white/5 text-white/60">Architecture</span>
-          </div>
-          <div class="text-sm text-slate-400 mt-1 leading-snug">Torvalds-style system-level gatekeeper</div>
-        </div>
-      </div>
-
-      <!-- rust-axum-backend -->
-      <div class="skill-pill rounded-2xl px-5 py-4 flex gap-4 items-start">
-        <div class="mt-1 w-5 h-5 flex-shrink-0 rounded bg-[#1e2937] flex items-center justify-center">
-          <i class="fa-solid fa-hammer text-[#eab308] text-xs"></i>
-        </div>
-        <div class="min-w-0">
-          <div class="flex items-baseline gap-x-2">
-            <span class="font-semibold">rust-axum-backend</span>
-            <span class="text-xs px-2 py-px rounded bg-white/5 text-white/60">Backend</span>
-          </div>
-          <div class="text-sm text-slate-400 mt-1 leading-snug">Layered Axum with extractors, policy gates, clean errors</div>
-        </div>
-      </div>
-
-      <!-- rust-frontend -->
-      <div class="skill-pill rounded-2xl px-5 py-4 flex gap-4 items-start">
-        <div class="mt-1 w-5 h-5 flex-shrink-0 rounded bg-[#1e2937] flex items-center justify-center">
-          <i class="fa-solid fa-hammer text-[#eab308] text-xs"></i>
-        </div>
-        <div class="min-w-0">
-          <div class="flex items-baseline gap-x-2">
-            <span class="font-semibold">rust-frontend</span>
-            <span class="text-xs px-2 py-px rounded bg-white/5 text-white/60">Frontend</span>
-          </div>
-          <div class="text-sm text-slate-400 mt-1 leading-snug">Leptos + WASM + Polars with anti-slop guidance</div>
-        </div>
-      </div>
-
-      <!-- rust-tui -->
-      <div class="skill-pill rounded-2xl px-5 py-4 flex gap-4 items-start">
-        <div class="mt-1 w-5 h-5 flex-shrink-0 rounded bg-[#1e2937] flex items-center justify-center">
-          <i class="fa-solid fa-hammer text-[#eab308] text-xs"></i>
-        </div>
-        <div class="min-w-0">
-          <div class="flex items-baseline gap-x-2">
-            <span class="font-semibold">rust-tui</span>
-            <span class="text-xs px-2 py-px rounded bg-white/5 text-white/60">TUI</span>
-          </div>
-          <div class="text-sm text-slate-400 mt-1 leading-snug">ratatui Component + Action + two-phase dispatch (ferro-wg)</div>
-        </div>
-      </div>
-
-      <!-- rust-errors -->
-      <div class="skill-pill rounded-2xl px-5 py-4 flex gap-4 items-start">
-        <div class="mt-1 w-5 h-5 flex-shrink-0 rounded bg-[#1e2937] flex items-center justify-center">
-          <i class="fa-solid fa-hammer text-[#eab308] text-xs"></i>
-        </div>
-        <div class="min-w-0">
-          <div class="flex items-baseline gap-x-2">
-            <span class="font-semibold">rust-errors</span>
-            <span class="text-xs px-2 py-px rounded bg-white/5 text-white/60">Backend</span>
-          </div>
-          <div class="text-sm text-slate-400 mt-1 leading-snug">thiserror layered errors, never inline map_err</div>
-        </div>
-      </div>
-
-      <!-- agent-harness -->
-      <div class="skill-pill rounded-2xl px-5 py-4 flex gap-4 items-start">
-        <div class="mt-1 w-5 h-5 flex-shrink-0 rounded bg-[#1e2937] flex items-center justify-center">
-          <i class="fa-solid fa-hammer text-[#eab308] text-xs"></i>
-        </div>
-        <div class="min-w-0">
-          <div class="flex items-baseline gap-x-2">
-            <span class="font-semibold">agent-harness</span>
-            <span class="text-xs px-2 py-px rounded bg-white/5 text-white/60">Process</span>
-          </div>
-          <div class="text-sm text-slate-400 mt-1 leading-snug">The full harness spec + stacked PR + GAN patterns</div>
-        </div>
-      </div>
+      <div class="skill-pill rounded-2xl px-5 py-4"><div class="font-semibold">code-writer</div><div class="text-xs text-white/50 mt-1">Foundation</div><div class="text-sm text-slate-400 mt-1">Core coding philosophy for every skill</div></div>
+      <div class="skill-pill rounded-2xl px-5 py-4"><div class="font-semibold">avril</div><div class="text-xs text-white/50 mt-1">Orchestration</div><div class="text-sm text-slate-400 mt-1">Planning GAN — PO → QA → CTO BLESS</div></div>
+      <div class="skill-pill rounded-2xl px-5 py-4"><div class="font-semibold">axel</div><div class="text-xs text-white/50 mt-1">Orchestration</div><div class="text-sm text-slate-400 mt-1">Execution loop — PETC + code GAN</div></div>
+      <div class="skill-pill rounded-2xl px-5 py-4"><div class="font-semibold">rust-team-lead</div><div class="text-xs text-white/50 mt-1">Orchestration</div><div class="text-sm text-slate-400 mt-1">Inner Rust code GAN for AXEL</div></div>
+      <div class="skill-pill rounded-2xl px-5 py-4"><div class="font-semibold">rust-code-writer</div><div class="text-xs text-white/50 mt-1">Rust Core</div><div class="text-sm text-slate-400 mt-1">Idiomatic stratified Rust</div></div>
+      <div class="skill-pill rounded-2xl px-5 py-4"><div class="font-semibold">rust-code-reviewer</div><div class="text-xs text-white/50 mt-1">Quality</div><div class="text-sm text-slate-400 mt-1">Ruthless code quality gate</div></div>
+      <div class="skill-pill rounded-2xl px-5 py-4"><div class="font-semibold">agent-harness</div><div class="text-xs text-white/50 mt-1">Harness</div><div class="text-sm text-slate-400 mt-1">Stacked PRs, PETC, HTML-first</div></div>
+      <div class="skill-pill rounded-2xl px-5 py-4"><div class="font-semibold">skill-evaluator</div><div class="text-xs text-white/50 mt-1">Meta</div><div class="text-sm text-slate-400 mt-1">Audit and remediate skills</div></div>
     </div>
 
     <div class="mt-8 text-sm text-white/50">
-      All skills live in <code class="font-mono text-[#eab308]/90">.agents/skills/</code> following the official <a href="https://agentskills.io" class="underline hover:text-[#eab308]">agentskills.io</a> specification.
+      Public allowlist SSOT: <code class="font-mono text-[#eab308]/90">docs/public-skills.json</code> · agentskills.io under <code class="font-mono text-[#eab308]/90">.agents/skills/</code>
     </div>
   </section>
 

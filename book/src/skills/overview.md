@@ -1,49 +1,38 @@
 # Skills Overview
 
-All reusable capabilities in this repository live under `.agents/skills/` and strictly follow the official [agentskills.io](https://agentskills.io) specification.
+All reusable capabilities live under `.agents/skills/` and follow the official [agentskills.io](https://agentskills.io) specification.
 
-## The agentskills.io Format
+## Canonical structure
 
-Each skill is a single file:
+All skills in this repository follow the **canonical portable structure** and the **Harness Relationship (Stratified)** principle. Generic/core skills are fully harness-agnostic. Harness-layer and domain skills include a `## Harness Context (Stratified Disclosure)` block. The `skill-evaluator` skill is the authority for this standard.
 
-```
-.agents/skills/<name>/SKILL.md
-```
+The **public catalog** is the machine-readable allowlist in [`docs/public-skills.json`](https://github.com/scull7/crossr-skills/blob/main/docs/public-skills.json). Deep skill law lives in each skill’s `SKILL.md` in the repo — this book does **not** duplicate per-skill pages.
 
-With YAML frontmatter containing at minimum:
+## Public catalog
 
-```yaml
----
-name: skill-name
-description: |
-  One or two sentence description of what this skill does and when to use it.
----
-```
+| Skill | Purpose | Category | Activate with |
+|-------|---------|----------|---------------|
+| `code-writer` | Core coding philosophy (Grokking Simplicity + SICP) | Foundation | always with other skills |
+| `rust-code-writer` | Idiomatic, pure, stratified, flat-combinator Rust | Rust Core | `code-writer` + this |
+| `rust-code-reviewer` | Ruthless Rust code quality guardian | Quality | code GAN |
+| `rust-code-tester` | Obsessive test coverage and error-path verification | Quality | code GAN |
+| `rust-architect` | Torvalds-style system-level architecture gatekeeper | Architecture | code GAN final gate |
+| `rust-team-lead` | GAN orchestrator for multi-agent Rust plan execution | Orchestration | AXEL inner GAN on Rust |
+| `avril` | Planning GAN — blessed PBIs (PO → QA → CTO) | Orchestration | `code-writer` + `avril` |
+| `axel` | Execution loop — blessed PBI → PETC + code GAN | Orchestration | `code-writer` + `axel` (+ stack) |
+| `rust-axum-backend` | Clean layered Axum HTTP APIs with policy gates | Backend | + `rust-code-writer` |
+| `rust-frontend` | Leptos + WASM + Polars with anti-slop guidance | Frontend | + `rust-code-writer` |
+| `rust-tui` | ratatui Component + Action + two-phase dispatch | TUI | + `rust-code-writer` |
+| `rust-errors` | Layered thiserror handling (no anyhow) | Backend | + `rust-code-writer` |
+| `agent-harness` | Full harness process (stacked PRs, GAN, HTML-first) | Harness | long-running sessions |
+| `skill-evaluator` | Audit and remediate agent skills | Meta | skill remediation GAN |
 
-The rest of the file contains the detailed guidance, rules, anti-patterns, and activation statements.
+**N = 14** public skills. Items in `out` in `public-skills.json` (e.g. `obsidian-cli`, empty diataxis stubs) are **not** marketed.
 
-All skills in this repository follow the **canonical portable structure** and the **Harness Relationship (Stratified)** principle. Generic/core skills are fully harness-agnostic. Harness-layer and domain skills include a `## Harness Context (Stratified Disclosure)` block that clearly separates portable principles from project-specific realizations (supplied by the invoking harness at activation). The `skill-evaluator` skill and its permanent GAN personas are the authority for maintaining this standard.
+## Pipeline skills
 
-## Claude Compatibility
+Orchestration pair: **`avril`** (plan) → **`axel`** (execute). See [Pipeline Overview](../pipeline/overview.md).
 
-**Claude compatibility is generated, never hand-maintained.**
+## Claude compatibility
 
-The canonical source is always the `.agents/skills/` directory.
-
-When a project wants Claude support, it runs the generator (provided by `scripts/harness-bootstrap` or `scripts/sync-skills`) to produce the optional `.claude/skills/` and `.claude/commands/` copies.
-
-This keeps cross-project reuse clean and ensures the official specification is the single source of truth.
-
-## Current Skills
-
-See the individual skill documents linked from the table of contents for details. The skills are grouped into:
-
-- Core writing skills (`code-writer`, `rust-code-writer`)
-- Quality & architecture skills (`rust-code-reviewer`, `rust-code-tester`, `rust-architect`)
-- Domain skills (`rust-axum-backend`, `rust-frontend`, `rust-tui`, `rust-errors`)
-- Meta skills (`agent-harness`, `avril`, `axel`, `skill-evaluator`)
-- Planning / execution orchestration (`avril` planning GAN → `axel` execution loop)
-
-All skills are designed to be combined. The typical activation pattern is:
-
-> Using `code-writer` + `rust-code-writer` + `rust-axum-backend` + `agent-harness` for this task.
+Claude compatibility is **generated**, never hand-maintained. Canonical source: `.agents/skills/`.

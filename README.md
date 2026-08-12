@@ -48,23 +48,30 @@ This creates a full harness including `AGENTS.md`, `features.json`, `progress.md
 
 All skills are designed with the same standards applied to production Rust code: functional purity, stratified design, zero technical debt, and handover-clean artifacts.
 
+Public catalog SSOT: [`docs/public-skills.json`](docs/public-skills.json) (14 skills). Names below must match that file.
+
 | Skill                  | Purpose                                              | Category      |
 |------------------------|------------------------------------------------------|---------------|
 | `code-writer`          | Core coding philosophy (Grokking Simplicity + SICP) | Foundation    |
 | `rust-code-writer`     | Idiomatic, pure, stratified, flat-combinator Rust    | Rust Core     |
-| `rust-code-reviewer`   | Ruthless code quality guardian                       | Quality       |
-| `rust-code-tester`     | Obsessive test coverage & error-path verification    | Quality       |
+| `rust-code-reviewer`   | Ruthless Rust code quality guardian                  | Quality       |
+| `rust-code-tester`     | Obsessive test coverage and error-path verification  | Quality       |
 | `rust-architect`       | Torvalds-style system-level architecture gatekeeper  | Architecture  |
-| `rust-team-lead`       | GAN orchestrator for reliable multi-agent workflows  | Orchestration |
+| `rust-team-lead`       | GAN orchestrator for multi-agent Rust plan execution | Orchestration |
 | `avril`                | Planning GAN — blessed PBIs (PO → QA → CTO)          | Orchestration |
 | `axel`                 | Execution loop — blessed PBI → PETC + code GAN       | Orchestration |
-| `rust-axum-backend`    | Clean, layered Axum HTTP APIs with policy gates      | Backend       |
-| `rust-frontend`        | Leptos + WASM + Polars with strong anti-slop guidance| Frontend      |
+| `rust-axum-backend`    | Clean layered Axum HTTP APIs with policy gates       | Backend       |
+| `rust-frontend`        | Leptos + WASM + Polars with anti-slop guidance       | Frontend      |
 | `rust-tui`             | ratatui Component + Action + two-phase dispatch      | TUI           |
-| `rust-errors`          | Layered `thiserror` error handling (no `anyhow`)     | Backend       |
+| `rust-errors`          | Layered thiserror handling (no anyhow)               | Backend       |
 | `agent-harness`        | Full harness process (stacked PRs, GAN, HTML-first)  | Harness       |
+| `skill-evaluator`      | Audit and remediate agent skills against CrossR standards | Meta     |
 
-See the [full documentation](https://scull7.github.io/crossr-skills/docs/) for detailed guidance on each skill.
+**Not in the public catalog:** `obsidian-cli`, `diataxis` (deferred), empty `diataxis-*` stubs — see `out` in `docs/public-skills.json`.
+
+Flagship pipeline: **Intent → AVRIL → Blessed Backlog → AXEL → Done** ([docs](https://scull7.github.io/crossr-skills/docs/pipeline/overview.html)).
+
+See the [full documentation](https://scull7.github.io/crossr-skills/docs/) for pipeline chapters, catalog, and bootstrap.
 
 ---
 

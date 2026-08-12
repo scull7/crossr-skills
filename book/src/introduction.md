@@ -2,41 +2,38 @@
 
 Welcome to the **CrossR Skills** documentation.
 
-This book is the canonical reference for the skills and harness process developed in this repository.
+This book is the public progressive lens over the skills and harness in this repository. Process law lives in [HARNESS-SPEC.md](https://github.com/scull7/crossr-skills/blob/main/HARNESS-SPEC.md).
 
 ## What is CrossR Skills?
 
-A curated collection of high-quality **Agent Skills** together with a complete, self-hosting **harness** for building reliable, long-running AI coding agents.
+A curated collection of high-quality **Agent Skills** plus a self-hosting **harness** for reliable, multi-session AI coding agents.
 
-The skills follow the official [agentskills.io](https://agentskills.io) specification. The process layer is defined in the [HARNESS-SPEC.md](https://github.com/scull7/crossr-skills/blob/main/HARNESS-SPEC.md) at the root of this repository.
+## Flagship pipeline
 
-## Why This Exists
+```
+Intent → AVRIL (plan) → Blessed Backlog → AXEL (execute) → Done
+```
 
-Most AI coding agents are stateless. Every new session starts from scratch.
+- **AVRIL** triple-blesses the backlog (Product Owner → QA → CTO) and **stops**.
+- **AXEL** executes only that authorization through PETC + code GAN until AC have evidence.
 
-The harness turns those stateless sessions into something far more powerful:
+Start here: [Pipeline Overview](pipeline/overview.md).
+
+## Why this exists
+
+Most AI coding agents are stateless. The harness adds:
 
 - Persistent state across context resets
 - Incremental, verifiable progress
-- Extremely reviewable changes (target: < 10 minutes deep review per PR)
+- Reviewable changes (< 10 minutes deep review per PR)
 - Self-verifying handovers
-- Mechanical quality enforcement via the GAN cycle (Generator + Adversary)
+- Mechanical quality via planning GAN + code GAN
 
-This combination has been battle-tested on real production work, including a 16-PR security-critical authorization chain.
+## How to use this book
 
-## Core Philosophy
+1. [Pipeline](pipeline/overview.md) — AVRIL and AXEL  
+2. [Getting Started](getting-started/bootstrap.md) — bootstrap + paste-ready first session  
+3. [Skills catalog](skills/overview.md) — public allowlist (no phantom skill pages)  
+4. [Harness](harness/overview.md) — PETC, stacked PRs, HTML-first  
 
-The same standards we apply to production Rust code apply here:
-
-- Functional purity and stratified design
-- Zero technical debt
-- Handover-clean artifacts
-- **HTML as a first-class human interface** for plans, reviews, and specifications
-
-## How to Use This Book
-
-- Start with the [Harness Overview](harness/overview.md) to understand the full system.
-- The [Skills](../skills/overview.md) section documents the reusable capabilities.
-- Follow [Getting Started](getting-started/bootstrap.md) to bootstrap the harness in your own projects.
-
-This book is itself dogfooded — it was built using the same harness and process it describes.
+This book is dogfooded with the same process it describes.

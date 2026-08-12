@@ -1,0 +1,111 @@
+{
+  "version": 1,
+  "skills": [
+    {
+      "name": "code-writer",
+      "category": "Foundation",
+      "purpose": "Core coding philosophy (Grokking Simplicity + SICP)"
+    },
+    {
+      "name": "rust-code-writer",
+      "category": "Rust Core",
+      "purpose": "Idiomatic, pure, stratified, flat-combinator Rust"
+    },
+    {
+      "name": "rust-code-reviewer",
+      "category": "Quality",
+      "purpose": "Ruthless Rust code quality guardian"
+    },
+    {
+      "name": "rust-code-tester",
+      "category": "Quality",
+      "purpose": "Obsessive test coverage and error-path verification"
+    },
+    {
+      "name": "rust-architect",
+      "category": "Architecture",
+      "purpose": "Torvalds-style system-level architecture gatekeeper"
+    },
+    {
+      "name": "rust-team-lead",
+      "category": "Orchestration",
+      "purpose": "GAN orchestrator for multi-agent Rust plan execution"
+    },
+    {
+      "name": "avril",
+      "category": "Orchestration",
+      "purpose": "Planning GAN — blessed PBIs (PO → QA → CTO)"
+    },
+    {
+      "name": "axel",
+      "category": "Orchestration",
+      "purpose": "Execution loop — blessed PBI → PETC + code GAN"
+    },
+    {
+      "name": "rust-axum-backend",
+      "category": "Backend",
+      "purpose": "Clean layered Axum HTTP APIs with policy gates"
+    },
+    {
+      "name": "rust-frontend",
+      "category": "Frontend",
+      "purpose": "Leptos + WASM + Polars with anti-slop guidance"
+    },
+    {
+      "name": "rust-tui",
+      "category": "TUI",
+      "purpose": "ratatui Component + Action + two-phase dispatch"
+    },
+    {
+      "name": "rust-errors",
+      "category": "Backend",
+      "purpose": "Layered thiserror handling (no anyhow)"
+    },
+    {
+      "name": "agent-harness",
+      "category": "Harness",
+      "purpose": "Full harness process (stacked PRs, GAN, HTML-first)"
+    },
+    {
+      "name": "skill-evaluator",
+      "category": "Meta",
+      "purpose": "Audit and remediate agent skills against CrossR standards"
+    }
+  ],
+  "out": [
+    {
+      "name": "obsidian-cli",
+      "reason": "Personal/local tooling — not part of the public product surface"
+    },
+    {
+      "name": "diataxis",
+      "reason": "Deferred from v1 public catalog until quadrant skills ship"
+    },
+    {
+      "name": "diataxis-explanation",
+      "reason": "Empty stub directory — not a shippable skill"
+    },
+    {
+      "name": "diataxis-how-to-guides",
+      "reason": "Empty stub directory — not a shippable skill"
+    },
+    {
+      "name": "diataxis-reference",
+      "reason": "Empty stub directory — not a shippable skill"
+    },
+    {
+      "name": "diataxis-tutorials",
+      "reason": "Not in v1 public allowlist (compose with diataxis when public)"
+    }
+  ],
+  "featured": [
+    "code-writer",
+    "avril",
+    "axel",
+    "rust-team-lead",
+    "rust-code-writer",
+    "rust-code-reviewer",
+    "agent-harness",
+    "skill-evaluator"
+  ]
+}

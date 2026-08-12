@@ -314,3 +314,17 @@ Documentation verification is now a first-class part of the standard harness wor
 - Shape: `.opencode/command/{avril,axel}.md` + agents wrapping existing skills
 - Free-text `$ARGUMENTS` router; empty args = status
 - Delivery: cmd-01…cmd-04 (not implemented in this PR)
+
+## AXEL execution: public-docs-alignment (T-1…T-6)
+
+Executed blessed PBIs end-to-end:
+
+- **T-1 / #48** — `docs/public-skills.json` (N=14) + README catalog sync + skill-evaluator
+- **T-2 / #49** — book pipeline chapters (overview, AVRIL, AXEL) + SUMMARY reorder
+- **T-3 / #50** — skills catalog table + bootstrap first-session prompts
+- **T-4 / #51** — docs-verify allowlist/set/stub/TOC/honest HTML report
+- **T-5 / #52** — marketing pipeline + featured skills + no ferro-* / no 11+
+- **T-6 / #53** — intro/README/site cross-links + phase closeout
+
+Verification: `just harness-validate` PASS. Pinto board: all done.
+
