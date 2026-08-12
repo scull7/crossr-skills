@@ -2,39 +2,65 @@
 
 The fastest way to adopt the full harness in a new project is the `harness-bootstrap` script.
 
-## One Command
+## One command
 
 ```bash
 git clone https://github.com/scull7/crossr-skills.git
 ./crossr-skills/scripts/harness-bootstrap /path/to/your-new-project
 ```
 
-## What Gets Created
+## What gets created
 
-The bootstrap emits a complete, ready-to-commit harness:
-
-- `AGENTS.md` (with Plan Mode and skill references)
+- `AGENTS.md` (Plan Mode and skill references)
 - `features.json` + `features.schema.json`
 - `progress.md`
-- `justfile` with the standard targets
-- `.agents/skills/` (copy of the skills you choose)
-- `.gitignore` entries for generated artifacts
-- `CLAUDE.md` (optional, generated)
-- A `harness-validate` target
+- `justfile` with standard targets
+- `.agents/skills/` (skills you choose)
+- `harness-validate` (includes `docs-verify`)
 
-After running the script, you should immediately commit the new harness as the foundation of the project.
+Commit the empty harness immediately, then work inside it.
 
-## After Bootstrapping
-
-Run:
+## After bootstrapping
 
 ```bash
 just harness-validate
 just init
 ```
 
-`just harness-validate` now also runs `just docs-verify` to ensure documentation stays aligned with the current canonical standards.
+Then run the flagship pipeline: **AVRIL** (plan) → **AXEL** (execute). See [Pipeline Overview](../pipeline/overview.md).
 
-Then begin your first piece of work using the PETC loop.
+## First session (AVRIL → AXEL)
 
-The bootstrap script itself is part of the harness and is maintained using the same process it enables.
+Paste these after bootstrap (adjust intent). Prefer a Pinto board (`pinto init`) when available.
+
+### 1. Plan with AVRIL
+
+```text
+Using code-writer + avril to run the Automated Visionary Review Iteration Loop
+on this intent until every PBI is triple-blessed:
+
+INTENT: <one paragraph of what you want to ship>
+
+Propose small vertical-slice PBIs with testable acceptance criteria and scope_out.
+Run Product Owner → QA Architect → Visionary CTO until each item has explicit BLESS.
+Emit a Blessed Backlog Summary and stop — do not implement code.
+```
+
+**Expected artifacts:** PBI set (Pinto or portable shape), triple-`BLESS` log, Blessed Backlog Summary. Planning **stops** here.
+
+### 2. Execute with AXEL
+
+```text
+Using code-writer + axel (+ rust-code-writer + rust-team-lead if this is Rust)
+to execute the next blessed PBI through PETC until AC are evidenced and the board is honest.
+
+Intake: only PBIs from the Blessed Backlog Summary / avril-blessed marker.
+For each phase: Generator → Reviewer → Tester → Architect BLESS, then commit + track.
+Record AC evidence before moving to done. Conductor does not write production code.
+```
+
+**Expected artifacts:** small commits with PBI ids, green verification matrix, AC checkboxes evidenced, board status honest.
+
+## Related
+
+- [AVRIL](../pipeline/avril.md) · [AXEL](../pipeline/axel.md) · [Skills catalog](../skills/overview.md)

@@ -2,17 +2,61 @@
   "harness-v2": {
     "status": "completed",
     "commits": [
-      {"id": "pr1", "title": "HARNESS-SPEC.md + planning HTML", "status": "completed"},
-      {"id": "pr2", "title": "agent-harness skill v2", "status": "completed"},
-      {"id": "pr3", "title": "Fines upstream into code-writer", "status": "completed"},
-      {"id": "pr4", "title": "reviewer + errors enhancements", "status": "completed"},
-      {"id": "pr5", "title": "rust-axum-backend patterns", "status": "completed"},
-      {"id": "pr6", "title": "rust-frontend anti-slop guidance", "status": "completed"},
-      {"id": "pr7", "title": "new rust-tui skill", "status": "completed"},
-      {"id": "pr8", "title": "harness-bootstrap + templates", "status": "completed"},
-      {"id": "pr9", "title": "Dogfood harness on crossr-skills", "status": "completed"},
-      {"id": "pr10", "title": "Final README + documentation polish", "status": "completed"},
-      {"id": "verify", "title": "Post-merge verification + script fixes", "status": "completed"}
+      {
+        "id": "pr1",
+        "title": "HARNESS-SPEC.md + planning HTML",
+        "status": "completed"
+      },
+      {
+        "id": "pr2",
+        "title": "agent-harness skill v2",
+        "status": "completed"
+      },
+      {
+        "id": "pr3",
+        "title": "Fines upstream into code-writer",
+        "status": "completed"
+      },
+      {
+        "id": "pr4",
+        "title": "reviewer + errors enhancements",
+        "status": "completed"
+      },
+      {
+        "id": "pr5",
+        "title": "rust-axum-backend patterns",
+        "status": "completed"
+      },
+      {
+        "id": "pr6",
+        "title": "rust-frontend anti-slop guidance",
+        "status": "completed"
+      },
+      {
+        "id": "pr7",
+        "title": "new rust-tui skill",
+        "status": "completed"
+      },
+      {
+        "id": "pr8",
+        "title": "harness-bootstrap + templates",
+        "status": "completed"
+      },
+      {
+        "id": "pr9",
+        "title": "Dogfood harness on crossr-skills",
+        "status": "completed"
+      },
+      {
+        "id": "pr10",
+        "title": "Final README + documentation polish",
+        "status": "completed"
+      },
+      {
+        "id": "verify",
+        "title": "Post-merge verification + script fixes",
+        "status": "completed"
+      }
     ]
   },
   "marketing-and-docs-site": {
@@ -57,28 +101,96 @@
   "skill-remediation": {
     "status": "completed",
     "commits": [
-      {"id": "setup", "title": "Add skill-evaluator/remediator/reviewer agents + skill-remediation phase tracking", "status": "completed"},
-      {"id": "sr01", "title": "code-writer skill remediation (GAN + stratified harness-agnostic)", "status": "completed"},
-      {"id": "sr02", "title": "rust-code-writer skill remediation", "status": "completed"},
-      {"id": "sr03", "title": "rust-errors skill remediation", "status": "completed"},
-      {"id": "sr04", "title": "rust-code-reviewer skill remediation", "status": "completed"},
-      {"id": "sr05", "title": "rust-code-tester skill remediation", "status": "completed"},
-      {"id": "sr06", "title": "rust-architect skill remediation", "status": "completed"},
-      {"id": "sr07", "title": "rust-team-lead skill remediation", "status": "completed"},
-      {"id": "sr08", "title": "skill-evaluator self-remediation (Harness Relationship (Stratified) section)", "status": "completed"},
-      {"id": "sr09", "title": "agent-harness skill remediation (GAN + stratified harness-agnostic)", "status": "completed"},
-      {"id": "sr10", "title": "rust-axum-backend skill remediation (GAN + stratified harness-agnostic)", "status": "completed"},
-      {"id": "sr11", "title": "rust-frontend skill remediation (GAN + stratified harness-agnostic)", "status": "completed"},
-      {"id": "sr12", "title": "rust-tui skill remediation (GAN + stratified harness-agnostic)", "status": "completed"}
+      {
+        "id": "setup",
+        "title": "Add skill-evaluator/remediator/reviewer agents + skill-remediation phase tracking",
+        "status": "completed"
+      },
+      {
+        "id": "sr01",
+        "title": "code-writer skill remediation (GAN + stratified harness-agnostic)",
+        "status": "completed"
+      },
+      {
+        "id": "sr02",
+        "title": "rust-code-writer skill remediation",
+        "status": "completed"
+      },
+      {
+        "id": "sr03",
+        "title": "rust-errors skill remediation",
+        "status": "completed"
+      },
+      {
+        "id": "sr04",
+        "title": "rust-code-reviewer skill remediation",
+        "status": "completed"
+      },
+      {
+        "id": "sr05",
+        "title": "rust-code-tester skill remediation",
+        "status": "completed"
+      },
+      {
+        "id": "sr06",
+        "title": "rust-architect skill remediation",
+        "status": "completed"
+      },
+      {
+        "id": "sr07",
+        "title": "rust-team-lead skill remediation",
+        "status": "completed"
+      },
+      {
+        "id": "sr08",
+        "title": "skill-evaluator self-remediation (Harness Relationship (Stratified) section)",
+        "status": "completed"
+      },
+      {
+        "id": "sr09",
+        "title": "agent-harness skill remediation (GAN + stratified harness-agnostic)",
+        "status": "completed"
+      },
+      {
+        "id": "sr10",
+        "title": "rust-axum-backend skill remediation (GAN + stratified harness-agnostic)",
+        "status": "completed"
+      },
+      {
+        "id": "sr11",
+        "title": "rust-frontend skill remediation (GAN + stratified harness-agnostic)",
+        "status": "completed"
+      },
+      {
+        "id": "sr12",
+        "title": "rust-tui skill remediation (GAN + stratified harness-agnostic)",
+        "status": "completed"
+      }
     ]
   },
   "docs-verification": {
     "status": "in_progress",
     "commits": [
-      {"id": "dv-01", "title": "Basic documentation verification script + just docs-verify target", "status": "completed"},
-      {"id": "dv-02", "title": "Expand docs-verify with post-remediation drift checks (Harness Relationship, canonical structure, etc.)", "status": "completed"},
-      {"id": "dv-03", "title": "Add HTML report generation to docs-verify (docs-verify-report target)", "status": "completed"},
-      {"id": "dv-04", "title": "Deep integration of docs-verify into harness workflow (harness-validate, AGENTS.md, bootstrap docs)", "status": "in_progress"}
+      {
+        "id": "dv-01",
+        "title": "Basic documentation verification script + just docs-verify target",
+        "status": "completed"
+      },
+      {
+        "id": "dv-02",
+        "title": "Expand docs-verify with post-remediation drift checks (Harness Relationship, canonical structure, etc.)",
+        "status": "completed"
+      },
+      {
+        "id": "dv-03",
+        "title": "Add HTML report generation to docs-verify (docs-verify-report target)",
+        "status": "completed"
+      },
+      {
+        "id": "dv-04",
+        "title": "Deep integration of docs-verify into harness workflow (harness-validate, AGENTS.md, bootstrap docs)",
+        "status": "in_progress"
+      }
     ]
   },
   "avril-planning-gan": {
@@ -100,7 +212,7 @@
       },
       {
         "id": "avril-02",
-        "title": "AXEL execution loop skill + conductor agent (blessed backlog → PETC / code GAN)",
+        "title": "AXEL execution loop skill + conductor agent (blessed backlog \u2192 PETC / code GAN)",
         "status": "completed",
         "features": [
           "axel-orchestrator-skill",
@@ -113,7 +225,7 @@
     ]
   },
   "public-docs-alignment": {
-    "status": "in_progress",
+    "status": "completed",
     "commits": [
       {
         "id": "docs-ia-00",
@@ -138,40 +250,57 @@
       {
         "id": "docs-ia-01",
         "title": "Public skills allowlist SSOT + README truth table",
-        "status": "pending",
-        "features": ["public-skills-json", "readme-catalog-sync"]
+        "status": "completed",
+        "features": [
+          "public-skills-json",
+          "readme-catalog-sync"
+        ]
       },
       {
         "id": "docs-ia-02",
         "title": "Book pipeline chapters (overview, AVRIL, AXEL)",
-        "status": "pending",
-        "features": ["pipeline-overview", "pipeline-avril", "pipeline-axel"]
+        "status": "completed",
+        "features": [
+          "pipeline-overview",
+          "pipeline-avril",
+          "pipeline-axel"
+        ]
       },
       {
         "id": "docs-ia-03",
         "title": "Book catalog table + bootstrap first-run prompts",
-        "status": "pending",
-        "features": ["skills-catalog-table", "bootstrap-first-run"]
+        "status": "completed",
+        "features": [
+          "skills-catalog-table",
+          "bootstrap-first-run"
+        ]
       },
       {
         "id": "docs-ia-04",
         "title": "Marketing site pipeline + honest skill counts",
-        "status": "pending",
-        "features": ["site-pipeline-section", "site-skill-count-fix"]
+        "status": "completed",
+        "features": [
+          "site-pipeline-section",
+          "site-skill-count-fix"
+        ]
       },
       {
         "id": "docs-ia-05",
-        "title": "Cross-link polish README ↔ book ↔ site",
-        "status": "pending",
-        "features": ["cross-surface-links"]
+        "title": "Cross-link polish README \u2194 book \u2194 site",
+        "status": "completed",
+        "features": [
+          "cross-surface-links"
+        ]
       },
       {
         "id": "docs-ia-06",
         "title": "docs-verify catalog/count/stub/TOC gates + honest HTML report",
-        "status": "pending",
-        "features": ["docs-verify-allowlist-gates", "docs-verify-report-honesty"]
+        "status": "completed",
+        "features": [
+          "docs-verify-allowlist-gates",
+          "docs-verify-report-honesty"
+        ]
       }
     ]
   }
 }
-

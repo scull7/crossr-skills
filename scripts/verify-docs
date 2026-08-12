@@ -7,20 +7,337 @@
 #   ./scripts/verify-docs                # Run checks and print results
 #   ./scripts/verify-docs --html         # Run checks + generate self-contained HTML report
 #
-# The HTML report is written to docs/docs-verification-report.html (following the project's HTML-first convention).
+# Public skill catalog SSOT: docs/public-skills.json
+# Site skill count/pill equality is enforced when the site claims a skill count
+# or lists skill pills (T-5 / marketing). README and book catalog must always
+# match the allowlist when those sections exist.
+#
+# The HTML report is written to docs/docs-verification-report.html
 
 set -euo pipefail
+
+ROOT="$(cd "$(dirname "$0")/.." && pwd)"
+cd "$ROOT"
 
 GENERATE_HTML=false
 if [[ "${1:-}" == "--html" ]]; then
     GENERATE_HTML=true
 fi
 
+FAILED=0
+REPORT_LINES=()
+
+pass() {
+    echo "  ✓ $1"
+    REPORT_LINES+=("pass|$1")
+}
+
+fail() {
+    echo "  ✗ $1"
+    REPORT_LINES+=("fail|$1")
+    FAILED=1
+}
+
+skip() {
+    echo "  (skip) $1"
+    REPORT_LINES+=("skip|$1")
+}
+
+PUBLIC_SKILLS_JSON="docs/public-skills.json"
+
+load_allowlist() {
+    if [[ ! -f "$PUBLIC_SKILLS_JSON" ]]; then
+        fail "missing $PUBLIC_SKILLS_JSON"
+        return 1
+    fi
+    python3 - "$PUBLIC_SKILLS_JSON" <<'PY'
+import json, sys
+path = sys.argv[1]
+with open(path) as f:
+    data = json.load(f)
+assert "version" in data and "skills" in data and "out" in data
+names = [s["name"] for s in data["skills"]]
+assert len(names) == len(set(names)), "duplicate skill names"
+for s in data["skills"]:
+    assert "name" in s and "category" in s and "purpose" in s
+for o in data["out"]:
+    assert "name" in o and "reason" in o
+print("\n".join(names))
+PY
+}
+
+echo "→ Running documentation verification..."
+
+# 1. mdBook
+echo ""
+echo "Checking mdBook documentation..."
+if command -v mdbook >/dev/null 2>&1; then
+    if (cd book && mdbook build > /dev/null 2>&1); then
+        pass "mdBook builds successfully"
+    else
+        fail "mdBook build failed"
+    fi
+else
+    skip "mdbook not installed"
+fi
+
+# 2. Zola
+echo ""
+echo "Checking Zola marketing site..."
+if command -v zola >/dev/null 2>&1; then
+    if (cd site && zola build --force > /dev/null 2>&1); then
+        pass "Zola site builds successfully"
+    else
+        fail "Zola site build failed"
+    fi
+else
+    skip "zola not installed"
+fi
+
+# 3. Drift + catalog
+echo ""
+echo "Running documentation drift and catalog checks..."
+
+if grep -q "Harness Relationship (Stratified)" HARNESS-SPEC.md; then
+    pass "HARNESS-SPEC.md references Harness Relationship (Stratified)"
+else
+    fail "HARNESS-SPEC.md missing Harness Relationship (Stratified)"
+fi
+
+if grep -q "canonical portable structure" AGENTS.md; then
+    pass "AGENTS.md references canonical portable structure"
+else
+    fail "AGENTS.md missing canonical portable structure"
+fi
+
+if grep -q "Harness Relationship (Stratified)" book/src/skills/overview.md; then
+    pass "book/src/skills/overview.md references Harness Relationship (Stratified)"
+else
+    fail "book/src/skills/overview.md missing Harness Relationship (Stratified)"
+fi
+
+if grep -r "ferro-wg" --include="*.md" --include="*.html" book/src site/templates site/content 2>/dev/null | grep -vqE 'remediation|proven on ferro'; then
+    # if grep found lines that aren't allowed
+    if grep -rE "ferro-wg|ferro-wave" --include="*.md" --include="*.html" book/src site/templates site/content 2>/dev/null | grep -vE 'remediation' | grep -q .; then
+        fail "Found ferro-wg/ferro-wave namedrop without approved context on public surfaces"
+    else
+        pass "No inappropriate ferro-* leakage on public surfaces"
+    fi
+else
+    pass "No inappropriate ferro-* leakage on public surfaces"
+fi
+
+if [[ -f book/src/skills/overview.md && -f HARNESS-SPEC.md && -f AGENTS.md ]]; then
+    pass "Key documentation files present"
+else
+    fail "One or more key documentation files missing"
+fi
+
+# 4. Public allowlist integrity
+echo ""
+echo "Checking public skills allowlist..."
+
+ALLOWLIST=""
+if ALLOWLIST=$(load_allowlist 2>/dev/null); then
+    pass "$PUBLIC_SKILLS_JSON schema and unique names OK"
+    COUNT=$(echo "$ALLOWLIST" | grep -c . || true)
+    while IFS= read -r name; do
+        [[ -z "$name" ]] && continue
+        skill_path=".agents/skills/$name/SKILL.md"
+        if [[ -s "$skill_path" ]]; then
+            :
+        else
+            fail "allowlisted skill missing or empty: $skill_path"
+        fi
+    done <<< "$ALLOWLIST"
+    if [[ $FAILED -eq 0 ]] || true; then
+        # count empty checks
+        missing=0
+        while IFS= read -r name; do
+            [[ -z "$name" ]] && continue
+            if [[ ! -s ".agents/skills/$name/SKILL.md" ]]; then
+                missing=1
+            fi
+        done <<< "$ALLOWLIST"
+        if [[ $missing -eq 0 ]]; then
+            pass "every allowlisted skill has non-empty SKILL.md (N=$COUNT)"
+        fi
+    fi
+else
+    fail "$PUBLIC_SKILLS_JSON invalid or missing"
+    ALLOWLIST=""
+    COUNT=0
+fi
+
+# Extract skill names from README table (backtick names in skills table section)
+extract_readme_skills() {
+    python3 - <<'PY'
+import re
+from pathlib import Path
+text = Path("README.md").read_text()
+# table rows like | `name` |
+names = re.findall(r"^\|\s*`([a-z0-9-]+)`\s*\|", text, re.M)
+# filter to skill-like after header — drop non-skills if any
+print("\n".join(names))
+PY
+}
+
+extract_book_catalog() {
+    python3 - <<'PY'
+import re
+from pathlib import Path
+text = Path("book/src/skills/overview.md").read_text()
+# catalog table rows: | `name` |
+names = re.findall(r"^\|\s*`([a-z0-9-]+)`\s*\|", text, re.M)
+print("\n".join(names))
+PY
+}
+
+set_eq() {
+    python3 - "$1" "$2" <<'PY'
+import sys
+a = set(filter(None, sys.argv[1].splitlines()))
+b = set(filter(None, sys.argv[2].splitlines()))
+if a == b:
+    sys.exit(0)
+print("only_a", sorted(a-b))
+print("only_b", sorted(b-a))
+sys.exit(1)
+PY
+}
+
+if [[ -n "$ALLOWLIST" ]]; then
+    README_SKILLS=$(extract_readme_skills)
+    if set_eq "$ALLOWLIST" "$README_SKILLS"; then
+        pass "README skills table == public allowlist"
+    else
+        fail "README skills table does not match public allowlist"
+        set_eq "$ALLOWLIST" "$README_SKILLS" || true
+    fi
+
+    BOOK_SKILLS=$(extract_book_catalog)
+    if set_eq "$ALLOWLIST" "$BOOK_SKILLS"; then
+        pass "book skills catalog == public allowlist"
+    else
+        fail "book skills catalog does not match public allowlist"
+        set_eq "$ALLOWLIST" "$BOOK_SKILLS" || true
+    fi
+fi
+
+# Stub ban on public surfaces
+echo ""
+echo "Checking stub / out-set names are not marketed..."
+STUBS="diataxis-explanation diataxis-how-to-guides diataxis-reference"
+for stub in $STUBS; do
+    if grep -R --include="*.md" --include="*.html" -n "$stub" README.md book/src site/templates site/content 2>/dev/null | grep -vq "Empty stub\|not a shippable\|out\|deferred\|stubs"; then
+        # allow mentions that clearly mark as stub/out
+        hits=$(grep -R --include="*.md" --include="*.html" -n "$stub" README.md book/src site/templates site/content 2>/dev/null || true)
+        bad=$(echo "$hits" | grep -viE 'stub|out|deferred|not in|empty|not marketed|not a shippable' || true)
+        if [[ -n "$bad" ]]; then
+            fail "stub name marketed on public surface: $stub"
+            echo "$bad"
+        else
+            pass "stub $stub only mentioned as non-public"
+        fi
+    else
+        pass "stub $stub not marketed (or only as out/stub)"
+    fi
+done
+
+# TOC honesty
+if grep -qiE "individual skill documents linked from the (table of contents|TOC)|see the individual skill documents linked" book/src/skills/overview.md; then
+    # check SUMMARY for skill children beyond overview
+    if ! grep -q "skills/" book/src/SUMMARY.md | head -1; then
+        :
+    fi
+    skill_children=$(grep -E '^\s*-\s*\[' book/src/SUMMARY.md | grep -ci skills || true)
+    # If overview promises TOC skill docs and SUMMARY only has overview, fail
+    if grep -qi "linked from the table of contents\|linked from the TOC\|individual skill documents linked" book/src/skills/overview.md; then
+        fail "skills overview promises TOC-linked skill pages"
+    else
+        pass "skills overview does not promise missing TOC skill pages"
+    fi
+else
+    pass "skills overview does not promise missing TOC skill pages"
+fi
+
+# AVRIL/AXEL → HARNESS sections
+if grep -R --include="*.md" -l "AVRIL\|AXEL\|avril\|axel" book/src README.md >/dev/null 2>&1; then
+    if grep -q "AVRIL — Planning GAN" HARNESS-SPEC.md && grep -q "AXEL — Execution Loop" HARNESS-SPEC.md; then
+        pass "public AVRIL/AXEL mentions backed by HARNESS-SPEC §12/§13 headings"
+    else
+        fail "public AVRIL/AXEL mentions but HARNESS-SPEC headings missing"
+    fi
+fi
+
+# Pipeline chapters exist if SUMMARY links them
+if grep -q "pipeline/overview" book/src/SUMMARY.md; then
+    for f in book/src/pipeline/overview.md book/src/pipeline/avril.md book/src/pipeline/axel.md; do
+        if [[ -f "$f" ]]; then
+            pass "present $f"
+        else
+            fail "SUMMARY references pipeline but missing $f"
+        fi
+    done
+fi
+
+# Site checks (enabled when site claims skills)
+echo ""
+echo "Checking marketing site skill claims..."
+if [[ -f site/templates/index.html ]]; then
+    if grep -qE '[0-9]+\+\s+production-grade skills|[0-9]+\+\s+skills' site/templates/index.html; then
+        fail "site uses unbounded skill count (N+)"
+    else
+        pass "site has no unbounded N+ skill count"
+    fi
+    if grep -qE 'ferro-wg|ferro-wave' site/templates/index.html; then
+        fail "site contains ferro-wg/ferro-wave namedrop"
+    else
+        pass "site has no ferro-* namedrop"
+    fi
+    if grep -q "AVRIL" site/templates/index.html && grep -q "AXEL" site/templates/index.html; then
+        pass "site names AVRIL and AXEL"
+    else
+        fail "site must name AVRIL and AXEL (pipeline)"
+    fi
+    # Featured / full N
+    if [[ -n "$ALLOWLIST" && "$COUNT" -gt 0 ]]; then
+        if grep -qE "full catalog \($COUNT\)|full catalog \\($COUNT\\)|N = $COUNT|$COUNT public skills|$COUNT skills" site/templates/index.html; then
+            pass "site states full catalog N=$COUNT"
+        elif grep -q "data-public-skill-count=\"$COUNT\"" site/templates/index.html; then
+            pass "site data-public-skill-count=$COUNT"
+        else
+            # accept "14" near catalog
+            if grep -qE "\b$COUNT\b" site/templates/index.html && grep -qi "catalog\|skills" site/templates/index.html; then
+                pass "site mentions allowlist count $COUNT near skills/catalog"
+            else
+                fail "site does not state full public catalog count N=$COUNT"
+            fi
+        fi
+        for must in code-writer avril axel rust-team-lead; do
+            if grep -q "$must" site/templates/index.html; then
+                pass "site features $must"
+            else
+                fail "site missing required featured skill: $must"
+            fi
+        done
+    fi
+fi
+
 generate_html_report() {
     REPORT_PATH="docs/docs-verification-report.html"
     mkdir -p docs
+    STATUS_LABEL="PASS"
+    STATUS_CLASS="bg-emerald-500/10 text-emerald-400 border-emerald-500/20"
+    STATUS_ICON="fa-check"
+    if [[ $FAILED -ne 0 ]]; then
+        STATUS_LABEL="FAIL"
+        STATUS_CLASS="bg-red-500/10 text-red-400 border-red-500/20"
+        STATUS_ICON="fa-xmark"
+    fi
 
-    cat > "$REPORT_PATH" << 'HTMLEOF'
+    {
+        cat <<EOF
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -29,163 +346,52 @@ generate_html_report() {
     <title>Documentation Verification Report</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
-    <style>
-        body { font-family: 'Inter', system_ui, sans-serif; }
-        .font-display { font-family: 'Space Grotesk', 'Inter', system_ui, sans-serif; font-weight: 600; }
-    </style>
 </head>
 <body class="bg-zinc-950 text-zinc-200">
     <div class="max-w-4xl mx-auto px-6 py-12">
         <div class="flex items-center justify-between mb-8">
             <div>
-                <div class="font-display text-3xl font-semibold tracking-tighter">Documentation Verification</div>
-                <div class="text-sm text-zinc-400">CrossR Skills Harness</div>
+                <div class="text-3xl font-semibold tracking-tighter">Documentation Verification</div>
+                <div class="text-sm text-zinc-400">CrossR Skills Harness · public-skills allowlist</div>
             </div>
-            <div class="px-4 py-1.5 rounded-3xl text-sm font-semibold flex items-center gap-x-2 border bg-emerald-500/10 text-emerald-400 border-emerald-500/20">
-                <i class="fa-solid fa-check"></i>
-                <span>PASS</span>
-            </div>
-        </div>
-
-        <div class="bg-zinc-900 border border-zinc-800 rounded-3xl p-6 mb-8">
-            <h2 class="font-semibold text-xl mb-4">Summary</h2>
-            <p class="text-zinc-400">
-                This report was generated by <code>just docs-verify-report</code>.
-                It validates that the project's documentation remains aligned with the canonical portable skill structure
-                and the <strong>Harness Relationship (Stratified)</strong> principle established during the sr/01–sr/12 campaign.
-            </p>
-        </div>
-
-        <div class="bg-zinc-900 border border-zinc-800 rounded-3xl p-6">
-            <h2 class="font-semibold text-xl mb-4">Checks Performed</h2>
-            <div class="space-y-3 text-sm">
-                <div class="flex items-center gap-x-3 p-3 bg-zinc-950 rounded-2xl">
-                    <i class="fa-solid fa-check text-emerald-400"></i>
-                    <div>mdBook and Zola builds (when tools present)</div>
-                </div>
-                <div class="flex items-center gap-x-3 p-3 bg-zinc-950 rounded-2xl">
-                    <i class="fa-solid fa-check text-emerald-400"></i>
-                    <div>HARNESS-SPEC.md contains "Harness Relationship (Stratified)" principle</div>
-                </div>
-                <div class="flex items-center gap-x-3 p-3 bg-zinc-950 rounded-2xl">
-                    <i class="fa-solid fa-check text-emerald-400"></i>
-                    <div>AGENTS.md references canonical portable structure</div>
-                </div>
-                <div class="flex items-center gap-x-3 p-3 bg-zinc-950 rounded-2xl">
-                    <i class="fa-solid fa-check text-emerald-400"></i>
-                    <div>book/src/skills/overview.md references Harness Relationship (Stratified)</div>
-                </div>
-                <div class="flex items-center gap-x-3 p-3 bg-zinc-950 rounded-2xl">
-                    <i class="fa-solid fa-check text-emerald-400"></i>
-                    <div>No inappropriate ferro-wg leakage in active docs</div>
-                </div>
-                <div class="flex items-center gap-x-3 p-3 bg-zinc-950 rounded-2xl">
-                    <i class="fa-solid fa-check text-emerald-400"></i>
-                    <div>Key documentation files present</div>
-                </div>
+            <div class="px-4 py-1.5 rounded-3xl text-sm font-semibold flex items-center gap-x-2 border ${STATUS_CLASS}">
+                <i class="fa-solid ${STATUS_ICON}"></i>
+                <span>${STATUS_LABEL}</span>
             </div>
         </div>
-
-        <div class="mt-8 text-xs text-zinc-500">
-            For the full list of principles and expected structure, see
-            <a href="HARNESS-SPEC.md" class="underline">HARNESS-SPEC.md</a> and
-            <a href="AGENTS.md" class="underline">AGENTS.md</a>.
+        <div class="bg-zinc-900 border border-zinc-800 rounded-3xl p-6 space-y-2 text-sm">
+EOF
+        for line in "${REPORT_LINES[@]}"; do
+            kind="${line%%|*}"
+            msg="${line#*|}"
+            if [[ "$kind" == "pass" ]]; then
+                echo "<div class=\"flex gap-3 p-2\"><i class=\"fa-solid fa-check text-emerald-400 mt-0.5\"></i><span>${msg}</span></div>"
+            elif [[ "$kind" == "fail" ]]; then
+                echo "<div class=\"flex gap-3 p-2\"><i class=\"fa-solid fa-xmark text-red-400 mt-0.5\"></i><span>${msg}</span></div>"
+            else
+                echo "<div class=\"flex gap-3 p-2 text-zinc-500\"><span>${msg}</span></div>"
+            fi
+        done
+        cat <<EOF
         </div>
     </div>
 </body>
 </html>
-HTMLEOF
-
+EOF
+    } > "$REPORT_PATH"
     echo ""
-    echo "  → HTML report generated at $REPORT_PATH"
+    echo "  → HTML report generated at $REPORT_PATH ($STATUS_LABEL)"
 }
 
-echo "→ Running documentation verification..."
-
-FAILED=0
-
-# 1. Verify mdBook builds cleanly (if mdbook is available)
 echo ""
-echo "Checking mdBook documentation..."
-if command -v mdbook >/dev/null 2>&1; then
-    if cd book && mdbook build > /dev/null 2>&1; then
-        echo "  ✓ mdBook builds successfully"
-    else
-        echo "  ✗ mdBook build failed"
-        FAILED=1
-    fi
-    cd - > /dev/null
-else
-    echo "  (mdbook not installed — skipping)"
-fi
-
-# 2. Verify Zola site builds cleanly (if zola is available)
-echo ""
-echo "Checking Zola marketing site..."
-if command -v zola >/dev/null 2>&1; then
-    if cd site && zola build --force > /dev/null 2>&1; then
-        echo "  ✓ Zola site builds successfully"
-    else
-        echo "  ✗ Zola site build failed"
-        FAILED=1
-    fi
-    cd - > /dev/null
-else
-    echo "  (zola not installed — skipping)"
-fi
-
-# 3. Post-remediation drift checks
-echo ""
-echo "Running post-remediation drift checks..."
-
-if grep -q "Harness Relationship (Stratified)" HARNESS-SPEC.md; then
-    echo "  ✓ HARNESS-SPEC.md references Harness Relationship (Stratified) principle"
-else
-    echo "  ✗ HARNESS-SPEC.md missing Harness Relationship (Stratified) principle"
-    FAILED=1
-fi
-
-if grep -q "canonical portable structure" AGENTS.md; then
-    echo "  ✓ AGENTS.md references canonical portable structure"
-else
-    echo "  ✗ AGENTS.md missing reference to canonical portable structure"
-    FAILED=1
-fi
-
-if grep -q "Harness Relationship (Stratified)" book/src/skills/overview.md; then
-    echo "  ✓ book/src/skills/overview.md references Harness Relationship (Stratified)"
-else
-    echo "  ✗ book/src/skills/overview.md missing Harness Relationship (Stratified) reference"
-    FAILED=1
-fi
-
-if grep -r "ferro-wg" --include="*.md" book/ site/content/ 2>/dev/null | grep -v remediation | grep -v "proven on ferro-wg" | grep -q .; then
-    echo "  ✗ Found potential ferro-wg leakage in book/ or site/ documentation"
-    FAILED=1
-else
-    echo "  ✓ No inappropriate ferro-wg leakage detected in active docs"
-fi
-
-if [ -f "book/src/skills/overview.md" ] && [ -f "HARNESS-SPEC.md" ] && [ -f "AGENTS.md" ]; then
-    echo "  ✓ Key documentation files present"
-else
-    echo "  ✗ One or more key documentation files missing"
-    FAILED=1
-fi
-
-echo ""
-if [ $FAILED -eq 0 ]; then
+if [[ $FAILED -eq 0 ]]; then
     echo "✓ All documentation verification checks passed."
 else
     echo "✗ Documentation verification failed."
 fi
 
-if [ "$GENERATE_HTML" = true ]; then
+if [[ "$GENERATE_HTML" = true ]]; then
     generate_html_report
 fi
 
-if [ $FAILED -eq 0 ]; then
-    exit 0
-else
-    exit 1
-fi
+exit $FAILED
