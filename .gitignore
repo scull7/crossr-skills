@@ -3,3 +3,5 @@ site/public/
 
 # mdBook output (future)
 book/book/
+.DS_Store
+**/.DS_Store
