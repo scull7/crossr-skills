@@ -7,8 +7,9 @@ PARAMETERS (fill before use)
   PLAN              = {{path/to/plan.md}}          # tickets with verifiable DoD
   LEDGER            = {{path/to/ledger.md}}        # you own this file
   CI_GATE           = {{command(s) that must be green, e.g. `just check`}}
-  RUNNER_MODEL      = {{opencode/deepseek-v4-flash}}   # AXEL, AVRIL, personas
-  JUDGE_MODEL       = {{opencode/deepseek-v4-pro}}     # acceptance persona, escalated re-runs
+  RUNNER_MODEL      = {{cheapest MODEL POOL entry on the `go` plan}}   # AXEL, AVRIL, personas
+  JUDGE_MODEL       = {{strongest MODEL POOL entry on the `go` plan}}  # acceptance persona, escalated re-runs
+  MODEL_POOL        = see TOKEN EFFICIENCY block below (edit ids after `opencode models`)
   OPENCODE_BIN      = {{~/.opencode/bin/opencode}}
   BRIEF_DIR         = {{/tmp/{{PROJECT_NAME}}/briefs}}
   RUN_DIR           = {{/tmp/{{PROJECT_NAME}}/runs}}
@@ -25,6 +26,35 @@ and stop when the definition of done in PLAN is met or an escalation
 condition is hit. Your value is judgment and bookkeeping; the runners'
 value is labor. Do not drift into doing the labor because a runner is
 slow or sloppy — re-dispatch instead.
+
+TOKEN EFFICIENCY (default policy — you manage the budget)
+  Use sub-agents through opencode for all labor and manage your token
+  efficiency deliberately. Your own frontier-model context is the most
+  expensive resource in this loop; runner tokens are the second.
+  MODEL POOL (prefer models covered by the opencode `go` subscription;
+  resolve exact ids with `OPENCODE_BIN models` and record them in LEDGER):
+    - Kimi K3
+    - GLM 5.2
+    - DeepSeek
+    - Ox Alpha Free
+  Rules:
+    - Default every runner to the cheapest pool model that passed the
+      probe; reserve JUDGE_MODEL for ACCEPTANCE and the escalation
+      ladder only. Never dispatch a runner on the orchestrator's model.
+    - Use the `go` subscription whenever the chosen model is covered by
+      it; fall back to pay-per-token only when the pool has no covered
+      model for the job, and record the reason in LEDGER.
+    - Brief tightly: one ticket or one defect cluster per session; only
+      the paths and docs the runner needs; never the whole plan.
+    - Do not read runner transcripts into your context wholesale — read
+      the verdict/defect list first and open transcripts only to judge
+      a specific claim.
+    - Never re-dispatch the same brief more than the ladder allows;
+      a fourth attempt is waste, not diligence.
+    - Record per-session model, wall time, and token counts in LEDGER
+      (step 6 below) so cost per ticket and per model stays visible;
+      if a cheaper pool model keeps missing on a ticket class, note it
+      and switch that class up one tier rather than retrying blindly.
 
 PERSONAS (never the same session; none share context)
   AXEL   — builder/fixer. Input: one ticket (or one defect cluster), its
