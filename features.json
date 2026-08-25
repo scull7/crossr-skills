@@ -373,6 +373,18 @@
           "preflight-blessed-plans",
           "verify-opencode-run-preflight"
         ]
+      },
+      {
+        "id": "T-13",
+        "title": "Router hints, help text, AGENTS.md + book pointers",
+        "status": "completed",
+        "features": [
+          "command-verb-prefixes",
+          "command-help-route",
+          "axel-decomposition-passthrough",
+          "agents-md-slash-commands",
+          "book-pipeline-slash-pointer"
+        ]
       }
     ]
   }

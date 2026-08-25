@@ -42,6 +42,13 @@ Routing hints (non-exclusive; free English always works):
 - `review <ids>` / `bless` → PO → QA → CTO blessing cycle on the named items
 - `help` → list what this conductor can do, and execute nothing
 
+Verb prefixes are optional shorthand, never required: `status`, `plan`, `review T-3`,
+`bless T-3 T-4`, `help`. Plain English routes through the same hints — `/avril what is
+left before we can ship?` is a `status` request.
+
+On `help`, print the four routes above with a one-line example each, name the board in
+use, and stop. Do not run the loop, do not touch the board.
+
 Hard rules: planning-only stop; never write production code (execution is `/axel`);
 explicit BLESS tokens from all three adversaries; emit the Blessed Backlog Summary
 when the loop completes.

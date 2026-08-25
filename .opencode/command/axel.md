@@ -42,6 +42,18 @@ Routing hints (non-exclusive; free English always works):
 - `evidence <id>` → show recorded AC evidence and verification output for that PBI
 - `help` → list what this conductor can do, and execute nothing
 
+Verb prefixes are optional shorthand, never required: `status`, `next`, `run T-3`,
+`evidence T-3`, `help`. Plain English routes through the same hints — `/axel pick up
+the next blessed ticket` is a `run` request, and still needs confirmation first.
+
+On `help`, print the four routes above with a one-line example each, name the board in
+use, and stop. Do not select work, do not move the board.
+
+Decomposition mode is **off by default**. If the user asks for it in `$ARGUMENTS`
+(e.g. "with decomposition"), pass that through to the `axel` skill, which owns the
+threshold and the decompose loop; contract:
+`docs/plans/mitchell-decomposition-contract.html`. Never enable it on your own.
+
 Hard rules: intake gate (AVRIL-blessed work only — planning is `/avril`); conductor
 never writes or reviews code; Reviewer → Tester → Architect BLESS before every commit;
 every acceptance criterion evidenced before done; no PR unless explicitly asked.

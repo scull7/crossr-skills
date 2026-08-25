@@ -83,6 +83,16 @@ Example filenames: `architecture-review.html`, `pr-summary.html`, `deploy-guide.
 
 ---
 
+## OpenCode Slash Commands (`/avril`, `/axel`)
+
+This repo ships project-scoped OpenCode entrypoints under `.opencode/`:
+
+- **`/avril`** — planning conductor. Bare `/avril` gives a read-only status report (board, blessed set, ready PBIs, blockers). `/avril <free text>` plans, proposes, or runs the PO → QA → CTO blessing loop. It never writes production code.
+- **`/axel`** — execution conductor. Bare `/axel` reports the next ready blessed PBI and **asks for confirmation before executing anything**. `/axel run <id>` drives that PBI through PETC + code GAN. It never writes code itself.
+- Both open with a read-only preflight (git, `progress.md`, `features.json`, Pinto board, blessed summaries) that fails soft when a tool or file is missing.
+- **Restart opencode** after changing anything under `.opencode/` — config is read at startup and is not hot-reloaded.
+- Verify the layer with `just opencode-verify` (or `./scripts/verify-opencode --run-preflight` to also execute the preflight blocks).
+
 ## How to Work in This Repo
 
 1. Read the relevant parts of `HARNESS-SPEC.md`.
