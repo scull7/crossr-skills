@@ -478,7 +478,7 @@
     ]
   },
   "voice-dna": {
-    "status": "in_progress",
+    "status": "completed",
     "commits": [
       {
         "id": "vd-01",
@@ -488,6 +488,16 @@
           "voice-dna-skill",
           "canonical-sections",
           "public-catalog-n16"
+        ]
+      },
+      {
+        "id": "vd-02",
+        "title": "Add standalone unslop skill (CrossR original) at N=17",
+        "status": "completed",
+        "features": [
+          "unslop-skill",
+          "upstream-attribution",
+          "public-catalog-n17"
         ]
       }
     ]
