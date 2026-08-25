@@ -342,6 +342,13 @@ Verification: `just harness-validate` PASS. Pinto board: all done.
 - **T-10 / #58** — HARNESS-SPEC §12/§13 + book pipeline + features phase `mitchell-decomposition`
 - Mode default **off**. Contract linked from skills and docs.
 
+### AVRIL: OpenCode slash commands (/avril, /axel) — BLESSED
+
+- Intent: OpenCode command+agent wrappers around existing avril/axel skills.
+- Decisions: primary mode; project `.opencode/` first; empty /axel confirms; empty /avril = status.
+- Pinto T-11…T-14 triple-blessed. Summary: `docs/plans/opencode-slash-commands-blessed-backlog.html`
+- **Planning stop.** Next: AXEL on T-11.
+
 
 ## Skill: orchestrator-prompt (op-01)
 
