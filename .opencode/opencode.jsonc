@@ -1,0 +1,7 @@
+{
+  // crossr-skills project-scoped OpenCode config.
+  // Agents live in .opencode/agent/, slash commands in .opencode/command/.
+  // Skills are discovered from .agents/skills/*/SKILL.md (canonical, agentskills.io).
+  // Restart opencode after changing this file or anything under .opencode/.
+  "$schema": "https://opencode.ai/config.json"
+}

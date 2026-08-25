@@ -362,3 +362,12 @@ Verification: `just harness-validate` PASS. Pinto board: all done.
 - `docs/public-skills.json` N=14→15 (`orchestrator-prompt`, Orchestration).
 - README table, `book/src/skills/overview.md` catalog, and `site/templates/index.html` counts/pills synced.
 - Verification: `just harness-validate` PASS (allowlist == README == book; site N=15).
+
+## AXEL: OpenCode slash commands (T-11…T-14)
+
+### T-11 — Scaffold /avril and /axel agents + commands (COMPLETED)
+- `.opencode/opencode.jsonc`, `agent/{avril,axel}.md` (mode primary, distinct colors, read-only bash allowlist + `edit: ask`), `command/{avril,axel}.md` (`$ARGUMENTS`, empty-args contracts).
+- Agent prompts are thin: they load the `avril`/`axel`/`code-writer` skills via the skill tool rather than duplicating SKILL.md.
+- New `scripts/verify-opencode` + `just opencode-verify`, wired into `just harness-validate`.
+- Verified live: `opencode agent list` shows `avril (primary)` / `axel (primary)`; `opencode debug skill` resolves `avril`, `axel`, `code-writer` from `.agents/skills/`.
+- Verifier mutation-tested (mode flip, missing `$ARGUMENTS`, write command in preflight all caught) and fixed for a 64KB shell-capture truncation that made discovery checks flaky.
