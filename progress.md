@@ -342,3 +342,10 @@ Verification: `just harness-validate` PASS. Pinto board: all done.
 - **T-10 / #58** — HARNESS-SPEC §12/§13 + book pipeline + features phase `mitchell-decomposition`
 - Mode default **off**. Contract linked from skills and docs.
 
+
+## Skill: orchestrator-prompt (op-01)
+
+- New `.agents/skills/orchestrator-prompt/` — generator skill that fills the canonical ORCHESTRATOR AGENT template (stateless AXEL builder / AVRIL verifier / ACCEPTANCE persona over opencode runners) for a named project.
+- Verbatim template kept as `assets/orchestrator-prompt-template.md`; SKILL.md supplies input-sourcing table, derivation rules, `{{`-free mechanical check, generate-only boundary, six observable behaviors.
+- Not yet in `docs/public-skills.json` / README / book catalog (follow-up PR to bump N=14→15 across README, book, site).
+- Verification: `just harness-validate`.

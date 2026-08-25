@@ -212,7 +212,7 @@
       },
       {
         "id": "avril-02",
-        "title": "AXEL execution loop skill + conductor agent (blessed backlog \u2192 PETC / code GAN)",
+        "title": "AXEL execution loop skill + conductor agent (blessed backlog → PETC / code GAN)",
         "status": "completed",
         "features": [
           "axel-orchestrator-skill",
@@ -286,7 +286,7 @@
       },
       {
         "id": "docs-ia-05",
-        "title": "Cross-link polish README \u2194 book \u2194 site",
+        "title": "Cross-link polish README ↔ book ↔ site",
         "status": "completed",
         "features": [
           "cross-surface-links"
@@ -316,6 +316,20 @@
           "avril-owl-sketch-hooks",
           "harness-spec-decomposition",
           "book-pipeline-decomposition"
+        ]
+      }
+    ]
+  },
+  "orchestrator-prompt": {
+    "status": "completed",
+    "commits": [
+      {
+        "id": "op-01",
+        "title": "orchestrator-prompt skill: generate stateless AXEL/AVRIL orchestrator prompts per project",
+        "status": "completed",
+        "features": [
+          "orchestrator-prompt-skill",
+          "orchestrator-prompt-template-asset"
         ]
       }
     ]
