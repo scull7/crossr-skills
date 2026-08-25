@@ -432,3 +432,13 @@ An in-harness UI so a human can see orchestrator progress without reading the tr
 ### sd-02 — propagate the dashboard downstream
 
 `scripts/sync-skills --dashboard` installs `scripts/status-dashboard` into a target project and, when a justfile exists without them, appends `status` / `status-html` targets. Tested across all five paths: fresh install with justfile (recipes parse and run), idempotent re-run (no duplicate targets), a project whose own `status:` recipe is respected and never clobbered, and a project with no justfile (script installed, runnable directly). The closing message no longer advertises `just status` to projects that have no justfile.
+
+### op-03 — orchestrator token-exhaustion fallback
+
+Generated orchestrator prompts now handle a runner whose opencode instance is out of tokens.
+
+- **Detection is outcome-based.** Probing opencode's failure shape showed it can hang and write **zero bytes to both stdout and stderr**, so the block explicitly states that an absent error message proves nothing. Signals: provider quota/billing language in `.err` (quoted verbatim), no `.out` by the timeout, or output truncated mid-deliverable.
+- **Confirm before concluding**: `opencode stats` plus a re-probe of that model alone. A model that passes the probe had a different problem, so exhaustion is not blamed by default — and the retry ladder now rules out exhaustion first, since an exhausted runner has not "missed".
+- **Stop and ask**, with options A–E: another `go`-covered model, a free model, orchestrator-executed in-harness, pay-per-token or wait, or cut/escalate. Never picks for the human; a blocked run says so and stops.
+- **Key invariant preserved**: orchestrator-executed work (option C) is scoped to one ticket, recorded as `orchestrator-executed`, and **still verified by an independent runner**. A self-verified ticket is not verified; only a written waiver from the escalation owner overrides it. Two new stop conditions cover the case where nothing can verify.
+- **Model ids pinned and verified** against `opencode models` (9/10 matched; the tenth was a path, not an id). Confirmed the `opencode-go/` prefix *is* the `go` subscription: `kimi-k3`, `glm-5.2`, `deepseek-v4-flash`/`-pro`, `ox-alpha-free`.

@@ -342,6 +342,18 @@
           "book-catalog-n15",
           "site-catalog-n15"
         ]
+      },
+      {
+        "id": "op-03",
+        "title": "Token-exhaustion fallback ladder + verified model ids",
+        "status": "completed",
+        "features": [
+          "outcome-based-exhaustion-detection",
+          "stats-and-reprobe-confirmation",
+          "stop-and-ask-fallback-options",
+          "orchestrator-executed-still-verified",
+          "pinned-verified-model-ids"
+        ]
       }
     ]
   },
