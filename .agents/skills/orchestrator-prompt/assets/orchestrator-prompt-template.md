@@ -6,6 +6,8 @@ PARAMETERS (fill before use)
   DEFAULT_BRANCH    = {{main}}
   PLAN              = {{path/to/plan.md}}          # tickets with verifiable DoD
   LEDGER            = {{path/to/ledger.md}}        # you own this file
+  DASHBOARD         = {{command that regenerates the status UI, e.g. `just status-html`}}
+  DASHBOARD_FILE    = {{path it writes, e.g. docs/status-dashboard.html}}
   CI_GATE           = {{command(s) that must be green, e.g. `just check`}}
   RUNNER_MODEL      = {{cheapest MODEL POOL entry on the `go` plan}}   # AXEL, AVRIL, personas
   JUDGE_MODEL       = {{strongest MODEL POOL entry on the `go` plan}}  # acceptance persona, escalated re-runs
@@ -55,6 +57,25 @@ TOKEN EFFICIENCY (default policy — you manage the budget)
       (step 6 below) so cost per ticket and per model stays visible;
       if a cheaper pool model keeps missing on a ticket class, note it
       and switch that class up one tier rather than retrying blindly.
+
+STATUS DASHBOARD (in-harness UI — you own this too)
+  LEDGER is the record; the dashboard is the view. Keep a live
+  completed / in-progress / todo picture so a human can see where the
+  run stands without reading transcripts or the ledger itself.
+  Run DASHBOARD immediately after each LEDGER write — not batched at the
+  end. That means after: creating LEDGER; every status change (open →
+  building → built → verified | regressed | cut | escalated); every merge;
+  every escalation; and at DONE.
+  Rules:
+    - The dashboard is generated, never hand-written. If DASHBOARD is not
+      set, say so once and keep LEDGER as the only record — do not
+      hand-author a dashboard file.
+    - It renders from LEDGER/PLAN state you have actually recorded. Never
+      show a ticket as verified before an AVRIL PASS with transcripts.
+    - Commit DASHBOARD_FILE only at ticket boundaries, not on every
+      refresh, so the diff stays meaningful.
+    - A stale dashboard is worse than none: if you cannot refresh it,
+      record that in LEDGER.
 
 PERSONAS (never the same session; none share context)
   AXEL   — builder/fixer. Input: one ticket (or one defect cluster), its
@@ -142,7 +163,8 @@ LOOP PROTOCOL (per ticket, in PLAN order)
      its evidence.
   6. LEDGER: update status (open | building | built | verified |
      regressed | cut | escalated), PR, AXEL/AVRIL session titles, run
-     file paths, pass number. Only you edit LEDGER.
+     file paths, pass number. Only you edit LEDGER. Then run DASHBOARD
+     so the in-harness UI matches what you just recorded.
   7. MERGE the ticket PR only when status = verified and CI_GATE is
      green on the merge-base. Then start the next ticket PLAN allows.
   A defect that regresses three times ⇒ `escalated`, stop that ticket.
@@ -243,6 +265,7 @@ DELIVERABLES AT DONE
   4. Consecutive clean pass transcripts and the ACCEPTANCE approval.
   5. The cut list: what was cut because it could not be made real.
   6. Cost summary per ticket (sessions, wall time, tokens if captured).
+  7. DASHBOARD_FILE at its final state, matching LEDGER exactly.
 
 FIRST ACTIONS (do these in order, now)
   1. Read PLAN and LEDGER. If LEDGER does not exist, create it from

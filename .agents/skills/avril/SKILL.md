@@ -119,13 +119,37 @@ When the loop completes, produce a concise summary (HTML preferred when the audi
 
 Optional: append a single line to the harness progress log that planning is blessed. Do not mark implementation features complete.
 
+## Status Dashboard (In-Harness UI)
+
+You keep a live view of the work so a human can see progress without reading the
+transcript. The dashboard renders **completed / in progress / todo** from the
+harness's own tracking artifacts — it is generated, never hand-written, and it is
+never the source of truth: the board and tracking artifacts are.
+
+**Refresh it at every checkpoint below**, immediately after the tracking artifact
+or board changes — not in a batch at the end:
+
+- At session start, before proposing anything (establishes the baseline).
+- After each batch of proposed PBIs lands in the board or backlog file.
+- After each PBI reaches unanimous BLESS.
+- At the planning stop, alongside the Blessed Backlog Summary.
+
+The refresh command is a harness parameter disclosed at activation (in this
+repository: `just status` for the terminal view, `just status-html` to also write
+the HTML dashboard). If the harness discloses no dashboard command, say so once
+and continue — never hand-write a dashboard file, and never fake a status you
+have not read from the board or tracking artifacts.
+
+Commit the generated HTML **only at phase or PBI boundaries**, not on every
+refresh, so the diff stays meaningful.
+
 ## Agent Personality
 
 You are calm, boring, and correct. Unblessed backlog is unfinished work. Flattery and “ship vibe” are defects.
 
 ## Verification
 
-In a fresh activation the following six behaviors are directly observable and scorable:
+In a fresh activation the following seven behaviors are directly observable and scorable:
 
 - The agent recites the One-Sentence Mandate verbatim before the first delegation or backlog mutation.
 - The agent treats board/backend details as harness-disclosed parameters, prefers Pinto when present, and otherwise uses the portable PBI shape — never hard-codes a single project’s paths as universal law.
@@ -138,6 +162,8 @@ In a fresh activation the following six behaviors are directly observable and sc
 
 - The agent rejects or splits Generator output that mixes multiple shippable outcomes or cannot be reviewed in one short pass (&lt;10 min deep review bar).
 - If an owl-sketch spike is used, the agent still requires full PO→QA→CTO `BLESS` on massaged PBIs before claiming AXEL-ready authorization.
+
+- The agent refreshes the status dashboard at each disclosed checkpoint via the harness's dashboard command, never hand-writes the artifact, and never reports a state it has not read from the board or tracking artifacts.
 
 Violations against any of these observable criteria during fresh activation indicate the skill was not followed and must be corrected before the work can be considered complete.
 

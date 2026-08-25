@@ -1,0 +1,352 @@
+#!/usr/bin/env python3
+"""status-dashboard — the in-harness orchestration UI.
+
+Renders work completed / in progress / todo from the harness's own tracking
+artifacts, so an orchestrator (AVRIL, AXEL, rust-team-lead, or a generated
+orchestrator prompt) can refresh a single view as it makes progress.
+
+Usage:
+    scripts/status-dashboard                 # terminal summary
+    scripts/status-dashboard --html          # also write docs/status-dashboard.html
+    scripts/status-dashboard --html-only     # write the HTML, print nothing
+    scripts/status-dashboard --out PATH      # HTML destination
+    scripts/status-dashboard --root DIR      # project root (default: repo root)
+
+Sources, all optional and read-only — a missing one degrades to empty:
+    features.json      phases -> commits -> features
+    pinto list --json  board items, when pinto is installed
+    progress.md        tail, for the last recorded activity
+
+Structure follows the repo's own philosophy: reading sources are actions,
+everything that shapes or renders the model is a pure calculation.
+"""
+
+from __future__ import annotations
+
+import argparse
+import datetime as _datetime
+import html
+import json
+import shutil
+import subprocess
+import sys
+from pathlib import Path
+
+DONE = "done"
+ACTIVE = "active"
+TODO = "todo"
+
+DONE_WORDS = {"completed", "complete", "done", "verified", "merged", "shipped"}
+ACTIVE_WORDS = {"in_progress", "in-progress", "inprogress", "building", "built",
+                "review", "in_review", "in-review", "started", "wip", "regressed"}
+
+
+# ---------------------------------------------------------------- calculations
+
+def classify(status: str) -> str:
+    """Map any tracker's status vocabulary onto done / active / todo."""
+    s = (status or "").strip().lower()
+    if s in DONE_WORDS:
+        return DONE
+    if s in ACTIVE_WORDS:
+        return ACTIVE
+    return TODO
+
+
+def phases_from_features(features: dict) -> list[dict]:
+    """Shape features.json into ordered phases with per-commit classification."""
+    phases = []
+    for name, body in features.items():
+        if not isinstance(body, dict):
+            continue
+        commits = [c for c in body.get("commits", []) if isinstance(c, dict)]
+        items = [
+            {
+                "id": c.get("id", "?"),
+                "title": c.get("title", ""),
+                "state": classify(c.get("status", "")),
+                "features": len(c.get("features") or []),
+            }
+            for c in commits
+        ]
+        done = sum(1 for i in items if i["state"] == DONE)
+        phases.append({
+            "name": name,
+            "state": classify(body.get("status", "")),
+            "items": items,
+            "done": done,
+            "total": len(items),
+            "percent": round(100 * done / len(items)) if items else (
+                100 if classify(body.get("status", "")) == DONE else 0),
+        })
+    phases.sort(key=lambda p: ({DONE: 2, ACTIVE: 0, TODO: 1}[p["state"]], p["name"]))
+    return phases
+
+
+def board_from_pinto(raw: object) -> list[dict]:
+    """Shape a pinto list --json payload into board items."""
+    tasks = raw if isinstance(raw, list) else (raw or {}).get("tasks", [])
+    return [
+        {
+            "id": t.get("id", "?"),
+            "title": t.get("title", ""),
+            "state": classify(t.get("status", "")),
+            "status": t.get("status", ""),
+        }
+        for t in tasks if isinstance(t, dict)
+    ]
+
+
+def totals(phases: list[dict], board: list[dict]) -> dict:
+    """Count units of work by state. Board items win when both are present."""
+    units = board if board else [i for p in phases for i in p["items"]]
+    return {
+        DONE: sum(1 for u in units if u["state"] == DONE),
+        ACTIVE: sum(1 for u in units if u["state"] == ACTIVE),
+        TODO: sum(1 for u in units if u["state"] == TODO),
+        "source": "board" if board else "features.json",
+    }
+
+
+def build_model(features: dict, pinto_raw: object, progress_tail: str,
+                project: str, generated: str) -> dict:
+    phases = phases_from_features(features)
+    board = board_from_pinto(pinto_raw)
+    return {
+        "project": project,
+        "generated": generated,
+        "phases": phases,
+        "board": board,
+        "totals": totals(phases, board),
+        "progress_tail": progress_tail,
+    }
+
+
+# ------------------------------------------------------------------- rendering
+
+MARK = {DONE: "✔", ACTIVE: "▶", TODO: "○"}
+LABEL = {DONE: "completed", ACTIVE: "in progress", TODO: "todo"}
+
+
+def render_terminal(model: dict) -> str:
+    t = model["totals"]
+    out = [
+        "",
+        f"  {model['project']} — orchestration status",
+        f"  {model['generated']}",
+        "",
+        f"  {MARK[DONE]} completed {t[DONE]:>3}"
+        f"    {MARK[ACTIVE]} in progress {t[ACTIVE]:>3}"
+        f"    {MARK[TODO]} todo {t[TODO]:>3}"
+        f"    (from {t['source']})",
+    ]
+
+    if model["phases"]:
+        out += ["", "  PHASES"]
+        for p in model["phases"]:
+            bar_len = 16
+            filled = round(bar_len * p["percent"] / 100)
+            bar = "█" * filled + "·" * (bar_len - filled)
+            out.append(f"    {MARK[p['state']]} {p['name'][:34]:<34} "
+                       f"{bar} {p['done']}/{p['total']}")
+            for i in p["items"]:
+                if i["state"] != DONE:
+                    out.append(f"        {MARK[i['state']]} {i['id']}  {i['title'][:52]}")
+
+    open_items = [b for b in model["board"] if b["state"] != DONE]
+    if open_items:
+        out += ["", f"  BOARD ({len(open_items)} open)"]
+        for b in open_items:
+            out.append(f"    {MARK[b['state']]} {b['id']:<6} {b['title'][:56]}")
+
+    if model["progress_tail"]:
+        out += ["", "  LAST RECORDED ACTIVITY",
+                *(f"    {line}" for line in model["progress_tail"].splitlines()[-3:])]
+
+    out.append("")
+    return "\n".join(out)
+
+
+def _cards(items: list[dict], state: str) -> str:
+    tone = {
+        DONE: ("emerald", "fa-check"),
+        ACTIVE: ("amber", "fa-play"),
+        TODO: ("zinc", "fa-circle"),
+    }[state]
+    if not items:
+        return '<div class="text-sm text-zinc-600 italic px-1 py-3">nothing here</div>'
+    return "".join(
+        f'<div class="bg-zinc-900 border border-zinc-800 rounded-2xl px-4 py-3">'
+        f'<div class="flex items-center gap-2">'
+        f'<i class="fa-solid {tone[1]} text-{tone[0]}-400 text-xs"></i>'
+        f'<span class="font-mono text-xs text-zinc-500">{html.escape(str(i["id"]))}</span>'
+        f'</div>'
+        f'<div class="text-sm text-zinc-200 mt-1 leading-snug">{html.escape(i["title"])}</div>'
+        f'</div>'
+        for i in items
+    )
+
+
+def render_html(model: dict) -> str:
+    t = model["totals"]
+    units = model["board"] or [i for p in model["phases"] for i in p["items"]]
+    by = {s: [u for u in units if u["state"] == s] for s in (DONE, ACTIVE, TODO)}
+    total = max(len(units), 1)
+
+    phase_rows = "".join(
+        f'<div class="py-3 border-b border-zinc-800/60 last:border-0">'
+        f'<div class="flex items-center justify-between gap-4">'
+        f'<div class="flex items-center gap-2 min-w-0">'
+        f'<i class="fa-solid {"fa-check text-emerald-400" if p["state"] == DONE else ("fa-play text-amber-400" if p["state"] == ACTIVE else "fa-circle text-zinc-600")} text-xs"></i>'
+        f'<span class="text-sm text-zinc-200 truncate">{html.escape(p["name"])}</span>'
+        f'</div>'
+        f'<span class="text-xs text-zinc-500 tabular-nums shrink-0">{p["done"]}/{p["total"]}</span>'
+        f'</div>'
+        f'<div class="h-1.5 bg-zinc-800 rounded-full mt-2 overflow-hidden">'
+        f'<div class="h-full rounded-full {"bg-emerald-500" if p["percent"] == 100 else "bg-amber-500"}" style="width:{p["percent"]}%"></div>'
+        f'</div></div>'
+        for p in model["phases"]
+    ) or '<div class="text-sm text-zinc-600 italic">no features.json phases</div>'
+
+    def pct(n): return round(100 * n / total)
+
+    return f"""<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>{html.escape(model['project'])} — orchestration status</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+</head>
+<body class="bg-zinc-950 text-zinc-200 antialiased">
+<div class="max-w-6xl mx-auto px-6 py-12">
+
+  <div class="flex items-end justify-between flex-wrap gap-4 mb-10">
+    <div>
+      <div class="text-3xl font-semibold tracking-tighter">{html.escape(model['project'])}</div>
+      <div class="text-sm text-zinc-500 mt-1">Orchestration status · generated from {html.escape(t['source'])}</div>
+    </div>
+    <div class="text-xs text-zinc-600 font-mono">{html.escape(model['generated'])}</div>
+  </div>
+
+  <div class="grid grid-cols-3 gap-4 mb-8">
+    <div class="bg-zinc-900 border border-zinc-800 rounded-3xl p-5">
+      <div class="text-4xl font-semibold text-emerald-400 tabular-nums">{t[DONE]}</div>
+      <div class="text-sm text-zinc-400 mt-1">completed</div>
+    </div>
+    <div class="bg-zinc-900 border border-zinc-800 rounded-3xl p-5">
+      <div class="text-4xl font-semibold text-amber-400 tabular-nums">{t[ACTIVE]}</div>
+      <div class="text-sm text-zinc-400 mt-1">in progress</div>
+    </div>
+    <div class="bg-zinc-900 border border-zinc-800 rounded-3xl p-5">
+      <div class="text-4xl font-semibold text-zinc-400 tabular-nums">{t[TODO]}</div>
+      <div class="text-sm text-zinc-400 mt-1">todo</div>
+    </div>
+  </div>
+
+  <div class="flex h-2 rounded-full overflow-hidden mb-10 bg-zinc-800">
+    <div class="bg-emerald-500" style="width:{pct(len(by[DONE]))}%"></div>
+    <div class="bg-amber-500" style="width:{pct(len(by[ACTIVE]))}%"></div>
+  </div>
+
+  <div class="grid grid-cols-1 md:grid-cols-3 gap-5 mb-10">
+    <div>
+      <div class="text-xs uppercase tracking-widest text-emerald-400/80 mb-3">Completed · {len(by[DONE])}</div>
+      <div class="space-y-2">{_cards(by[DONE], DONE)}</div>
+    </div>
+    <div>
+      <div class="text-xs uppercase tracking-widest text-amber-400/80 mb-3">In progress · {len(by[ACTIVE])}</div>
+      <div class="space-y-2">{_cards(by[ACTIVE], ACTIVE)}</div>
+    </div>
+    <div>
+      <div class="text-xs uppercase tracking-widest text-zinc-500 mb-3">Todo · {len(by[TODO])}</div>
+      <div class="space-y-2">{_cards(by[TODO], TODO)}</div>
+    </div>
+  </div>
+
+  <div class="bg-zinc-900/60 border border-zinc-800 rounded-3xl p-6 mb-6">
+    <div class="text-xs uppercase tracking-widest text-zinc-500 mb-3">Phases</div>
+    {phase_rows}
+  </div>
+
+  <div class="bg-zinc-900/60 border border-zinc-800 rounded-3xl p-6">
+    <div class="text-xs uppercase tracking-widest text-zinc-500 mb-3">Last recorded activity</div>
+    <pre class="text-xs text-zinc-400 whitespace-pre-wrap font-mono leading-relaxed">{html.escape(model['progress_tail'] or '(no progress.md)')}</pre>
+  </div>
+
+  <div class="text-xs text-zinc-700 mt-8">
+    Regenerate with <span class="font-mono text-zinc-500">just status-html</span>. This file is generated — do not edit by hand.
+  </div>
+
+</div>
+</body>
+</html>
+"""
+
+
+# ----------------------------------------------------------------- actions/io
+
+def read_features(root: Path) -> dict:
+    try:
+        data = json.loads((root / "features.json").read_text())
+        return data if isinstance(data, dict) else {}
+    except Exception:
+        return {}
+
+
+def read_pinto(root: Path) -> object:
+    if not shutil.which("pinto"):
+        return None
+    try:
+        done = subprocess.run(["pinto", "list", "--json"], cwd=root,
+                              capture_output=True, text=True, timeout=20)
+        return json.loads(done.stdout) if done.returncode == 0 else None
+    except Exception:
+        return None
+
+
+def read_progress_tail(root: Path, lines: int = 12) -> str:
+    try:
+        return "\n".join((root / "progress.md").read_text().splitlines()[-lines:])
+    except Exception:
+        return ""
+
+
+def main() -> int:
+    ap = argparse.ArgumentParser(add_help=True, description=__doc__)
+    ap.add_argument("--html", action="store_true", help="also write the HTML dashboard")
+    ap.add_argument("--html-only", action="store_true", help="write HTML, print nothing")
+    ap.add_argument("--out", default="docs/status-dashboard.html")
+    ap.add_argument("--root", default=str(Path(__file__).resolve().parent.parent))
+    args = ap.parse_args()
+
+    root = Path(args.root).resolve()
+    model = build_model(
+        features=read_features(root),
+        pinto_raw=read_pinto(root),
+        progress_tail=read_progress_tail(root),
+        project=root.name,
+        generated=_datetime.datetime.now().strftime("%Y-%m-%d %H:%M"),
+    )
+
+    if args.html or args.html_only:
+        out = Path(args.out)
+        if not out.is_absolute():
+            out = root / out
+        out.parent.mkdir(parents=True, exist_ok=True)
+        out.write_text(render_html(model))
+        if not args.html_only:
+            print(render_terminal(model))
+        try:
+            shown = out.relative_to(root)
+        except ValueError:
+            shown = out
+        print(f"  → dashboard written to {shown}\n")
+    else:
+        print(render_terminal(model))
+    return 0
+
+
+if __name__ == "__main__":
+    sys.exit(main())
