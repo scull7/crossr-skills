@@ -399,5 +399,22 @@
         ]
       }
     ]
+  },
+  "claude-skill-sync": {
+    "status": "completed",
+    "commits": [
+      {
+        "id": "cs-01",
+        "title": "Claude skill compatibility generator + drift gate",
+        "status": "completed",
+        "features": [
+          "sync-claude-skills-script",
+          "claude-skills-sync-target",
+          "claude-skills-drift-check",
+          "harness-spec-generator-reference",
+          "agents-md-claude-skill-copies"
+        ]
+      }
+    ]
   }
 }

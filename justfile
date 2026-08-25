@@ -22,6 +22,7 @@ fmt:
 harness-validate:
     @just docs-verify
     @just opencode-verify
+    @just claude-skills-check
     @if command -v jq >/dev/null 2>&1; then \
         jq -e 'if type == "object" then . else error("features.json must be an object") end' features.json > /dev/null && \
         echo "features.json: basic structure OK" || \
@@ -70,3 +71,11 @@ docs-verify-report:
 # OpenCode slash-command layer verification (/avril, /axel)
 opencode-verify:
     @./scripts/verify-opencode
+
+# Claude compatibility copies of .agents/skills/ (HARNESS-SPEC 2.1)
+claude-skills-sync:
+    @./scripts/sync-claude-skills
+
+# Non-fatal drift report; skips when no Claude skills directory exists
+claude-skills-check:
+    @echo "" && echo "Checking Claude skill copies..." && ./scripts/sync-claude-skills --check --soft
