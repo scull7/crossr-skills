@@ -116,6 +116,24 @@ else
 fi
 
 echo ""
+echo "Checking bootstrap template parity..."
+
+TEMPLATE_DIR="templates/harness/opencode"
+if [[ -d "$TEMPLATE_DIR" ]]; then
+    for rel in opencode.jsonc agent/avril.md agent/axel.md command/avril.md command/axel.md; do
+        if [[ ! -f "$TEMPLATE_DIR/$rel" ]]; then
+            fail "missing bootstrap template $TEMPLATE_DIR/$rel"
+        elif diff -q ".opencode/$rel" "$TEMPLATE_DIR/$rel" >/dev/null 2>&1; then
+            pass "template matches dogfood: $rel"
+        else
+            fail "template drift: $TEMPLATE_DIR/$rel differs from .opencode/$rel"
+        fi
+    done
+else
+    skip "no bootstrap templates at $TEMPLATE_DIR"
+fi
+
+echo ""
 echo "Checking live OpenCode discovery..."
 
 OPENCODE_BIN="${OPENCODE_BIN:-}"

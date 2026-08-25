@@ -346,7 +346,7 @@
     ]
   },
   "opencode-slash-commands": {
-    "status": "in_progress",
+    "status": "completed",
     "commits": [
       {
         "id": "T-11",
@@ -384,6 +384,18 @@
           "axel-decomposition-passthrough",
           "agents-md-slash-commands",
           "book-pipeline-slash-pointer"
+        ]
+      },
+      {
+        "id": "T-14",
+        "title": "Port /avril and /axel into harness-bootstrap templates",
+        "status": "completed",
+        "features": [
+          "opencode-bootstrap-templates",
+          "harness-bootstrap-opencode-install",
+          "verify-opencode-template-parity",
+          "readme-bootstrap-note",
+          "book-bootstrap-note"
         ]
       }
     ]

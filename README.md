@@ -42,6 +42,8 @@ just harness-validate
 
 This creates a full harness including `AGENTS.md`, `features.json`, `progress.md`, `justfile`, and the canonical `.agents/skills/` directory.
 
+It also installs the OpenCode slash commands `/avril` (planning) and `/axel` (execution) under `.opencode/`. **Restart opencode** to pick them up. Existing `.opencode/` files are never overwritten — the bootstrap reports which ones it kept.
+
 ---
 
 ## Skills

@@ -383,3 +383,11 @@ Verification: `just harness-validate` PASS. Pinto board: all done.
 - `help` route now explicitly prints routes + examples and executes nothing.
 - `/axel` passes an opt-in decomposition request through to the `axel` skill; never self-enables.
 - `AGENTS.md` gains an OpenCode Slash Commands section (incl. restart-opencode note and `just opencode-verify`); book pipeline overview points at the pair.
+
+### T-14 — Port /avril and /axel into harness-bootstrap (COMPLETED)
+- `templates/harness/opencode/` mirrors the dogfood `.opencode/` byte-for-byte; `scripts/verify-opencode` fails on any drift between the two (mutation-tested).
+- `scripts/harness-bootstrap` installs the five files, never overwrites an existing one, and reports what it kept.
+- Verified end-to-end in `/tmp`: fresh install produces byte-identical files; re-run keeps all five; a locally customized `agent/avril.md` survived (cksum unchanged); `opencode agent list` in the bootstrapped project reports `avril (primary)` and `axel (primary)`.
+- README + book bootstrap sections document the pair and the restart requirement.
+
+**Phase `opencode-slash-commands` complete** (T-11…T-14).

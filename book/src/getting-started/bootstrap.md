@@ -61,6 +61,15 @@ Record AC evidence before moving to done. Conductor does not write production co
 
 **Expected artifacts:** small commits with PBI ids, green verification matrix, AC checkboxes evidenced, board status honest.
 
+## Slash commands
+
+`harness-bootstrap` also installs `.opencode/` so the pair is one keystroke away:
+
+- `/avril` — planning conductor. Bare `/avril` is a read-only status report.
+- `/axel` — execution conductor. Bare `/axel` reports the next blessed PBI and asks before running anything.
+
+**Restart opencode** after bootstrap; config is read at startup. Re-running the bootstrap never overwrites `.opencode/` files you have customized — it lists what it kept. Verify the layer with `just opencode-verify`.
+
 ## Related
 
 - [AVRIL](../pipeline/avril.md) · [AXEL](../pipeline/axel.md) · [Skills catalog](../skills/overview.md)
