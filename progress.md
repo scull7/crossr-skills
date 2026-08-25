@@ -450,3 +450,12 @@ Generated orchestrator prompts now handle a runner whose opencode instance is ou
 - Published at N=15→16 across allowlist, README, book catalog, and site.
 - Two findings worth recording: the local `~/.claude/skills/voice-dna/SKILL.md` was **v1.0 with no YAML frontmatter** (not agentskills.io-compliant, which is why it surfaced with no description), so the issue body was the authoritative source rather than the local file. Syncing after merge upgrades that copy to v2.0.
 - Self-exemplar check: the skill's own prose carries no banned words; the only hits are the banned list itself, the deliberate "bad example", and the Verification grep list.
+
+### vd-02 — standalone unslop skill (CrossR original)
+
+Issue #61 suggested optionally vendoring the upstream `unslop` skill from `cursor/plugins`. **That repo declares no license** (no LICENSE file; the GitHub API reports `license: NONE`), so copying it into this public MIT repo would republish all-rights-reserved content. Written as an independent CrossR implementation instead, with the upstream credited as inspiration and the licensing situation stated in the skill's footer.
+
+- `.agents/skills/unslop/SKILL.md` — 31 patterns in six groups, a re-humanizing pass, a read-aloud gate, worked before/after examples, and the canonical Verification / Specialization / Mandate sections.
+- Deliberately **voice-agnostic**: it takes no position on paragraph length, contractions, parentheses, or register. `voice-dna` layers the CrossR house style on top and wins wherever they differ. Accuracy outranks both.
+- Originality checked mechanically, not assumed: 8-gram shingle comparison against the upstream text shows **3 shared runs out of 1458 (0.2%)**, and all three are the banned phrases being quoted (you cannot ban "delve" without writing "delve"). One genuine phrasing overlap was found and rewritten.
+- Published at N=16→17.

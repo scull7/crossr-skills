@@ -80,6 +80,11 @@
       "name": "voice-dna",
       "category": "Writing",
       "purpose": "CrossR sharp-human writing voice with full unslop pattern list"
+    },
+    {
+      "name": "unslop",
+      "category": "Writing",
+      "purpose": "Voice-agnostic pass that strips AI tells from prose"
     }
   ],
   "out": [
