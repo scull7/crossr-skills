@@ -410,3 +410,11 @@ HARNESS-SPEC.md §2.1 required `.claude/skills/` to be produced by a generator s
 - Replaced files are backed up to a timestamped `skills.backup-*` directory.
 - `just harness-validate` now reports drift non-fatally and skips cleanly when no Claude skills directory exists (CI).
 - Synced: 10 skills updated to canonical, `avril`/`axel`/`orchestrator-prompt` added, `voice-dna` (global-only, issue #61) untouched. Verified afterwards that opencode resolves all six checked skills with content matching the repo.
+
+## Fix: sync-skills was a silent no-op (ss-01)
+
+`scripts/sync-skills` ran `rsync -a --delete --exclude '*/'`. Every skill lives in `<name>/SKILL.md`, and `--exclude '*/'` excludes all directories — so the script printed `✓ Skills synced using rsync (with --delete)` while transferring **zero** skills. Any project that trusted it got nothing.
+
+- Rewritten to copy each skill directory that actually contains a `SKILL.md` (so asset directories come along and empty stubs do not), report `added / updated / unchanged / removed`, and prune skills no longer in canon.
+- New flags: `--dry-run`, `--dest DIR`, `--opencode` (installs `/avril` + `/axel` from `templates/harness/opencode`, never overwriting existing files).
+- Regression-tested against the exact failing scenario: 17 skills + 7 asset files copied, a stale skill pruned, re-run idempotent, `--dry-run` writes nothing, `--opencode` re-run keeps all 5 files.
