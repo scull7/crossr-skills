@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Blessed Backlog — OpenCode /avril /axel</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-slate-950 text-slate-200">
+  <main class="max-w-3xl mx-auto px-6 py-12 space-y-8 text-sm">
+    <header>
+      <p class="text-xs text-emerald-400 font-semibold tracking-wide">AVRIL · TRIPLE-BLESSED · PLANNING STOP</p>
+      <h1 class="text-3xl font-semibold text-white mt-2">OpenCode slash commands: /avril · /axel</h1>
+      <p class="text-slate-400 mt-2">Source plan: <code>docs/plans/opencode-avril-axel-commands.html</code> · Pinto T-11…T-14</p>
+    </header>
+
+    <section class="p-5 rounded-2xl bg-zinc-900 border border-zinc-800 space-y-2">
+      <h2 class="font-semibold text-white">Intent</h2>
+      <p class="text-slate-300">Ship first-class OpenCode commands so users can run <code class="text-emerald-300">/avril …</code> and <code class="text-emerald-300">/axel …</code> with free-text args, wrapping existing skills without rewriting them.</p>
+      <h2 class="font-semibold text-white pt-2">Locked decisions (was unresolved)</h2>
+      <ul class="list-disc list-inside text-slate-300 space-y-1">
+        <li><strong class="text-white">Agent mode:</strong> <code>primary</code> (Tab + slash via <code>agent:</code> frontmatter)</li>
+        <li><strong class="text-white">Scope v1:</strong> this repo’s <code>.opencode/</code> first; bootstrap port in T-14</li>
+        <li><strong class="text-white">Empty /axel:</strong> next ready PBI + <strong>confirm before execute</strong> (no auto-run)</li>
+        <li><strong class="text-white">Empty /avril:</strong> read-only status</li>
+        <li><strong class="text-white">.pinto:</strong> already committed — out of scope for this phase</li>
+        <li><strong class="text-white">No micro-commands</strong> per verb — free-text router only</li>
+      </ul>
+    </section>
+
+    <section class="p-5 rounded-2xl bg-zinc-900 border border-zinc-800">
+      <h2 class="font-semibold text-white mb-2">Shape</h2>
+      <pre class="text-xs text-emerald-300 overflow-x-auto leading-relaxed">/avril $ARGUMENTS → .opencode/command/avril.md → agent avril → skill avril
+/axel  $ARGUMENTS → .opencode/command/axel.md  → agent axel  → skill axel
+Preflight (T-12): git / progress / features / pinto (read-only, fail soft)
+Restart opencode after install.</pre>
+    </section>
+
+    <section>
+      <h2 class="font-semibold text-white mb-3">Blessed PBIs</h2>
+      <div class="space-y-3">
+        <div class="p-4 rounded-xl border border-emerald-500/20 bg-zinc-900">
+          <div class="font-mono text-emerald-400">T-11 · 5pts · ready</div>
+          <div class="text-white font-medium">Scaffold OpenCode /avril and /axel agents + commands</div>
+          <div class="text-slate-400 text-xs mt-1">.opencode/command + agent; primary mode; empty-args contracts</div>
+        </div>
+        <div class="p-4 rounded-xl border border-emerald-500/20 bg-zinc-900">
+          <div class="font-mono text-emerald-400">T-12 · 3pts · deps T-11</div>
+          <div class="text-white font-medium">Add read-only preflight dumps to both commands</div>
+        </div>
+        <div class="p-4 rounded-xl border border-emerald-500/20 bg-zinc-900">
+          <div class="font-mono text-emerald-400">T-13 · 2pts · deps T-11</div>
+          <div class="text-white font-medium">Polish routers, help text, AGENTS.md pointers</div>
+        </div>
+        <div class="p-4 rounded-xl border border-emerald-500/20 bg-zinc-900">
+          <div class="font-mono text-emerald-400">T-14 · 3pts · deps T-11, T-12, T-13</div>
+          <div class="text-white font-medium">Port into harness-bootstrap templates + tracking</div>
+        </div>
+      </div>
+    </section>
+
+    <section class="p-5 rounded-2xl bg-zinc-900 border border-zinc-800">
+      <h2 class="font-semibold text-white mb-2">Cuts</h2>
+      <ul class="list-disc list-inside text-slate-400">
+        <li>Global ~/.config/opencode in v1</li>
+        <li>/avril-status style micro-commands</li>
+        <li>Rewriting avril/axel SKILL.md bodies</li>
+        <li>Auto-execute on empty /axel</li>
+        <li>Marketing homepage work</li>
+      </ul>
+    </section>
+
+    <section class="p-5 rounded-2xl bg-zinc-900 border border-zinc-800">
+      <h2 class="font-semibold text-white mb-2">Blessing log</h2>
+      <pre class="text-xs text-slate-300">T-11: PO BLESS | QA BLESS | CTO BLESS
+T-12: PO BLESS | QA BLESS | CTO BLESS
+T-13: PO BLESS | QA BLESS | CTO BLESS
+T-14: PO BLESS | QA BLESS | CTO BLESS</pre>
+      <p class="text-xs text-slate-500 mt-2">PO: thin vertical slices, clear UX. QA: falsifiable AC, soft-fail preflight. CTO: primary agents + bootstrap last keeps dogfood before portability.</p>
+    </section>
+
+    <section class="p-5 rounded-2xl border border-amber-500/30 bg-amber-500/5">
+      <h2 class="font-semibold text-amber-400 mb-2">Planning stop</h2>
+      <p class="text-slate-300">Ready for AXEL at <strong class="text-white">T-11</strong>.</p>
+      <pre class="mt-2 text-xs text-emerald-300 bg-black/40 p-3 rounded-lg overflow-x-auto">Using code-writer + axel to execute blessed PBI T-11 through PETC until AC are evidenced.</pre>
+    </section>
+  </main>
+</body>
+</html>
