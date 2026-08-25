@@ -21,6 +21,7 @@ fmt:
 # Harness-specific
 harness-validate:
     @just docs-verify
+    @just opencode-verify
     @if command -v jq >/dev/null 2>&1; then \
         jq -e 'if type == "object" then . else error("features.json must be an object") end' features.json > /dev/null && \
         echo "features.json: basic structure OK" || \
@@ -65,3 +66,7 @@ docs-verify:
 
 docs-verify-report:
     @./scripts/verify-docs --html
+
+# OpenCode slash-command layer verification (/avril, /axel)
+opencode-verify:
+    @./scripts/verify-opencode
