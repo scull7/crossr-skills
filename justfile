@@ -68,6 +68,13 @@ docs-verify:
 docs-verify-report:
     @./scripts/verify-docs --html
 
+# Orchestration status dashboard (in-harness UI)
+status:
+    @./scripts/status-dashboard
+
+status-html:
+    @./scripts/status-dashboard --html
+
 # OpenCode slash-command layer verification (/avril, /axel)
 opencode-verify:
     @./scripts/verify-opencode

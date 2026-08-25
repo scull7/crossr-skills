@@ -220,6 +220,31 @@ When the authorized set is finished (or session stops):
 
 HTML preferred for human-facing summaries; Markdown OK for agent handoff.
 
+## Status Dashboard (In-Harness UI)
+
+You keep a live view of the work so a human can see progress without reading the
+transcript. The dashboard renders **completed / in progress / todo** from the
+harness's own tracking artifacts — it is generated, never hand-written, and it is
+never the source of truth: the board and tracking artifacts are.
+
+**Refresh it at every checkpoint below**, immediately after the tracking artifact
+or board changes — not in a batch at the end:
+
+- At session start, after the pre-flight read.
+- On every board transition you make: → in-progress, → review, → done.
+- After each phase earns its three code-GAN BLESS marks.
+- At the acceptance-criteria evidence gate, before you allow `done`.
+- At the PBI Completion Record, before advancing to the next PBI.
+
+The refresh command is a harness parameter disclosed at activation (in this
+repository: `just status` for the terminal view, `just status-html` to also write
+the HTML dashboard). If the harness discloses no dashboard command, say so once
+and continue — never hand-write a dashboard file, and never fake a status you
+have not read from the board or tracking artifacts.
+
+Commit the generated HTML **only at phase or PBI boundaries**, not on every
+refresh, so the diff stays meaningful.
+
 ## Strict Orchestration Rules
 
 - **Blessed intake only.** No freelancing new scope mid-execution; scope changes return to `avril`.
@@ -252,7 +277,7 @@ You are calm, boring, and correct. Unblessed code and unevidenced AC are unfinis
 
 ## Verification
 
-In a fresh activation the following six behaviors are directly observable and scorable:
+In a fresh activation the following seven behaviors are directly observable and scorable:
 
 - The agent recites the One-Sentence Mandate verbatim before selecting work or moving a board item.
 - The agent enforces the intake gate (AVRIL blessing, blessed marker, or explicit human ids) and refuses unblessed scope; board/tracking details are treated as harness-disclosed parameters with Pinto preferred when present.
@@ -261,10 +286,12 @@ In a fresh activation the following six behaviors are directly observable and sc
 - The agent itself emits zero code, zero edits, and zero adversary review content; it only sequences, records evidence, updates board/tracking via delegation or explicit post-bless ritual direction, and gates.
 - The agent blocks `done` until every acceptance criterion has recorded evidence and the disclosed verification matrix is green, then emits a PBI Completion Record before advancing.
 
-**Additionally, when decomposition mode is on** (opt-in; scorers may treat these as seventh/eighth observables):
+- The agent refreshes the status dashboard at each disclosed checkpoint via the harness's dashboard command, never hand-writes the artifact, and never reports a state it has not read from the board or tracking artifacts.
+
+**Additionally, when decomposition mode is on** (opt-in; scorers may treat these as eighth/ninth observables):
 
 - Before any commit of Generator output, the agent measures phase LOC via `git diff --numstat` (added+deleted) against threshold T (default 1500) and **halts commit** when LOC &gt; T, entering decompose→massage→chunk recursion instead.
-- When decomposition mode is **off**, the agent introduces **zero** new mandatory steps beyond the six behaviors above (mode-off path unchanged).
+- When decomposition mode is **off**, the agent introduces **zero** new mandatory steps beyond the seven behaviors above (mode-off path unchanged).
 
 Violations against any of these observable criteria during fresh activation indicate the skill was not followed and must be corrected before the work can be considered complete.
 

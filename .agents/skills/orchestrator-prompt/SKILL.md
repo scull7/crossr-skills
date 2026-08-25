@@ -33,6 +33,7 @@ Concrete values — repo path, default branch, plan/ledger paths, CI gate, runne
 | `RUNNER_MODEL`, `JUDGE_MODEL`, `MODEL_POOL` | human → `.opencode/` config → `opencode models` | template MODEL POOL (Kimi K3, GLM 5.2, DeepSeek, Ox Alpha Free); cheapest `go`-covered for runners, strongest for judge; ids flagged if unresolved |
 | `OPENCODE_BIN` | human → `which opencode` | `~/.opencode/bin/opencode` |
 | `BRIEF_DIR`, `RUN_DIR` | human | `/tmp/<project>/briefs`, `/tmp/<project>/runs` |
+| `DASHBOARD`, `DASHBOARD_FILE` | justfile / scripts (`just status-html`, `scripts/status-dashboard`) | state that the project has no dashboard command rather than inventing one |
 | `INVARIANTS` | rules file, HARNESS-SPEC, skills in play, plan | **never generic** — derive ≥3 project-specific ones or ask |
 | `ACCEPTANCE` persona | plan's real end user, runbooks, demos | **never generic** — describe concretely or ask |
 | `ESCALATE_TO` | human → git user | unresolved question |
@@ -42,30 +43,32 @@ Concrete values — repo path, default branch, plan/ledger paths, CI gate, runne
 
 1. **Read** `assets/orchestrator-prompt-template.md` in full. It is the verbatim body; do not paraphrase, reorder, or drop sections.
 2. **Gather** every input from the table above using the project's actual artifacts. Read before writing: rules file, harness spec, justfile/CI, plan, existing ledger, coding-standard skills in play.
-3. **Keep** the TOKEN EFFICIENCY block and its `go`-subscription preference verbatim; only substitute concrete model ids and a project-specific tiering note if the human supplies one.
-4. **Derive** project-specific INVARIANTS (from the rules file, spec policy gates, and plan constraints) and a concrete ACCEPTANCE persona (from who actually consumes the plan's deliverable). Keep the two fixed invariants ("Never fake", "Never weaken") verbatim.
-5. **Fill** every `{{…}}`. A value you cannot verify is not guessed; write `TODO(<question>)` in place and add the question to the unresolved list.
-6. **Write** the result to the path the human names (default `docs/orchestrator-prompt.md`; HTML twin optional per harness HTML-first guidance) and echo it.
-7. **Verify** mechanically: `grep -c '{{' <output>` must be `0`; every PARAMETERS line has a value; INVARIANTS has ≥3 project lines plus the two fixed ones; ACCEPTANCE names a concrete user, traits, sub-personas, and approval rule; DoD and off-limits list come from PLAN.
-8. **Close** with `## Unresolved questions` (may be empty) — never with an offer to start the loop.
+3. **Keep** the STATUS DASHBOARD block verbatim; fill `DASHBOARD`/`DASHBOARD_FILE` from the project's real commands, or state plainly that it has none.
+4. **Keep** the TOKEN EFFICIENCY block and its `go`-subscription preference verbatim; only substitute concrete model ids and a project-specific tiering note if the human supplies one.
+5. **Derive** project-specific INVARIANTS (from the rules file, spec policy gates, and plan constraints) and a concrete ACCEPTANCE persona (from who actually consumes the plan's deliverable). Keep the two fixed invariants ("Never fake", "Never weaken") verbatim.
+6. **Fill** every `{{…}}`. A value you cannot verify is not guessed; write `TODO(<question>)` in place and add the question to the unresolved list.
+7. **Write** the result to the path the human names (default `docs/orchestrator-prompt.md`; HTML twin optional per harness HTML-first guidance) and echo it.
+8. **Verify** mechanically: `grep -c '{{' <output>` must be `0`; every PARAMETERS line has a value; INVARIANTS has ≥3 project lines plus the two fixed ones; ACCEPTANCE names a concrete user, traits, sub-personas, and approval rule; DoD and off-limits list come from PLAN.
+9. **Close** with `## Unresolved questions` (may be empty) — never with an offer to start the loop.
 
 ## Boundaries
 
 - **Generate only.** Never run the opencode probe, dispatch a runner, create the ledger, or modify the plan.
-- **Verbatim body.** Edits are confined to placeholder slots and the two blocks the template marks EDIT FOR THE PROJECT. The TOKEN EFFICIENCY default (sub-agents via opencode, MODEL POOL, `go` subscription first) is never weakened.
+- **Verbatim body.** Edits are confined to placeholder slots and the two blocks the template marks EDIT FOR THE PROJECT. The TOKEN EFFICIENCY default (sub-agents via opencode, MODEL POOL, `go` subscription first) and the STATUS DASHBOARD duty are never weakened.
 - **No invented facts.** Model ids, paths, commands, and owners come from artifacts or the human.
 - **Single deliverable.** One prompt file per invocation; regenerating overwrites it idempotently.
 - **Fail loud.** Missing plan, ambiguous CI gate, or a DoD that conflicts with a derived invariant is surfaced in the unresolved list, not smoothed over.
 
 ## Verification
 
-In a fresh activation the following six behaviors are directly observable and scorable:
+In a fresh activation the following seven behaviors are directly observable and scorable:
 
 - The agent recites the One-Sentence Mandate verbatim before reading any project artifact.
 - The agent reads the template asset and the project's rules file, spec, plan, and CI entrypoint before emitting any output.
 - The generated prompt contains zero `{{` sequences; every unresolvable slot is a `TODO(...)` mirrored in the unresolved-questions list.
 - The INVARIANTS block contains at least three invariants traceable to named project artifacts plus the two fixed invariants verbatim.
 - The ACCEPTANCE persona names a concrete real user of the plan's deliverable with enacted traits, sub-personas, and the approval rule — not the template's bracketed examples.
+- The generated prompt carries the STATUS DASHBOARD block with `DASHBOARD`/`DASHBOARD_FILE` resolved from the project's real commands, or an explicit statement that the project has none.
 - The agent performs no orchestration action (no probe, no runner launch, no ledger or plan edit) and ends with an unresolved-questions section.
 
 Violations against any of these observable criteria during fresh activation indicate the skill was not followed and must be corrected before the work can be considered complete.

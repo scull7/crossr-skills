@@ -145,6 +145,8 @@ All reusable skills live here in strict `agentskills.io` format. This directory 
 
 For any artifact whose primary audience is a human — specifications, architecture reviews, PR summaries, reports, dashboards, prototypes, deployment guides, etc. — **generate a self-contained HTML file** as the main deliverable.
 
+The canonical example is the **orchestration status dashboard**: every orchestration skill keeps a live completed / in-progress / todo view of its own work, rendered by a generator from the harness's tracking artifacts (`scripts/status-dashboard`; `just status` for the terminal, `just status-html` for the HTML). It is generated, never hand-written, and never the source of truth.
+
 **Rationale (The Unreasonable Effectiveness of HTML)**:
 - Humans read, understand, and engage with well-designed HTML far more effectively than raw Markdown.
 - Modern models produce exceptionally high-quality, single-file HTML (Tailwind via CDN + SVG/light JS) with very little prompting.

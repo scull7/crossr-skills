@@ -418,3 +418,13 @@ HARNESS-SPEC.md §2.1 required `.claude/skills/` to be produced by a generator s
 - Rewritten to copy each skill directory that actually contains a `SKILL.md` (so asset directories come along and empty stubs do not), report `added / updated / unchanged / removed`, and prune skills no longer in canon.
 - New flags: `--dry-run`, `--dest DIR`, `--opencode` (installs `/avril` + `/axel` from `templates/harness/opencode`, never overwriting existing files).
 - Regression-tested against the exact failing scenario: 17 skills + 7 asset files copied, a stale skill pruned, re-run idempotent, `--dry-run` writes nothing, `--opencode` re-run keeps all 5 files.
+
+## Orchestration status dashboard (sd-01)
+
+An in-harness UI so a human can see orchestrator progress without reading the transcript.
+
+- `scripts/status-dashboard` — one generator, two renderers. `just status` (terminal), `just status-html` (also writes `docs/status-dashboard.html`). Sources are read-only and optional: `features.json`, the Pinto board, the `progress.md` tail; a missing source degrades to empty. Board wins over `features.json` for headline counts.
+- Written with the repo's own stratification: reads are actions, everything shaping or rendering the model is a pure calculation.
+- All four orchestration skills gained a **Status Dashboard (In-Harness UI)** section with explicit refresh checkpoints and a seventh observable behavior: `avril` (proposals, each BLESS, planning stop), `axel` (board transitions, phase BLESS, AC evidence gate, completion record), `rust-team-lead` (phase BLESS, post-bless commit), and `orchestrator-prompt`, whose template now carries a STATUS DASHBOARD block plus `DASHBOARD`/`DASHBOARD_FILE` parameters so generated prompts inherit the duty.
+- Commit policy: HTML committed at phase/PBI boundaries only, not on every refresh.
+- Verified: 16/16 status words classified correctly, renderers deterministic, well-formed self-contained HTML, empty-project and mixed-state fixtures both correct. Fixed a crash when `--out` was an absolute path outside the project root.

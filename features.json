@@ -433,5 +433,25 @@
         ]
       }
     ]
+  },
+  "status-dashboard": {
+    "status": "completed",
+    "commits": [
+      {
+        "id": "sd-01",
+        "title": "Orchestration status dashboard (terminal + HTML) wired into all four orchestration skills",
+        "status": "completed",
+        "features": [
+          "status-dashboard-generator",
+          "terminal-renderer",
+          "html-renderer",
+          "just-status-targets",
+          "avril-dashboard-duty",
+          "axel-dashboard-duty",
+          "rust-team-lead-dashboard-duty",
+          "orchestrator-prompt-dashboard-block"
+        ]
+      }
+    ]
   }
 }
