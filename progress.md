@@ -442,3 +442,11 @@ Generated orchestrator prompts now handle a runner whose opencode instance is ou
 - **Stop and ask**, with options A–E: another `go`-covered model, a free model, orchestrator-executed in-harness, pay-per-token or wait, or cut/escalate. Never picks for the human; a blocked run says so and stops.
 - **Key invariant preserved**: orchestrator-executed work (option C) is scoped to one ticket, recorded as `orchestrator-executed`, and **still verified by an independent runner**. A self-verified ticket is not verified; only a written waiver from the escalation owner overrides it. Two new stop conditions cover the case where nothing can verify.
 - **Model ids pinned and verified** against `opencode models` (9/10 matched; the tenth was a path, not an id). Confirmed the `opencode-go/` prefix *is* the `go` subscription: `kimi-k3`, `glm-5.2`, `deepseek-v4-flash`/`-pro`, `ox-alpha-free`.
+
+## voice-dna skill v2.0 (vd-01, issue #61)
+
+- `.agents/skills/voice-dna/SKILL.md` — the issue's content extracted **verbatim** from the issue body (132 lines, all 30 patterns, both examples), then the canonical sections appended: Verification with six observable behaviors, Specialization, One-Sentence Mandate, footer.
+- Classified generic/core, so it carries no Harness Context block, matching `code-writer`.
+- Published at N=15→16 across allowlist, README, book catalog, and site.
+- Two findings worth recording: the local `~/.claude/skills/voice-dna/SKILL.md` was **v1.0 with no YAML frontmatter** (not agentskills.io-compliant, which is why it surfaced with no description), so the issue body was the authoritative source rather than the local file. Syncing after merge upgrades that copy to v2.0.
+- Self-exemplar check: the skill's own prose carries no banned words; the only hits are the banned list itself, the deliberate "bad example", and the Verification grep list.

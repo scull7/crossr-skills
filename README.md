@@ -69,6 +69,7 @@ Public catalog SSOT: [`docs/public-skills.json`](docs/public-skills.json) (14 sk
 | `rust-errors`          | Layered thiserror handling (no anyhow)               | Backend       |
 | `agent-harness`        | Full harness process (stacked PRs, GAN, HTML-first)  | Harness       |
 | `skill-evaluator`      | Audit and remediate agent skills against CrossR standards | Meta     |
+| `voice-dna`            | CrossR sharp-human writing voice with full unslop pattern list | Writing       |
 
 **Not in the public catalog:** `obsidian-cli`, `diataxis` (deferred), empty `diataxis-*` stubs — see `out` in `docs/public-skills.json`.
 
