@@ -212,7 +212,7 @@
       },
       {
         "id": "avril-02",
-        "title": "AXEL execution loop skill + conductor agent (blessed backlog → PETC / code GAN)",
+        "title": "AXEL execution loop skill + conductor agent (blessed backlog \u2192 PETC / code GAN)",
         "status": "completed",
         "features": [
           "axel-orchestrator-skill",
@@ -286,7 +286,7 @@
       },
       {
         "id": "docs-ia-05",
-        "title": "Cross-link polish README ↔ book ↔ site",
+        "title": "Cross-link polish README \u2194 book \u2194 site",
         "status": "completed",
         "features": [
           "cross-surface-links"
@@ -330,6 +330,17 @@
         "features": [
           "orchestrator-prompt-skill",
           "orchestrator-prompt-template-asset"
+        ]
+      },
+      {
+        "id": "op-02",
+        "title": "Publish orchestrator-prompt in public catalog (N=14\u219215)",
+        "status": "completed",
+        "features": [
+          "public-skills-allowlist-orchestrator-prompt",
+          "readme-catalog-n15",
+          "book-catalog-n15",
+          "site-catalog-n15"
         ]
       }
     ]

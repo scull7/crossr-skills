@@ -349,3 +349,9 @@ Verification: `just harness-validate` PASS. Pinto board: all done.
 - Verbatim template kept as `assets/orchestrator-prompt-template.md`; SKILL.md supplies input-sourcing table, derivation rules, `{{`-free mechanical check, generate-only boundary, six observable behaviors.
 - Not yet in `docs/public-skills.json` / README / book catalog (follow-up PR to bump N=14→15 across README, book, site).
 - Verification: `just harness-validate`.
+
+### op-02 — orchestrator-prompt published to public catalog
+
+- `docs/public-skills.json` N=14→15 (`orchestrator-prompt`, Orchestration).
+- README table, `book/src/skills/overview.md` catalog, and `site/templates/index.html` counts/pills synced.
+- Verification: `just harness-validate` PASS (allowlist == README == book; site N=15).
