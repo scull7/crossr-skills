@@ -371,3 +371,9 @@ Verification: `just harness-validate` PASS. Pinto board: all done.
 - New `scripts/verify-opencode` + `just opencode-verify`, wired into `just harness-validate`.
 - Verified live: `opencode agent list` shows `avril (primary)` / `axel (primary)`; `opencode debug skill` resolves `avril`, `axel`, `code-writer` from `.agents/skills/`.
 - Verifier mutation-tested (mode flip, missing `$ARGUMENTS`, write command in preflight all caught) and fixed for a 64KB shell-capture truncation that made discovery checks flaky.
+
+### T-12 — Read-only preflight dumps (COMPLETED)
+- Both commands now open with a preflight: branch + last 8 commits, `progress.md` tail, non-completed `features.json` commits, open Pinto items, blessed backlog summaries.
+- Every block is read-only and fails soft — proven by executing all five in a bare directory with no git, no `progress.md`, no `features.json`, and `pinto` off `PATH`: all exit 0 with placeholder text.
+- `scripts/verify-opencode --run-preflight` executes the embedded blocks and requires exit 0 + non-empty output (10/10 pass).
+- Pinto block summarises open items only: 327 lines of raw JSON → 3 lines, keeping per-invocation token cost sane.
