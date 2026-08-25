@@ -14,6 +14,9 @@
 #   --dest DIR      destination (default: .agents/skills)
 #   --opencode      also install .opencode/ (/avril, /axel) from templates,
 #                   never overwriting files that already exist
+#   --dashboard     also install scripts/status-dashboard (the in-harness UI the
+#                   orchestration skills refresh) and, when a justfile exists
+#                   without them, append `status` / `status-html` targets
 
 set -euo pipefail
 
@@ -36,6 +39,7 @@ fi
 
 DRY_RUN=false
 WITH_OPENCODE=false
+WITH_DASHBOARD=false
 DEST=".agents/skills"
 SOURCE=""
 
@@ -43,6 +47,7 @@ while [ $# -gt 0 ]; do
     case "$1" in
         --dry-run)  DRY_RUN=true; shift ;;
         --opencode) WITH_OPENCODE=true; shift ;;
+        --dashboard) WITH_DASHBOARD=true; shift ;;
         --dest)     DEST="$2"; shift 2 ;;
         -*)         echo "unknown flag: $1" >&2; exit 2 ;;
         *)          SOURCE="$1"; shift ;;
@@ -138,10 +143,53 @@ if $WITH_OPENCODE; then
     fi
 fi
 
+# Optional: the status dashboard generator the orchestration skills refresh.
+if $WITH_DASHBOARD; then
+    DASH_SRC="$SOURCE/scripts/status-dashboard"
+    if [ -f "$DASH_SRC" ]; then
+        if [ -f scripts/status-dashboard ] && diff -q "$DASH_SRC" scripts/status-dashboard >/dev/null 2>&1; then
+            echo "  = scripts/status-dashboard already current"
+        else
+            verb="added"
+            [ -f scripts/status-dashboard ] && verb="updated"
+            echo "  + $verb   scripts/status-dashboard"
+            if ! $DRY_RUN; then
+                mkdir -p scripts
+                cp "$DASH_SRC" scripts/status-dashboard
+                chmod +x scripts/status-dashboard
+            fi
+        fi
+
+        # Append just targets only when a justfile exists and has neither target,
+        # so an existing recipe is never redefined (just errors on duplicates).
+        if [ -f justfile ]; then
+            if grep -qE '^status:|^status-html:' justfile; then
+                echo "  = justfile already defines a status target — left alone"
+            else
+                echo "  + added   justfile status / status-html targets"
+                if ! $DRY_RUN; then
+                    printf '\n# Orchestration status dashboard (in-harness UI)\nstatus:\n    @./scripts/status-dashboard\n\nstatus-html:\n    @./scripts/status-dashboard --html\n' >> justfile
+                fi
+            fi
+        else
+            echo "  (no justfile — run ./scripts/status-dashboard directly)"
+        fi
+    else
+        echo "  (skip) no status-dashboard generator at $DASH_SRC"
+    fi
+fi
+
 echo ""
 $DRY_RUN && echo "(dry run — nothing written)"
 echo "✓ Skills: $ADDED added, $UPDATED updated, $SAME unchanged, $REMOVED removed"
 echo ""
 echo "Review the changes in $DEST and commit them as a skill update PR."
 $WITH_OPENCODE && echo "Restart opencode to pick up /avril and /axel."
+if $WITH_DASHBOARD; then
+    if [ -f justfile ]; then
+        echo "Status dashboard: just status (terminal) / just status-html (HTML)."
+    else
+        echo "Status dashboard: ./scripts/status-dashboard (add --html for the HTML view)."
+    fi
+fi
 exit 0
