@@ -30,3 +30,5 @@ Most AI coding fails at the seam between “sounds good” and “shipped.” Th
 - [AVRIL — Planning GAN](avril.md)
 - [AXEL — Execution Loop](axel.md)
 - [First session prompts](../getting-started/bootstrap.md#first-session-avril--axel)
+
+In OpenCode, the pair is one keystroke away: `/avril` for planning (bare `/avril` is a read-only status report) and `/axel` for execution (bare `/axel` reports the next blessed PBI and asks before running). Restart opencode after installing them.

@@ -377,3 +377,9 @@ Verification: `just harness-validate` PASS. Pinto board: all done.
 - Every block is read-only and fails soft — proven by executing all five in a bare directory with no git, no `progress.md`, no `features.json`, and `pinto` off `PATH`: all exit 0 with placeholder text.
 - `scripts/verify-opencode --run-preflight` executes the embedded blocks and requires exit 0 + non-empty output (10/10 pass).
 - Pinto block summarises open items only: 327 lines of raw JSON → 3 lines, keeping per-invocation token cost sane.
+
+### T-13 — Router, help text, and doc pointers (COMPLETED)
+- Optional verb prefixes documented in both commands (`status`/`plan`/`review`/`bless`/`help`; `status`/`next`/`run`/`evidence`/`help`), with plain English routing through the same hints.
+- `help` route now explicitly prints routes + examples and executes nothing.
+- `/axel` passes an opt-in decomposition request through to the `axel` skill; never self-enables.
+- `AGENTS.md` gains an OpenCode Slash Commands section (incl. restart-opencode note and `just opencode-verify`); book pipeline overview points at the pair.
