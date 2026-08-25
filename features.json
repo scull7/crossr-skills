@@ -451,6 +451,17 @@
           "rust-team-lead-dashboard-duty",
           "orchestrator-prompt-dashboard-block"
         ]
+      },
+      {
+        "id": "sd-02",
+        "title": "sync-skills --dashboard: propagate the in-harness UI to downstream projects",
+        "status": "completed",
+        "features": [
+          "sync-skills-dashboard-flag",
+          "justfile-target-append",
+          "conflict-safe-justfile",
+          "honest-closing-message"
+        ]
       }
     ]
   }

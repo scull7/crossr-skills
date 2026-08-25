@@ -428,3 +428,7 @@ An in-harness UI so a human can see orchestrator progress without reading the tr
 - All four orchestration skills gained a **Status Dashboard (In-Harness UI)** section with explicit refresh checkpoints and a seventh observable behavior: `avril` (proposals, each BLESS, planning stop), `axel` (board transitions, phase BLESS, AC evidence gate, completion record), `rust-team-lead` (phase BLESS, post-bless commit), and `orchestrator-prompt`, whose template now carries a STATUS DASHBOARD block plus `DASHBOARD`/`DASHBOARD_FILE` parameters so generated prompts inherit the duty.
 - Commit policy: HTML committed at phase/PBI boundaries only, not on every refresh.
 - Verified: 16/16 status words classified correctly, renderers deterministic, well-formed self-contained HTML, empty-project and mixed-state fixtures both correct. Fixed a crash when `--out` was an absolute path outside the project root.
+
+### sd-02 — propagate the dashboard downstream
+
+`scripts/sync-skills --dashboard` installs `scripts/status-dashboard` into a target project and, when a justfile exists without them, appends `status` / `status-html` targets. Tested across all five paths: fresh install with justfile (recipes parse and run), idempotent re-run (no duplicate targets), a project whose own `status:` recipe is respected and never clobbered, and a project with no justfile (script installed, runnable directly). The closing message no longer advertises `just status` to projects that have no justfile.
