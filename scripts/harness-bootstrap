@@ -85,12 +85,48 @@ EOF
 echo "  + Created justfile"
 fi
 
+# 5. OpenCode slash commands (/avril, /axel)
+#
+# Copied verbatim from templates/harness/opencode/, which is kept byte-identical
+# to this repo's own .opencode/ by `scripts/verify-opencode`. Existing files are
+# never overwritten, so a project that has customized its agents or commands
+# keeps its version and is told which files were skipped.
+OPENCODE_TEMPLATES="$(cd "$(dirname "$0")/.." && pwd)/templates/harness/opencode"
+if [ -d "$OPENCODE_TEMPLATES" ]; then
+    mkdir -p "$TARGET/.opencode/agent" "$TARGET/.opencode/command"
+    opencode_added=0
+    opencode_kept=0
+    for rel in opencode.jsonc agent/avril.md agent/axel.md command/avril.md command/axel.md; do
+        src="$OPENCODE_TEMPLATES/$rel"
+        dest="$TARGET/.opencode/$rel"
+        if [ ! -f "$src" ]; then
+            continue
+        fi
+        if [ -f "$dest" ]; then
+            echo "  = Kept existing .opencode/$rel (not overwritten)"
+            opencode_kept=$((opencode_kept + 1))
+        else
+            cp "$src" "$dest"
+            opencode_added=$((opencode_added + 1))
+        fi
+    done
+    if [ "$opencode_added" -gt 0 ]; then
+        echo "  + Installed $opencode_added OpenCode file(s) for /avril and /axel"
+    fi
+    if [ "$opencode_kept" -gt 0 ]; then
+        echo "  ! $opencode_kept existing OpenCode file(s) left untouched — diff against templates/harness/opencode/ if you want the latest"
+    fi
+else
+    echo "  (skip) OpenCode templates not found at $OPENCODE_TEMPLATES"
+fi
+
 echo ""
 echo "✓ Basic harness scaffolded."
 echo "  Next steps:"
 echo "    1. Run 'just init' (customize as needed)"
 echo "    2. Commit the empty harness"
 echo "    3. Start tracking real work in features.json"
+echo "    4. Restart opencode, then use /avril (planning) and /axel (execution)"
 echo ""
 echo "  For Claude compatibility, run the generate-claude-compat step (to be added in a future iteration of this script)."
 echo "  Run 'just harness-validate' after setup to check features.json against the schema."
