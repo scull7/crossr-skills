@@ -476,5 +476,20 @@
         ]
       }
     ]
+  },
+  "voice-dna": {
+    "status": "in_progress",
+    "commits": [
+      {
+        "id": "vd-01",
+        "title": "Add voice-dna skill v2.0 (CrossR voice + unslop) and publish at N=16",
+        "status": "completed",
+        "features": [
+          "voice-dna-skill",
+          "canonical-sections",
+          "public-catalog-n16"
+        ]
+      }
+    ]
   }
 }

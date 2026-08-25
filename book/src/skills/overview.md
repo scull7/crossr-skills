@@ -27,6 +27,7 @@ The **public catalog** is the machine-readable allowlist in [`docs/public-skills
 | `rust-errors` | Layered thiserror handling (no anyhow) | Backend | + `rust-code-writer` |
 | `agent-harness` | Full harness process (stacked PRs, GAN, HTML-first) | Harness | long-running sessions |
 | `skill-evaluator` | Audit and remediate agent skills | Meta | skill remediation GAN |
+| `voice-dna` | CrossR sharp-human writing voice with full unslop pattern list | Writing | human-facing artifacts |
 
 **N = 14** public skills. Items in `out` in `public-skills.json` (e.g. `obsidian-cli`, empty diataxis stubs) are **not** marketed.
 

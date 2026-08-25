@@ -75,6 +75,11 @@
       "name": "skill-evaluator",
       "category": "Meta",
       "purpose": "Audit and remediate agent skills against CrossR standards"
+    },
+    {
+      "name": "voice-dna",
+      "category": "Writing",
+      "purpose": "CrossR sharp-human writing voice with full unslop pattern list"
     }
   ],
   "out": [
