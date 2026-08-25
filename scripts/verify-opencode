@@ -4,7 +4,9 @@
 # Mechanical verification of the project's OpenCode slash-command layer.
 #
 # Usage:
-#   ./scripts/verify-opencode
+#   ./scripts/verify-opencode                 # static + live discovery checks
+#   ./scripts/verify-opencode --run-preflight # also execute the embedded preflight
+#                                             # blocks and require exit 0 + output
 #
 # Static checks always run (no opencode required):
 #   - .opencode layout exists and opencode.jsonc parses as JSON (comments stripped)
@@ -22,6 +24,11 @@ set -uo pipefail
 
 ROOT="$(cd "$(dirname "$0")/.." && pwd)"
 cd "$ROOT"
+
+RUN_PREFLIGHT=false
+if [[ "${1:-}" == "--run-preflight" ]]; then
+    RUN_PREFLIGHT=true
+fi
 
 FAILED=0
 pass() { echo "  ✓ $1"; }
@@ -152,6 +159,30 @@ print("\n".join(i["name"] for i in items if isinstance(i,dict) and i.get("name")
             fail "opencode does not resolve skill '$s'"
         fi
     done
+fi
+
+if [[ "$RUN_PREFLIGHT" == true ]]; then
+    echo ""
+    echo "Executing preflight blocks (read-only)..."
+    if [[ $FAILED -ne 0 ]]; then
+        skip "static checks failed — not executing embedded shell"
+    else
+        for cmdfile in .opencode/command/avril.md .opencode/command/axel.md; do
+            n=0
+            while IFS= read -r snippet; do
+                n=$((n + 1))
+                out="$(eval "$snippet" 2>&1)"
+                rc=$?
+                if [[ $rc -ne 0 ]]; then
+                    fail "$cmdfile preflight #$n exited $rc: $snippet"
+                elif [[ -z "$out" ]]; then
+                    fail "$cmdfile preflight #$n produced no output: $snippet"
+                else
+                    pass "$cmdfile preflight #$n ok ($(wc -l <<<"$out" | tr -d ' ') lines)"
+                fi
+            done < <(python3 -c 'import re,sys;print("\n".join(m.replace("\n"," ") for m in re.findall(r"!`(.*?)`", open(sys.argv[1]).read(), re.S)))' "$cmdfile")
+        done
+    fi
 fi
 
 echo ""

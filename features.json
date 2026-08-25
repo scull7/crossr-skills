@@ -360,6 +360,19 @@
           "opencode-command-axel",
           "verify-opencode-script"
         ]
+      },
+      {
+        "id": "T-12",
+        "title": "Read-only preflight dumps in /avril and /axel",
+        "status": "completed",
+        "features": [
+          "preflight-git",
+          "preflight-progress",
+          "preflight-features",
+          "preflight-pinto",
+          "preflight-blessed-plans",
+          "verify-opencode-run-preflight"
+        ]
       }
     ]
   }
