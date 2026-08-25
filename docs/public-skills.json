@@ -34,12 +34,17 @@
     {
       "name": "avril",
       "category": "Orchestration",
-      "purpose": "Planning GAN — blessed PBIs (PO → QA → CTO)"
+      "purpose": "Planning GAN \u2014 blessed PBIs (PO \u2192 QA \u2192 CTO)"
     },
     {
       "name": "axel",
       "category": "Orchestration",
-      "purpose": "Execution loop — blessed PBI → PETC + code GAN"
+      "purpose": "Execution loop \u2014 blessed PBI \u2192 PETC + code GAN"
+    },
+    {
+      "name": "orchestrator-prompt",
+      "category": "Orchestration",
+      "purpose": "Generate stateless AXEL/AVRIL orchestrator prompts per project"
     },
     {
       "name": "rust-axum-backend",
@@ -75,7 +80,7 @@
   "out": [
     {
       "name": "obsidian-cli",
-      "reason": "Personal/local tooling — not part of the public product surface"
+      "reason": "Personal/local tooling \u2014 not part of the public product surface"
     },
     {
       "name": "diataxis",
@@ -83,15 +88,15 @@
     },
     {
       "name": "diataxis-explanation",
-      "reason": "Empty stub directory — not a shippable skill"
+      "reason": "Empty stub directory \u2014 not a shippable skill"
     },
     {
       "name": "diataxis-how-to-guides",
-      "reason": "Empty stub directory — not a shippable skill"
+      "reason": "Empty stub directory \u2014 not a shippable skill"
     },
     {
       "name": "diataxis-reference",
-      "reason": "Empty stub directory — not a shippable skill"
+      "reason": "Empty stub directory \u2014 not a shippable skill"
     },
     {
       "name": "diataxis-tutorials",

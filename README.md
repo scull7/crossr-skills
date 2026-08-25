@@ -60,6 +60,7 @@ Public catalog SSOT: [`docs/public-skills.json`](docs/public-skills.json) (14 sk
 | `rust-team-lead`       | GAN orchestrator for multi-agent Rust plan execution | Orchestration |
 | `avril`                | Planning GAN — blessed PBIs (PO → QA → CTO)          | Orchestration |
 | `axel`                 | Execution loop — blessed PBI → PETC + code GAN       | Orchestration |
+| `orchestrator-prompt`  | Generate stateless AXEL/AVRIL orchestrator prompts per project | Orchestration |
 | `rust-axum-backend`    | Clean layered Axum HTTP APIs with policy gates       | Backend       |
 | `rust-frontend`        | Leptos + WASM + Polars with anti-slop guidance       | Frontend      |
 | `rust-tui`             | ratatui Component + Action + two-phase dispatch      | TUI           |
