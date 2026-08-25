@@ -391,3 +391,12 @@ Verification: `just harness-validate` PASS. Pinto board: all done.
 - README + book bootstrap sections document the pair and the restart requirement.
 
 **Phase `opencode-slash-commands` complete** (T-11…T-14).
+
+## Tracking reconciliation
+
+Two phases were still flagged `in_progress` although the work had shipped. Verified on `main` before closing them:
+
+- **`marketing-and-docs-site` / site-03** — combined deploy workflow (`.github/workflows/deploy-site.yml`), unified `just docs-build` target (mdBook → `site/static/docs`, then Zola), and the self-contained HTML plan artifact (`docs/plans/crossr-skills-public-site.html`) are all present, with the site workflow green on `main`.
+- **`docs-verification` / dv-04** — `docs-verify` runs inside `just harness-validate` (justfile), `AGENTS.md` documents both targets, and the book bootstrap chapter records `harness-validate (includes docs-verify)`.
+
+`features.json` now has no phase left in `in_progress`.

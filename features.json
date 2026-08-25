@@ -60,7 +60,7 @@
     ]
   },
   "marketing-and-docs-site": {
-    "status": "in_progress",
+    "status": "completed",
     "commits": [
       {
         "id": "site-01",
@@ -88,7 +88,7 @@
       {
         "id": "site-03",
         "title": "Full site integration + HTML plan artifact (Phase D)",
-        "status": "in_progress",
+        "status": "completed",
         "features": [
           "combined-deploy-workflow",
           "unified-docs-build-target",
@@ -169,7 +169,7 @@
     ]
   },
   "docs-verification": {
-    "status": "in_progress",
+    "status": "completed",
     "commits": [
       {
         "id": "dv-01",
@@ -189,7 +189,7 @@
       {
         "id": "dv-04",
         "title": "Deep integration of docs-verify into harness workflow (harness-validate, AGENTS.md, bootstrap docs)",
-        "status": "in_progress"
+        "status": "completed"
       }
     ]
   },
