@@ -5,7 +5,15 @@
 # Recommended usage:
 #   ./scripts/sync-skills /path/to/your/crossr-skills
 #
-# This is a simple starting point. Future versions may support remote fetching.
+# Copies every canonical skill directory (<name>/SKILL.md plus any assets) into
+# the destination. --delete prunes skills that no longer exist upstream, so the
+# destination becomes an exact mirror of the canonical set.
+#
+# Options:
+#   --dry-run       show what would change, write nothing
+#   --dest DIR      destination (default: .agents/skills)
+#   --opencode      also install .opencode/ (/avril, /axel) from templates,
+#                   never overwriting files that already exist
 
 set -euo pipefail
 
@@ -26,7 +34,22 @@ EOF
     exit 0
 fi
 
-SOURCE="${1:-${CROSSR_SKILLS_PATH:-}}"
+DRY_RUN=false
+WITH_OPENCODE=false
+DEST=".agents/skills"
+SOURCE=""
+
+while [ $# -gt 0 ]; do
+    case "$1" in
+        --dry-run)  DRY_RUN=true; shift ;;
+        --opencode) WITH_OPENCODE=true; shift ;;
+        --dest)     DEST="$2"; shift 2 ;;
+        -*)         echo "unknown flag: $1" >&2; exit 2 ;;
+        *)          SOURCE="$1"; shift ;;
+    esac
+done
+
+SOURCE="${SOURCE:-${CROSSR_SKILLS_PATH:-}}"
 
 if [ -z "$SOURCE" ]; then
     echo "Error: No crossr-skills path provided."
@@ -38,20 +61,87 @@ if [ ! -d "$SOURCE/.agents/skills" ]; then
     exit 1
 fi
 
-DEST=".agents/skills"
-
 echo "→ Syncing skills from $SOURCE to $DEST"
 
-mkdir -p "$DEST"
+# Only directories that actually contain a SKILL.md are real skills; empty stub
+# directories in the source are not propagated.
+SKILLS=""
+for d in "$SOURCE"/.agents/skills/*/; do
+    [ -f "$d/SKILL.md" ] || continue
+    SKILLS="$SKILLS $(basename "$d")"
+done
 
-# Use rsync if available for a nicer experience, otherwise fall back to cp
-if command -v rsync >/dev/null 2>&1; then
-    rsync -a --delete --exclude '*/' "$SOURCE/.agents/skills/" "$DEST/"
-    echo "✓ Skills synced using rsync (with --delete)"
-else
-    cp -r "$SOURCE/.agents/skills/"* "$DEST/" 2>/dev/null || true
-    echo "✓ Skills copied (consider installing rsync for --delete behavior)"
+if [ -z "$SKILLS" ]; then
+    echo "Error: no skills with a SKILL.md found in $SOURCE/.agents/skills" >&2
+    exit 1
+fi
+
+$DRY_RUN || mkdir -p "$DEST"
+
+ADDED=0
+UPDATED=0
+SAME=0
+for name in $SKILLS; do
+    src="$SOURCE/.agents/skills/$name"
+    dst="$DEST/$name"
+    if [ ! -d "$dst" ]; then
+        echo "  + added   $name"
+        ADDED=$((ADDED + 1))
+    elif diff -r -q "$src" "$dst" >/dev/null 2>&1; then
+        SAME=$((SAME + 1))
+        continue
+    else
+        echo "  ~ updated $name"
+        UPDATED=$((UPDATED + 1))
+    fi
+    if ! $DRY_RUN; then
+        rm -rf "$dst"
+        cp -R "$src" "$dst"
+    fi
+done
+
+# Prune skills that no longer exist upstream, so the destination mirrors canon.
+REMOVED=0
+if [ -d "$DEST" ]; then
+    for d in "$DEST"/*/; do
+        [ -d "$d" ] || continue
+        name="$(basename "$d")"
+        if [ ! -f "$SOURCE/.agents/skills/$name/SKILL.md" ]; then
+            echo "  - removed $name (no longer in crossr-skills)"
+            REMOVED=$((REMOVED + 1))
+            $DRY_RUN || rm -rf "$d"
+        fi
+    done
+fi
+
+# Optional: the OpenCode slash-command layer (/avril, /axel).
+if $WITH_OPENCODE; then
+    OC_SRC="$SOURCE/templates/harness/opencode"
+    if [ -d "$OC_SRC" ]; then
+        OC_ADDED=0
+        OC_KEPT=0
+        $DRY_RUN || mkdir -p .opencode/agent .opencode/command
+        for rel in opencode.jsonc agent/avril.md agent/axel.md command/avril.md command/axel.md; do
+            [ -f "$OC_SRC/$rel" ] || continue
+            if [ -f ".opencode/$rel" ]; then
+                echo "  = kept existing .opencode/$rel"
+                OC_KEPT=$((OC_KEPT + 1))
+            else
+                echo "  + added   .opencode/$rel"
+                OC_ADDED=$((OC_ADDED + 1))
+                $DRY_RUN || cp "$OC_SRC/$rel" ".opencode/$rel"
+            fi
+        done
+        echo "  OpenCode: $OC_ADDED added, $OC_KEPT kept"
+    else
+        echo "  (skip) no OpenCode templates at $OC_SRC"
+    fi
 fi
 
 echo ""
-echo "Done. Review the changes in $DEST and commit them as a skill update PR."
+$DRY_RUN && echo "(dry run — nothing written)"
+echo "✓ Skills: $ADDED added, $UPDATED updated, $SAME unchanged, $REMOVED removed"
+echo ""
+echo "Review the changes in $DEST and commit them as a skill update PR."
+$WITH_OPENCODE && echo "Restart opencode to pick up /avril and /axel."
+exit 0

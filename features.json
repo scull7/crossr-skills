@@ -416,5 +416,22 @@
         ]
       }
     ]
+  },
+  "sync-skills-fix": {
+    "status": "completed",
+    "commits": [
+      {
+        "id": "ss-01",
+        "title": "Fix sync-skills silent no-op; add dry-run/dest/opencode",
+        "status": "completed",
+        "features": [
+          "sync-skills-copies-directories",
+          "sync-skills-prune",
+          "sync-skills-dry-run",
+          "sync-skills-opencode-flag",
+          "sync-skills-change-report"
+        ]
+      }
+    ]
   }
 }
