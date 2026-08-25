@@ -1,0 +1,163 @@
+#!/usr/bin/env bash
+#
+# sync-claude-skills
+# Generates the Claude compatibility copies of the canonical skills.
+#
+# HARNESS-SPEC.md §2.1: ".claude/skills/ is optional and produced by a generator
+# script — never hand-maintained duplicates." This is that generator. Canonical
+# source is always .agents/skills/<name>/SKILL.md in this repository.
+#
+# Usage:
+#   ./scripts/sync-claude-skills                    # refresh skills already installed
+#   ./scripts/sync-claude-skills avril axel         # refresh installed + add these
+#   ./scripts/sync-claude-skills --all              # install every repo skill
+#   ./scripts/sync-claude-skills --check            # report drift, exit 1 if any
+#   ./scripts/sync-claude-skills --check --soft     # report drift, always exit 0
+#   ./scripts/sync-claude-skills --dry-run          # show what would change
+#   ./scripts/sync-claude-skills --target DIR ...   # default: ~/.claude/skills
+#
+# Skills present in the target but absent from this repo (personal or
+# project-local skills) are never deleted or modified — they are reported and
+# left alone. Overwritten files are backed up alongside the target directory.
+
+set -uo pipefail
+
+ROOT="$(cd "$(dirname "$0")/.." && pwd)"
+cd "$ROOT"
+
+SOURCE_DIR="$ROOT/.agents/skills"
+TARGET="${CLAUDE_SKILLS_DIR:-$HOME/.claude/skills}"
+MODE="sync"
+SOFT=false
+DRY_RUN=false
+ALL=false
+EXTRA=()
+
+while [[ $# -gt 0 ]]; do
+    case "$1" in
+        --target)   TARGET="$2"; shift 2 ;;
+        --check)    MODE="check"; shift ;;
+        --soft)     SOFT=true; shift ;;
+        --dry-run)  DRY_RUN=true; shift ;;
+        --all)      ALL=true; shift ;;
+        -h|--help)  sed -n '2,26p' "$0"; exit 0 ;;
+        -*)         echo "unknown flag: $1" >&2; exit 2 ;;
+        *)          EXTRA+=("$1"); shift ;;
+    esac
+done
+
+if [[ ! -d "$SOURCE_DIR" ]]; then
+    echo "✗ canonical skills not found at $SOURCE_DIR" >&2
+    exit 1
+fi
+
+if [[ ! -d "$TARGET" ]]; then
+    if [[ "$MODE" == "check" ]]; then
+        echo "  (skip) no Claude skills directory at $TARGET"
+        exit 0
+    fi
+    echo "→ Creating $TARGET"
+    $DRY_RUN || mkdir -p "$TARGET"
+fi
+
+# Selection: every skill already installed, plus any named on the command line,
+# or every repo skill under --all.
+selected() {
+    if $ALL; then
+        for d in "$SOURCE_DIR"/*/; do
+            [[ -f "$d/SKILL.md" ]] && basename "$d"
+        done
+        return
+    fi
+    for d in "$TARGET"/*/; do
+        [[ -d "$d" ]] || continue
+        n="$(basename "$d")"
+        [[ -f "$SOURCE_DIR/$n/SKILL.md" ]] && echo "$n"
+    done
+    for n in ${EXTRA+"${EXTRA[@]}"}; do echo "$n"; done
+}
+
+SELECTED="$(selected | sort -u)"
+
+UPDATED=0; ADDED=0; SAME=0; DRIFT=0; MISSING=0
+BACKUP_DIR=""
+
+for name in $SELECTED; do
+    src="$SOURCE_DIR/$name/SKILL.md"
+    dest="$TARGET/$name/SKILL.md"
+
+    if [[ ! -f "$src" ]]; then
+        echo "  ✗ no canonical skill named '$name' in .agents/skills/"
+        MISSING=$((MISSING + 1))
+        continue
+    fi
+
+    if [[ -f "$dest" ]] && diff -q "$src" "$dest" >/dev/null 2>&1; then
+        SAME=$((SAME + 1))
+        continue
+    fi
+
+    if [[ "$MODE" == "check" ]]; then
+        if [[ -f "$dest" ]]; then
+            echo "  ! drifted: $name"
+        else
+            echo "  ! not installed: $name"
+        fi
+        DRIFT=$((DRIFT + 1))
+        continue
+    fi
+
+    if [[ -f "$dest" ]]; then
+        if ! $DRY_RUN; then
+            if [[ -z "$BACKUP_DIR" ]]; then
+                BACKUP_DIR="$TARGET.backup-$(date +%Y%m%d-%H%M%S)"
+                mkdir -p "$BACKUP_DIR"
+            fi
+            mkdir -p "$BACKUP_DIR/$name"
+            cp "$dest" "$BACKUP_DIR/$name/SKILL.md"
+        fi
+        echo "  ~ updated $name"
+        UPDATED=$((UPDATED + 1))
+    else
+        echo "  + added   $name"
+        ADDED=$((ADDED + 1))
+    fi
+
+    if ! $DRY_RUN; then
+        mkdir -p "$TARGET/$name"
+        cp "$src" "$dest"
+    fi
+done
+
+# Anything in the target that this repo does not own is left strictly alone.
+FOREIGN=()
+if [[ -d "$TARGET" ]]; then
+    for d in "$TARGET"/*/; do
+        [[ -d "$d" ]] || continue
+        n="$(basename "$d")"
+        [[ -f "$SOURCE_DIR/$n/SKILL.md" ]] || FOREIGN+=("$n")
+    done
+fi
+
+echo ""
+if [[ "$MODE" == "check" ]]; then
+    if [[ ${#FOREIGN[@]} -gt 0 ]]; then
+        echo "  (not from this repo, left alone: ${FOREIGN[*]})"
+    fi
+    if [[ $DRIFT -eq 0 && $MISSING -eq 0 ]]; then
+        echo "  ✓ Claude skills in sync with .agents/skills/ ($SAME skill(s))"
+        exit 0
+    fi
+    echo "  ! $DRIFT skill(s) out of sync — run 'just claude-skills-sync'"
+    $SOFT && exit 0
+    exit 1
+fi
+
+$DRY_RUN && echo "  (dry run — nothing written)"
+echo "✓ Claude skills synced: $ADDED added, $UPDATED updated, $SAME already current"
+[[ -n "$BACKUP_DIR" ]] && echo "  backup of replaced files: $BACKUP_DIR"
+if [[ ${#FOREIGN[@]} -gt 0 ]]; then
+    echo "  left alone (not in this repo): ${FOREIGN[*]}"
+fi
+[[ $MISSING -gt 0 ]] && exit 1
+exit 0

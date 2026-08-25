@@ -27,7 +27,7 @@ Crossr-skills (`.agents/skills/`) are the reusable capability layer. This spec i
 
 1. **Strict agentskills.io Compliance**  
    All skills live under `.agents/skills/<name>/SKILL.md` and follow the official specification exactly (YAML frontmatter with `name` + `description`, Markdown body, progressive disclosure).  
-   Claude compatibility (`.claude/skills/` and `.claude/commands/`) is **optional** and produced by a generator script — never hand-maintained duplicates.
+   Claude compatibility (`.claude/skills/` and `.claude/commands/`) is **optional** and produced by a generator script — never hand-maintained duplicates. In this repository that generator is `scripts/sync-claude-skills` (`just claude-skills-sync`); `just harness-validate` reports drift between the canonical skills and the generated copies.
 
 2. **Harness Relationship (Stratified) for Skills**  
    Skills are classified as generic/core (fully harness-agnostic) or harness-layer/domain (with a clean `## Harness Context (Stratified Disclosure)` block that isolates concrete artifact names, commands, and project examples as parameters supplied by the invoking harness). The canonical portable structure (YAML frontmatter, Verification with 6 observable behaviors, Specialization, One-Sentence Mandate, clean footer) is required for all skills. The `skill-evaluator` skill (and its permanent GAN personas) is the authority. This principle was proven and locked in during the 2026 skill-remediation campaign on this repository.

@@ -34,7 +34,8 @@ Always use the `justfile` for canonical commands:
 - `just test`
 - `just clippy`
 - `just fmt`
-- `just harness-validate` — Validate `features.json` + run `docs-verify`
+- `just harness-validate` — Validate `features.json` + run `docs-verify`, `opencode-verify`, and the Claude skill drift check
+- `just claude-skills-sync` — Regenerate the Claude compatibility copies in `~/.claude/skills` from `.agents/skills/`
 - `just docs-verify` — Verify documentation alignment with current canonical standards
 
 Run the appropriate commands before declaring work complete.
@@ -82,6 +83,15 @@ Example filenames: `architecture-review.html`, `pr-summary.html`, `deploy-guide.
 - Surface any policy, security, or architectural concern immediately.
 
 ---
+
+## Claude Skill Copies
+
+`.agents/skills/` is the single source of truth. The Claude compatibility copies under `~/.claude/skills` (or `CLAUDE_SKILLS_DIR`) are **generated, never hand-edited** — see HARNESS-SPEC.md §2.1.
+
+- `just claude-skills-sync` regenerates them; `./scripts/sync-claude-skills --all` installs every repo skill, and named arguments add specific ones.
+- Skills in the target that this repo does not own (personal or project-local) are never deleted or modified — they are reported and left alone.
+- Replaced files are backed up to a timestamped `skills.backup-*` directory.
+- `just harness-validate` reports drift without failing; run the sync to clear it.
 
 ## OpenCode Slash Commands (`/avril`, `/axel`)
 

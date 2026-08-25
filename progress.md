@@ -400,3 +400,13 @@ Two phases were still flagged `in_progress` although the work had shipped. Verif
 - **`docs-verification` / dv-04** — `docs-verify` runs inside `just harness-validate` (justfile), `AGENTS.md` documents both targets, and the book bootstrap chapter records `harness-validate (includes docs-verify)`.
 
 `features.json` now has no phase left in `in_progress`.
+
+## Claude skill compatibility generator (cs-01)
+
+HARNESS-SPEC.md §2.1 required `.claude/skills/` to be produced by a generator script, but no generator existed — so the global copies in `~/.claude/skills` were hand-made once and never refreshed. All ten shared skills had drifted to pre-remediation snapshots (0–1 of 3 canonical structure markers, vs 3/3 in `.agents/skills/`).
+
+- New `scripts/sync-claude-skills` + `just claude-skills-sync`. Refreshes installed skills by default, accepts named skills to add, `--all` for the full set, `--check` for drift (`--soft` never fails), `--dry-run`, `--target`/`CLAUDE_SKILLS_DIR`.
+- Skills the repo does not own are never deleted or modified — reported and left alone.
+- Replaced files are backed up to a timestamped `skills.backup-*` directory.
+- `just harness-validate` now reports drift non-fatally and skips cleanly when no Claude skills directory exists (CI).
+- Synced: 10 skills updated to canonical, `avril`/`axel`/`orchestrator-prompt` added, `voice-dna` (global-only, issue #61) untouched. Verified afterwards that opencode resolves all six checked skills with content matching the repo.
