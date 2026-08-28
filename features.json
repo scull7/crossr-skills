@@ -645,6 +645,17 @@
           "red-before-green",
           "gherkin-immutable"
         ]
+      },
+      {
+        "id": "bk-04",
+        "title": "brick-refactorer: behaviour-preserving improvement + property tests",
+        "status": "completed",
+        "features": [
+          "brick-refactorer-skill",
+          "never-edit-a-test",
+          "coincidental-vs-structural-duplication",
+          "property-laws"
+        ]
       }
     ]
   }

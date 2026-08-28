@@ -65,6 +65,7 @@ Public catalog SSOT: [`docs/public-skills.json`](docs/public-skills.json) (14 sk
 | `brick`                | BRICK pipeline — informal spec to mutation-verified code | Orchestration |
 | `brick-specifier`       | BRICK stage 1 — approved tasks to pruned Gherkin | Orchestration |
 | `brick-coder`          | BRICK stage 2 — Gherkin to red tests then green code | Orchestration |
+| `brick-refactorer`     | BRICK stage 3 — complexity, duplication, property tests | Orchestration |
 | `orchestrator-prompt`  | Generate stateless AXEL/AVRIL orchestrator prompts per project | Orchestration |
 | `dashboard-prompt`     | Wire a proven status dashboard to a project's real trackers | Orchestration |
 | `chief-of-staff`       | Portfolio status briefing built from verified project dashboards | Orchestration |

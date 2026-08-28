@@ -572,3 +572,13 @@ Stage 2: `.feature` files → acceptance tests (red) → unit tests (red) → im
 - Simplest passing code only. Generality is `brick-refactorer`'s call, made with the tests already green, and code written for imagined future needs is exactly what that stage removes.
 - A test that passes the moment it is written is treated as suspect: either the behaviour already exists, or the assertion is empty.
 - Governs sequence, not style — `code-writer` and the language skill win any apparent conflict about the code itself.
+
+### bk-04 — brick-refactorer
+
+Stage 3: same behaviour, simpler, with property tests. The green suite inherited from `brick-coder` is both mandate and safety net.
+
+- **Bright line: never edit a test to make a refactor pass.** A red test after a refactor means the refactor changed behaviour — revert it. Editing the test destroys the only evidence that the refactor was safe. This is stricter than anywhere else in the pipeline because this is the only stage that changes working code.
+- **Structural vs coincidental duplication is a real distinction.** Only duplication sharing a *reason to change* gets extracted; two functions that look alike but answer to different requirements will diverge, and merging them couples things that should move independently. Which kind was found is reported.
+- **Property tests state laws, not examples** — round-trips, invariants, idempotence, bounds — and only over pure calculations, where they need no mocks. Property-testing actions produces slow flaky tests that prove little. No apparent law means saying so rather than inventing `assert result == result`.
+- The complexity threshold is a harness parameter, not a constant: a stated limit that is enforced matters, the particular integer does not. A threshold met by breaking behaviour is worse than one missed honestly.
+- Reports what it deliberately did not change, because silence reads as "there was nothing left".
