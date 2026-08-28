@@ -467,3 +467,14 @@ Issue #61 suggested optionally vendoring the upstream `unslop` skill from `curso
 - Adding a third command exposed the same file list hardcoded in nine places across three scripts. All three now derive it: `verify-opencode` globs `.opencode/agent/*.md` and `command/*.md` and walks the template tree for parity; `harness-bootstrap` and `sync-skills --opencode` install whatever the template tree contains. A fourth command needs no script edits.
 - Removed `scripts/__pycache__/*.pyc`, which had been committed, and added `__pycache__/` + `*.pyc` to `.gitignore`.
 - Verified: 13/13 preflight blocks execute, template parity across all 7 files, and opencode reports `status (primary)` alongside avril and axel.
+
+### sd-04 — config-driven trackers
+
+The dashboard hardcoded one status vocabulary and one board command, so a project on Jira or GitHub Projects would classify every unknown word as `todo` and cheerfully report "0 in progress" while work was underway. That is the stale-dashboard failure the orchestration skills warn about, produced by the tool itself.
+
+- Optional `dashboard.config.json` overrides `status_map` (done/active word lists), `board.command` (argv), `board.items_path`, `board.fields` (id/title/status key names), `features_file`, and `progress_file`. No config means the previous defaults, unchanged.
+- Status words are matched with case and `-`/`_`/space folded, so `In Progress`, `in-progress`, and `IN_PROGRESS` all land on active.
+- The board command runs as an argv list, never through a shell, so a config cannot inject shell syntax. It does name a program the script executes, which the header calls out as justfile-level trust.
+- A malformed config exits 2 with the parse error rather than silently falling back to defaults.
+- Demonstrated on a Jira-shaped fixture: `Closed` counted as todo before (0 completed), correct after (1 completed). A custom board with a nested `items_path` and renamed fields (`key`/`summary`/`state`) parses and classifies correctly.
+- Original regression suite still green: 16/16 default classifications, totals, legacy `board_from_pinto`, deterministic renderers.
