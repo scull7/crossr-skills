@@ -525,3 +525,11 @@ Built so a reporting agent can answer "status of project X" and "status of all m
 - Portfolio HTML is a distinct renderer: aggregate tiles, a per-project card grid, and an "in progress right now" table across projects.
 - A root that cannot be read is reported on stderr by name and reason, and the rest still render. All roots unreadable exits 2 rather than printing an empty report.
 - Regression suite green: classification, flat and nested field keys, deterministic renderers, single-project HTML unchanged.
+
+### cos-02 — answering "/status report" requests
+
+- New section teaching the exact request shapes the principal uses ("a /status report of project X", "...of all my current outstanding projects") and the commands behind each, including that `/status` in that sentence is the principal's shorthand rather than a command the bot can run — it is opencode-scoped and the bot is not in opencode.
+- **Dual delivery, every time**: markdown inline first so the report needs nothing opened, then the HTML path on one line. Then the judgement the generator cannot supply — freshness, what moved, what needs a decision, what could not be read. Counts alone are a dashboard, not a briefing.
+- "All my current outstanding projects" resolves from the bot's own knowledge of what is in flight, but the roster **must be stated by name** in the report. That line is what lets the principal catch a forgotten project: a briefing quietly covering five of six is indistinguishable from one where the sixth is fine.
+- Unreadable roots named by the generator on stderr are carried into the report's "could not read" section rather than dropped.
+- Two new observable behaviors; now seven.
