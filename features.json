@@ -634,6 +634,17 @@
           "gherkin-quality-rules",
           "pruning-discipline"
         ]
+      },
+      {
+        "id": "bk-03",
+        "title": "brick-coder: red acceptance, red unit, green code",
+        "status": "completed",
+        "features": [
+          "brick-coder-skill",
+          "fixed-order",
+          "red-before-green",
+          "gherkin-immutable"
+        ]
       }
     ]
   }

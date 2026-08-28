@@ -105,6 +105,11 @@
       "name": "brick-specifier",
       "category": "Orchestration",
       "purpose": "BRICK stage 1 \u2014 approved tasks to pruned Gherkin"
+    },
+    {
+      "name": "brick-coder",
+      "category": "Orchestration",
+      "purpose": "BRICK stage 2 \u2014 Gherkin to red tests then green code"
     }
   ],
   "out": [
