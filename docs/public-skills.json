@@ -100,6 +100,11 @@
       "name": "brick",
       "category": "Orchestration",
       "purpose": "BRICK pipeline \u2014 informal spec to mutation-verified code"
+    },
+    {
+      "name": "brick-specifier",
+      "category": "Orchestration",
+      "purpose": "BRICK stage 1 \u2014 approved tasks to pruned Gherkin"
     }
   ],
   "out": [

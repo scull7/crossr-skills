@@ -552,3 +552,12 @@ Building the Uncle Bob multi-agent pipeline as a **peer** of AVRIL/AXEL, not a r
 - **Never both on the same work at once**: AVRIL's source of truth is a blessed backlog, BRICK's is a `.feature` file, and reconciling two truths mid-flight costs more than either pipeline saves. Switching is allowed between units, not inside one.
 - The mutation gate is hard. If no mutation tool is disclosed, BRICK stops rather than certifying an unverified run — a pipeline whose distinguishing guarantee is skipped is just a slower version of the other one.
 - Named to avoid collision: `brick-*` stage skills, since #42's proposed `architect` would have clashed with the existing `rust-architect` (system design, not mutation).
+
+### bk-02 — brick-specifier
+
+Stage 1: approved tasks → pruned `.feature` files, and nothing else.
+
+- Gherkin quality rules that matter downstream: domain vocabulary only (a step naming a class, function, or table is written at the wrong level), one `When` per scenario, `Then` asserts something observable at the system's natural boundary, concrete values over placeholders.
+- **Pruning is a first-class duty** because every surviving scenario becomes an acceptance test, must stay green through refactoring, and becomes a mutation target. Exhaustive value coverage is deferred to the property tests `brick-refactorer` adds; Gherkin carries interesting cases and boundaries. What was pruned is always reported — silent deletion of requested behaviour is the worst failure available to this stage.
+- **Never invents behaviour.** A task with no stated outcome gets a question, not a guessed `Then`. A scenario with an invented assertion is worse than a missing one, because it will be tested and passed.
+- Its output is the specification of record: `brick-coder` may not edit a `.feature` to make a test pass.

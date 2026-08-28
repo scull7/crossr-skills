@@ -624,6 +624,16 @@
           "harness-spec-pipeline-choice",
           "public-catalog-n20"
         ]
+      },
+      {
+        "id": "bk-02",
+        "title": "brick-specifier: tasks to pruned Gherkin",
+        "status": "completed",
+        "features": [
+          "brick-specifier-skill",
+          "gherkin-quality-rules",
+          "pruning-discipline"
+        ]
       }
     ]
   }
