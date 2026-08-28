@@ -486,6 +486,18 @@
           "bootstrap-sync-derived-lists",
           "gitignore-pycache"
         ]
+      },
+      {
+        "id": "sd-04",
+        "title": "Config-driven trackers: status vocabulary + board source",
+        "status": "completed",
+        "features": [
+          "dashboard-config-json",
+          "status-map-override",
+          "custom-board-command",
+          "field-name-mapping",
+          "loud-config-errors"
+        ]
       }
     ]
   },

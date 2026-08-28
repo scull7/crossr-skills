@@ -11,11 +11,18 @@ Usage:
     scripts/status-dashboard --html-only     # write the HTML, print nothing
     scripts/status-dashboard --out PATH      # HTML destination
     scripts/status-dashboard --root DIR      # project root (default: repo root)
+    scripts/status-dashboard --config PATH   # tracker config (default: dashboard.config.json)
 
 Sources, all optional and read-only — a missing one degrades to empty:
     features.json      phases -> commits -> features
     pinto list --json  board items, when pinto is installed
     progress.md        tail, for the last recorded activity
+
+A project whose tracker uses different words or a different board CLI supplies
+`dashboard.config.json` (see DEFAULT_CONFIG below). Without one, the defaults
+above apply unchanged. The board command is run as an argv list, never through a
+shell, so a config cannot inject shell syntax — but it does name a program this
+script will execute, so treat it with the same trust as a justfile.
 
 Structure follows the repo's own philosophy: reading sources are actions,
 everything that shapes or renders the model is a pure calculation.
@@ -27,6 +34,7 @@ import argparse
 import datetime as _datetime
 import html
 import json
+import re
 import shutil
 import subprocess
 import sys
@@ -36,24 +44,62 @@ DONE = "done"
 ACTIVE = "active"
 TODO = "todo"
 
-DONE_WORDS = {"completed", "complete", "done", "verified", "merged", "shipped"}
-ACTIVE_WORDS = {"in_progress", "in-progress", "inprogress", "building", "built",
-                "review", "in_review", "in-review", "started", "wip", "regressed"}
+DEFAULT_CONFIG = {
+    # Status vocabularies. Anything unmatched is todo, so only done and active
+    # need listing. Compared case-insensitively with -/_/space normalised.
+    "status_map": {
+        "done": ["completed", "complete", "done", "verified", "merged", "shipped"],
+        "active": ["in progress", "inprogress", "building", "built", "review",
+                   "in review", "started", "wip", "regressed"],
+    },
+    # Board source. `command` is an argv list, run without a shell.
+    # `items_path` walks into the payload; "" means the payload is the list.
+    # `fields` maps our id/title/status onto the tracker's own key names.
+    "board": {
+        "command": ["pinto", "list", "--json"],
+        "items_path": "",
+        "fields": {"id": "id", "title": "title", "status": "status"},
+    },
+    "features_file": "features.json",
+    "progress_file": "progress.md",
+}
+
+
+def normalise(word: str) -> str:
+    """Fold -, _ and whitespace so 'in-progress' == 'in_progress' == 'In Progress'."""
+    return re.sub(r"[\s_-]+", " ", (word or "").strip().lower())
+
+
+def load_config(root: Path, path: str | None) -> dict:
+    """Merge a project config over the defaults. A broken config is reported, not swallowed."""
+    candidate = Path(path) if path else (root / "dashboard.config.json")
+    if not candidate.is_absolute():
+        candidate = root / candidate
+    if not candidate.exists():
+        return DEFAULT_CONFIG
+    raw = json.loads(candidate.read_text())
+    cfg = {**DEFAULT_CONFIG, **raw}
+    cfg["status_map"] = {**DEFAULT_CONFIG["status_map"], **raw.get("status_map", {})}
+    cfg["board"] = {**DEFAULT_CONFIG["board"], **raw.get("board", {})}
+    cfg["board"]["fields"] = {**DEFAULT_CONFIG["board"]["fields"],
+                              **raw.get("board", {}).get("fields", {})}
+    return cfg
 
 
 # ---------------------------------------------------------------- calculations
 
-def classify(status: str) -> str:
-    """Map any tracker's status vocabulary onto done / active / todo."""
-    s = (status or "").strip().lower()
-    if s in DONE_WORDS:
+def classify(status: str, status_map: dict | None = None) -> str:
+    """Map a tracker's status vocabulary onto done / active / todo."""
+    m = status_map or DEFAULT_CONFIG["status_map"]
+    s = normalise(status)
+    if s in {normalise(w) for w in m.get("done", [])}:
         return DONE
-    if s in ACTIVE_WORDS:
+    if s in {normalise(w) for w in m.get("active", [])}:
         return ACTIVE
     return TODO
 
 
-def phases_from_features(features: dict) -> list[dict]:
+def phases_from_features(features: dict, status_map: dict | None = None) -> list[dict]:
     """Shape features.json into ordered phases with per-commit classification."""
     phases = []
     for name, body in features.items():
@@ -64,7 +110,7 @@ def phases_from_features(features: dict) -> list[dict]:
             {
                 "id": c.get("id", "?"),
                 "title": c.get("title", ""),
-                "state": classify(c.get("status", "")),
+                "state": classify(c.get("status", ""), status_map),
                 "features": len(c.get("features") or []),
             }
             for c in commits
@@ -72,29 +118,41 @@ def phases_from_features(features: dict) -> list[dict]:
         done = sum(1 for i in items if i["state"] == DONE)
         phases.append({
             "name": name,
-            "state": classify(body.get("status", "")),
+            "state": classify(body.get("status", ""), status_map),
             "items": items,
             "done": done,
             "total": len(items),
             "percent": round(100 * done / len(items)) if items else (
-                100 if classify(body.get("status", "")) == DONE else 0),
+                100 if classify(body.get("status", ""), status_map) == DONE else 0),
         })
     phases.sort(key=lambda p: ({DONE: 2, ACTIVE: 0, TODO: 1}[p["state"]], p["name"]))
     return phases
 
 
-def board_from_pinto(raw: object) -> list[dict]:
-    """Shape a pinto list --json payload into board items."""
-    tasks = raw if isinstance(raw, list) else (raw or {}).get("tasks", [])
+def board_items(raw: object, board_cfg: dict | None = None,
+                status_map: dict | None = None) -> list[dict]:
+    """Shape any board payload into items, per the config's path and field names."""
+    cfg = board_cfg or DEFAULT_CONFIG["board"]
+    node = raw
+    for key in [k for k in (cfg.get("items_path") or "").split(".") if k]:
+        node = (node or {}).get(key) if isinstance(node, dict) else None
+    if node is None:
+        node = raw if isinstance(raw, list) else (raw or {}).get("tasks", [])
+    f = cfg.get("fields", DEFAULT_CONFIG["board"]["fields"])
     return [
         {
-            "id": t.get("id", "?"),
-            "title": t.get("title", ""),
-            "state": classify(t.get("status", "")),
-            "status": t.get("status", ""),
+            "id": t.get(f["id"], "?"),
+            "title": t.get(f["title"], ""),
+            "state": classify(t.get(f["status"], ""), status_map),
+            "status": t.get(f["status"], ""),
         }
-        for t in tasks if isinstance(t, dict)
+        for t in node if isinstance(t, dict)
     ]
+
+
+# Kept so existing callers and tests keep working.
+def board_from_pinto(raw: object) -> list[dict]:
+    return board_items(raw)
 
 
 def totals(phases: list[dict], board: list[dict]) -> dict:
@@ -109,9 +167,11 @@ def totals(phases: list[dict], board: list[dict]) -> dict:
 
 
 def build_model(features: dict, pinto_raw: object, progress_tail: str,
-                project: str, generated: str) -> dict:
-    phases = phases_from_features(features)
-    board = board_from_pinto(pinto_raw)
+                project: str, generated: str, config: dict | None = None) -> dict:
+    cfg = config or DEFAULT_CONFIG
+    sm = cfg.get("status_map")
+    phases = phases_from_features(features, sm)
+    board = board_items(pinto_raw, cfg.get("board"), sm)
     return {
         "project": project,
         "generated": generated,
@@ -287,28 +347,29 @@ def render_html(model: dict) -> str:
 
 # ----------------------------------------------------------------- actions/io
 
-def read_features(root: Path) -> dict:
+def read_features(root: Path, filename: str = "features.json") -> dict:
     try:
-        data = json.loads((root / "features.json").read_text())
+        data = json.loads((root / filename).read_text())
         return data if isinstance(data, dict) else {}
     except Exception:
         return {}
 
 
-def read_pinto(root: Path) -> object:
-    if not shutil.which("pinto"):
+def read_board(root: Path, board_cfg: dict) -> object:
+    """Run the configured board command as argv (never through a shell)."""
+    cmd = board_cfg.get("command") or []
+    if not cmd or not shutil.which(cmd[0]):
         return None
     try:
-        done = subprocess.run(["pinto", "list", "--json"], cwd=root,
-                              capture_output=True, text=True, timeout=20)
+        done = subprocess.run(cmd, cwd=root, capture_output=True, text=True, timeout=20)
         return json.loads(done.stdout) if done.returncode == 0 else None
     except Exception:
         return None
 
 
-def read_progress_tail(root: Path, lines: int = 12) -> str:
+def read_progress_tail(root: Path, filename: str = "progress.md", lines: int = 12) -> str:
     try:
-        return "\n".join((root / "progress.md").read_text().splitlines()[-lines:])
+        return "\n".join((root / filename).read_text().splitlines()[-lines:])
     except Exception:
         return ""
 
@@ -319,15 +380,24 @@ def main() -> int:
     ap.add_argument("--html-only", action="store_true", help="write HTML, print nothing")
     ap.add_argument("--out", default="docs/status-dashboard.html")
     ap.add_argument("--root", default=str(Path(__file__).resolve().parent.parent))
+    ap.add_argument("--config", default=None,
+                    help="tracker config (default: dashboard.config.json if present)")
     args = ap.parse_args()
 
     root = Path(args.root).resolve()
+    try:
+        cfg = load_config(root, args.config)
+    except Exception as exc:
+        print(f"  dashboard config is invalid: {exc}", file=sys.stderr)
+        return 2
+
     model = build_model(
-        features=read_features(root),
-        pinto_raw=read_pinto(root),
-        progress_tail=read_progress_tail(root),
+        features=read_features(root, cfg.get("features_file", "features.json")),
+        pinto_raw=read_board(root, cfg.get("board", DEFAULT_CONFIG["board"])),
+        progress_tail=read_progress_tail(root, cfg.get("progress_file", "progress.md")),
         project=root.name,
         generated=_datetime.datetime.now().strftime("%Y-%m-%d %H:%M"),
+        config=cfg,
     )
 
     if args.html or args.html_only:
