@@ -533,3 +533,12 @@ Built so a reporting agent can answer "status of project X" and "status of all m
 - "All my current outstanding projects" resolves from the bot's own knowledge of what is in flight, but the roster **must be stated by name** in the report. That line is what lets the principal catch a forgotten project: a briefing quietly covering five of six is indistinguishable from one where the sixth is fine.
 - Unreadable roots named by the generator on stderr are carried into the report's "could not read" section rather than dropped.
 - Two new observable behaviors; now seven.
+
+### sd-08 / cos-03 — project detail view
+
+The summary answers "how much is left". It cannot answer "what can I start", and that gap was hiding something real: sportos shows **10 todo**, but only **2 are startable** — the other 8 sit in a dependency chain, one of them waiting on four separate items.
+
+- `--detail` (single project; exits 2 for several) adds a readiness split computed from `depends_on`: ready to start versus blocked, with each blocked item naming what it waits on. Also open work by label, unfinished phases with their outstanding items, and recent commits.
+- The dashboard previously discarded the raw board payload after shaping it, so `depends_on`, `labels`, and `points` were unreachable. The model now carries `raw_items` and the readiness split is a pure calculation over it.
+- `chief-of-staff` learns the detailed request shape and must **lead with the startable count, not the todo count**: "10 todo" and "2 you can actually start" describe very different projects, and only the second is actionable.
+- Edges verified: no board degrades to zeros, a dependency on an already-done item counts as ready, missing raw items degrade rather than crash, and every prior mode (terminal, markdown, html, portfolio) still works.

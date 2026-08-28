@@ -533,6 +533,19 @@
           "portfolio-html",
           "unread-project-reporting"
         ]
+      },
+      {
+        "id": "sd-08",
+        "title": "Project detail view: ready vs blocked, labels, unfinished phases",
+        "status": "completed",
+        "features": [
+          "readiness-calculation",
+          "detail-markdown",
+          "detail-terminal",
+          "label-counts",
+          "open-phase-features",
+          "recent-commits"
+        ]
       }
     ]
   },
@@ -586,6 +599,15 @@
           "dual-delivery",
           "roster-stated",
           "carry-unread-from-generator"
+        ]
+      },
+      {
+        "id": "cos-03",
+        "title": "Teach detailed single-project reports",
+        "status": "completed",
+        "features": [
+          "detail-request-pattern",
+          "startable-over-todo"
         ]
       }
     ]
