@@ -129,22 +129,29 @@ def phases_from_features(features: dict, status_map: dict | None = None) -> list
     return phases
 
 
+def dig(node: object, path: str) -> object:
+    """Follow a dotted key path. Trackers nest (GitHub Projects puts title under content)."""
+    for key in [k for k in (path or "").split(".") if k]:
+        if not isinstance(node, dict):
+            return None
+        node = node.get(key)
+    return node
+
+
 def board_items(raw: object, board_cfg: dict | None = None,
                 status_map: dict | None = None) -> list[dict]:
     """Shape any board payload into items, per the config's path and field names."""
     cfg = board_cfg or DEFAULT_CONFIG["board"]
-    node = raw
-    for key in [k for k in (cfg.get("items_path") or "").split(".") if k]:
-        node = (node or {}).get(key) if isinstance(node, dict) else None
+    node = dig(raw, cfg.get("items_path") or "") if cfg.get("items_path") else None
     if node is None:
         node = raw if isinstance(raw, list) else (raw or {}).get("tasks", [])
     f = cfg.get("fields", DEFAULT_CONFIG["board"]["fields"])
     return [
         {
-            "id": t.get(f["id"], "?"),
-            "title": t.get(f["title"], ""),
-            "state": classify(t.get(f["status"], ""), status_map),
-            "status": t.get(f["status"], ""),
+            "id": dig(t, f["id"]) or "?",
+            "title": dig(t, f["title"]) or "",
+            "state": classify(dig(t, f["status"]) or "", status_map),
+            "status": dig(t, f["status"]) or "",
         }
         for t in node if isinstance(t, dict)
     ]

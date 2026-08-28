@@ -509,6 +509,18 @@
           "prove-against-live-data-gate",
           "public-catalog-n18"
         ]
+      },
+      {
+        "id": "sd-06",
+        "title": "dashboard-prompt conformance remediation + nested field paths",
+        "status": "completed",
+        "features": [
+          "worked-example",
+          "idempotency-boundary",
+          "config-trust-note",
+          "failure-modes-table",
+          "dotted-field-paths"
+        ]
       }
     ]
   },
