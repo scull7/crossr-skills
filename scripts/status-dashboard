@@ -12,6 +12,8 @@ Usage:
     scripts/status-dashboard --out PATH      # HTML destination
     scripts/status-dashboard --root DIR      # project root (default: repo root)
     scripts/status-dashboard --config PATH   # tracker config (default: dashboard.config.json)
+    scripts/status-dashboard --markdown      # markdown, for pasting into chat
+    scripts/status-dashboard --root A --root B ...   # portfolio across projects
 
 Sources, all optional and read-only — a missing one degrades to empty:
     features.json      phases -> commits -> features
@@ -352,6 +354,134 @@ def render_html(model: dict) -> str:
 """
 
 
+def _bar(percent: int, width: int = 10) -> str:
+    filled = round(width * percent / 100)
+    return "█" * filled + "░" * (width - filled)
+
+
+def render_markdown(model: dict) -> str:
+    """One project, as markdown a chat client will render."""
+    t = model["totals"]
+    out = [
+        f"**{model['project']}** — orchestration status  ",
+        f"`{model['generated']}` · source: {t['source']}",
+        "",
+        f"| ✅ completed | 🟡 in progress | ⬜ todo |",
+        f"|---:|---:|---:|",
+        f"| {t[DONE]} | {t[ACTIVE]} | {t[TODO]} |",
+    ]
+    if model["phases"]:
+        out += ["", "| phase | progress | |", "|---|---|---:|"]
+        for p in model["phases"]:
+            out.append(f"| {p['name']} | `{_bar(p['percent'])}` | {p['done']}/{p['total']} |")
+    open_items = [b for b in model["board"] if b["state"] != DONE]
+    if open_items:
+        out += ["", f"**Open board items ({len(open_items)})**", "", "| | id | title |", "|---|---|---|"]
+        for b in open_items[:15]:
+            out.append(f"| {'🟡' if b['state'] == ACTIVE else '⬜'} | `{b['id']}` | {b['title']} |")
+        if len(open_items) > 15:
+            out.append(f"| | | _+{len(open_items) - 15} more_ |")
+    return "\n".join(out)
+
+
+def build_portfolio(models: list[dict], generated: str) -> dict:
+    """Aggregate several project models. Pure: no reading, no formatting."""
+    agg = {DONE: 0, ACTIVE: 0, TODO: 0}
+    for m in models:
+        for k in (DONE, ACTIVE, TODO):
+            agg[k] += m["totals"][k]
+    return {"projects": models, "totals": agg, "generated": generated,
+            "count": len(models)}
+
+
+def render_portfolio_markdown(pf: dict) -> str:
+    a = pf["totals"]
+    total = max(a[DONE] + a[ACTIVE] + a[TODO], 1)
+    out = [
+        f"## Portfolio status — {pf['count']} projects  ",
+        f"`{pf['generated']}`",
+        "",
+        "| ✅ completed | 🟡 in progress | ⬜ todo | done |",
+        "|---:|---:|---:|---:|",
+        f"| {a[DONE]} | {a[ACTIVE]} | {a[TODO]} | {round(100 * a[DONE] / total)}% |",
+        "",
+        "| project | ✅ | 🟡 | ⬜ | progress | source |",
+        "|---|---:|---:|---:|---|---|",
+    ]
+    for m in pf["projects"]:
+        t = m["totals"]
+        n = max(t[DONE] + t[ACTIVE] + t[TODO], 1)
+        out.append(f"| **{m['project']}** | {t[DONE]} | {t[ACTIVE]} | {t[TODO]} | "
+                   f"`{_bar(round(100 * t[DONE] / n))}` | {t['source']} |")
+    active = [(m["project"], b) for m in pf["projects"]
+              for b in m["board"] if b["state"] == ACTIVE]
+    if active:
+        out += ["", "**In progress right now**", "", "| project | id | title |", "|---|---|---|"]
+        for proj, b in active:
+            out.append(f"| {proj} | `{b['id']}` | {b['title']} |")
+    return "\n".join(out)
+
+
+def render_portfolio_html(pf: dict) -> str:
+    a = pf["totals"]
+    total = max(a[DONE] + a[ACTIVE] + a[TODO], 1)
+    rows = ""
+    for m in pf["projects"]:
+        t = m["totals"]
+        n = max(t[DONE] + t[ACTIVE] + t[TODO], 1)
+        pct = round(100 * t[DONE] / n)
+        rows += (
+            f'<div class="bg-zinc-900 border border-zinc-800 rounded-3xl p-5">'
+            f'<div class="flex items-baseline justify-between gap-3">'
+            f'<div class="font-semibold text-zinc-100 truncate">{html.escape(m["project"])}</div>'
+            f'<div class="text-xs text-zinc-600 shrink-0">{html.escape(m["totals"]["source"])}</div></div>'
+            f'<div class="flex gap-4 mt-3 text-sm tabular-nums">'
+            f'<span class="text-emerald-400">{t[DONE]}</span>'
+            f'<span class="text-amber-400">{t[ACTIVE]}</span>'
+            f'<span class="text-zinc-500">{t[TODO]}</span></div>'
+            f'<div class="h-1.5 bg-zinc-800 rounded-full mt-3 overflow-hidden">'
+            f'<div class="h-full rounded-full {"bg-emerald-500" if pct == 100 else "bg-amber-500"}" style="width:{pct}%"></div>'
+            f'</div></div>'
+        )
+    active = "".join(
+        f'<tr class="border-b border-zinc-800/60"><td class="py-2 pr-4 text-zinc-500">{html.escape(m["project"])}</td>'
+        f'<td class="py-2 pr-4 font-mono text-xs text-zinc-400">{html.escape(str(b["id"]))}</td>'
+        f'<td class="py-2 text-zinc-200">{html.escape(b["title"])}</td></tr>'
+        for m in pf["projects"] for b in m["board"] if b["state"] == ACTIVE
+    ) or '<tr><td class="py-2 text-zinc-600 italic" colspan="3">nothing in progress</td></tr>'
+
+    return f"""<!DOCTYPE html>
+<html lang="en"><head><meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Portfolio status</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+</head><body class="bg-zinc-950 text-zinc-200 antialiased">
+<div class="max-w-6xl mx-auto px-6 py-12">
+  <div class="flex items-end justify-between flex-wrap gap-4 mb-10">
+    <div><div class="text-3xl font-semibold tracking-tighter">Portfolio status</div>
+    <div class="text-sm text-zinc-500 mt-1">{pf['count']} projects</div></div>
+    <div class="text-xs text-zinc-600 font-mono">{html.escape(pf['generated'])}</div>
+  </div>
+  <div class="grid grid-cols-3 gap-4 mb-6">
+    <div class="bg-zinc-900 border border-zinc-800 rounded-3xl p-5"><div class="text-4xl font-semibold text-emerald-400 tabular-nums">{a[DONE]}</div><div class="text-sm text-zinc-400 mt-1">completed</div></div>
+    <div class="bg-zinc-900 border border-zinc-800 rounded-3xl p-5"><div class="text-4xl font-semibold text-amber-400 tabular-nums">{a[ACTIVE]}</div><div class="text-sm text-zinc-400 mt-1">in progress</div></div>
+    <div class="bg-zinc-900 border border-zinc-800 rounded-3xl p-5"><div class="text-4xl font-semibold text-zinc-400 tabular-nums">{a[TODO]}</div><div class="text-sm text-zinc-400 mt-1">todo</div></div>
+  </div>
+  <div class="flex h-2 rounded-full overflow-hidden mb-10 bg-zinc-800">
+    <div class="bg-emerald-500" style="width:{round(100 * a[DONE] / total)}%"></div>
+    <div class="bg-amber-500" style="width:{round(100 * a[ACTIVE] / total)}%"></div>
+  </div>
+  <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-10">{rows}</div>
+  <div class="bg-zinc-900/60 border border-zinc-800 rounded-3xl p-6">
+    <div class="text-xs uppercase tracking-widest text-zinc-500 mb-3">In progress right now</div>
+    <table class="w-full text-sm"><tbody>{active}</tbody></table>
+  </div>
+  <div class="text-xs text-zinc-700 mt-8">Generated — do not edit by hand.</div>
+</div></body></html>
+"""
+
+
 # ----------------------------------------------------------------- actions/io
 
 def read_features(root: Path, filename: str = "features.json") -> dict:
@@ -381,47 +511,78 @@ def read_progress_tail(root: Path, filename: str = "progress.md", lines: int = 1
         return ""
 
 
+def read_project(path: Path, config_arg: str | None, generated: str) -> dict:
+    """Read one project into a model. The only place actions and calculations meet."""
+    cfg = load_config(path, config_arg)
+    return build_model(
+        features=read_features(path, cfg.get("features_file", "features.json")),
+        pinto_raw=read_board(path, cfg.get("board", DEFAULT_CONFIG["board"])),
+        progress_tail=read_progress_tail(path, cfg.get("progress_file", "progress.md")),
+        project=path.name,
+        generated=generated,
+        config=cfg,
+    )
+
+
 def main() -> int:
     ap = argparse.ArgumentParser(add_help=True, description=__doc__)
     ap.add_argument("--html", action="store_true", help="also write the HTML dashboard")
     ap.add_argument("--html-only", action="store_true", help="write HTML, print nothing")
+    ap.add_argument("--markdown", action="store_true", help="print markdown instead of the terminal view")
     ap.add_argument("--out", default="docs/status-dashboard.html")
-    ap.add_argument("--root", default=str(Path(__file__).resolve().parent.parent))
+    ap.add_argument("--root", action="append", default=None,
+                    help="project root; repeat for a portfolio across projects")
     ap.add_argument("--config", default=None,
                     help="tracker config (default: dashboard.config.json if present)")
     args = ap.parse_args()
 
-    root = Path(args.root).resolve()
-    try:
-        cfg = load_config(root, args.config)
-    except Exception as exc:
-        print(f"  dashboard config is invalid: {exc}", file=sys.stderr)
+    roots = [Path(r).resolve() for r in (args.root or
+             [str(Path(__file__).resolve().parent.parent)])]
+    generated = _datetime.datetime.now().strftime("%Y-%m-%d %H:%M")
+
+    models, unread = [], []
+    for root in roots:
+        if not root.is_dir():
+            unread.append((root, "no such directory"))
+            continue
+        try:
+            models.append(read_project(root, args.config, generated))
+        except Exception as exc:                      # a bad config must not kill the rest
+            unread.append((root, str(exc)))
+
+    if not models:
+        for root, why in unread:
+            print(f"  unread: {root} — {why}", file=sys.stderr)
         return 2
 
-    model = build_model(
-        features=read_features(root, cfg.get("features_file", "features.json")),
-        pinto_raw=read_board(root, cfg.get("board", DEFAULT_CONFIG["board"])),
-        progress_tail=read_progress_tail(root, cfg.get("progress_file", "progress.md")),
-        project=root.name,
-        generated=_datetime.datetime.now().strftime("%Y-%m-%d %H:%M"),
-        config=cfg,
-    )
+    portfolio = len(models) > 1
+    pf = build_portfolio(models, generated) if portfolio else None
+
+    if args.markdown:
+        text = render_portfolio_markdown(pf) if portfolio else render_markdown(models[0])
+    else:
+        text = ("\n".join(render_terminal(m) for m in models)
+                if portfolio else render_terminal(models[0]))
 
     if args.html or args.html_only:
         out = Path(args.out)
         if not out.is_absolute():
-            out = root / out
+            out = roots[0] / out
         out.parent.mkdir(parents=True, exist_ok=True)
-        out.write_text(render_html(model))
+        out.write_text(render_portfolio_html(pf) if portfolio else render_html(models[0]))
         if not args.html_only:
-            print(render_terminal(model))
+            print(text)
         try:
-            shown = out.relative_to(root)
+            shown = out.relative_to(roots[0])
         except ValueError:
             shown = out
         print(f"  → dashboard written to {shown}\n")
     else:
-        print(render_terminal(model))
+        print(text)
+
+    # Unread projects are reported, never silently dropped.
+    for root, why in unread:
+        print(f"  unread: {root} — {why}", file=sys.stderr)
     return 0
 
 

@@ -521,6 +521,18 @@
           "failure-modes-table",
           "dotted-field-paths"
         ]
+      },
+      {
+        "id": "sd-07",
+        "title": "Portfolio mode + markdown renderer",
+        "status": "completed",
+        "features": [
+          "repeatable-root",
+          "markdown-renderer",
+          "portfolio-markdown",
+          "portfolio-html",
+          "unread-project-reporting"
+        ]
       }
     ]
   },
