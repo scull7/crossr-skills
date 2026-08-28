@@ -576,6 +576,17 @@
           "false-stall-failure-mode",
           "public-catalog-n19"
         ]
+      },
+      {
+        "id": "cos-02",
+        "title": "Answer /status report requests with markdown + HTML",
+        "status": "completed",
+        "features": [
+          "status-report-request-pattern",
+          "dual-delivery",
+          "roster-stated",
+          "carry-unread-from-generator"
+        ]
       }
     ]
   }

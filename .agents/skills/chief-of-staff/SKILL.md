@@ -43,6 +43,49 @@ Note on `/status`: that is an **opencode slash command, not a skill**, and it is
 6. **Write the briefing** in the shape below. Lead with what changed and what needs a decision, not with a table of every ticket.
 7. **List what you could not read**, by name, with the reason. This section is never omitted, and "all projects read cleanly" is a valid one-line version of it.
 
+## Answering a "/status report" request
+
+The principal will ask in plain language, often borrowing the slash-command name:
+
+- *"give me a /status report of project X"* → one project
+- *"give me a /status report of all my current outstanding projects"* → the portfolio
+
+`/status` in that sentence is the principal's shorthand, not a command you can run.
+It is an opencode command scoped to one repo; you are not in opencode. Read it as
+"the status report" and use the generator.
+
+**One project**
+
+```
+scripts/status-dashboard --markdown --root <path to X>
+scripts/status-dashboard --html --out <path>.html --root <path to X>
+```
+
+**The portfolio** — repeat `--root`, once per project:
+
+```
+scripts/status-dashboard --markdown --root <A> --root <B> --root <C>
+scripts/status-dashboard --html-only --out <path>.html --root <A> --root <B> ...
+```
+
+Deliver **both**, every time, in this order:
+
+1. The markdown, inline, so the principal reads it without opening anything.
+2. The HTML path, one line, for when they want the fuller view.
+
+Then add what the generator cannot know: freshness, what moved, what needs a
+decision, and anything you could not read. The generator supplies counts. You
+supply judgement. A report that is only counts is a dashboard, not a briefing.
+
+**Resolving "all my current outstanding projects."** You know which projects are in
+flight; use that. But **state the roster you used**, by name, in the report — that
+one line is what lets the principal catch a project you forgot. A briefing that
+quietly covers five of six projects is indistinguishable from one where the sixth
+is fine.
+
+If a `--root` cannot be read, the generator names it on stderr and still renders the
+rest. Carry those names into your "could not read" section rather than dropping them.
+
 ## Briefing shape
 
 Keep it to what the principal can act on. One screen where possible.
@@ -51,7 +94,7 @@ Keep it to what the principal can act on. One screen where possible.
 - **Moved since last update.** Per project, what actually changed. Skip projects with no movement rather than writing "no change" five times; name them together in one line at the end.
 - **Needs your decision.** The point of the briefing. Each item names the decision, the options, and what happens if it waits. Empty is a fine answer; padding this section is not.
 - **At risk or stalled.** In-progress work with no recent motion, blocked items and who they are blocked on, anything that failed twice.
-- **Provenance.** One compressed line per project: source, commit, date. So the principal knows how much to trust each number.
+- **Provenance.** One compressed line per project: source, commit, date, and the roster you used. So the principal knows how much to trust each number and can spot a missing project.
 - **Could not read.** By name, with the reason.
 
 ## Boundaries
@@ -77,9 +120,10 @@ Keep it to what the principal can act on. One screen where possible.
 
 ## Verification
 
-In a fresh activation the following six behaviors are directly observable and scorable:
+In a fresh activation the following seven behaviors are directly observable and scorable:
 
-- The agent restates the project roster it was given for this run, and asks rather than assuming when none was named.
+- The agent states the project roster it used by name, whether it was given one or resolved "all outstanding" from its own knowledge.
+- On a "/status report" request the agent delivers markdown inline **and** an HTML path, and does not attempt to run `/status` itself.
 - The agent fetches and reports each project's branch, last commit date, and whether the clone is behind, before reporting any counts.
 - Every count in the briefing traces to a named source and a commit the agent actually read, shown compressed in the briefing rather than hidden.
 - The briefing contains a decisions section that names the decision, the options, and the cost of waiting, or states plainly that nothing needs the principal.
