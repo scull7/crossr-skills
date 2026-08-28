@@ -85,6 +85,11 @@
       "name": "unslop",
       "category": "Writing",
       "purpose": "Voice-agnostic pass that strips AI tells from prose"
+    },
+    {
+      "name": "dashboard-prompt",
+      "category": "Orchestration",
+      "purpose": "Wire a proven status dashboard to a project's real trackers"
     }
   ],
   "out": [

@@ -478,3 +478,14 @@ The dashboard hardcoded one status vocabulary and one board command, so a projec
 - A malformed config exits 2 with the parse error rather than silently falling back to defaults.
 - Demonstrated on a Jira-shaped fixture: `Closed` counted as todo before (0 completed), correct after (1 completed). A custom board with a nested `items_path` and renamed fields (`key`/`summary`/`state`) parses and classifies correctly.
 - Original regression suite still green: 16/16 default classifications, totals, legacy `board_from_pinto`, deterministic renderers.
+
+### sd-05 — dashboard-prompt skill
+
+Generates, for any project, the tracker config that makes the dashboard read that project's real sources plus the machine-facing refresh contract the working agent follows.
+
+- `.agents/skills/dashboard-prompt/` with `assets/dashboard-contract-template.md`. Output is written for the working agent, not for a human reader.
+- The skill exists to prevent one specific failure: a status vocabulary that does not match the tracker's classifies every unfamiliar word as todo, so the dashboard reports "0 in progress" during active work and never errors. Its central discipline is therefore **prove the mapping against live board totals before shipping it** (procedure step 5, and an observable behavior).
+- Procedure: inventory trackers by running their commands, collect the literal status strings with counts, map every observed string, write the config, prove the counts reconcile, fill the contract, verify no placeholders remain.
+- Composes with `avril`/`axel`/`rust-team-lead` rather than replacing them: they know *when* to refresh, this makes sure what they refresh is true.
+- Dogfooded against this repo: it emits exactly two status strings (`'done'` x14 from pinto, `'completed'` x70 from features.json), both already covered by the defaults, so no config is needed here and the counts reconcile exactly (board done=14/not-done=0 against dashboard 14/0/0).
+- Published at N=17→18.

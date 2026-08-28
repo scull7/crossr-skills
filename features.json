@@ -498,6 +498,17 @@
           "field-name-mapping",
           "loud-config-errors"
         ]
+      },
+      {
+        "id": "sd-05",
+        "title": "dashboard-prompt skill: generate proven tracker config + refresh contract",
+        "status": "completed",
+        "features": [
+          "dashboard-prompt-skill",
+          "dashboard-contract-template",
+          "prove-against-live-data-gate",
+          "public-catalog-n18"
+        ]
       }
     ]
   },
