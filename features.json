@@ -474,6 +474,18 @@
           "conflict-safe-justfile",
           "honest-closing-message"
         ]
+      },
+      {
+        "id": "sd-03",
+        "title": "/status opencode command + derive opencode file lists",
+        "status": "completed",
+        "features": [
+          "status-agent-readonly",
+          "status-command",
+          "verify-opencode-auto-discovery",
+          "bootstrap-sync-derived-lists",
+          "gitignore-pycache"
+        ]
       }
     ]
   },

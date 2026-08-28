@@ -34,7 +34,7 @@ Always use the `justfile` for canonical commands:
 - `just test`
 - `just clippy`
 - `just fmt`
-- `just status` — Orchestration status dashboard in the terminal (completed / in progress / todo)
+- `just status` — Orchestration status dashboard in the terminal (also available in opencode as `/status`) (completed / in progress / todo)
 - `just status-html` — Also write `docs/status-dashboard.html` (the in-harness UI)
 - `just harness-validate` — Validate `features.json` + run `docs-verify`, `opencode-verify`, and the Claude skill drift check
 - `just claude-skills-sync` — Regenerate the Claude compatibility copies in `~/.claude/skills` from `.agents/skills/`
@@ -110,6 +110,7 @@ Every orchestration skill (`avril`, `axel`, `rust-team-lead`, and prompts genera
 This repo ships project-scoped OpenCode entrypoints under `.opencode/`:
 
 - **`/avril`** — planning conductor. Bare `/avril` gives a read-only status report (board, blessed set, ready PBIs, blockers). `/avril <free text>` plans, proposes, or runs the PO → QA → CTO blessing loop. It never writes production code.
+- **`/status`** — read-only project status. Bare `/status` gives the standing report (completed / in progress / todo, what's next, what looks stalled). `/status <question>` answers from the same dump. The agent has `edit` and `task` denied, so it structurally cannot mutate anything.
 - **`/axel`** — execution conductor. Bare `/axel` reports the next ready blessed PBI and **asks for confirmation before executing anything**. `/axel run <id>` drives that PBI through PETC + code GAN. It never writes code itself.
 - Both open with a read-only preflight (git, `progress.md`, `features.json`, Pinto board, blessed summaries) that fails soft when a tool or file is missing.
 - **Restart opencode** after changing anything under `.opencode/` — config is read at startup and is not hot-reloaded.

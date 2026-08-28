@@ -96,7 +96,8 @@ if [ -d "$OPENCODE_TEMPLATES" ]; then
     mkdir -p "$TARGET/.opencode/agent" "$TARGET/.opencode/command"
     opencode_added=0
     opencode_kept=0
-    for rel in opencode.jsonc agent/avril.md agent/axel.md command/avril.md command/axel.md; do
+    # Derived from the template tree, so new agents/commands ship automatically.
+    for rel in $( (cd "$OPENCODE_TEMPLATES" && find . -type f) | sed 's|^\./||' | sort ); do
         src="$OPENCODE_TEMPLATES/$rel"
         dest="$TARGET/.opencode/$rel"
         if [ ! -f "$src" ]; then
@@ -111,7 +112,7 @@ if [ -d "$OPENCODE_TEMPLATES" ]; then
         fi
     done
     if [ "$opencode_added" -gt 0 ]; then
-        echo "  + Installed $opencode_added OpenCode file(s) for /avril and /axel"
+        echo "  + Installed $opencode_added OpenCode file(s) (/avril, /axel, /status)"
     fi
     if [ "$opencode_kept" -gt 0 ]; then
         echo "  ! $opencode_kept existing OpenCode file(s) left untouched — diff against templates/harness/opencode/ if you want the latest"
@@ -126,7 +127,7 @@ echo "  Next steps:"
 echo "    1. Run 'just init' (customize as needed)"
 echo "    2. Commit the empty harness"
 echo "    3. Start tracking real work in features.json"
-echo "    4. Restart opencode, then use /avril (planning) and /axel (execution)"
+echo "    4. Restart opencode, then use /avril (planning), /axel (execution), /status (report)"
 echo ""
 echo "  For Claude compatibility, run the generate-claude-compat step (to be added in a future iteration of this script)."
 echo "  Run 'just harness-validate' after setup to check features.json against the schema."

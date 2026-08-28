@@ -39,11 +39,17 @@ echo "→ Verifying OpenCode command layer..."
 echo ""
 echo "Checking .opencode layout..."
 
+# Required core files; every other agent/command found is still checked
+# structurally below, so a new command is covered without editing this list.
 for f in .opencode/opencode.jsonc \
          .opencode/agent/avril.md .opencode/agent/axel.md \
          .opencode/command/avril.md .opencode/command/axel.md; do
     if [[ -s "$f" ]]; then pass "present $f"; else fail "missing or empty $f"; fi
 done
+
+AGENT_FILES=(.opencode/agent/*.md)
+COMMAND_FILES=(.opencode/command/*.md)
+pass "discovered ${#AGENT_FILES[@]} agent(s), ${#COMMAND_FILES[@]} command(s)"
 
 if python3 - <<'PY'
 import json, re, sys
@@ -60,7 +66,7 @@ echo ""
 echo "Checking agent and command frontmatter..."
 
 python3 - <<'PY'
-import re, sys
+import glob, re, sys
 
 def frontmatter(path):
     text = open(path).read()
@@ -72,7 +78,7 @@ def frontmatter(path):
 
 problems = []
 
-for path in (".opencode/agent/avril.md", ".opencode/agent/axel.md"):
+for path in sorted(glob.glob(".opencode/agent/*.md")):
     fields, body = frontmatter(path)
     if fields is None:
         problems.append(f"{path}: no YAML frontmatter"); continue
@@ -81,7 +87,7 @@ for path in (".opencode/agent/avril.md", ".opencode/agent/axel.md"):
     if fields.get("mode") != "primary":
         problems.append(f"{path}: mode is {fields.get('mode')!r}, expected 'primary'")
 
-for path in (".opencode/command/avril.md", ".opencode/command/axel.md"):
+for path in sorted(glob.glob(".opencode/command/*.md")):
     fields, body = frontmatter(path)
     if fields is None:
         problems.append(f"{path}: no YAML frontmatter"); continue
@@ -96,7 +102,7 @@ for path in (".opencode/command/avril.md", ".opencode/command/axel.md"):
 # Preflight shell injections must stay read-only.
 WRITES = ("git commit", "git push", "git add", "git checkout", "git reset", "git merge",
           "pinto add", "pinto move", "pinto set", "pinto update", "pinto automate", "rm ", "mv ")
-for path in (".opencode/command/avril.md", ".opencode/command/axel.md"):
+for path in sorted(glob.glob(".opencode/command/*.md")):
     body = open(path).read()
     for shell in re.findall(r"!`([^`]*)`", body, re.S):
         for w in WRITES:
@@ -120,7 +126,7 @@ echo "Checking bootstrap template parity..."
 
 TEMPLATE_DIR="templates/harness/opencode"
 if [[ -d "$TEMPLATE_DIR" ]]; then
-    for rel in opencode.jsonc agent/avril.md agent/axel.md command/avril.md command/axel.md; do
+    for rel in $( (cd .opencode && find . -type f -name '*.md' -o -type f -name '*.jsonc') | sed 's|^\./||' | sort ); do
         if [[ ! -f "$TEMPLATE_DIR/$rel" ]]; then
             fail "missing bootstrap template $TEMPLATE_DIR/$rel"
         elif diff -q ".opencode/$rel" "$TEMPLATE_DIR/$rel" >/dev/null 2>&1; then
@@ -153,7 +159,8 @@ else
     trap 'rm -f "$AGENTS_TXT" "$SKILLS_JSON"' EXIT
     "$OPENCODE_BIN" agent list --pure > "$AGENTS_TXT" 2>/dev/null
 
-    for a in avril axel; do
+    for f in .opencode/agent/*.md; do
+        a="$(basename "$f" .md)"
         if grep -qE "^$a \(primary\)" "$AGENTS_TXT"; then
             pass "opencode discovers agent '$a' (primary)"
         else
@@ -185,7 +192,7 @@ if [[ "$RUN_PREFLIGHT" == true ]]; then
     if [[ $FAILED -ne 0 ]]; then
         skip "static checks failed — not executing embedded shell"
     else
-        for cmdfile in .opencode/command/avril.md .opencode/command/axel.md; do
+        for cmdfile in .opencode/command/*.md; do
             n=0
             while IFS= read -r snippet; do
                 n=$((n + 1))

@@ -5,3 +5,7 @@ site/public/
 book/book/
 .DS_Store
 **/.DS_Store
+
+# Python bytecode
+__pycache__/
+*.pyc
