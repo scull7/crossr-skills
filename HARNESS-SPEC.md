@@ -141,6 +141,18 @@ All reusable skills live here in strict `agentskills.io` format. This directory 
 
 ---
 
+## 4.4 Choosing a Delivery Pipeline
+
+Two pipelines are supported. They are peers; neither is the default, and the human picks per unit of work.
+
+**AVRIL → AXEL** takes a blessed backlog and earns its guarantees through adversarial argument: PO/QA/CTO bless each PBI, then Reviewer/Tester/Architect bless each phase. Use it when scope is still being discovered.
+
+**BRICK** takes one informal specification and earns its guarantees through transformation: prose → tasks → Gherkin → acceptance and unit tests → implementation → refactor with property tests → mutation testing with zero survivors. Use it when behaviour can be written down before it is built and correctness must be provable.
+
+Do not run both on the same work at once. AVRIL's source of truth is a blessed backlog; BRICK's is a `.feature` file. Reconciling two sources of truth mid-flight costs more than either pipeline saves. Switch between units of work, never inside one, and record which pipeline a unit used so a later reader knows which guarantees apply.
+
+BRICK's mutation gate is a hard requirement, not a recommendation. The tool is a harness parameter (`cargo-mutants`, `mutmut`, Stryker, or equivalent); if none is disclosed, BRICK stops rather than certifying an unverified run.
+
 ## 4.5 HTML as the Primary Human-Facing Artifact Format
 
 For any artifact whose primary audience is a human — specifications, architecture reviews, PR summaries, reports, dashboards, prototypes, deployment guides, etc. — **generate a self-contained HTML file** as the main deliverable.

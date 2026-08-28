@@ -542,3 +542,13 @@ The summary answers "how much is left". It cannot answer "what can I start", and
 - The dashboard previously discarded the raw board payload after shaping it, so `depends_on`, `labels`, and `points` were unreachable. The model now carries `raw_items` and the readiness split is a pure calculation over it.
 - `chief-of-staff` learns the detailed request shape and must **lead with the startable count, not the todo count**: "10 todo" and "2 you can actually start" describe very different projects, and only the second is actionable.
 - Edges verified: no board degrades to zeros, a dependency on an already-done item counts as ready, missing raw items degrade rather than crash, and every prior mode (terminal, markdown, html, portfolio) still works.
+
+## BRICK pipeline (#42) — bk-01: orchestrator + pipeline choice
+
+Building the Uncle Bob multi-agent pipeline as a **peer** of AVRIL/AXEL, not a replacement. The human picks per unit of work.
+
+- `brick` — Behavior-Refined Incremental Construction Kernel. Conductor for the one-way assembly line: task division (the only stage the conductor performs, because it is judgement not labour) → specifier → coder → refactorer → mutator, with a defined artifact at every boundary.
+- HARNESS-SPEC §4.4 documents the choice. AVRIL/AXEL earns guarantees through adversarial argument and suits scope still being discovered; BRICK earns them through transformation and mutation testing and suits behaviour that can be written down first.
+- **Never both on the same work at once**: AVRIL's source of truth is a blessed backlog, BRICK's is a `.feature` file, and reconciling two truths mid-flight costs more than either pipeline saves. Switching is allowed between units, not inside one.
+- The mutation gate is hard. If no mutation tool is disclosed, BRICK stops rather than certifying an unverified run — a pipeline whose distinguishing guarantee is skipped is just a slower version of the other one.
+- Named to avoid collision: `brick-*` stage skills, since #42's proposed `architect` would have clashed with the existing `rust-architect` (system design, not mutation).
