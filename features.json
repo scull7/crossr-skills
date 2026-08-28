@@ -611,5 +611,20 @@
         ]
       }
     ]
+  },
+  "brick-pipeline": {
+    "status": "in_progress",
+    "commits": [
+      {
+        "id": "bk-01",
+        "title": "BRICK orchestrator + pipeline choice documented",
+        "status": "completed",
+        "features": [
+          "brick-skill",
+          "harness-spec-pipeline-choice",
+          "public-catalog-n20"
+        ]
+      }
+    ]
   }
 }

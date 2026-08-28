@@ -20,6 +20,7 @@ The **public catalog** is the machine-readable allowlist in [`docs/public-skills
 | `rust-team-lead` | GAN orchestrator for multi-agent Rust plan execution | Orchestration | AXEL inner GAN on Rust |
 | `avril` | Planning GAN — blessed PBIs (PO → QA → CTO) | Orchestration | `code-writer` + `avril` |
 | `axel` | Execution loop — blessed PBI → PETC + code GAN | Orchestration | `code-writer` + `axel` (+ stack) |
+| `brick` | BRICK pipeline — informal spec to mutation-verified code | Orchestration | `code-writer` + `brick` |
 | `orchestrator-prompt` | Generate stateless AXEL/AVRIL orchestrator prompts per project | Orchestration | `code-writer` + `orchestrator-prompt` |
 | `dashboard-prompt` | Wire a proven status dashboard to a project's real trackers | Orchestration | `code-writer` + `dashboard-prompt` |
 | `chief-of-staff` | Portfolio status briefing built from verified project dashboards | Orchestration | `code-writer` + `chief-of-staff` |

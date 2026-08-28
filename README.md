@@ -62,6 +62,7 @@ Public catalog SSOT: [`docs/public-skills.json`](docs/public-skills.json) (14 sk
 | `rust-team-lead`       | GAN orchestrator for multi-agent Rust plan execution | Orchestration |
 | `avril`                | Planning GAN — blessed PBIs (PO → QA → CTO)          | Orchestration |
 | `axel`                 | Execution loop — blessed PBI → PETC + code GAN       | Orchestration |
+| `brick`                | BRICK pipeline — informal spec to mutation-verified code | Orchestration |
 | `orchestrator-prompt`  | Generate stateless AXEL/AVRIL orchestrator prompts per project | Orchestration |
 | `dashboard-prompt`     | Wire a proven status dashboard to a project's real trackers | Orchestration |
 | `chief-of-staff`       | Portfolio status briefing built from verified project dashboards | Orchestration |

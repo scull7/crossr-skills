@@ -95,6 +95,11 @@
       "name": "chief-of-staff",
       "category": "Orchestration",
       "purpose": "Portfolio status briefing built from verified project dashboards"
+    },
+    {
+      "name": "brick",
+      "category": "Orchestration",
+      "purpose": "BRICK pipeline \u2014 informal spec to mutation-verified code"
     }
   ],
   "out": [
