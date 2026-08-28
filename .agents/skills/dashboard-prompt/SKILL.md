@@ -51,6 +51,52 @@ So the central job of this skill is not writing prose. It is **proving the mappi
 7. **Verify mechanically:** the contract has zero `{{` remaining; every source line names a real command or says "none"; the checkpoint list is project-specific; the proof from step 5 is attached.
 8. **Close** with `## Unresolved questions` (may be empty) and the counts the dashboard currently reports.
 
+## Examples
+
+A project whose board is GitHub Projects and whose tracking file uses its own words.
+
+Step 2 collected the literal strings, with counts, by running the board command:
+
+```
+gh project item-list 42 --format json
+  'Todo'        x7
+  'In Review'   x2
+  'Done'        x11
+  'Icebox'      x3
+```
+
+Every string gets a decision. `Icebox` is not in flight and not finished, so it stays
+todo by omission, and that omission is deliberate rather than accidental:
+
+```json
+{
+  "status_map": {
+    "done":   ["Done", "Released"],
+    "active": ["In Review", "In Progress"]
+  },
+  "board": {
+    "command": ["gh", "project", "item-list", "42", "--format", "json"],
+    "items_path": "items",
+    "fields": { "id": "id", "title": "content.title", "status": "status" }
+  }
+}
+```
+
+Step 5 is what makes it shippable:
+
+```
+board says:      Done=11   not-Done=12
+dashboard says:  ✔ completed 11   ▶ in progress 2   ○ todo 10
+reconciles: 11 == 11, and 2 + 10 == 12
+```
+
+The contract then names those commands and that vocabulary, so the working agent
+never has to rediscover them.
+
+A project with no board at all is a valid outcome, not a failure: record `Board: none`,
+let the tracking file carry the counts, and say so in the contract rather than
+inventing a source.
+
 ## Boundaries
 
 - **Generate and prove only.** Never move a ticket, edit a tracker, or change project state to make the dashboard look better.
@@ -58,6 +104,18 @@ So the central job of this skill is not writing prose. It is **proving the mappi
 - **Never ship an unproven mapping.** Step 5 is not optional. A config that has not been compared against live board totals is a guess with a filename.
 - **The view never becomes the record.** If the dashboard and the board disagree, report it; do not reconcile it by editing either.
 - **Fail loud.** No board, an ambiguous vocabulary, or counts that will not reconcile go in the unresolved list, not smoothed over.
+- **Idempotent.** Re-running on an unchanged project reproduces the same config and contract, and re-running after the tracker changes updates them in place. Never append a second config or leave a stale one beside a new one.
+- **The config names a program that will be executed.** It is data, not a script: the board command is an argv list run without a shell, so it cannot carry shell syntax. It still names an executable, so treat the config with the same trust as a build file, keep it in the repo, and never point it at a command taking input from outside the project.
+
+## Failure modes
+
+| Situation | What to do |
+|---|---|
+| No machine-readable source of work state | Record `Board: none`, say the project has no dashboard-able state yet, and stop. Do not create a tracker to fill the gap. |
+| Board command exists but returns no JSON | Report the raw output. A tracker that cannot be parsed is an unresolved question, not a reason to fall back to defaults. |
+| A status string's meaning is genuinely ambiguous (`Blocked`, `On Hold`) | Ask. Blocked-as-active and blocked-as-todo are both defensible, and the choice changes what the dashboard tells people. |
+| Counts will not reconcile after fixing the map | Stop and report both numbers. An unreconciled dashboard is the failure this skill exists to prevent; do not ship it with a caveat. |
+| The project already has a working config | Verify it still reconciles, and say so. Rewriting a correct config is churn. |
 
 ## Verification
 
@@ -77,6 +135,8 @@ Violations against any of these observable criteria during fresh activation indi
 This skill is the dashboard-wiring specialization of the harness layer (precondition: `code-writer` active; a project with at least one machine-readable source of work state). It supplies the tracker inventory, the vocabulary-mapping discipline, the prove-against-live-data gate, and the machine-facing contract template, while preserving every principle of the base (postcondition: a config whose counts provably match the board, and a contract the working agent can follow without further explanation).
 
 It composes with the orchestration skills rather than replacing them. `avril`, `axel`, and `rust-team-lead` already know *when* to refresh a dashboard; this skill makes sure the thing they refresh is telling the truth about that project.
+
+It carries no dashboard-refresh duty of its own, for the same reason `orchestrator-prompt` does not: both are generators that finish in one pass rather than conductors running work over time. The duty belongs in what they emit, and here that is the contract itself.
 
 ## One-Sentence Mandate (Memorize This)
 

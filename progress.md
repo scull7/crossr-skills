@@ -489,3 +489,16 @@ Generates, for any project, the tracker config that makes the dashboard read tha
 - Composes with `avril`/`axel`/`rust-team-lead` rather than replacing them: they know *when* to refresh, this makes sure what they refresh is true.
 - Dogfooded against this repo: it emits exactly two status strings (`'done'` x14 from pinto, `'completed'` x70 from features.json), both already covered by the defaults, so no config is needed here and the counts reconcile exactly (board done=14/not-done=0 against dashboard 14/0/0).
 - Published at N=17→18.
+
+### sd-06 — dashboard-prompt conformance
+
+Audited `dashboard-prompt` against the `skill-evaluator` rubric (the repo's authority) rather than against a guess. Structure already matched its peer `orchestrator-prompt` exactly; four rubric items were genuinely unmet.
+
+- **Well-Documented** — no examples. Added a worked GitHub Projects case: the collected vocabulary with counts, the config, and the step 5 reconciliation. Also states that a project with no board is a valid outcome, not a failure.
+- **Idempotent & Retry-Safe** — unstated. Re-running now reproduces the same artifacts and updates in place; never appends a second config.
+- **Portable / Secure** — unstated, and the skill tells an agent to write a config naming an executable. Now says the config is data not a script, argv not shell, build-file trust, never pointed at a command taking outside input.
+- **Explicit Error Handling** — thin. Added a failure-modes table: no source, unparseable board, genuinely ambiguous words like `Blocked` (ask, because both readings are defensible and the choice changes what the dashboard says), unreconcilable counts, and an already-correct config.
+
+Also recorded why a generator carries no dashboard-refresh duty of its own: like `orchestrator-prompt` it finishes in one pass, so the duty belongs in what it emits.
+
+**Testing the worked example found a real bug.** The example uses GitHub Projects' nested `content.title`, and `board_items` treated it as a literal key, so every board title rendered blank while the counts still looked right. Added a `dig()` helper for dotted paths in both `fields` and `items_path`. Flat keys, nested keys, and missing paths all verified; the documented example now reproduces its stated 11 / 2 / 10 with titles present.
