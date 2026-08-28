@@ -22,6 +22,7 @@ The **public catalog** is the machine-readable allowlist in [`docs/public-skills
 | `axel` | Execution loop — blessed PBI → PETC + code GAN | Orchestration | `code-writer` + `axel` (+ stack) |
 | `orchestrator-prompt` | Generate stateless AXEL/AVRIL orchestrator prompts per project | Orchestration | `code-writer` + `orchestrator-prompt` |
 | `dashboard-prompt` | Wire a proven status dashboard to a project's real trackers | Orchestration | `code-writer` + `dashboard-prompt` |
+| `chief-of-staff` | Portfolio status briefing built from verified project dashboards | Orchestration | `code-writer` + `chief-of-staff` |
 | `rust-axum-backend` | Clean layered Axum HTTP APIs with policy gates | Backend | + `rust-code-writer` |
 | `rust-frontend` | Leptos + WASM + Polars with anti-slop guidance | Frontend | + `rust-code-writer` |
 | `rust-tui` | ratatui Component + Action + two-phase dispatch | TUI | + `rust-code-writer` |
