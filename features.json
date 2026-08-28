@@ -656,6 +656,18 @@
           "coincidental-vs-structural-duplication",
           "property-laws"
         ]
+      },
+      {
+        "id": "bk-05",
+        "title": "brick-mutator: mutation gate over code and Gherkin",
+        "status": "completed",
+        "features": [
+          "brick-mutator-skill",
+          "gherkin-mutation",
+          "kill-by-test-only",
+          "equivalent-mutant-burden",
+          "no-tool-means-stop"
+        ]
       }
     ]
   }

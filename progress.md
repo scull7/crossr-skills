@@ -582,3 +582,14 @@ Stage 3: same behaviour, simpler, with property tests. The green suite inherited
 - **Property tests state laws, not examples** — round-trips, invariants, idempotence, bounds — and only over pure calculations, where they need no mocks. Property-testing actions produces slow flaky tests that prove little. No apparent law means saying so rather than inventing `assert result == result`.
 - The complexity threshold is a harness parameter, not a constant: a stated limit that is enforced matters, the particular integer does not. A threshold met by breaking behaviour is worse than one missed honestly.
 - Reports what it deliberately did not change, because silence reads as "there was nothing left".
+
+### bk-05 — brick-mutator
+
+Stage 4 and the gate that makes BRICK worth choosing over adversarial review.
+
+- **Mutates the Gherkin as well as the code.** Altering a scenario and confirming the acceptance test fails catches what a code-level run cannot see: tests wired to the implementation rather than the specification. An acceptance test that passes against a mutated scenario is not testing that scenario, and the skill calls that the most serious finding available here.
+- **Survivors are killed by strengthening tests, never by editing the implementation, deleting the mutant, or narrowing the run.** Rewriting code so a mutant cannot be generated hides the gap instead of closing it.
+- **Equivalent mutants carry a burden of proof.** Unproven equivalence counts as a live survivor; "this one is hard to kill" is not a reason for an exclusion list.
+- **No disclosed tool means stop, not skip.** Coverage is explicitly not a substitute — high coverage with surviving mutants is exactly the condition the stage exists to detect. Skipping the gate silently turns BRICK into a slower AXEL with extra ceremony.
+- Killing a survivor that would require new behaviour is a specification gap, routed back to `brick-specifier` through the human gate rather than solved here.
+- This is what BRICK offers that adversarial review cannot: an adversary that is mechanical, exhaustive within its operator set, and indifferent to how convincing the code looks.
