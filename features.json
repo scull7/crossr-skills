@@ -613,7 +613,7 @@
     ]
   },
   "brick-pipeline": {
-    "status": "in_progress",
+    "status": "completed",
     "commits": [
       {
         "id": "bk-01",
@@ -667,6 +667,17 @@
           "kill-by-test-only",
           "equivalent-mutant-burden",
           "no-tool-means-stop"
+        ]
+      },
+      {
+        "id": "bk-06",
+        "title": "BRICK personas, book chapter, AGENTS.md pointer",
+        "status": "completed",
+        "features": [
+          "brick-agent-personas",
+          "book-brick-chapter",
+          "summary-entry",
+          "agents-md-pointer"
         ]
       }
     ]

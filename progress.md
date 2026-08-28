@@ -593,3 +593,11 @@ Stage 4 and the gate that makes BRICK worth choosing over adversarial review.
 - **No disclosed tool means stop, not skip.** Coverage is explicitly not a substitute — high coverage with surviving mutants is exactly the condition the stage exists to detect. Skipping the gate silently turns BRICK into a slower AXEL with extra ceremony.
 - Killing a survivor that would require new behaviour is a specification gap, routed back to `brick-specifier` through the human gate rather than solved here.
 - This is what BRICK offers that adversarial review cannot: an adversary that is mechanical, exhaustive within its operator set, and indifferent to how convincing the code looks.
+
+### bk-06 — BRICK wire-up
+
+- Four agent personas under `.agents/agents/brick-*-agent.md`, mirroring the existing GAN persona pattern. Each carries the same contract: refuse to start without your input artifact, produce an artifact or explain why not, never edit a `.feature`, report what you did not do, and hand back to the conductor rather than invoking the next stage.
+- `book/src/pipeline/brick.md` with the choice table, the stage diagram, and the four rules that make the pipeline work; linked from SUMMARY and the pipeline overview.
+- `AGENTS.md` gains BRICK as step 5b-alt beside AVRIL/AXEL.
+
+**Phase `brick-pipeline` complete** (bk-01…bk-06). Six skills' worth of pipeline delivered as six stacked PRs; catalog N=19→24.
