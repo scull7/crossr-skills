@@ -459,3 +459,11 @@ Issue #61 suggested optionally vendoring the upstream `unslop` skill from `curso
 - Deliberately **voice-agnostic**: it takes no position on paragraph length, contractions, parentheses, or register. `voice-dna` layers the CrossR house style on top and wins wherever they differ. Accuracy outranks both.
 - Originality checked mechanically, not assumed: 8-gram shingle comparison against the upstream text shows **3 shared runs out of 1458 (0.2%)**, and all three are the banned phrases being quoted (you cannot ban "delve" without writing "delve"). One genuine phrasing overlap was found and rewritten.
 - Published at N=16→17.
+
+### sd-03 — /status command + list derivation
+
+- `.opencode/agent/status.md` + `command/status.md`. Bare `/status` gives the standing report; free text answers from the same preflight dump. Routes: `next`, `blocked`, `<id>`, `html`, `help`.
+- The agent is read-only **structurally, not by instruction**: `edit: deny` and `task: deny` resolve to `tools.edit: False`, `tools.write: False`, `tools.task: False` in `opencode debug agent status`.
+- Adding a third command exposed the same file list hardcoded in nine places across three scripts. All three now derive it: `verify-opencode` globs `.opencode/agent/*.md` and `command/*.md` and walks the template tree for parity; `harness-bootstrap` and `sync-skills --opencode` install whatever the template tree contains. A fourth command needs no script edits.
+- Removed `scripts/__pycache__/*.pyc`, which had been committed, and added `__pycache__/` + `*.pyc` to `.gitignore`.
+- Verified: 13/13 preflight blocks execute, template parity across all 7 files, and opencode reports `status (primary)` alongside avril and axel.

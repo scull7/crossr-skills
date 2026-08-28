@@ -126,7 +126,8 @@ if $WITH_OPENCODE; then
         OC_ADDED=0
         OC_KEPT=0
         $DRY_RUN || mkdir -p .opencode/agent .opencode/command
-        for rel in opencode.jsonc agent/avril.md agent/axel.md command/avril.md command/axel.md; do
+        # Derived from the template tree, so new agents/commands ship automatically.
+        for rel in $( (cd "$OC_SRC" && find . -type f) | sed 's|^\./||' | sort ); do
             [ -f "$OC_SRC/$rel" ] || continue
             if [ -f ".opencode/$rel" ]; then
                 echo "  = kept existing .opencode/$rel"
@@ -184,7 +185,7 @@ $DRY_RUN && echo "(dry run — nothing written)"
 echo "✓ Skills: $ADDED added, $UPDATED updated, $SAME unchanged, $REMOVED removed"
 echo ""
 echo "Review the changes in $DEST and commit them as a skill update PR."
-$WITH_OPENCODE && echo "Restart opencode to pick up /avril and /axel."
+$WITH_OPENCODE && echo "Restart opencode to pick up /avril, /axel, and /status."
 if $WITH_DASHBOARD; then
     if [ -f justfile ]; then
         echo "Status dashboard: just status (terminal) / just status-html (HTML)."
