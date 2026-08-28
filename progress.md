@@ -515,3 +515,13 @@ A portfolio status briefing skill for an agent reporting to a principal across a
 - Corrects a framing error worth recording: `/status` is an opencode **command, not a skill**, and it is project-scoped, so it cannot serve a cross-project briefing. The generator run per project is the portfolio tool; `/status` is what the principal runs inside one repo.
 
 **A real defect found by dogfooding.** The motion check first reported 0 commits/7d for sportos, scull7.com, and subzeroplay, which would have been briefed as three stalled projects. `origin/HEAD` is unset in those clones, so `git log origin/HEAD` silently returns nothing; against `origin/main` they show 31, 56, and 71 commits. Encoded as a failure mode: confirm the ref resolved before calling anything a stall.
+
+### sd-07 — portfolio mode + markdown renderer
+
+Built so a reporting agent can answer "status of project X" and "status of all my projects" with the same tool, in a chat surface as well as a browser.
+
+- `--root` is now repeatable. One root keeps the existing single-project views byte-for-byte; two or more switch to portfolio views. Previously a second `--root` silently won, so a portfolio was impossible and nothing said so.
+- `--markdown` renders tables a chat client displays natively, for one project or the whole portfolio. Progress bars use block characters so they survive plain text.
+- Portfolio HTML is a distinct renderer: aggregate tiles, a per-project card grid, and an "in progress right now" table across projects.
+- A root that cannot be read is reported on stderr by name and reason, and the rest still render. All roots unreadable exits 2 rather than printing an empty report.
+- Regression suite green: classification, flat and nested field keys, deterministic renderers, single-project HTML unchanged.
