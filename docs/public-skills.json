@@ -90,6 +90,11 @@
       "name": "dashboard-prompt",
       "category": "Orchestration",
       "purpose": "Wire a proven status dashboard to a project's real trackers"
+    },
+    {
+      "name": "chief-of-staff",
+      "category": "Orchestration",
+      "purpose": "Portfolio status briefing built from verified project dashboards"
     }
   ],
   "out": [

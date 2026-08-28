@@ -548,5 +548,23 @@
         ]
       }
     ]
+  },
+  "chief-of-staff": {
+    "status": "completed",
+    "commits": [
+      {
+        "id": "cos-01",
+        "title": "chief-of-staff portfolio briefing skill",
+        "status": "completed",
+        "features": [
+          "chief-of-staff-skill",
+          "roster-per-run",
+          "freshness-before-counts",
+          "provenance-per-project",
+          "false-stall-failure-mode",
+          "public-catalog-n19"
+        ]
+      }
+    ]
   }
 }

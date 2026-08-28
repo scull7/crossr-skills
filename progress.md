@@ -502,3 +502,16 @@ Audited `dashboard-prompt` against the `skill-evaluator` rubric (the repo's auth
 Also recorded why a generator carries no dashboard-refresh duty of its own: like `orchestrator-prompt` it finishes in one pass, so the duty belongs in what it emits.
 
 **Testing the worked example found a real bug.** The example uses GitHub Projects' nested `content.title`, and `board_items` treated it as a literal key, so every board title rendered blank while the counts still looked right. Added a `dig()` helper for dotted paths in both `fields` and `items_path`. Flat keys, nested keys, and missing paths all verified; the documented example now reproduces its stated 11 / 2 / 10 with titles present.
+
+## chief-of-staff skill (cos-01)
+
+A portfolio status briefing skill for an agent reporting to a principal across a named set of projects.
+
+- Roster is a **per-run parameter**, never remembered. A silently dropped project reads as "nothing to report", which is the same lie as a false green.
+- **Freshness before counts**: fetch and record branch, last commit date, and behind-count for each clone before reporting any number. Dogfooding proved the point immediately — three of six clones were behind origin (lazy-cloud 5, subzeroplay 13, sportos 4), so unfetched local counts would have been reported as current.
+- **Provenance per project** travels in the briefing: which source answered, which commit, what date.
+- Briefing shape is decision-led: headline, what moved, **what needs your decision**, at risk or stalled, provenance, could not read. The last section is never omitted.
+- **Read-only, hard**: fetch/log/status and the generator only. These repos routinely carry uncommitted work on feature branches, so touching a working tree to produce a report is out of bounds.
+- Corrects a framing error worth recording: `/status` is an opencode **command, not a skill**, and it is project-scoped, so it cannot serve a cross-project briefing. The generator run per project is the portfolio tool; `/status` is what the principal runs inside one repo.
+
+**A real defect found by dogfooding.** The motion check first reported 0 commits/7d for sportos, scull7.com, and subzeroplay, which would have been briefed as three stalled projects. `origin/HEAD` is unset in those clones, so `git log origin/HEAD` silently returns nothing; against `origin/main` they show 31, 56, and 71 commits. Encoded as a failure mode: confirm the ref resolved before calling anything a stall.

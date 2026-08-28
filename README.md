@@ -64,6 +64,7 @@ Public catalog SSOT: [`docs/public-skills.json`](docs/public-skills.json) (14 sk
 | `axel`                 | Execution loop — blessed PBI → PETC + code GAN       | Orchestration |
 | `orchestrator-prompt`  | Generate stateless AXEL/AVRIL orchestrator prompts per project | Orchestration |
 | `dashboard-prompt`     | Wire a proven status dashboard to a project's real trackers | Orchestration |
+| `chief-of-staff`       | Portfolio status briefing built from verified project dashboards | Orchestration |
 | `rust-axum-backend`    | Clean layered Axum HTTP APIs with policy gates       | Backend       |
 | `rust-frontend`        | Leptos + WASM + Polars with anti-slop guidance       | Frontend      |
 | `rust-tui`             | ratatui Component + Action + two-phase dispatch      | TUI           |
