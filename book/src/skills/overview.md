@@ -24,6 +24,7 @@ The **public catalog** is the machine-readable allowlist in [`docs/public-skills
 | `brick-specifier` | BRICK stage 1 — approved tasks to pruned Gherkin | Orchestration | BRICK stage |
 | `brick-coder` | BRICK stage 2 — Gherkin to red tests then green code | Orchestration | BRICK stage |
 | `brick-refactorer` | BRICK stage 3 — complexity, duplication, property tests | Orchestration | BRICK stage |
+| `brick-mutator` | BRICK stage 4 — mutation testing gate, zero survivors | Orchestration | BRICK gate |
 | `orchestrator-prompt` | Generate stateless AXEL/AVRIL orchestrator prompts per project | Orchestration | `code-writer` + `orchestrator-prompt` |
 | `dashboard-prompt` | Wire a proven status dashboard to a project's real trackers | Orchestration | `code-writer` + `dashboard-prompt` |
 | `chief-of-staff` | Portfolio status briefing built from verified project dashboards | Orchestration | `code-writer` + `chief-of-staff` |
