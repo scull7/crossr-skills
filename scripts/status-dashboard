@@ -13,6 +13,7 @@ Usage:
     scripts/status-dashboard --root DIR      # project root (default: repo root)
     scripts/status-dashboard --config PATH   # tracker config (default: dashboard.config.json)
     scripts/status-dashboard --markdown      # markdown, for pasting into chat
+    scripts/status-dashboard --detail        # deep view of one project
     scripts/status-dashboard --root A --root B ...   # portfolio across projects
 
 Sources, all optional and read-only — a missing one degrades to empty:
@@ -181,14 +182,57 @@ def build_model(features: dict, pinto_raw: object, progress_tail: str,
     sm = cfg.get("status_map")
     phases = phases_from_features(features, sm)
     board = board_items(pinto_raw, cfg.get("board"), sm)
+    raw_items = pinto_raw if isinstance(pinto_raw, list) else (pinto_raw or {}).get("tasks", [])
+    if not isinstance(raw_items, list):
+        raw_items = []
     return {
         "project": project,
         "generated": generated,
         "phases": phases,
         "board": board,
+        "raw_items": raw_items,
         "totals": totals(phases, board),
         "progress_tail": progress_tail,
     }
+
+
+def readiness(board: list[dict], raw_items: list[dict]) -> dict:
+    """Split open items into ready and blocked using depends_on.
+
+    "10 todo" is misleading when 8 of them are waiting on each other. Ready means
+    every dependency is done, so it is the only number that answers "what can I
+    start right now".
+    """
+    by_id = {str(r.get("id")): r for r in raw_items if isinstance(r, dict)}
+    done_ids = {i["id"] for i in board if i["state"] == DONE}
+    ready, blocked = [], []
+    for item in board:
+        if item["state"] == DONE:
+            continue
+        deps = (by_id.get(str(item["id"]), {}) or {}).get("depends_on") or []
+        missing = [d for d in deps if d not in done_ids]
+        (blocked if missing else ready).append({**item, "waiting_on": missing})
+    return {"ready": ready, "blocked": blocked}
+
+
+def label_counts(raw_items: list[dict], board: list[dict]) -> list[tuple]:
+    """Open-item counts per label, most common first."""
+    open_ids = {str(i["id"]) for i in board if i["state"] != DONE}
+    counts = {}
+    for r in raw_items:
+        if isinstance(r, dict) and str(r.get("id")) in open_ids:
+            for lab in (r.get("labels") or []):
+                counts[lab] = counts.get(lab, 0) + 1
+    return sorted(counts.items(), key=lambda kv: (-kv[1], kv[0]))
+
+
+def open_phase_features(phases: list[dict]) -> list[dict]:
+    """Phases with unfinished work, and the items still outstanding in them."""
+    return [
+        {"name": p["name"], "done": p["done"], "total": p["total"],
+         "items": [i for i in p["items"] if i["state"] != DONE]}
+        for p in phases if p["done"] < p["total"]
+    ]
 
 
 # ------------------------------------------------------------------- rendering
@@ -232,6 +276,71 @@ def render_terminal(model: dict) -> str:
         out += ["", "  LAST RECORDED ACTIVITY",
                 *(f"    {line}" for line in model["progress_tail"].splitlines()[-3:])]
 
+    out.append("")
+    return "\n".join(out)
+
+
+def render_detail_markdown(model: dict, detail: dict) -> str:
+    """A deep view of one project, for a chat surface."""
+    t = model["totals"]
+    r, b = detail["ready"], detail["blocked"]
+    out = [
+        f"## {model['project']} — detailed status  ",
+        f"`{model['generated']}` · source: {t['source']}",
+        "",
+        "| ✅ completed | 🟡 in progress | ⬜ todo | ▶️ startable now |",
+        "|---:|---:|---:|---:|",
+        f"| {t[DONE]} | {t[ACTIVE]} | {t[TODO]} | **{len(r)}** |",
+    ]
+    if b:
+        out += ["", f"_{len(r)} of {len(r) + len(b)} open items can be started; "
+                    f"{len(b)} are waiting on something._"]
+
+    if r:
+        out += ["", "### Ready to start", "", "| | id | title |", "|---|---|---|"]
+        for i in r:
+            out.append(f"| {'🟡' if i['state'] == ACTIVE else '⬜'} | `{i['id']}` | {i['title']} |")
+    if b:
+        out += ["", "### Blocked", "", "| id | waiting on | title |", "|---|---|---|"]
+        for i in b:
+            out.append(f"| `{i['id']}` | {', '.join(f'`{w}`' for w in i['waiting_on']) or '—'} | {i['title']} |")
+
+    if detail["labels"]:
+        out += ["", "### Open work by label", "",
+                " · ".join(f"**{k}** {v}" for k, v in detail["labels"][:8])]
+
+    if detail["phases"]:
+        out += ["", "### Unfinished phases"]
+        for p in detail["phases"]:
+            out += ["", f"**{p['name']}** — {p['done']}/{p['total']}"]
+            for i in p["items"]:
+                out.append(f"- {'🟡' if i['state'] == ACTIVE else '⬜'} `{i['id']}` {i['title']}")
+
+    if detail.get("commits"):
+        out += ["", "### Recent commits", "", "```", *detail["commits"], "```"]
+
+    if model["progress_tail"]:
+        out += ["", "### Last recorded activity", "", "```",
+                *model["progress_tail"].splitlines()[-6:], "```"]
+    return "\n".join(out)
+
+
+def render_detail_terminal(model: dict, detail: dict) -> str:
+    t = model["totals"]
+    r, b = detail["ready"], detail["blocked"]
+    out = ["", f"  {model['project']} — detailed status", f"  {model['generated']}", "",
+           f"  {MARK[DONE]} completed {t[DONE]:>3}    {MARK[ACTIVE]} in progress {t[ACTIVE]:>3}"
+           f"    {MARK[TODO]} todo {t[TODO]:>3}    ▶ startable now {len(r)}"]
+    if r:
+        out += ["", "  READY TO START"]
+        out += [f"    {MARK[i['state']]} {str(i['id']):<7}{i['title'][:56]}" for i in r]
+    if b:
+        out += ["", "  BLOCKED"]
+        out += [f"    {MARK[i['state']]} {str(i['id']):<7}waits on {','.join(i['waiting_on']):<12} {i['title'][:36]}" for i in b]
+    if detail["labels"]:
+        out += ["", "  BY LABEL", "    " + "  ".join(f"{k}={v}" for k, v in detail["labels"][:8])]
+    if detail.get("commits"):
+        out += ["", "  RECENT COMMITS", *(f"    {c}" for c in detail["commits"])]
     out.append("")
     return "\n".join(out)
 
@@ -504,6 +613,28 @@ def read_board(root: Path, board_cfg: dict) -> object:
         return None
 
 
+def read_commits(root: Path, n: int = 8) -> list[str]:
+    """Recent commits, read-only. Absent git or no repo yields nothing."""
+    if not shutil.which("git"):
+        return []
+    try:
+        done = subprocess.run(["git", "log", f"-{n}", "--oneline", "--no-decorate"],
+                              cwd=root, capture_output=True, text=True, timeout=20)
+        return done.stdout.splitlines() if done.returncode == 0 else []
+    except Exception:
+        return []
+
+
+def build_detail(model: dict, commits: list[str]) -> dict:
+    """Assemble the deep view. Pure: everything it needs is already read."""
+    return {
+        **readiness(model["board"], model.get("raw_items", [])),
+        "labels": label_counts(model.get("raw_items", []), model["board"]),
+        "phases": open_phase_features(model["phases"]),
+        "commits": commits,
+    }
+
+
 def read_progress_tail(root: Path, filename: str = "progress.md", lines: int = 12) -> str:
     try:
         return "\n".join((root / filename).read_text().splitlines()[-lines:])
@@ -529,6 +660,8 @@ def main() -> int:
     ap.add_argument("--html", action="store_true", help="also write the HTML dashboard")
     ap.add_argument("--html-only", action="store_true", help="write HTML, print nothing")
     ap.add_argument("--markdown", action="store_true", help="print markdown instead of the terminal view")
+    ap.add_argument("--detail", action="store_true",
+                    help="deep view of one project: ready vs blocked, labels, unfinished phases")
     ap.add_argument("--out", default="docs/status-dashboard.html")
     ap.add_argument("--root", action="append", default=None,
                     help="project root; repeat for a portfolio across projects")
@@ -558,7 +691,15 @@ def main() -> int:
     portfolio = len(models) > 1
     pf = build_portfolio(models, generated) if portfolio else None
 
-    if args.markdown:
+    if args.detail and portfolio:
+        print("  --detail covers one project; pass a single --root", file=sys.stderr)
+        return 2
+
+    if args.detail:
+        detail = build_detail(models[0], read_commits(roots[0]))
+        text = (render_detail_markdown(models[0], detail) if args.markdown
+                else render_detail_terminal(models[0], detail))
+    elif args.markdown:
         text = render_portfolio_markdown(pf) if portfolio else render_markdown(models[0])
     else:
         text = ("\n".join(render_terminal(m) for m in models)

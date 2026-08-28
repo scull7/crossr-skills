@@ -54,12 +54,29 @@ The principal will ask in plain language, often borrowing the slash-command name
 It is an opencode command scoped to one repo; you are not in opencode. Read it as
 "the status report" and use the generator.
 
-**One project**
+**One project, summary**
 
 ```
 scripts/status-dashboard --markdown --root <path to X>
 scripts/status-dashboard --html --out <path>.html --root <path to X>
 ```
+
+**One project, detailed** — when the principal asks to go deep on X, or when the
+summary raises a question the counts cannot answer:
+
+```
+scripts/status-dashboard --detail --markdown --root <path to X>
+```
+
+Detail adds what a summary hides: which open items are **startable now** versus
+blocked and on what, open work by label, unfinished phases with their outstanding
+items, and recent commits. Lead the report with the startable count, not the todo
+count — "10 todo" and "2 you can actually start" describe very different projects,
+and the second is the one the principal can act on.
+
+`--detail` covers a single project by design and exits 2 if given several. For a
+portfolio, summarise first, then go detailed on whichever project the summary
+flags.
 
 **The portfolio** — repeat `--root`, once per project:
 
@@ -120,10 +137,11 @@ Keep it to what the principal can act on. One screen where possible.
 
 ## Verification
 
-In a fresh activation the following seven behaviors are directly observable and scorable:
+In a fresh activation the following eight behaviors are directly observable and scorable:
 
 - The agent states the project roster it used by name, whether it was given one or resolved "all outstanding" from its own knowledge.
 - On a "/status report" request the agent delivers markdown inline **and** an HTML path, and does not attempt to run `/status` itself.
+- On a detailed request the agent reports the startable count alongside the todo count, and names what each blocked item is waiting on rather than presenting all open work as available.
 - The agent fetches and reports each project's branch, last commit date, and whether the clone is behind, before reporting any counts.
 - Every count in the briefing traces to a named source and a commit the agent actually read, shown compressed in the briefing rather than hidden.
 - The briefing contains a decisions section that names the decision, the options, and the cost of waiting, or states plainly that nothing needs the principal.
