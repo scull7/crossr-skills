@@ -561,3 +561,14 @@ Stage 1: approved tasks → pruned `.feature` files, and nothing else.
 - **Pruning is a first-class duty** because every surviving scenario becomes an acceptance test, must stay green through refactoring, and becomes a mutation target. Exhaustive value coverage is deferred to the property tests `brick-refactorer` adds; Gherkin carries interesting cases and boundaries. What was pruned is always reported — silent deletion of requested behaviour is the worst failure available to this stage.
 - **Never invents behaviour.** A task with no stated outcome gets a question, not a guessed `Then`. A scenario with an invented assertion is worse than a missing one, because it will be tested and passed.
 - Its output is the specification of record: `brick-coder` may not edit a `.feature` to make a test pass.
+
+### bk-03 — brick-coder
+
+Stage 2: `.feature` files → acceptance tests (red) → unit tests (red) → implementation (green).
+
+- **The order is fixed and the reason is stated**: running it backwards produces tests shaped to the implementation rather than to the specification. They pass on day one, catch nothing, and the mutation stage finds them empty.
+- **A test that errors is not a failing test.** Acceptance tests must fail on their assertion, not because a module is missing or a fixture is unwired — treating an erroring test as red hides a missing assertion.
+- **The Gherkin is immutable here.** Editing a `.feature` to make code pass inverts the whole pipeline; a wrong scenario goes back to `brick-specifier` through the human gate.
+- Simplest passing code only. Generality is `brick-refactorer`'s call, made with the tests already green, and code written for imagined future needs is exactly what that stage removes.
+- A test that passes the moment it is written is treated as suspect: either the behaviour already exists, or the assertion is empty.
+- Governs sequence, not style — `code-writer` and the language skill win any apparent conflict about the code itself.
