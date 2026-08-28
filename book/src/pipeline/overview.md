@@ -28,6 +28,7 @@ Most AI coding fails at the seam between “sounds good” and “shipped.” Th
 ## Next
 
 - [AVRIL — Planning GAN](avril.md)
+- [BRICK — the alternative pipeline](brick.md) — transformation and mutation testing instead of adversarial review
 - [AXEL — Execution Loop](axel.md)
 - [First session prompts](../getting-started/bootstrap.md#first-session-avril--axel)
 

@@ -7,6 +7,7 @@
 - [Overview](pipeline/overview.md)
 - [AVRIL — Planning GAN](pipeline/avril.md)
 - [AXEL — Execution Loop](pipeline/axel.md)
+- [BRICK — Alternative Pipeline](pipeline/brick.md)
 
 # Getting Started
 

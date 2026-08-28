@@ -124,6 +124,7 @@ This repo ships project-scoped OpenCode entrypoints under `.opencode/`:
 4. Produce HTML for human review artifacts when applicable.
 5. Follow the GAN cycle (Reviewer → Tester → Architect) for significant changes using the agents in `.agents/agents/`.
 5b. For significant planning / prototype backlog work, run AVRIL (`code-writer` + `avril`) until every PBI is triple-blessed (PO → QA → CTO) before execution.
+5b-alt. Alternatively, for work whose behaviour can be written down before it is built, run BRICK (`code-writer` + `brick`): informal spec → tasks → Gherkin → red tests → green code → refactor → mutation gate. See HARNESS-SPEC §4.4 for choosing between the two pipelines. Never run both on the same unit of work.
 5c. For executing a blessed backlog, run AXEL (`code-writer` + `axel` + language stack; Rust: inner `rust-team-lead`) — PETC per phase, code GAN BLESS × 3, AC evidence, honest board/tracking.
 6. Deliver work in small, stacked, reviewable PRs.
 7. Update `features.json` + `progress.md` as you go.
