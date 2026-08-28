@@ -110,6 +110,11 @@
       "name": "brick-coder",
       "category": "Orchestration",
       "purpose": "BRICK stage 2 \u2014 Gherkin to red tests then green code"
+    },
+    {
+      "name": "brick-refactorer",
+      "category": "Orchestration",
+      "purpose": "BRICK stage 3 \u2014 complexity, duplication, property tests"
     }
   ],
   "out": [
