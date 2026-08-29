@@ -14,6 +14,7 @@ The **public catalog** is the machine-readable allowlist in [`docs/public-skills
 |-------|---------|----------|---------------|
 | `code-writer` | Core coding philosophy (Grokking Simplicity + SICP) | Foundation | always with other skills |
 | `rust-code-writer` | Idiomatic, pure, stratified, flat-combinator Rust | Rust Core | `code-writer` + this |
+| `ocaml-code-writer` | Idiomatic, pure, stratified OCaml: fail-closed combinators, no nested match, domain types at the edge | OCaml Core | `code-writer` + this |
 | `rust-code-reviewer` | Ruthless Rust code quality guardian | Quality | code GAN |
 | `rust-code-tester` | Obsessive test coverage and error-path verification | Quality | code GAN |
 | `rust-architect` | Torvalds-style system-level architecture gatekeeper | Architecture | code GAN final gate |
@@ -37,7 +38,7 @@ The **public catalog** is the machine-readable allowlist in [`docs/public-skills
 | `voice-dna` | CrossR sharp-human writing voice with full unslop pattern list | Writing | human-facing artifacts |
 | `unslop` | Voice-agnostic pass that strips AI tells from prose | Writing | any human-facing draft |
 
-**N = 14** public skills. Items in `out` in `public-skills.json` (e.g. `obsidian-cli`, empty diataxis stubs) are **not** marketed.
+**N = 25** public skills. Items in `out` in `public-skills.json` (e.g. `obsidian-cli`, empty diataxis stubs) are **not** marketed.
 
 ## Pipeline skills
 

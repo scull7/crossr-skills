@@ -12,6 +12,11 @@
       "purpose": "Idiomatic, pure, stratified, flat-combinator Rust"
     },
     {
+      "name": "ocaml-code-writer",
+      "category": "OCaml Core",
+      "purpose": "Idiomatic, pure, stratified OCaml: fail-closed combinators, no nested match, domain types at the adapter edge"
+    },
+    {
       "name": "rust-code-reviewer",
       "category": "Quality",
       "purpose": "Ruthless Rust code quality guardian"
