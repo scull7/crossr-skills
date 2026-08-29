@@ -50,12 +50,13 @@ It also installs the OpenCode slash commands `/avril` (planning) and `/axel` (ex
 
 All skills are designed with the same standards applied to production Rust code: functional purity, stratified design, zero technical debt, and handover-clean artifacts.
 
-Public catalog SSOT: [`docs/public-skills.json`](docs/public-skills.json) (14 skills). Names below must match that file.
+Public catalog SSOT: [`docs/public-skills.json`](docs/public-skills.json) (25 skills). Names below must match that file.
 
 | Skill                  | Purpose                                              | Category      |
 |------------------------|------------------------------------------------------|---------------|
 | `code-writer`          | Core coding philosophy (Grokking Simplicity + SICP) | Foundation    |
 | `rust-code-writer`     | Idiomatic, pure, stratified, flat-combinator Rust    | Rust Core     |
+| `ocaml-code-writer`    | Idiomatic, pure, stratified OCaml: fail-closed combinators, no nested match, domain types at the edge | OCaml Core |
 | `rust-code-reviewer`   | Ruthless Rust code quality guardian                  | Quality       |
 | `rust-code-tester`     | Obsessive test coverage and error-path verification  | Quality       |
 | `rust-architect`       | Torvalds-style system-level architecture gatekeeper  | Architecture  |
