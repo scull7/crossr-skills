@@ -2,7 +2,7 @@
 name: ocaml-code-writer
 description: |
   OCaml language specialization of the foundational `code-writer` skill.
-  Enforces idiomatic stdlib-flavored OCaml: `.mli`-first stratified modules, abstract `type t`, fail-closed combinators then match then helpers, no nested match, wire strings parsed to domain types at the edge, Result errors composed with `Result.Syntax` (or local `let*` on < 5.4), no `Obj.magic` / `List.hd` / catch-all `try`, and `dune build @check @fmt @runtest` as the completion gate.
+  Enforces idiomatic stdlib-flavored OCaml: `.mli`-first stratified modules, abstract `type t` at the top of the `.ml` before any `let`, fail-closed combinators then match then helpers, no nested match, wire strings parsed to domain types at the edge, Result errors, project-wide monad discipline (`let*` = Result, `let**` = Option — one symbol, one meaning), no `Obj.magic` / `List.hd` / catch-all `try`, and `dune build @check @fmt @runtest` as the completion gate.
   Fully portable across agentskills.io environments and models. Always activate together with `code-writer`.
 ---
 
@@ -44,16 +44,31 @@ Write **fluent, delightful, readable OCaml** that follows the official OCaml Pro
   2. Early pattern matches / guards: `match` on a **domain variant**, `function`, `if cond then Error e else Ok ()` then `let*`.
   3. Extract a small private helper (`let rec` only for genuine recursion).
 - **Nested `match` is a violation.** A `match`/`if` success arm (`| Ok _` / `| Some _` / `else`) must not contain another `match` or `if`. Flatten with `let*` and `Option.to_result ~none:err`. The only allowed combined match is one simultaneous discriminant: `match a, b with`. Parenthesized `(match` under `| Ok` / `| Some` is always wrong.
+- **Actions may branch and sequence.** The no-nested-branch rule governs calculations and pipelines. Adapter and UI action code (HTTP handlers, store row decoding, event handlers) legitimately branches on data and sequences mutations; there the flat rule is satisfied by extracting each branch into a named helper — not by forcing pipelines onto statements.
 - **Identity matches are a violation:** `| Error e -> Error e`, `| Ok v -> Ok v`, `| None -> None`, `| Some v -> Some (f v)` (use `Result.map` / `Option.map`).
-- Function body ≤ 30 lines. Over that, extract a helper before finishing. Types at the top of the file; do not declare `type` halfway through.
+- Function body ≤ 30 lines. Over that, extract a helper before finishing.
+- **Public types at the top is fail-closed.** Types that appear in the `.mli` (or, with no `.mli`, the module’s surface types) are declared at the top of the `.ml`, in `.mli` order, before the first value binding (`let` / `let rec` / `external`). A public `type` after a `let` is a violation — move it before finishing. A private type used by one helper may sit immediately above that helper. Mutually recursive types stay together.
 - Use stdlib iterators. Do not encode everything as `fold_*`. Group sequences in `if`/`else` with `begin`/`end`.
 - Physical equality (`==` / `!=`) is almost always wrong. Use `=` / `<>` (or an `equal` on `t`). `==` only with a comment stating why pointer equality is required.
 - `while` loops require an explicit invariant; prefer recursion or `for` over arrays/strings.
+
+## Monad Pipelines (`let*` / `let**`)
+
+- **One symbol, one meaning, codebase-wide.** `let*` is always `Result.bind`; `let**` is always `Option.bind`. Never bind either symbol to anything else in any file of the codebase — the meaning must be identical everywhere a reader looks.
+- Declare both at the top of the module that needs them (OCaml < 5.4):
+  `let (let*) = Result.bind` and `let (let**) = Option.bind`.
+- On OCaml 5.4+ `open Result.Syntax` may supply `let*`, but the codebase-wide rule still wins: if the project already uses declared operators, keep them. Never mix `Result.Syntax` in one file and a declared `let*` in another.
+- **Never** shadow one symbol with the other monad inside a function (a local `let (let*) = Option.bind` inside a Result module is forbidden — use `let**`).
+- Stdlib-version caveats (OCaml ≤ 5.3 and current Melange stdlibs):
+  - `Option.bind` takes the option **first** — `x |> Option.bind f` does not typecheck. Write `Option.bind x f`.
+  - Constructors are not first-class: `Option.map Some_ctor` is illegal. Write the lambda.
+  - If a combinator is missing from the target stdlib, fall back to the ranked flat-code order (early match → helper) rather than inventing wrappers.
 
 ## Pattern Matching (Strict Rules)
 
 - Every `match` must be **exhaustive** — rely on the compiler. On a variant this module owns, **never** a catch-all `_` (a new constructor must fail the build).
 - A wildcard `_` is acceptable only for leftover/extension cases, with a comment stating why the remaining cases are safe to ignore.
+- **Multi-dimensional dispatch carve-out:** a catch-all `_` is allowed when one match covers several owned dimensions at once (e.g. a role × action × resource authorization table) and full enumeration is combinatorial — but only as **deny-closed** dispatch (`| _ -> false` / `| _ -> None`) with a comment stating the deny-by-default intent. A catch-all that grants access or returns data is still a violation.
 - Prefer explicit variant constructors over boolean flags and sentinel values.
 - **Stringly types die at the edge.** JSON, SQL, HTTP, and other wire strings become domain types (`Occurrence.kind`, `Id.Facility.t`, `attendance`, …) in the adapter. Interior code never `match`es on `"practice"` / `"away"` / `"home"`. Invalid wire values are errors, not silent defaults (`| _ -> Home` is forbidden).
 - Never shadow bindings (`let x = ... in let x = ...`) — distinct concepts get distinct names.
@@ -65,10 +80,10 @@ Write **fluent, delightful, readable OCaml** that follows the official OCaml Pro
 Foreseeable failures are data. Exceptions are for bugs and conditions that can arise anywhere.
 
 - **Must** return `('a, error) result` for all foreseeable fallible operations (I/O, parse, validation, missing keys).
-- Define a **dedicated error variant per module or layer** (`type error = ...`), exposed through the `.mli`. Wrap into the caller’s error type at **one** layer seam — not scattered inline conversions.
+- Define a **dedicated error variant per module or layer** (`type error = ...`), or per operation family inside a large module (`signup_error`, `create_team_error`) when the module exposes several independent fallible operations, exposed through the `.mli`. Wrap into the caller’s error type at **one** layer seam — not scattered inline conversions.
 - Compose with stdlib combinators, not nested `match`:
   - `Option.to_result ~none:err` to enter Result; `Result.map` / `Result.map_error` / `Result.bind`.
-  - `let*`: OCaml **5.4+** uses `open Result.Syntax`. OCaml **< 5.4**: a local `let (let*) = Result.bind` is the allowed fallback. Do not define a custom monad module or an `of_option` helper.
+  - `let*`: always `Result.bind` (`let (let*) = Result.bind`, or `open Result.Syntax` on 5.4+ when the codebase uses it). Option pipelines use `let**` (`let (let**) = Option.bind`) — see Monad Pipelines. Never re-bind `let*` to `Option.bind`.
   - A boolean guard is `if cond then Ok () else Error err` bound with `let*`, not `if cond then Error err else match ...`.
 - **Never** `try ... with _ ->` (or `match ... with exception _ ->` as a catch-all). Match the specific exception. Keep handlers tight.
 - Exceptions (`Invalid_argument`, `Failure`, `assert`) are for programming errors and omnipresent failures, not control flow. `Result.get_ok` / `Option.get` only at startup or in tests, where failure is a bug.
@@ -145,13 +160,15 @@ OCaml 5 effects, when they appear: **effects for suspension/control, exceptions 
 - `| Error e -> Error e` or `| Ok v -> Ok v`
 - Matching wire strings (`"practice"`, `"away"`) outside the JSON/SQL adapter
 - Homemade `of_option` (use `Option.to_result ~none:`)
+- A public `type` declared after a `let` (move it to the top of the `.ml`)
+- Re-binding `let*` to `Option.bind` (Option pipelines are `let**` — one symbol, one meaning)
 
 ## Tooling Checklist (Before Any Completion)
 
-One gate: `$ dune build @check @fmt @runtest`
+One gate: `$ dune build @check @fmt @runtest` — drop `@fmt` from the gate only when the project has no OCamlFormat setup (see below), and say so in the completion report.
 
 - Zero warnings (warnings as errors). No `[@warning]` suppressions.
-- `dune fmt` / OCamlFormat applied (no diffs). Pin `version` in `.ocamlformat`.
+- OCamlFormat applied (no diffs), with `version` pinned in `.ocamlformat`, **when the project is formatted** — i.e. `ocamlformat` is installed and `.ocamlformat` exists. When it is not, the gate is `$ dune build @check @runtest`, formatting must be hand-consistent with the file’s existing style, and the missing formatter is flagged in the completion report — never silently skipped, never installed without approval.
 - No `print_endline` / `Printf` debugging leftovers or commented-out code.
 
 **Remember**: Your goal is to produce **clear, type-safe, functionally pure, layered, and maintainable OCaml** that any experienced developer can understand quickly.
@@ -163,10 +180,10 @@ When in doubt, always choose the **flatter, more composable, more idiomatic** so
 In a fresh activation the following six behaviors are directly observable and scorable:
 
 - The agent recites the One-Sentence Mandate verbatim before generating or planning any OCaml code.
-- The agent applies combinators → match/guards → helper extract as a **fail-closed** order. A `match` whose `Ok`/`Some`/`else` arm contains another `match`/`if` is a violation and is rewritten with `Option.to_result` / `Result.bind` / `let*` before the work is complete. Identity `| Error e -> Error e` / `| Ok v -> Ok v` is a violation.
-- The agent defines or extends dedicated error variants per module/layer returned as `result` values, composed with `Result.Syntax` (or the local `let*` fallback on < 5.4), and never uses exceptions as control flow, `Obj.magic`, `List.hd`/`List.tl`, unchecked `Option.get`/`Result.get_ok`, catch-all `try`, or `[@warning]` suppressions in production paths.
+- The agent applies combinators → match/guards → helper extract as a **fail-closed** order. A `match` whose `Ok`/`Some`/`else` arm contains another `match`/`if` is a violation in calculations and pipelines (action-layer code flattens via helper extraction) and is rewritten with `Option.to_result` / `Result.bind` / `let*` before the work is complete. Identity `| Error e -> Error e` / `| Ok v -> Ok v` is a violation.
+- The agent defines or extends dedicated error variants per module/layer or operation family returned as `result` values, follows the codebase-wide monad discipline (`let*` = Result, `let**` = Option — never re-bound, never mixed across files), and never uses exceptions as control flow, `Obj.magic`, `List.hd`/`List.tl`, unchecked `Option.get`/`Result.get_ok`, catch-all `try`, or `[@warning]` suppressions in production paths.
 - The agent replaces primitives, sentinel values, unlabeled booleans, and wire strings with abstract `type t`, custom variants, records, labeled arguments, and exhaustive `match`. JSON/SQL/HTTP strings become domain types at the adapter edge; interior code does not match on `"practice"` / `"away"` / similar slugs. Wildcards only for justified leftover/extension cases.
-- The agent exposes APIs through `.mli` interfaces (or the project’s documented substitute) with odoc `[f x] is ...` on public items, keeps layering one-directional, and enforces `$ dune build @check @fmt @runtest` before considering any change complete.
+- The agent exposes APIs through `.mli` interfaces (or the project’s documented substitute) with odoc `[f x] is ...` on public items, keeps layering one-directional, and enforces `$ dune build @check @fmt @runtest` before considering any change complete. A type that is in the `.mli` (or is otherwise the module’s surface) and appears after the first value binding is a violation and is moved to the top of the `.ml`, in `.mli` order, before the work is complete.
 - The agent identifies OCaml-specific anti-patterns (shadowed bindings, `;;`, objects-by-default, unnecessary functors, file-level `open List`, mutable state in calculations, unapproved third-party deps, missing `Fun.protect` on resources) and refactors them to the preferred patterns in this skill.
 
 Violations against any of these six observable criteria during fresh activation indicate the skill was not followed and must be corrected before the work can be considered complete.
@@ -177,7 +194,7 @@ This skill is the OCaml language specialization of the universal `code-writer` c
 
 ## One-Sentence Mandate (Memorize This)
 
-> “Write stratified, functionally pure OCaml: design the `.mli` first with abstract `type t`, stdlib combinators (`Option.to_result`, `let*`) before any `match`, no nested match and no wire strings past the adapter, dedicated `result` error variants per layer, no `Obj.magic` / `List.hd` / catch-all `try`, and finish only when `dune build @check @fmt @runtest` is clean.”
+> “Write stratified, functionally pure OCaml: design the `.mli` first with abstract `type t` at the top of the `.ml` before any `let`, stdlib combinators (`Option.to_result`, `let*`) before any `match`, no nested match and no wire strings past the adapter, dedicated `result` error variants per layer, `let*` meaning Result and `let**` meaning Option identically in every file, no `Obj.magic` / `List.hd` / catch-all `try`, and finish only when the dune check gate is clean.”
 
 ---
 
