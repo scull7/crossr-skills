@@ -126,7 +126,10 @@ echo "Checking bootstrap template parity..."
 
 TEMPLATE_DIR="templates/harness/opencode"
 if [[ -d "$TEMPLATE_DIR" ]]; then
-    for rel in $( (cd .opencode && find . -type f -name '*.md' -o -type f -name '*.jsonc') | sed 's|^\./||' | sort ); do
+    # Parity is a source-file contract: compare the git-tracked dogfood files
+    # against the template, ignoring transient artifacts like node_modules/
+    # (gitignored, installed by opencode at runtime).
+    for rel in $( git ls-files .opencode | grep -E '\.(md|jsonc)$' | sed 's|^\.opencode/||' | sort ); do
         if [[ ! -f "$TEMPLATE_DIR/$rel" ]]; then
             fail "missing bootstrap template $TEMPLATE_DIR/$rel"
         elif diff -q ".opencode/$rel" "$TEMPLATE_DIR/$rel" >/dev/null 2>&1; then
