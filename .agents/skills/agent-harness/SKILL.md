@@ -82,7 +82,7 @@ Repeat every session:
 
 1. **Plan** — Read current progress / tracking + git log → propose next task + plan.
 2. **Execute** — Implement using appropriate skills + reference to the harness spec.
-3. **Test** — Full matrix + `rust-code-reviewer` + `rust-code-tester` + `rust-architect` (or equivalent GAN).
+3. **Test** — Full matrix + `rust-code-reviewer` + `rust-code-tester` + `architecture` (or equivalent GAN).
 4. **Commit** — Small, reviewable diff + update artifacts + append to progress log.
 
 GAN gate verdicts and report envelopes follow the `gan-verdict` catalog skill — the contract lives there, not here.

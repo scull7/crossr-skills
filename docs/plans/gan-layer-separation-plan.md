@@ -676,6 +676,17 @@ not hand-copied — hand-copying is what created this problem.
 Domain skills (`rust-axum-backend`, `rust-tui`, `rust-frontend`) stay separate skills for now;
 revisit once the reference model is proven.
 
+Parked here from PR 1a review:
+
+- `architecture/SKILL.md` Core Principle 2 still cites `code-writer` + `rust-code-writer`
+  inside protected law — a writer-stack reference inside the language-neutral card, left
+  untouched by PR 1's zero-checklist-edits rule. The book Rules projection is its
+  replacement; include it in the absorb list.
+- The verdict gate names (`code-review:`, `testing:`, `architecture:`) already use the
+  final activity names while the skills keep `rust-*` names until this PR (decision #1).
+  The tokens are final — only the skill/directory names move here; `gan-verdict` and the
+  response contracts need no edits.
+
 ### PR 6 — The v2 chain
 
 **Files:** `axel/SKILL.md`, both entrypoints, `graphs/axel.json`, `graphs/rust-team-lead.json`,
