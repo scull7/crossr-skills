@@ -1,11 +1,11 @@
 # Split CrossR into four sycamore-hq remotes
 
-**Status:** paused after split-06. Resume at **split-07: delete from skills**.
+**Status:** paused after split-07. Resume at **split-08: dogfood**.
 **Human artifact:** [skills-loops-harness-split.html](skills-loops-harness-split.html)
 **Charter PR:** [sycamore-hq/crossr-skills#95](https://github.com/sycamore-hq/crossr-skills/pull/95) (merged)
 **Dual-publish tag:** `v0-last-monolith`
 
-Do not rewrite AVRIL/AXEL/BRICK while moving them. Do not add new orchestration skills to `crossr-skills`.
+Do not rewrite AVRIL/AXEL/BRICK. Do not add new orchestration skills to `crossr-skills`.
 
 ---
 
@@ -13,10 +13,10 @@ Do not rewrite AVRIL/AXEL/BRICK while moving them. Do not add new orchestration 
 
 1. Work from `sycamore-hq/crossr-skills` `main` (not `feat/ocaml-gan-trio`).
 2. Read this file + the HTML. Tracking: `features.json` phase `split-skills-loops-harness`.
-3. Next unit of work is **split-07** only. One stacked PR, <10 min review.
-4. Delete moved artifacts from skills. Catalog-only README. Shim or remove old `sync-skills` / `harness-bootstrap`. Leave `agent-harness`, BRICK stages, `skill-evaluator`, `sync-claude-skills`.
+3. Next unit of work is **split-08** only. One stacked PR, <10 min review.
+4. Dogfood: bootstrap all three product repos from harness. Pin `skills = v0-last-monolith` (and a loops tag once loops tags). Landing Pages is still off.
 
-Trigger: “continue the skills/loops/harness split from split-07”.
+Trigger: “continue the skills/loops/harness split from split-08”.
 
 ---
 
@@ -54,10 +54,11 @@ After the split, HARNESS-SPEC §12–13 defining AVRIL/AXEL is a spec bug. Loop 
 | split-00 | Transfer `scull7/crossr-skills` → `sycamore-hq/crossr-skills` | git 301s old URL. Pages live at https://sycamore-hq.github.io/crossr-skills/ . `scull7.github.io/crossr-skills/` is 404. |
 | split-01 | Charter freeze + classification | #95 merged. README freeze. HTML plan. |
 | split-02 | Empty remotes | [loops](https://github.com/sycamore-hq/crossr-loops), [harness](https://github.com/sycamore-hq/crossr-harness), [landing](https://github.com/sycamore-hq/crossr-web-landing) — MIT + not-ready README. |
-| split-03 | Copy loops | Clean copy of conductors + loop personas + `/avril` `/axel` bodies + pipeline chapters into [crossr-loops](https://github.com/sycamore-hq/crossr-loops). Source SHA `2c0b00976928c275e07c7ebc43b4b0e0f400b2ba`. Skills keeps copies. |
-| split-04 | Copy harness | Clean copy into [crossr-harness](https://github.com/sycamore-hq/crossr-harness). `HARNESS-SPEC.md` §12–13 stripped. Source SHA `5f4e3c7d97dae62de437821b78e149ac0d8be3fa`. Skills keeps copies. |
-| split-05 | Copy landing | Clean copy of Zola `site/` + mdBook rewritten as links into [crossr-web-landing](https://github.com/sycamore-hq/crossr-web-landing). Source SHA `9ff577e6c2279bf4f0d0617417fb094e322985d5`. Skills keeps copies. Pages still here. |
-| split-06 | Dual-publish tag | Skills tag `v0-last-monolith`. Catalog `moved-to` on seven items. Old `sync-skills` / `harness-bootstrap` print `deprecated: use sycamore-hq/crossr-harness`. Copies stay. |
+| split-03 | Copy loops | Clean copy of conductors + loop personas + `/avril` `/axel` bodies + pipeline chapters into [crossr-loops](https://github.com/sycamore-hq/crossr-loops). Source SHA `2c0b00976928c275e07c7ebc43b4b0e0f400b2ba`. |
+| split-04 | Copy harness | Clean copy into [crossr-harness](https://github.com/sycamore-hq/crossr-harness). `HARNESS-SPEC.md` §12–13 stripped. Source SHA `5f4e3c7d97dae62de437821b78e149ac0d8be3fa`. |
+| split-05 | Copy landing | Clean copy of Zola `site/` + mdBook rewritten as links into [crossr-web-landing](https://github.com/sycamore-hq/crossr-web-landing). Source SHA `9ff577e6c2279bf4f0d0617417fb094e322985d5`. |
+| split-06 | Dual-publish tag | Skills tag `v0-last-monolith`. Catalog `moved-to` on seven items. Old scripts printed deprecation and still ran. |
+| split-07 | Delete from skills | Catalog-only README. Seven catalog entries dropped (N=18). Shims exit 1. Copies gone. `agent-harness`, BRICK stages, `skill-evaluator`, `sync-claude-skills` stayed. Pages workflow removed; last deploy frozen. Landing Pages still off. |
 
 Local note: original checkout may still be on `feat/ocaml-gan-trio`. Split work used worktree `/Users/nathansculli/src/crossr-skills-split-charter`.
 
@@ -65,97 +66,11 @@ Local note: original checkout may still be on `feat/ocaml-gan-trio`. Split work 
 
 ## Remaining stacked PRs
 
-### split-03 — copy loops (DONE)
-
-Clean copy into `crossr-loops`. Skills **keeps** the files until split-07. Catalog later gets `moved-to` on dual-publish, not in this PR.
-
-**Skills (directories):**
-
-- `.agents/skills/avril/`
-- `.agents/skills/axel/`
-- `.agents/skills/brick/` (conductor only — not `brick-specifier|coder|refactorer|mutator`)
-- `.agents/skills/rust-team-lead/`
-- `.agents/skills/orchestrator-prompt/`
-
-**Personas:**
-
-- `.agents/agents/planning-architect-agent.md`
-- `.agents/agents/product-owner-agent.md`
-- `.agents/agents/qa-architect-agent.md`
-- `.agents/agents/visionary-cto-agent.md`
-- `.agents/agents/axel-conductor-agent.md`
-- `.agents/agents/rust-reviewer-agent.md`
-- `.agents/agents/rust-tester-agent.md`
-- `.agents/agents/rust-architect-agent.md`
-- `.agents/agents/brick-specifier-agent.md`
-- `.agents/agents/brick-coder-agent.md`
-- `.agents/agents/brick-refactorer-agent.md`
-- `.agents/agents/brick-mutator-agent.md`
-
-**OpenCode prompt bodies** (loops owns content; harness bootstrap will install):
-
-- `templates/harness/opencode/agent/avril.md`
-- `templates/harness/opencode/agent/axel.md`
-- `templates/harness/opencode/command/avril.md`
-- `templates/harness/opencode/command/axel.md`
-
-**Pipeline law:** `book/src/pipeline/{overview,avril,axel,brick}.md`
-
-Also: `MIGRATION.md` naming the skills SHA copied from. Loops README replaces not-ready charter.
-
-Stay in skills: `skill-evaluator-agent`, `skill-remediator-agent`, `skill-reviewer-agent`.
-
-### split-04 — copy harness (DONE)
-
-Clean copy into `crossr-harness`.
-
-- `HARNESS-SPEC.md` — **strip §12–13 loop law** on copy. Replace with: loops supplied by `crossr-loops`; harness discloses board, tracking, ritual, dashboard command.
-- `scripts/harness-bootstrap`
-- `scripts/status-dashboard`
-- `scripts/sync-skills` (later grows lockfile: `skills = <tag>`, `loops = <tag>`)
-- `scripts/verify-docs`, `scripts/verify-opencode`
-- `templates/harness/` minus loop prompt bodies (those come from loops at bootstrap)
-- OpenCode `/status` (`templates/harness/opencode/agent/status.md`, `command/status.md`, `opencode.jsonc` skeleton)
-- `.agents/skills/dashboard-prompt/`
-- `.agents/skills/chief-of-staff/`
-- `features.schema.json`
-- `test/harness-bootstrap-smoke.sh`
-- `just` recipes for `status` / `status-html` (as docs, not this repo’s justfile forever)
-
-Lockfile shape (do not invent a third tracker):
-
-```
-skills = <tag>
-loops  = <tag>
-```
-
-Bootstrap copies: skills → `.agents/skills/`; loop conductors+personas → skills + `.agents/agents/`; harness templates → project files. Never overwrite existing `.opencode/`. No git submodules.
-
-### split-05 — copy landing (DONE)
-
-Clean copy into `crossr-web-landing`. Skills **keeps** `site/` and `book/` until split-07. Pages still deploy from skills.
-
-- Zola `site/` — 17 files, byte-identical. `base_url` left at `scull7.github.io/crossr-skills`.
-- mdBook `book/` — SUMMARY TOC unchanged; chapter bodies rewritten as **links** (catalog → skills, pipeline → loops, bootstrap → harness). Not a second spec.
-- No `SKILL.md`. No `HARNESS-SPEC.md`. No deploy workflow moved.
-- `MIGRATION.md` names skills SHA `9ff577e6c2279bf4f0d0617417fb094e322985d5`.
-- Product READMEs already linked the landing remote; catalog freeze line now names it.
-
-### split-06 — dual-publish tag (DONE)
-
-Tag skills `v0-last-monolith` (placeholder `vN-last-monolith` resolved: no prior version tags). Tree still contains everything. Copies stay until split-07.
-
-- Catalog `moved-to`: `avril`, `axel`, `brick`, `rust-team-lead`, `orchestrator-prompt` → `sycamore-hq/crossr-loops`; `dashboard-prompt`, `chief-of-staff` → `sycamore-hq/crossr-harness`.
-- Old `sync-skills` / `harness-bootstrap` print `deprecated: use sycamore-hq/crossr-harness` and still run.
-- `docs-verify` gates the `moved-to` set.
-
-### split-07 — delete from skills (NEXT)
-
-Remove moved artifacts from the catalog repo. Catalog-only README. Shim or remove old scripts.
-
-### split-08 — dogfood
+### split-08 — dogfood (NEXT)
 
 Bootstrap all three product repos from harness. Pin `skills = v0-last-monolith` (and a loops tag once loops tags). All three consume published harness.
+
+Landing Pages is still 404. Enabling it (or pointing `base_url`) is landing-repo work; do not invent a custom domain.
 
 ### split-09 — graphs (not this chain)
 
@@ -172,9 +87,8 @@ Explicit graph format in `crossr-loops` after dogfood is green. YAML/JSON nodes+
 ## Risks
 
 - Three catalogs + a site. One lockfile. Loops CI against the pinned skills tag. Landing owns no law.
-- Spec drift if HARNESS-SPEC still defines AVRIL on copy day. Strip on split-04.
-- Pages: new URL works; old user Pages does not redirect.
-- Chicken-egg dogfood. Tag `v0-last-monolith` exists; bootstrap dogfood is still split-08.
+- Pages: last skills deploy is frozen; landing Pages is not enabled. Old user Pages does not redirect.
+- Chicken-egg dogfood. Tag `v0-last-monolith` exists; copies are gone; bootstrap dogfood is split-08.
 
 ## Unresolved
 
