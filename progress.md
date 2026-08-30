@@ -601,3 +601,26 @@ Stage 4 and the gate that makes BRICK worth choosing over adversarial review.
 - `AGENTS.md` gains BRICK as step 5b-alt beside AVRIL/AXEL.
 
 **Phase `brick-pipeline` complete** (bk-01…bk-06). Six skills' worth of pipeline delivered as six stacked PRs; catalog N=19→24.
+
+## Split: skills / loops / harness (`split-skills-loops-harness`) — in progress
+
+`crossr-skills` is becoming the catalog. Sibling remotes under `sycamore-hq` take loops, harness, and the public site. Plan: `docs/plans/skills-loops-harness-split.html`.
+
+### split-00 — org transfer (COMPLETED)
+
+- `scull7/crossr-skills` → `sycamore-hq/crossr-skills`. History kept. GitHub 301s the old clone URL.
+- Pages: `https://sycamore-hq.github.io/crossr-skills/` is live. `scull7.github.io/crossr-skills/` is a 404 (user Pages do not redirect).
+
+### split-01 — charter freeze (COMPLETED)
+
+- HTML plan + destination tables: `docs/plans/skills-loops-harness-split.html`.
+- README freeze: no new orchestration skills in this catalog.
+- README clone/Pages URLs pointed at sycamore-hq.
+
+### split-02 — empty remotes (COMPLETED)
+
+- https://github.com/sycamore-hq/crossr-loops
+- https://github.com/sycamore-hq/crossr-harness
+- https://github.com/sycamore-hq/crossr-web-landing
+- Each has MIT + a not-ready README. Real trees copy later.
+
