@@ -3,13 +3,12 @@
 # sync-claude-skills
 # Generates the Claude compatibility copies of the canonical skills.
 #
-# HARNESS-SPEC.md §2.1: ".claude/skills/ is optional and produced by a generator
-# script — never hand-maintained duplicates." This is that generator. Canonical
-# source is always .agents/skills/<name>/SKILL.md in this repository.
+# Canonical source is always .agents/skills/<name>/SKILL.md in this repository.
+# (Harness process: sycamore-hq/crossr-harness HARNESS-SPEC.md §2.1.)
 #
 # Usage:
 #   ./scripts/sync-claude-skills                    # refresh skills already installed
-#   ./scripts/sync-claude-skills avril axel         # refresh installed + add these
+#   ./scripts/sync-claude-skills code-writer        # refresh installed + add these
 #   ./scripts/sync-claude-skills --all              # install every repo skill
 #   ./scripts/sync-claude-skills --check            # report drift, exit 1 if any
 #   ./scripts/sync-claude-skills --check --soft     # report drift, always exit 0

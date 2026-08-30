@@ -670,7 +670,18 @@ Tag `v0-last-monolith` on skills (placeholder `vN-last-monolith` resolved: no pr
 - Old `scripts/sync-skills` and `scripts/harness-bootstrap` print `deprecated: use sycamore-hq/crossr-harness` on stderr and still run.
 - README freeze + destination table name the tag and the pointer.
 
-**Next:** split-07 — delete moved artifacts from the catalog repo. Catalog-only README. Shim or remove old scripts.
+### split-07 — delete from skills (COMPLETED)
 
-Trigger for the next agent: “continue the skills/loops/harness split from split-07”.
+Remove moved artifacts from the catalog repo. Catalog-only README. Shims exit 1.
+
+- Deleted: conductors (`avril`, `axel`, `brick`, `rust-team-lead`, `orchestrator-prompt`), `dashboard-prompt`, `chief-of-staff`, loop personas, `HARNESS-SPEC.md`, `templates/harness/`, `site/`, `book/`, `status-dashboard`, `verify-opencode`, `features.schema.json`, bootstrap smoke, `deploy-site.yml`.
+- Catalog: seven entries dropped (N=18). No `moved-to`. Featured dropped the three conductors.
+- `scripts/sync-skills` and `scripts/harness-bootstrap` are shims: print `deprecated: use sycamore-hq/crossr-harness` and exit 1.
+- `verify-docs` is catalog-only (allowlist, README table, SKILL.md present, gone-set absent).
+- Stayed: capability skills, BRICK stages, `agent-harness`, `skill-evaluator` + skill GAN agents, `sync-claude-skills`.
+- Pages workflow removed; last deploy frozen. Landing Pages still off.
+
+**Next:** split-08 — dogfood. Bootstrap product repos from harness. Pin `skills = v0-last-monolith`.
+
+Trigger for the next agent: “continue the skills/loops/harness split from split-08”.
 

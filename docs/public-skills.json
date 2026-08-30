@@ -32,30 +32,6 @@
       "purpose": "Torvalds-style system-level architecture gatekeeper"
     },
     {
-      "name": "rust-team-lead",
-      "category": "Orchestration",
-      "purpose": "GAN orchestrator for multi-agent Rust plan execution",
-      "moved-to": "sycamore-hq/crossr-loops"
-    },
-    {
-      "name": "avril",
-      "category": "Orchestration",
-      "purpose": "Planning GAN \u2014 blessed PBIs (PO \u2192 QA \u2192 CTO)",
-      "moved-to": "sycamore-hq/crossr-loops"
-    },
-    {
-      "name": "axel",
-      "category": "Orchestration",
-      "purpose": "Execution loop \u2014 blessed PBI \u2192 PETC + code GAN",
-      "moved-to": "sycamore-hq/crossr-loops"
-    },
-    {
-      "name": "orchestrator-prompt",
-      "category": "Orchestration",
-      "purpose": "Generate stateless AXEL/AVRIL orchestrator prompts per project",
-      "moved-to": "sycamore-hq/crossr-loops"
-    },
-    {
       "name": "rust-axum-backend",
       "category": "Backend",
       "purpose": "Clean layered Axum HTTP APIs with policy gates"
@@ -96,48 +72,30 @@
       "purpose": "Voice-agnostic pass that strips AI tells from prose"
     },
     {
-      "name": "dashboard-prompt",
-      "category": "Orchestration",
-      "purpose": "Wire a proven status dashboard to a project's real trackers",
-      "moved-to": "sycamore-hq/crossr-harness"
-    },
-    {
-      "name": "chief-of-staff",
-      "category": "Orchestration",
-      "purpose": "Portfolio status briefing built from verified project dashboards",
-      "moved-to": "sycamore-hq/crossr-harness"
-    },
-    {
-      "name": "brick",
-      "category": "Orchestration",
-      "purpose": "BRICK pipeline \u2014 informal spec to mutation-verified code",
-      "moved-to": "sycamore-hq/crossr-loops"
-    },
-    {
       "name": "brick-specifier",
       "category": "Orchestration",
-      "purpose": "BRICK stage 1 \u2014 approved tasks to pruned Gherkin"
+      "purpose": "BRICK stage 1 — approved tasks to pruned Gherkin"
     },
     {
       "name": "brick-coder",
       "category": "Orchestration",
-      "purpose": "BRICK stage 2 \u2014 Gherkin to red tests then green code"
+      "purpose": "BRICK stage 2 — Gherkin to red tests then green code"
     },
     {
       "name": "brick-refactorer",
       "category": "Orchestration",
-      "purpose": "BRICK stage 3 \u2014 complexity, duplication, property tests"
+      "purpose": "BRICK stage 3 — complexity, duplication, property tests"
     },
     {
       "name": "brick-mutator",
       "category": "Orchestration",
-      "purpose": "BRICK stage 4 \u2014 mutation testing gate, zero survivors"
+      "purpose": "BRICK stage 4 — mutation testing gate, zero survivors"
     }
   ],
   "out": [
     {
       "name": "obsidian-cli",
-      "reason": "Personal/local tooling \u2014 not part of the public product surface"
+      "reason": "Personal/local tooling — not part of the public product surface"
     },
     {
       "name": "diataxis",
@@ -145,15 +103,15 @@
     },
     {
       "name": "diataxis-explanation",
-      "reason": "Empty stub directory \u2014 not a shippable skill"
+      "reason": "Empty stub directory — not a shippable skill"
     },
     {
       "name": "diataxis-how-to-guides",
-      "reason": "Empty stub directory \u2014 not a shippable skill"
+      "reason": "Empty stub directory — not a shippable skill"
     },
     {
       "name": "diataxis-reference",
-      "reason": "Empty stub directory \u2014 not a shippable skill"
+      "reason": "Empty stub directory — not a shippable skill"
     },
     {
       "name": "diataxis-tutorials",
@@ -162,9 +120,6 @@
   ],
   "featured": [
     "code-writer",
-    "avril",
-    "axel",
-    "rust-team-lead",
     "rust-code-writer",
     "rust-code-reviewer",
     "agent-harness",

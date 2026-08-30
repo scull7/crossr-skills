@@ -18,68 +18,26 @@ clippy:
 fmt:
     cargo fmt --all --check 2>/dev/null || echo "(no Rust crates)"
 
-# Harness-specific
+# Catalog validation (process checks live in sycamore-hq/crossr-harness)
 harness-validate:
     @just docs-verify
-    @just opencode-verify
     @just claude-skills-check
     @if command -v jq >/dev/null 2>&1; then \
         jq -e 'if type == "object" then . else error("features.json must be an object") end' features.json > /dev/null && \
         echo "features.json: basic structure OK" || \
         (echo "features.json: invalid structure" && exit 1); \
-        if [ -f features.schema.json ]; then \
-            echo "Schema validation not yet implemented (requires ajv or similar)"; \
-        fi; \
     else \
         echo "jq not found — skipping features.json validation"; \
     fi
 
-# =============================================================================
-# Site & Documentation (Zola + mdBook) — dogfooding the harness
-# =============================================================================
-
-# Marketing site (Zola)
-site-build:
-    cd site && zola build --force
-
-site-serve:
-    cd site && zola serve
-
-# Documentation (mdBook)
-book-build:
-    cd book && mdbook build
-
-book-serve:
-    cd book && mdbook serve --open
-
-# Combined docs site (Zola marketing + mdBook at /docs)
-docs-build:
-    mdbook build book --dest-dir site/static/docs
-    cd site && zola build --force
-    @echo "Built combined site. Output in site/public (docs at site/public/docs/)"
-
-docs-serve:
-    @echo "For local combined serving, build with 'just docs-build' then serve site/public"
-
-# Documentation verification (new quality gate)
+# Catalog allowlist vs README vs SKILL.md
 docs-verify:
     @./scripts/verify-docs
 
 docs-verify-report:
     @./scripts/verify-docs --html
 
-# Orchestration status dashboard (in-harness UI)
-status:
-    @./scripts/status-dashboard
-
-status-html:
-    @./scripts/status-dashboard --html
-
-# OpenCode slash-command layer verification (/avril, /axel)
-opencode-verify:
-    @./scripts/verify-opencode
-
-# Claude compatibility copies of .agents/skills/ (HARNESS-SPEC 2.1)
+# Claude compatibility copies of .agents/skills/
 claude-skills-sync:
     @./scripts/sync-claude-skills
 

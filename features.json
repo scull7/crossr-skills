@@ -754,7 +754,7 @@
       {
         "id": "split-07",
         "title": "Delete moved artifacts from crossr-skills",
-        "status": "pending",
+        "status": "completed",
         "features": [
           "catalog-only-skills-repo"
         ]
