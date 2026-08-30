@@ -602,7 +602,7 @@ Stage 4 and the gate that makes BRICK worth choosing over adversarial review.
 
 **Phase `brick-pipeline` complete** (bk-01…bk-06). Six skills' worth of pipeline delivered as six stacked PRs; catalog N=19→24.
 
-## Split: skills / loops / harness (`split-skills-loops-harness`) — in progress
+## Split: skills / loops / harness (`split-skills-loops-harness`) — completed
 
 `crossr-skills` is becoming the catalog. Sibling remotes under `sycamore-hq` take loops, harness, and the public site. Plan: `docs/plans/skills-loops-harness-split.html`.
 
@@ -691,7 +691,17 @@ Bootstrap all three product repos from harness. Pins: `skills = "v0-last-monolit
 - Fresh-project full bootstrap copies `code-writer` + `avril` + `/status` + `/avril` from the pins. Never overwrites `.opencode/`.
 - Landing README: Pages still off; last skills deploy frozen. No custom domain.
 
-**Next:** split-09 — graphs (not this chain). Explicit graph format in `crossr-loops` after dogfood is green.
+### split-09 — graphs (COMPLETED)
 
-Trigger for a later agent: “continue the skills/loops/harness split from split-09”.
+Explicit JSON graphs in [`sycamore-hq/crossr-loops`](https://github.com/sycamore-hq/crossr-loops) `graphs/`. Topology, not a runtime. SKILL.md untouched.
+
+- Schema `crossr-loops/v0`: nodes + edges. Catalog skills referenced by name (`catalog: true`).
+- Conductors: `avril`, `axel`, `brick`, `rust-team-lead`. Flagship: intent → AVRIL → AXEL. BRICK is the alternative, not a flagship node.
+- `scripts/verify-graphs` PASS (5 graphs). Human view: `graphs/index.html`.
+- PR: [loops#3](https://github.com/sycamore-hq/crossr-loops/pull/3) squash `2d0d3aa`. Pin remains `loops = "v0"` (graphs live on `main` until a later tag).
+- No runner. No Rhai. No OpenCode-native executor. No new lockfile tag. Landing Pages still off.
+
+**The four-remote cut is done (split-00..09).** Do not continue this chain unless a new unit is named.
+
+Not this chain: graph runner (loops backlog); new loops tag so the pin includes `graphs/`; landing Pages; custom domain.
 

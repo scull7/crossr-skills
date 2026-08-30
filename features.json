@@ -766,6 +766,33 @@
         "features": [
           "harness-dogfood"
         ]
+      },
+      {
+        "id": "split-09",
+        "title": "Explicit JSON graph format in crossr-loops",
+        "status": "completed",
+        "features": [
+          "graph-schema",
+          "conductor-graphs",
+          "flagship-pipeline-graph",
+          "graph-verify"
+        ]
+      }
+    ]
+  },
+  "graphs": {
+    "status": "completed",
+    "commits": [
+      {
+        "id": "split-09",
+        "title": "Explicit JSON graph format in crossr-loops",
+        "status": "completed",
+        "features": [
+          "graph-schema",
+          "conductor-graphs",
+          "flagship-pipeline-graph",
+          "graph-verify"
+        ]
       }
     ]
   }
