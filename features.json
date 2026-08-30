@@ -716,7 +716,7 @@
       {
         "id": "split-03",
         "title": "Copy loops tree into sycamore-hq/crossr-loops",
-        "status": "pending",
+        "status": "completed",
         "features": [
           "loops-clean-copy",
           "loops-migration-sha",
