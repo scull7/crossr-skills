@@ -17,13 +17,13 @@
   <nav class="sticky top-0 z-40 border-b border-slate-800 bg-slate-950/95 backdrop-blur">
     <div class="max-w-5xl mx-auto px-6 h-12 flex items-center justify-between text-sm">
       <span class="font-display font-semibold">skills / loops / harness split</span>
-      <span class="text-xs px-2 py-0.5 rounded-full border border-sky-500/40 text-sky-300">PAUSED · RESUME AT split-08</span>
+      <span class="text-xs px-2 py-0.5 rounded-full border border-emerald-500/40 text-emerald-300">DONE · GRAPHS ARE split-09</span>
     </div>
   </nav>
 
   <main class="max-w-5xl mx-auto px-6 py-10 space-y-12">
     <header>
-      <p class="text-xs uppercase tracking-widest text-slate-500 mb-2">sycamore-hq · split-00..07 done · next split-08</p>
+      <p class="text-xs uppercase tracking-widest text-slate-500 mb-2">sycamore-hq · split-00..08 done · graphs (split-09) separate chain</p>
       <h1 class="font-display text-3xl font-semibold text-white mb-4">One repo was selling two products. We're cutting it into four remotes.</h1>
       <p class="text-slate-400 leading-relaxed max-w-3xl">
         <code class="text-slate-200">crossr-skills</code> stays the portable catalog.
@@ -33,14 +33,14 @@
       </p>
     </header>
 
-    <section class="section p-5 rounded-2xl border border-sky-500/30 bg-sky-950/20">
-      <h2 class="font-display text-sky-300 font-semibold mb-2">Resume here</h2>
+    <section class="section p-5 rounded-2xl border border-emerald-500/30 bg-emerald-950/20">
+      <h2 class="font-display text-emerald-300 font-semibold mb-2">Resume here</h2>
       <p class="text-sm text-slate-300 leading-relaxed">
-        Paused after split-07. Next session: branch off <code>sycamore-hq/crossr-skills</code> <code>main</code>
-        (not the OCaml branch). Copies of conductors, harness, and site are gone. Catalog-only README.
-        Shims exit 1. Dogfood: bootstrap product repos from harness; pin
-        <code>skills = v0-last-monolith</code>. Landing Pages is still off.
-        Trigger: “continue the skills/loops/harness split from split-08”.
+        Split-00..08 done. Dogfood is live. Pins: <code>skills = v0-last-monolith</code>,
+        <code>loops = v0</code>, harness <code>v0</code>. Catalog-only README. Shims exit 1.
+        Product repos consume harness via <code>--process-only</code>. Landing Pages is still off.
+        Graphs (split-09) are a separate chain.
+        Trigger: “continue the skills/loops/harness split from split-09”.
       </p>
     </section>
 
@@ -166,9 +166,34 @@ crossr-web-landing  (links; owns no law)</pre>
         <li><span class="text-emerald-400">Done (split-05).</span> Copy landing. Zola <code>site/</code> byte-identical; mdBook rewritten as links. Source SHA <code>9ff577e</code>. Skills keeps copies. Pages still here.</li>
         <li><span class="text-emerald-400">Done (split-06).</span> Dual-publish tag <code>v0-last-monolith</code>. Catalog <code>moved-to</code> on seven items. Old scripts print <code>deprecated: use sycamore-hq/crossr-harness</code>.</li>
         <li><span class="text-emerald-400">Done (split-07).</span> Delete moved artifacts from skills. Catalog-only README. Shims exit 1. N=18. Pages workflow removed; last deploy frozen. Landing Pages still off.</li>
-        <li><span class="text-amber-300">NEXT (split-08).</span> Dogfood: bootstrap all three product repos from harness. Pin <code>skills = v0-last-monolith</code>.</li>
+        <li><span class="text-emerald-400">Done (split-08).</span> Dogfood. Pins <code>skills = "v0-last-monolith"</code>, <code>loops = "v0"</code>. Harness tagged <code>v0</code>. <code>--process-only</code> on all three products. Smoke green. Landing Pages still off.</li>
         <li>Graphs (split-09): separate loops backlog. Not this chain.</li>
       </ol>
+    </section>
+
+    <section class="section">
+      <h2 class="font-display text-xl font-semibold text-white mb-3">split-08 dogfood — done</h2>
+      <p class="text-sm text-slate-500 mb-3">All three products consume published harness. Fresh-project bootstrap copies catalog + loops + harness files from tags. Product trees used <code>--process-only</code> (no skill overlay).</p>
+      <div class="grid md:grid-cols-2 gap-4 text-sm">
+        <div class="p-4 rounded-xl bg-zinc-900 border border-zinc-800">
+          <h3 class="text-white font-semibold mb-2">Pins</h3>
+          <ul class="font-mono text-xs text-emerald-300 space-y-1">
+            <li>skills = v0-last-monolith</li>
+            <li>loops = v0 (4bc52bd)</li>
+            <li>harness tag v0 (f6f686f)</li>
+            <li>lockfile.toml on all three products</li>
+          </ul>
+        </div>
+        <div class="p-4 rounded-xl bg-zinc-900 border border-zinc-800">
+          <h3 class="text-white font-semibold mb-2">Bootstrap</h3>
+          <ul class="font-mono text-xs text-slate-300 space-y-1">
+            <li>clones tags (or CROSSR_*_PATH)</li>
+            <li>never overwrites .opencode/</li>
+            <li>--process-only for product repos</li>
+            <li>--force rejected; smoke green</li>
+          </ul>
+        </div>
+      </div>
     </section>
 
     <section class="section">
@@ -305,12 +330,12 @@ crossr-web-landing  (links; owns no law)</pre>
         <li>Three catalogs + a site. One lockfile. Loops CI against the pinned skills tag. Landing owns no law.</li>
         <li>Spec drift if HARNESS-SPEC still defines AVRIL on copy day. Strip it then.</li>
         <li>Pages: last skills deploy is frozen (workflow removed). Landing Pages is not enabled. <a class="text-emerald-400" href="https://sycamore-hq.github.io/crossr-skills/">sycamore-hq.github.io/crossr-skills</a> is leftover; <code>scull7.github.io</code> does not redirect.</li>
-        <li>Chicken-egg dogfood. Tag <code>v0-last-monolith</code> exists; copies are gone; bootstrap dogfood is still split-08.</li>
+        <li>Chicken-egg dogfood: resolved. Pins exist; <code>--process-only</code> on products; full bootstrap on a fresh dir copies catalog + loops + harness files.</li>
       </ul>
     </section>
 
     <section class="section text-sm text-slate-500">
-      <p>Still open: custom domain for landing (none). Dual-publish tag is <code>v0-last-monolith</code>.</p>
+      <p>Still open: custom domain for landing (none). Landing Pages still off. Dual-publish tag is <code>v0-last-monolith</code>. Loops/harness pins are <code>v0</code>.</p>
     </section>
   </main>
 </body>

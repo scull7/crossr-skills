@@ -1,0 +1,4 @@
+# Pins consumed by harness-bootstrap / sync-skills.
+# Not a third tracker — features.json remains the work log. No git submodules.
+skills = "v0-last-monolith"
+loops  = "v0"

@@ -21,13 +21,13 @@ Process, loops, and the public site live in sibling remotes under [sycamore-hq](
 | [crossr-harness](https://github.com/sycamore-hq/crossr-harness) | HARNESS-SPEC, bootstrap, dashboard, `dashboard-prompt`, `chief-of-staff`, `/status` |
 | [crossr-web-landing](https://github.com/sycamore-hq/crossr-web-landing) | Public site. Links out. Owns no law. |
 
-Last tree that still contained everything: [`v0-last-monolith`](https://github.com/sycamore-hq/crossr-skills/releases/tag/v0-last-monolith).
+Last tree that still contained everything: [`v0-last-monolith`](https://github.com/sycamore-hq/crossr-skills/releases/tag/v0-last-monolith). Current pins: `skills = "v0-last-monolith"`, `loops = "v0"` ([lockfile.toml](lockfile.toml)).
 
-**Split in progress** (paused after split-07; resume at split-08). Plan: [`docs/plans/skills-loops-harness-split.html`](docs/plans/skills-loops-harness-split.html) ([markdown](docs/plans/skills-loops-harness-split.md)).
+**Split complete (split-08 dogfood).** Graphs (split-09) are a separate chain. Plan: [`docs/plans/skills-loops-harness-split.html`](docs/plans/skills-loops-harness-split.html) ([markdown](docs/plans/skills-loops-harness-split.md)).
 
 **Freeze:** do not add new orchestration skills here (conductors, `orchestrator-prompt`, `dashboard-prompt`, `chief-of-staff`). Writers, reviewers, testers, architects, domain skills, writing skills, `skill-evaluator`, and BRICK *stage* skills still land here.
 
-New projects: bootstrap from [sycamore-hq/crossr-harness](https://github.com/sycamore-hq/crossr-harness). The old `./scripts/harness-bootstrap` and `./scripts/sync-skills` are shims — they print `deprecated: use sycamore-hq/crossr-harness` and exit 1.
+New projects: bootstrap from [sycamore-hq/crossr-harness](https://github.com/sycamore-hq/crossr-harness) (`v0`). The old `./scripts/harness-bootstrap` and `./scripts/sync-skills` are shims — they print `deprecated: use sycamore-hq/crossr-harness` and exit 1.
 
 ---
 

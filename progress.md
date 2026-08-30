@@ -681,7 +681,17 @@ Remove moved artifacts from the catalog repo. Catalog-only README. Shims exit 1.
 - Stayed: capability skills, BRICK stages, `agent-harness`, `skill-evaluator` + skill GAN agents, `sync-claude-skills`.
 - Pages workflow removed; last deploy frozen. Landing Pages still off.
 
-**Next:** split-08 — dogfood. Bootstrap product repos from harness. Pin `skills = v0-last-monolith`.
+### split-08 — dogfood (COMPLETED)
 
-Trigger for the next agent: “continue the skills/loops/harness split from split-08”.
+Bootstrap all three product repos from harness. Pins: `skills = "v0-last-monolith"`, `loops = "v0"`.
+
+- Loops tagged [`v0`](https://github.com/sycamore-hq/crossr-loops/releases/tag/v0) (peels to `4bc52bd`).
+- Harness: lockfile-aware bootstrap, smoke green, tagged [`v0`](https://github.com/sycamore-hq/crossr-harness/releases/tag/v0) (`f6f686f`). PRs: [harness#2](https://github.com/sycamore-hq/crossr-harness/pull/2), [loops#2](https://github.com/sycamore-hq/crossr-loops/pull/2).
+- `--process-only` on skills, loops, harness (consumer `AGENTS.md` / `features.json` / `progress.md` / `justfile` / `lockfile.toml`). No skill overlay on product trees.
+- Fresh-project full bootstrap copies `code-writer` + `avril` + `/status` + `/avril` from the pins. Never overwrites `.opencode/`.
+- Landing README: Pages still off; last skills deploy frozen. No custom domain.
+
+**Next:** split-09 — graphs (not this chain). Explicit graph format in `crossr-loops` after dogfood is green.
+
+Trigger for a later agent: “continue the skills/loops/harness split from split-09”.
 
