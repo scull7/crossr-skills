@@ -624,3 +624,13 @@ Stage 4 and the gate that makes BRICK worth choosing over adversarial review.
 - https://github.com/sycamore-hq/crossr-web-landing
 - Each has MIT + a not-ready README. Real trees copy later.
 
+### Resume plan (this PR)
+
+Full remaining plan written out so a later session can start at split-03 without the chat:
+
+- Markdown (agent handoff): `docs/plans/skills-loops-harness-split.md`
+- HTML updated: status, resume banner, split-03 file list
+- `features.json` now lists split-03…split-08 as pending
+
+**Next:** split-03 copy loops into `sycamore-hq/crossr-loops`. Do not mix with `feat/ocaml-gan-trio`.
+

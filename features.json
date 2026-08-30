@@ -712,6 +712,59 @@
           "crossr-harness-remote",
           "crossr-web-landing-remote"
         ]
+      },
+      {
+        "id": "split-03",
+        "title": "Copy loops tree into sycamore-hq/crossr-loops",
+        "status": "pending",
+        "features": [
+          "loops-clean-copy",
+          "loops-migration-sha",
+          "skills-keeps-copies"
+        ]
+      },
+      {
+        "id": "split-04",
+        "title": "Copy harness tree; strip HARNESS-SPEC loop law",
+        "status": "pending",
+        "features": [
+          "harness-clean-copy",
+          "harness-spec-no-loop-law",
+          "lockfile-shape"
+        ]
+      },
+      {
+        "id": "split-05",
+        "title": "Copy landing site as links-only front door",
+        "status": "pending",
+        "features": [
+          "landing-clean-copy"
+        ]
+      },
+      {
+        "id": "split-06",
+        "title": "Dual-publish last-monolith tag + deprecation pointers",
+        "status": "pending",
+        "features": [
+          "last-monolith-tag",
+          "moved-to-catalog-markers"
+        ]
+      },
+      {
+        "id": "split-07",
+        "title": "Delete moved artifacts from crossr-skills",
+        "status": "pending",
+        "features": [
+          "catalog-only-skills-repo"
+        ]
+      },
+      {
+        "id": "split-08",
+        "title": "Dogfood: bootstrap product repos from harness",
+        "status": "pending",
+        "features": [
+          "harness-dogfood"
+        ]
       }
     ]
   }
