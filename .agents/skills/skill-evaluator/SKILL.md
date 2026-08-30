@@ -45,7 +45,7 @@ Rate **1–5** (with short justification) on every item below.
 - **Self-Describing Boundaries** — Preconditions, postconditions, constraints explicit.
 - **Predictable / Evaluable** — Consistent, includes verification guidance.
 
-> **Single Responsibility clarifier**: A target SKILL.md that carries an `Agent Personality` block, an `OUTPUT FORMAT` block, or a One-Sentence Mandate fails Single Responsibility — those belong to the persona file for that role, not the skill. Where no persona file exists yet for the role, record the violation; do not remove the block until its persona home exists.
+> **Single Responsibility clarifier**: A target SKILL.md that carries an `Agent Personality` block fails Single Responsibility — voice belongs to the persona file for that role. Where no persona file exists yet, record the violation; do not remove the block until its persona home exists. One-Sentence Mandate and `OUTPUT FORMAT` are out of scope for this check; they move in PR 1 / `gan-verdict`.
 
 ### CrossR-Specific Principles
 - Functional purity (pure calculations vs actions).
