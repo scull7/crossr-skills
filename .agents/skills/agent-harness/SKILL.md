@@ -85,6 +85,8 @@ Repeat every session:
 3. **Test** — Full matrix + `rust-code-reviewer` + `rust-code-tester` + `rust-architect` (or equivalent GAN).
 4. **Commit** — Small, reviewable diff + update artifacts + append to progress log.
 
+GAN gate verdicts and report envelopes follow the `gan-verdict` catalog skill — the contract lives there, not here.
+
 ## Session Rituals & Error Recovery
 
 Every agent **begins** by executing the harness's disclosed minimal start-of-session ritual. This typically surfaces git state, recent progress, the current tracking snapshot, bootstraps the environment, and runs quick validation checks. The agent then consults the tracking artifact for the next pending granular item.

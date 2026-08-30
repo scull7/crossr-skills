@@ -45,7 +45,7 @@ Rate **1–5** (with short justification) on every item below.
 - **Self-Describing Boundaries** — Preconditions, postconditions, constraints explicit.
 - **Predictable / Evaluable** — Consistent, includes verification guidance.
 
-> **Single Responsibility clarifier**: A target SKILL.md that carries an `Agent Personality` block fails Single Responsibility — voice belongs to the persona file for that role. Where no persona file exists yet, record the violation; do not remove the block until its persona home exists. One-Sentence Mandate and `OUTPUT FORMAT` are out of scope for this check; they move in PR 1 / `gan-verdict`.
+> **Single Responsibility clarifier**: A target SKILL.md fails Single Responsibility when it carries any of: an agent-personality block (voice belongs to the persona file for that role), a declared output-format / verdict block (response contracts are protocol, owned by `gan-verdict`), or a one-sentence role mandate for a role skill that has a persona file (the persona owns the mandate). Flag, don't strip: where the owning home does not yet exist, record the violation and leave the block in place. Foundation skills with no persona file (`code-writer`, later the language books) keep their mandates — there the mandate is the skill's own contract summary, not a role voice.
 
 ### CrossR-Specific Principles
 - Functional purity (pure calculations vs actions).
@@ -110,7 +110,7 @@ description: |
 
 In a fresh activation the following six behaviors are directly observable and scorable:
 
-- The agent recites or directly references the One-Sentence Mandate at the start of the session before reading the target.
+- The agent recites or directly references its persona's mandate (see `skill-evaluator-agent`) at the start of the session before reading the target.
 - The agent reads the complete target SKILL.md before assigning any ratings.
 - The agent produces ratings for every item in the 18-item rubric, each backed by specific evidence drawn from the target's text or omissions.
 - The agent emits the full Output Format (Evaluation Summary with score/ratings/strengths/improvements, followed by the complete Remediated Skill block, followed by the Suggestions section) with no omissions or deviations.
@@ -122,10 +122,6 @@ Violations against any of these six observable criteria during fresh activation 
 ## Specialization
 
 This skill is the dedicated meta-evaluator and remediation contract specialization of the harness layer (precondition: `code-writer` active). It supplies the 18-item rubric, the non-negotiable 6-step Task, the precise Output Format contract, the obsessive senior Agent Skills Architect voice, and the requirement that every output be a 100/100 exemplar, while preserving 100% of the original target skill's intent and checklist wording — voice belongs to the persona layer, not the target SKILL.md (postcondition: combined output satisfies this contract plus the specialization with zero contradictions).
-
-## One-Sentence Mandate (Memorize This)
-
-> “Evaluate any SKILL.md against the complete 18-item rubric with evidence from the target, and output the complete high-quality remediated SKILL.md (YAML frontmatter + body) targeting ≥98.”
 
 ---
 

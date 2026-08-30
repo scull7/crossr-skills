@@ -212,7 +212,7 @@
       },
       {
         "id": "avril-02",
-        "title": "AXEL execution loop skill + conductor agent (blessed backlog \u2192 PETC / code GAN)",
+        "title": "AXEL execution loop skill + conductor agent (blessed backlog → PETC / code GAN)",
         "status": "completed",
         "features": [
           "axel-orchestrator-skill",
@@ -286,7 +286,7 @@
       },
       {
         "id": "docs-ia-05",
-        "title": "Cross-link polish README \u2194 book \u2194 site",
+        "title": "Cross-link polish README ↔ book ↔ site",
         "status": "completed",
         "features": [
           "cross-surface-links"
@@ -334,7 +334,7 @@
       },
       {
         "id": "op-02",
-        "title": "Publish orchestrator-prompt in public catalog (N=14\u219215)",
+        "title": "Publish orchestrator-prompt in public catalog (N=14→15)",
         "status": "completed",
         "features": [
           "public-skills-allowlist-orchestrator-prompt",
@@ -793,6 +793,26 @@
           "flagship-pipeline-graph",
           "graph-verify"
         ]
+      }
+    ]
+  },
+  "gan-layer-separation": {
+    "status": "in_progress",
+    "commits": [
+      {
+        "id": "pr0",
+        "title": "Unblock skill-evaluator (SR clarifier, voice postcondition)",
+        "status": "completed"
+      },
+      {
+        "id": "pr1a",
+        "title": "Peel persona/mandate/protocol: architecture rename, gan-verdict, evaluator clarifier widening",
+        "status": "completed"
+      },
+      {
+        "id": "pr1b",
+        "title": "crossr-loops: persona edits + verify-protocol + pin retarget",
+        "status": "completed"
       }
     ]
   }

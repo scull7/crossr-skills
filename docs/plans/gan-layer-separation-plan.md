@@ -1,6 +1,6 @@
 # Plan: crossr v2 — Layer Separation, Shared Ruleset, Plan-First GAN
 
-**Status:** in progress · PR 0 merged (#105)
+**Status:** in progress · PR 0 merged (#105) · PR 1 landed (skills `pr1-peel-persona-protocol` + loops `pr1-personas-verify-protocol`, stacked)
 **Scope:** `crossr-skills`, `crossr-loops`, `crossr-harness`
 **Origin:** token-burn critique of the crossr-* agent infrastructure, verified against the trees 2026-08-30.
 
@@ -532,7 +532,25 @@ one-sentence mandate format" — the preserve-vs-condemn deadlock one layer down
 narrowing commit deliberately left open whether foundation skills without personas
 (`code-writer`, the book) keep their mandates; decide that when the trio lifts land.
 
-### PR 1 — Peel persona, mandate, and protocol (no ruleset moves)
+### PR 1 — Peel persona, mandate, and protocol (no ruleset moves) ✅ landed
+
+**Landed as the stacked pair** skills `pr1-peel-persona-protocol` → loops
+`pr1-personas-verify-protocol`. Stack order: 1a (catalog) first; the loops PR retargets
+`skills = "v1-gan-layers"` — a tag to be cut from crossr-skills `main` at the 1a merge
+commit before the loops PR merges. No shim: `v0-last-monolith` is a frozen tag, so
+existing consumers never see the rename; `harness-bootstrap` clones by
+`--branch <tag>`, which fails loudly (not silently) if the new tag is missing.
+
+**Foundation-mandate decision (owed by PR 0):** foundation skills without personas
+(`code-writer`, later the language books) **keep their One-Sentence Mandates** — there
+the mandate is the skill's own contract summary, not a role voice (the 8920866
+position). The widened evaluator clarifier records this in one sentence.
+
+**Contact notes:** two protected-law strings collided with the acceptance greps and were
+edited minimally — `architecture` Core Principle 3's `BLESSED`/`REJECTED` tokens became
+`BLESS`/`REJECT`, and the tester checklist item "Exact OUTPUT FORMAT used" now points at
+`gan-verdict`. The architect personality's "NACK." verdict style was dropped when the
+block landed in the persona — `verify-protocol` forbids `NACK` as a verdict token.
 
 **Files:** `rust-architect`, `rust-code-reviewer`, `rust-code-tester`, `agent-harness`,
 new `gan-verdict` (crossr-skills); `rust-architect-agent`, `rust-reviewer-agent`,
