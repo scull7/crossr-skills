@@ -736,9 +736,10 @@
       {
         "id": "split-05",
         "title": "Copy landing site as links-only front door",
-        "status": "pending",
+        "status": "completed",
         "features": [
-          "landing-clean-copy"
+          "landing-clean-copy",
+          "book-as-links"
         ]
       },
       {
