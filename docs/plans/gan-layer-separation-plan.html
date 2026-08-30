@@ -1,0 +1,588 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>GAN Layer Separation</title>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700&family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans:wght@400;500;600&display=swap">
+<style>
+  :root{
+    --ink:#11131a; --surface:#171a23; --surface-2:#1d212c;
+    --line:#282d3b; --line-soft:#20242f;
+    --text:#dadde6; --text-dim:#9aa1b5; --text-faint:#6d7488;
+    --brass:#d9a441; --brass-dim:#8a6a2c;
+    --cut:#e0757b; --keep:#63b4a2; --hold:#7d8bd4;
+    --mono:"IBM Plex Mono",ui-monospace,SFMono-Regular,Menlo,monospace;
+    --sans:"IBM Plex Sans",system-ui,-apple-system,sans-serif;
+    --display:"Bricolage Grotesque","IBM Plex Sans",system-ui,sans-serif;
+    --wrap:min(78rem,100% - 3rem);
+  }
+  *{box-sizing:border-box}
+  body{
+    margin:0; background:var(--ink); color:var(--text);
+    font-family:var(--sans); font-size:16px; line-height:1.65;
+    -webkit-font-smoothing:antialiased;
+  }
+  h1,h2,h3{font-family:var(--display); font-weight:700; text-wrap:balance; margin:0; line-height:1.15;}
+  p{margin:0}
+  a{color:var(--brass); text-underline-offset:3px}
+  code{font-family:var(--mono); font-size:.86em; color:#e6e2d4; background:var(--surface-2); border:1px solid var(--line-soft); padding:.08em .34em; border-radius:3px;}
+  .num{font-family:var(--mono); font-variant-numeric:tabular-nums;}
+
+  .bar{position:sticky; top:0; z-index:50; background:rgba(17,19,26,.93); backdrop-filter:blur(8px); border-bottom:1px solid var(--line);}
+  .bar-in{width:var(--wrap); max-width:64rem; margin-inline:auto; height:3rem; display:flex; align-items:center; justify-content:space-between; gap:1rem;}
+  .bar-name{font-family:var(--mono); font-size:.8rem; letter-spacing:.06em; color:var(--text-dim); text-transform:uppercase;}
+  .pill{font-family:var(--mono); font-size:.68rem; letter-spacing:.1em; text-transform:uppercase; border:1px solid var(--brass-dim); color:var(--brass); padding:.2rem .55rem; border-radius:999px; white-space:nowrap;}
+
+  main{width:var(--wrap); max-width:64rem; margin-inline:auto; padding:4rem 0 6rem; display:flex; flex-direction:column; gap:4.5rem;}
+  .eyebrow{font-family:var(--mono); font-size:.72rem; letter-spacing:.16em; text-transform:uppercase; color:var(--text-faint);}
+  header{display:flex; flex-direction:column; gap:1.1rem;}
+  h1{font-size:clamp(2rem,4.6vw,3.1rem); letter-spacing:-.02em; color:#f2f3f7;}
+  .lede{font-size:1.08rem; color:var(--text-dim); max-width:60ch;}
+
+  .ledger{display:grid; grid-template-columns:repeat(auto-fit,minmax(13rem,1fr)); border:1px solid var(--line); border-radius:4px; overflow:hidden; background:var(--surface);}
+  .ledger div{padding:1.15rem 1.25rem; border-right:1px solid var(--line-soft);}
+  .ledger div:last-child{border-right:0}
+  .ledger .v{font-family:var(--mono); font-variant-numeric:tabular-nums; font-size:1.5rem; color:var(--brass); line-height:1.2;}
+  .ledger .k{font-size:.82rem; color:var(--text-dim); margin-top:.3rem; display:block;}
+
+  section{display:flex; flex-direction:column; gap:1.4rem;}
+  .sec-head{display:flex; align-items:baseline; gap:.9rem; border-bottom:1px solid var(--line); padding-bottom:.7rem;}
+  .sec-head .n{font-family:var(--mono); font-size:.78rem; color:var(--brass-dim); letter-spacing:.08em;}
+  h2{font-size:1.55rem; letter-spacing:-.01em; color:#eceef4;}
+  h3{font-family:var(--sans); font-weight:600; font-size:1rem; color:#eceef4; letter-spacing:.005em;}
+  .prose{max-width:68ch; color:var(--text-dim); display:flex; flex-direction:column; gap:.9rem;}
+  .prose strong{color:var(--text); font-weight:600;}
+
+  .scroll{overflow-x:auto; border:1px solid var(--line); border-radius:4px; background:var(--surface);}
+  table{border-collapse:collapse; width:100%; font-size:.9rem;}
+  th,td{text-align:left; padding:.62rem .95rem; border-bottom:1px solid var(--line-soft); vertical-align:top;}
+  thead th{font-family:var(--mono); font-size:.7rem; text-transform:uppercase; letter-spacing:.1em; color:var(--text-faint); font-weight:500; background:var(--surface-2); white-space:nowrap;}
+  tbody tr:last-child td{border-bottom:0}
+  td.n{font-family:var(--mono); font-variant-numeric:tabular-nums; text-align:right; white-space:nowrap; color:var(--text);}
+  td.mono{font-family:var(--mono); font-size:.84rem; white-space:nowrap;}
+  .bad{color:var(--cut)} .good{color:var(--keep)} .warn{color:var(--brass)}
+
+  .callout{border-left:2px solid var(--brass); background:var(--surface); padding:1rem 1.25rem; border-radius:0 4px 4px 0; color:var(--text); max-width:70ch;}
+  .callout .lbl{font-family:var(--mono); font-size:.68rem; letter-spacing:.12em; text-transform:uppercase; color:var(--brass); display:block; margin-bottom:.35rem;}
+
+  pre{font-family:var(--mono); font-size:.82rem; line-height:1.6; background:var(--surface); border:1px solid var(--line); border-radius:4px; padding:1rem 1.15rem; overflow-x:auto; margin:0; color:var(--text-dim);}
+  pre b{color:var(--brass); font-weight:500;}
+
+  .prs{display:flex; flex-direction:column; gap:0;}
+  .pr{display:grid; grid-template-columns:4.5rem 1fr; gap:1.4rem; padding:1.5rem 0; border-top:1px solid var(--line-soft);}
+  .pr:first-child{border-top:0}
+  .pr-id{font-family:var(--mono); font-size:.78rem; color:var(--brass); letter-spacing:.06em; padding-top:.2rem;}
+  .pr-body{display:flex; flex-direction:column; gap:.7rem; min-width:0;}
+  .pr-body h3{font-size:1.08rem; font-family:var(--display); font-weight:700;}
+  .pr-body p{color:var(--text-dim); max-width:66ch; font-size:.95rem;}
+  .files{font-family:var(--mono); font-size:.76rem; color:var(--text-faint); word-break:break-word;}
+  ul{margin:0; padding-left:1.15rem; color:var(--text-dim); display:flex; flex-direction:column; gap:.42rem; font-size:.95rem; max-width:66ch;}
+  li::marker{color:var(--brass-dim)}
+
+  .keep-grid{display:grid; grid-template-columns:repeat(auto-fit,minmax(17rem,1fr)); gap:1px; background:var(--line-soft); border:1px solid var(--line); border-radius:4px; overflow:hidden;}
+  .keep-grid div{background:var(--surface); padding:1rem 1.15rem;}
+  .keep-grid b{display:block; color:var(--keep); font-weight:600; font-size:.9rem; margin-bottom:.25rem;}
+  .keep-grid span{font-size:.87rem; color:var(--text-dim);}
+
+  footer{border-top:1px solid var(--line); padding-top:1.5rem; font-family:var(--mono); font-size:.76rem; color:var(--text-faint); display:flex; flex-wrap:wrap; gap:.4rem 1.2rem;}
+  @media (max-width:640px){
+    .pr{grid-template-columns:1fr; gap:.5rem}
+    main{padding-top:2.5rem; gap:3.2rem}
+  }
+</style>
+</head>
+<body>
+
+<div class="bar"><div class="bar-in">
+  <span class="bar-name">gan layer separation</span>
+  <span class="pill">crossr v2 · PR 0 merged · 7 to go</span>
+</div></div>
+
+<main>
+
+<header>
+  <span class="eyebrow">sycamore-hq · crossr-skills / crossr-loops / crossr-harness · verified 2026-08-30</span>
+  <h1>The conductor pays for law it is forbidden to use, in a language it may not be writing.</h1>
+  <p class="lede">Three moves, in dependency order. <strong>Separate the layers</strong> so nothing is loaded that cannot be used. <strong>Collapse the ruleset to one source of truth</strong> so the generator and the adversaries stop disagreeing about the law. <strong>Reorder the gates by blast radius</strong> so the expensive gate runs when there is nothing left to throw away.</p>
+</header>
+
+<div class="ledger">
+  <div><span class="v">73,031</span><span class="k">bytes of SKILL.md in a naive Rust AXEL conductor window, before a diff</span></div>
+  <div><span class="v">~16 KB</span><span class="k">of language-neutral adversary law currently shipping under a <code>rust-*</code> name</span></div>
+  <div><span class="v">3 → 0</span><span class="k">verdict vocabularies in use; none match the token the conductor demands</span></div>
+  <div><span class="v">2</span><span class="k">contradictory mandates per adversary role, both labeled &ldquo;Memorize This&rdquo;</span></div>
+  <div><span class="v">1 of 4</span><span class="k">gates runs before any code exists — today it is zero, so every architect REJECT discards an implementation</span></div>
+</div>
+
+<section>
+  <div class="sec-head"><span class="n">01</span><h2>What is actually true</h2></div>
+  <div class="prose">
+    <p>Every figure below was measured against the working tree, not estimated. Cite these in review.</p>
+  </div>
+
+  <h3>Static weight, and where it lands</h3>
+  <div class="scroll"><table>
+    <thead><tr><th>Skill</th><th>Bytes</th><th>Loaded by the conductor today?</th></tr></thead>
+    <tbody>
+      <tr><td class="mono">ocaml-code-writer</td><td class="n">19,551</td><td class="good">no — and it has no adversaries at all</td></tr>
+      <tr><td class="mono">axel</td><td class="n">18,716</td><td>yes</td></tr>
+      <tr><td class="mono">avril</td><td class="n">12,627</td><td>separate loop</td></tr>
+      <tr><td class="mono">agent-harness</td><td class="n">11,615</td><td>yes</td></tr>
+      <tr><td class="mono">rust-team-lead</td><td class="n">10,074</td><td class="bad">yes — restates AXEL&rsquo;s own GAN</td></tr>
+      <tr><td class="mono">rust-code-writer</td><td class="n">7,674</td><td class="bad">yes — conductor writes no code</td></tr>
+      <tr><td class="mono">rust-code-tester</td><td class="n">6,534</td><td class="bad">yes — conductor reviews nothing</td></tr>
+      <tr><td class="mono">rust-architect</td><td class="n">6,381</td><td class="bad">yes — conductor reviews nothing</td></tr>
+      <tr><td class="mono">rust-code-reviewer</td><td class="n">5,951</td><td class="bad">yes — conductor reviews nothing</td></tr>
+      <tr><td class="mono">code-writer</td><td class="n">6,086</td><td>yes</td></tr>
+    </tbody>
+  </table></div>
+  <div class="prose">
+    <p>Three files independently declare the fat load set: both <code>opencode/agent/axel.md</code> entrypoints, <code>axel-conductor-agent.md:9-12</code> (which requires all three adversary skills in a persona whose step 11 forbids authoring review content), and <code>graphs/axel.json</code> <code>requires.skills</code> — a flat union, even though its only code node is a subgraph reference.</p>
+    <p>No conductor skill has a <code>references/</code> directory. Zero progressive disclosure in the hot path, in a catalog that ships <code>diataxis</code>.</p>
+  </div>
+
+  <h3>The adversaries are not Rust skills</h3>
+  <div class="scroll"><table>
+    <thead><tr><th>Skill</th><th>Language-neutral</th><th>Actual Rust delta</th></tr></thead>
+    <tbody>
+      <tr><td class="mono">rust-architect</td><td class="n good">100%</td><td>nothing — every &ldquo;Rust&rdquo; mention is in the name, description, prerequisite, or boilerplate</td></tr>
+      <tr><td class="mono">rust-code-tester</td><td class="n good">~90%</td><td><code>#[cfg(test)]</code>, <code>cargo test --workspace</code>, pedantic clippy</td></tr>
+      <tr><td class="mono">rust-code-reviewer</td><td class="n">~65%</td><td><code>thiserror</code>, no <code>anyhow</code>, no <code>.unwrap()</code>, clippy, approved crates — ~2 KB</td></tr>
+    </tbody>
+  </table></div>
+  <div class="callout">
+    <span class="lbl">Consequence</span>
+    <code>axel/SKILL.md:71-75</code> is written correctly — &ldquo;if no code GAN is disclosed, <strong>stop</strong>.&rdquo; But for Elm or Melange there is nothing to disclose, so <strong>AXEL is designed to halt on every non-Rust language</strong>, while the entrypoints hardcode the Rust triple and would review Elm against <code>thiserror</code> rules. Both outcomes are broken, in opposite directions.
+  </div>
+  <div class="prose">
+    <p>Contamination is localized, which is the good news. <code>axel</code> carries 18 Rust-ish lines of 317. <code>avril</code> carries <strong>zero</strong>. <code>brick</code> carries <strong>zero</strong>. <code>code-writer</code>&rsquo;s single hit is the line instructing language-agnosticism. <code>ocaml-code-writer</code> is the largest file in the catalog and has no adversaries — someone already tried to go multi-language, wrote the writer, and hit the wall where every adversary was named <code>rust-*</code>.</p>
+  </div>
+
+  <h3>Persona and ruleset are smeared across two layers that already exist</h3>
+  <div class="prose">
+    <p><code>harness-bootstrap:131-140</code> already copies <code>.agents/agents/</code> into every target repo. The layer ships. It just has no authority — so every role carries two mandates, and the skill&rsquo;s own Verification makes verbatim recitation a scorable behavior.</p>
+  </div>
+  <div class="scroll"><table>
+    <thead><tr><th>Role</th><th>Mandate in the agent file</th><th>Mandate in the skill file</th></tr></thead>
+    <tbody>
+      <tr><td class="mono">architect</td><td>Protect the long-term clarity and evolvability of the system above all else.</td><td>Guard the entire Rust system architecture with Torvalds-level ruthlessness&hellip;</td></tr>
+      <tr><td class="mono">reviewer</td><td>Make every piece of Rust code so clear, layered, and correct that any experienced developer can understand and safely modify it in under 10 minutes.</td><td class="bad"><strong>Write</strong> layered, modular Rust code built from pure calculations on immutable data&hellip;</td></tr>
+      <tr><td class="mono">tester</td><td>Every calculation and every public item must have clear, fast, exhaustive tests&hellip;</td><td>Ensure every calculation and public item has complete, layered, deterministic tests&hellip;</td></tr>
+    </tbody>
+  </table></div>
+  <div class="prose">
+    <p>The reviewer&rsquo;s skill-layer mandate is a <strong>writer&rsquo;s</strong> mandate — in a skill whose iron boundary is <em>never write code</em>. Persona blocks themselves are small and cleanly fenced: 371 B, 608 B, 618 B, all zero Rust.</p>
+  </div>
+
+  <h3>The verdict protocol does not connect</h3>
+  <div class="scroll"><table>
+    <thead><tr><th>Gate</th><th>Declared OUTPUT FORMAT</th><th>Conductor expects</th></tr></thead>
+    <tbody>
+      <tr><td class="mono">rust-code-reviewer</td><td class="bad">none — no output format section at all</td><td class="mono">BLESS</td></tr>
+      <tr><td class="mono">rust-code-tester</td><td class="mono bad">TEST VERDICT: PASSED | REJECTED</td><td class="mono">BLESS</td></tr>
+      <tr><td class="mono">rust-architect</td><td class="mono bad">ARCHITECTURE VERDICT: BLESSED | REJECTED</td><td class="mono">BLESS</td></tr>
+    </tbody>
+  </table></div>
+  <div class="prose">
+    <p><code>avril/SKILL.md:72</code> — &ldquo;Advancement requires the exact token <code>BLESS</code>. Silence, hedge, or &lsquo;LGTM&rsquo; without <code>BLESS</code> counts as incomplete.&rdquo; Graph edges fire on <code>"when": "BLESS"</code>. Token census across the tree: <span class="num">BLESS 71</span>, <span class="num">REJECT 38</span> against <span class="num">BLESSED 2</span>, <span class="num">PASSED 1</span>, <span class="num">NACK 2</span>.</p>
+    <p>An LLM conductor reads <code>PASSED</code> as approval, so nothing visibly breaks — <strong>which is the problem.</strong> The &ldquo;exact token&rdquo; rule is decorative, and <em>silence &ne; approval</em> — the anti-collusion property everything else rests on — is currently enforced by nothing. It becomes a hard break the moment a runner string-matches the edge.</p>
+    <p>Related: no adversary persona is registered as a runtime agent. <code>.opencode/agent/</code> holds only <code>avril</code>, <code>axel</code>, <code>status</code>. Every <code>rust-reviewer-agent</code> reference in the skills, entrypoints, and both graphs resolves to a markdown file nobody loads.</p>
+  </div>
+
+  <h3>The law is hand-copied three times</h3>
+  <div class="prose">
+    <p><code>rust-code-reviewer</code>&rsquo;s &ldquo;Non-Negotiable Core Principles&rdquo; are <code>code-writer</code> restated verbatim. <code>rust-code-tester</code> restates them again. This is not merely duplicated weight — <strong>any drift between the generator&rsquo;s rules and the reviewer&rsquo;s checklist manufactures a rejection.</strong> The generator writes to law A, the reviewer rejects against law B, and a full adversary cycle burns on a disagreement between two documents that were supposed to say the same thing.</p>
+    <p><code>rust-errors</code> (5,470 B) is already a situational how-to shipped as a top-level skill that must be manually combined. It is <code>references/error-handling.md</code> wearing a skill costume — the catalog was already growing toward progressive disclosure and had nowhere to put it.</p>
+  </div>
+
+  <h3>The system architect appears in exactly one place</h3>
+  <div class="callout">
+    <span class="lbl">Corrects a common assumption</span>
+    <code>planning-architect-agent.md:3</code> — &ldquo;Role: <strong>Generator</strong> in the AVRIL planning GAN.&rdquo; AVRIL&rsquo;s adversaries are PO, QA, and CTO. The Torvalds-style system architect is <strong>not in AVRIL at all</strong>. Its only appearance in either loop is the AXEL code gate — where it runs <em>after</em> implementation, so every architect <code>REJECT</code> discards finished work.
+  </div>
+
+  <h3><code>rust-team-lead</code> is AXEL with a different input noun</h3>
+  <div class="prose">
+    <p>Its own <code>SKILL.md:19</code> calls the skill &ldquo;portable and harness-agnostic&rdquo; while being named <code>rust-*</code> and hardcoding three Rust adversary names. Against <code>axel</code> it duplicates the GAN method, the fixed adversary chain, the ruthless checklist, and the Status Dashboard. The only real difference is that it executes &ldquo;a planning document&rdquo; where AXEL executes &ldquo;a blessed PBI&rdquo; — but AXEL step 1 emits a plan and step 3 decomposes it into phases, then runs the identical chain.</p>
+    <p><code>graphs/axel.json</code> already settled this: node <code>rust-gan</code>, <code>role: graph</code>, <code>uses.graph: rust-team-lead</code>. The decision is made; only the prose is stale. 25 files mention it; <strong>8 are load-bearing.</strong></p>
+  </div>
+
+  <h3>Pinto hard-errors on any non-task file in <code>.pinto/tasks/</code></h3>
+  <div class="prose"><p>Verified against Pinto 0.2.0 in an isolated scratch board. Dropping <code>T-1.plan.md</code> beside <code>T-1.md</code>:</p></div>
+<pre>$ pinto list
+<b>error: missing `+++` frontmatter delimiter in .pinto/tasks/T-1.plan.md</b>
+$ pinto list --json
+<b>error: missing `+++` frontmatter delimiter in .pinto/tasks/T-1.plan.md</b></pre>
+  <div class="prose">
+    <p>Not a warning — a fatal error that takes down the entire board read. AXEL pre-flight step 3 loads board state via <code>pinto list --json</code>, so a plan file in that directory <strong>breaks every AXEL session</strong>. <code>.pinto/plans/</code> and <code>docs/plans/pbi/</code> both verified clean.</p>
+  </div>
+
+  <div class="callout">
+    <span class="lbl">The blocker nobody has hit yet</span>
+    <code>skill-evaluator</code>&rsquo;s rubric already condemns the current shape — its first three items are <em>Concise</em>, <em>Single Responsibility</em>, <em>Progressively Disclosed</em>. But <code>skill-evaluator/SKILL.md:122</code> sets the postcondition &ldquo;preserving 100% of the original target skill&rsquo;s intent, <strong>voice</strong>, and checklist wording.&rdquo; The rubric says split; the postcondition says preserve voice. The evaluator is deadlocked against itself and will reject every de-personaed skill.
+  </div>
+</section>
+
+<section>
+  <div class="sec-head"><span class="n">02</span><h2>Target architecture</h2></div>
+
+  <h3>Four layers, one owner each</h3>
+  <div class="scroll"><table>
+    <thead><tr><th>Layer</th><th>Owns</th><th>Language</th><th>Example</th><th>Size</th></tr></thead>
+    <tbody>
+      <tr><td><strong>Persona</strong></td><td>voice, boundary, mandate</td><td class="good">neutral</td><td class="mono">architect-agent</td><td class="n">~600 B</td></tr>
+      <tr><td><strong>Gate card</strong></td><td>the <em>job</em>: what this gate verifies, its envelope</td><td class="good">neutral</td><td class="mono">architecture · code-review · testing</td><td class="n">~1&ndash;2 KB</td></tr>
+      <tr><td><strong>Book</strong></td><td>the <em>law</em>: rules + how, per language</td><td class="warn">specific</td><td class="mono">rust/references/*</td><td class="n">per topic</td></tr>
+      <tr><td><strong>Protocol</strong></td><td>verdict vocabulary + envelope schema</td><td class="good">neutral</td><td class="mono">gan-verdict</td><td class="n">~10 lines</td></tr>
+    </tbody>
+  </table></div>
+
+<pre>architect   persona  architect-agent      ~600 B   neutral
+            ruleset  architecture         ~5 KB    neutral
+            delta    rust-architecture    <b>~0</b>       nothing Rust-specific exists
+
+reviewer    persona  reviewer-agent       ~400 B   neutral
+            ruleset  code-review          ~4 KB    neutral
+            delta    rust-review          ~2 KB    thiserror, no anyhow,
+                                                   no unwrap, clippy, crates</pre>
+
+  <div class="callout">
+    <span class="lbl">Why the missing book is the point</span>
+    Today, no <code>elm-architect</code> means AXEL halts. After the split, no <code>elm/</code> book means &ldquo;no Elm-specific law yet&rdquo; — and the universal gate cards still run. New languages work on day one; books accumulate later. Gate cards own the <strong>job</strong>; the book owns the <strong>law</strong>. There are no intermediate delta skills — the day-one property no longer depends on empty placeholder files.
+  </div>
+
+  <h3>Load by role, not by stack</h3>
+  <div class="scroll"><table>
+    <thead><tr><th>Window</th><th>Loads</th></tr></thead>
+    <tbody>
+      <tr><td class="mono">conductor</td><td>conductor card + current PBI + 20-line handoff packet + board snapshot of that item</td></tr>
+      <tr><td class="mono">generator</td><td><code>code-writer</code> + language writer + domain</td></tr>
+      <tr><td class="mono">reviewer</td><td><code>reviewer-agent</code> + <code>code-review</code> card + book Rules projection</td></tr>
+      <tr><td class="mono">tester</td><td><code>tester-agent</code> + <code>testing</code> card + book Rules tagged <code>test</code></td></tr>
+      <tr><td class="mono">architect</td><td><code>architect-agent</code> + <code>architecture</code> card + book Rules (layering)</td></tr>
+    </tbody>
+  </table></div>
+
+  <h3>Split the contract by owner</h3>
+  <div class="prose">
+    <p><strong>Verdict protocol — invariant, not conductor-owned.</strong> Token vocabulary, silence &ne; approval, one verdict per delegation, verdict names its gate. Lives in a <strong>tiny dedicated catalog skill, <code>gan-verdict</code></strong> (~10 lines), referenced by conductors and adversaries alike, redefinable by neither. Not <code>agent-harness</code> — that is an 11 KB harness-building essay that already hardcodes the Rust triple in its own PETC example; dropping the contract in there is the smear with a new heading. If the conductor defines what counts as approval, a conductor under context pressure will define an approval that is cheaper to obtain — the orchestrator grading its own homework.</p>
+    <p><strong>Report envelope — schema in <code>gan-verdict</code>, values conductor-filled.</strong> The field vocabulary (phase id, &ldquo;k of n&rdquo;, AC ids, findings shape, max length, <code>file:line</code>) is fixed as a ten-line list with optional fields. The conductor selects fields and fills values at delegation time — AXEL fills AC evidence refs, AVRIL per-PBI ids, BRICK stage signals. Adding a <em>field</em> requires changing <code>gan-verdict</code>, never a conductor card: the conductor chooses what it wants to hear <strong>from a fixed menu</strong>, which makes the envelope mechanically checkable too.</p>
+  </div>
+  <div class="callout">
+    <span class="lbl">The rule</span>
+    The conductor may specify <strong>what it wants to hear</strong>, never <strong>what counts as approval</strong>.
+  </div>
+  <ul>
+    <li><strong>Put the envelope last.</strong> Persona + ruleset are the stable cacheable prefix; the envelope varies per delegation. Splicing it above the ruleset destroys prefix stability on exactly the text you were making free on turns 2&ndash;N.</li>
+    <li><strong>Cap it at a field list.</strong> Ten lines, names and types. The moment it explains <em>why</em> a field matters, it has become law and belongs in the ruleset.</li>
+  </ul>
+</section>
+
+
+<section>
+  <div class="sec-head"><span class="n">03</span><h2>One ruleset, three projections</h2></div>
+  <div class="prose">
+    <p>Collapse the per-role checklists into a single language skill whose body is a card and whose law lives in situational references. <code>diataxis</code> already ships this pattern in this catalog.</p>
+  </div>
+
+<pre>rust/
+  SKILL.md                <b>~2 KB card</b> — which reference applies to which situation
+  references/
+    error-handling.md     (absorbs rust-errors)
+    input-parsing.md      parse-don't-validate, newtypes at the edge
+    layering.md           stratification, actions / calculations / data
+    testing.md            AAA, error paths, cfg(test)
+    api-surface.md        pub items, docs, semver
+    tooling.md            fmt, clippy pedantic, deny lists</pre>
+
+  <div class="prose"><p>Every reference file carries two projections of one law:</p></div>
+
+<pre><b>## Rules (normative, checkable)</b>
+RE-01  Every layer defines its own error enum via thiserror.
+RE-02  Cross-layer propagation uses #[from]; never inline .map_err at a call site.
+       check: rg '\.map_err\(' src/ --glob '!adapters/**' → expect 0
+
+<b>## How</b>
+&lt;examples, patterns, the reasoning&gt;</pre>
+
+  <div class="scroll"><table>
+    <thead><tr><th>Role</th><th>Loads</th></tr></thead>
+    <tbody>
+      <tr><td class="mono">generator</td><td>the whole reference for the situation at hand</td></tr>
+      <tr><td class="mono">reviewer</td><td>the <strong>Rules</strong> block only</td></tr>
+      <tr><td class="mono">test verifier</td><td>Rules tagged <code>test</code> only</td></tr>
+    </tbody>
+  </table></div>
+
+  <div class="prose">
+    <p>The Rules-only projection is not an optimization. Hand a reviewer the <em>How</em> section and you get a reviewer that suggests implementations — which breaks the boundary the whole GAN rests on.</p>
+    <p><strong>Stable rule IDs</strong> buy three things: the reviewer cites <code>RE-02</code> instead of re-deriving it, the generator self-checks before submitting, and rejection counts per rule id tell you which reference needs a better <em>How</em> section. That is a feedback loop on the token spend itself.</p>
+  </div>
+</section>
+
+<section>
+  <div class="sec-head"><span class="n">04</span><h2>The v2 chain</h2></div>
+  <div class="prose"><p>Gates ordered by blast radius, descending. Each rejection invalidates less downstream than the one before it.</p></div>
+
+<pre>PBI (AVRIL-blessed)
+  │
+  ├─ <b>Generator</b>       implementation plan + typed claim list
+  │       ├ <b>Mechanical</b>  bidirectional AC↔claim coverage · quota · ids   <b>[no LLM]</b>
+  │       ↕ <b>Architect</b>   blesses the plan, or rejects for underspecification  [loop]
+  │
+  ├─ <b>Generator</b>       execute the blessed plan
+  │
+  ├─ <b>Mechanical</b>      fmt · clippy · build · test · import-lint    <b>[no LLM spend]</b>
+  │                    red → back to Generator, zero tokens burned
+  │
+  ├─ <b>Test verifier</b>   do the tests cover every AC? zero regressions?
+  │
+  └─ <b>Reviewer</b>        faithful to plan claims and PBI AC?
+                       + one bounded unanticipated-risk pass
+        │
+      commit</pre>
+
+  <div class="callout">
+    <span class="lbl">The largest single saving in this plan</span>
+    Today an architect <code>REJECT</code> discards a finished implementation. At plan time it discards a paragraph. It also unifies the topology — <code>graphs/avril.json</code> is <code>generator → adversary … → stop</code> with <code>REJECT → generator</code>, so the AXEL inner loop becomes <strong>AVRIL&rsquo;s shape one level down</strong>: propose, get blessed, then execute.
+  </div>
+
+  <h3>One adversary per artifact type</h3>
+  <div class="scroll"><table>
+    <thead><tr><th>Artifact</th><th>Mechanical</th><th>LLM adversary</th></tr></thead>
+    <tbody>
+      <tr><td>the plan</td><td>bidirectional coverage · judgment quota · id integrity</td><td class="mono">Architect</td></tr>
+      <tr><td>the diff</td><td>fmt · clippy · build · test · import-lint</td><td class="mono">Test verifier &rarr; Reviewer</td></tr>
+    </tbody>
+  </table></div>
+  <div class="prose">
+    <p><strong>Why the other adversaries do not join the plan gate.</strong> The test verifier cannot judge test quality before tests exist; its only plan-time contribution is AC coverage, which is a script — paying a persona for it contradicts mechanical-before-LLM. The reviewer&rsquo;s job is <em>faithfulness to the plan</em>, which is definitionally post-implementation; at plan time it can offer only a second architectural opinion, duplicating the architect. AVRIL&rsquo;s PO/QA/CTO reviewed scope at PBI blessing already; re-running them is the <code>scope change &rarr; back to AVRIL</code> edge, not a gate.</p>
+    <p>There is also a cost argument: the Architect&harr;Generator loop is the <strong>most iterated</strong> loop in the chain, and a second persona there multiplies iterations on the one gate that can least afford to be chatty.</p>
+    <p><em>The honest downside</em> — the plan has one LLM gate where the diff has two. A real reduction in rigor, mitigated by the fact that a bad plan still surfaces downstream and the unsatisfiable-claim-id trigger escalates it back to the architect. Detected later, not undetected.</p>
+  </div>
+
+  <h3>Two guards this ordering requires</h3>
+  <ul>
+    <li><strong>The reviewer needs a second, capped mandate.</strong> &ldquo;Faithful to plan and AC&rdquo; is bounded and checkable — but a plan saying &ldquo;add a retry wrapper&rdquo; is satisfied by a retry wrapper with an unbounded loop. Conformant, and still wrong. So: conformance <em>plus one bounded pass for unanticipated risk</em> — each finding names a concrete failure mode, at most three, and anything architectural escalates rather than being resolved inline.</li>
+    <li><strong>The generator writes the plan it must then satisfy.</strong> It will write one it finds easy. The architect gate only mitigates that if it can reject a plan <em>for being underspecified</em> — which puts the entire weight on the claim taxonomy.</li>
+    <li><strong>The plan loop gets a trip limit.</strong> Architect&harr;Generator has no natural terminus. Three architect <code>REJECT</code>s on one plan stops the loop for a human — otherwise v2 spends the saved implementation tokens on plan tennis.</li>
+  </ul>
+
+  <h3>Claim taxonomy — what &ldquo;verifiable&rdquo; means</h3>
+  <div class="scroll"><table>
+    <thead><tr><th>Claim type</th><th>Verified by</th><th>Example</th></tr></thead>
+    <tbody>
+      <tr><td class="good"><strong>Mechanical</strong></td><td>a command + expected exit code</td><td class="mono">rg '\.unwrap\(' src/ → 0</td></tr>
+      <tr><td class="warn"><strong>Observable</strong></td><td>pointing at <code>file:line</code>, no judgment</td><td><code>ParseError</code> has <code>From&lt;io::Error&gt;</code></td></tr>
+      <tr><td class="bad"><strong>Judgment</strong></td><td>an LLM read</td><td>the retry policy is comprehensible</td></tr>
+    </tbody>
+  </table></div>
+  <div class="prose">
+    <p><strong>The architect rejects any plan whose judgment claims exceed ~30% of the total.</strong> That is what turns &ldquo;mechanically verifiable&rdquo; from aspiration into a gate, and it gives the reviewer a bounded job: run the mechanical claims, point at the observable ones, judge only the capped remainder. This extends an existing rule down one level — <code>.pinto/dod.md</code> already requires that acceptance criteria be falsifiable checkboxes.</p>
+    <p><strong>Code-time architect escalation</strong> gets a mechanical trigger rather than a judgment call: plan claims carry ids, so <em>if the Generator cannot satisfy claim N, that is an automatic escalation.</em> Deviation from the plan is detectable, so the trigger costs nothing.</p>
+  </div>
+</section>
+
+<section>
+  <div class="sec-head"><span class="n">05</span><h2>The plan artifact</h2></div>
+  <div class="prose">
+    <p>The implementation plan is the reviewer&rsquo;s contract. It lives <strong>alongside the PBI it implements</strong>, with the same stratification AXEL already applies to the board backend.</p>
+  </div>
+  <div class="scroll"><table>
+    <thead><tr><th>Harness</th><th>Path</th></tr></thead>
+    <tbody>
+      <tr><td>Pinto disclosed</td><td class="mono good">docs/plans/pbi/&lt;id&gt;.plan.md</td></tr>
+      <tr><td>Portable fallback</td><td class="mono">&lt;backlog-path&gt;/plans/&lt;id&gt;.plan.md</td></tr>
+      <tr><td>Never</td><td class="mono bad">.pinto/tasks/&lt;id&gt;.plan.md</td></tr>
+    </tbody>
+  </table></div>
+  <div class="prose">
+    <p><code>.pinto/plans/</code> also works today, but Pinto has just demonstrated that it errors on unexpected files in directories it owns — staying outside <code>.pinto/</code> removes the class of risk, and <code>docs/plans/</code> is already the established home. Linkage needs no new machinery: the plan&rsquo;s commit carries the PBI id, so <code>pinto link sync</code> binds it through the existing commit-matching path.</p>
+  </div>
+
+  <h3>Four rules that make it load-bearing rather than decorative</h3>
+  <ul>
+    <li><strong>Blessed means immutable, and committed before implementation begins.</strong> If the Generator can edit the plan after writing code, conformance review is worthless — the same self-grading failure as letting the conductor own the verdict contract. The blessed plan lands in its own commit, referencing the PBI id, <em>before</em> the first implementation commit.</li>
+    <li><strong>Claim ids are append-only.</strong> Architect and Generator iterate, so plans have revisions. A renumbered claim breaks both the reviewer&rsquo;s citations and the escalation trigger. New claims get new ids; superseded claims are marked superseded, never deleted.</li>
+    <li><strong>Coverage is bidirectional, and it is a script.</strong> Every AC maps to &ge;1 claim id — nothing silently dropped. And <strong>every claim maps to &ge;1 AC</strong> — nothing silently added. An orphan claim <em>is</em> scope creep, and it is the one failure a plan introduces that the architect will not catch: a plan satisfying the letter of every AC while quietly growing the work. Detecting it would otherwise need a PO voice at plan time; with bidirectional coverage it is <code>comm</code> on two id lists.</li>
+    <li><strong>The plan outlives the PBI.</strong> It is the record of why the code looks the way it does. The Completion Record gains a <code>## Plan</code> line naming the path and the per-claim verdicts.</li>
+  </ul>
+
+  <div class="callout">
+    <span class="lbl">A gap this closes that was not otherwise on the list</span>
+    Today <code>axel/SKILL.md</code> step 3 — <em>decompose into the smallest semantic phases</em> — is performed by the conductor alone, with <strong>zero adversary review</strong>. Phase boundaries are an architectural decision currently made unilaterally. Once the Generator writes the plan and the Architect blesses it, the decomposition sits inside the blessed artifact and gets reviewed for the first time.
+  </div>
+</section>
+
+<section>
+  <div class="sec-head"><span class="n">06</span><h2>The sequence</h2></div>
+  <div class="prose"><p>Ordered by dependency, then cost. Each PR is independently shippable and independently measurable.</p></div>
+
+  <div class="prs">
+    <div class="pr"><div class="pr-id">PR 0</div><div class="pr-body">
+      <h3>Unblock the evaluator <span class="good" style="font-family:var(--mono);font-size:.72rem">✓ merged · #105</span></h3>
+      <p>Rewrite the <code>skill-evaluator</code> Specialization postcondition to preserve <strong>intent and checklist wording</strong>, with voice explicitly assigned to the persona layer. Add a rubric note that a skill carrying an <code>Agent Personality</code> block fails <em>Single Responsibility</em>.</p>
+      <p><strong>Merged as #105</strong>, all acceptance checks verified independently; follow-up 8920866 added <strong>flag-don&rsquo;t-strip</strong> semantics and narrowed the clarifier to <code>Agent Personality</code> only — the broad wording would have failed every catalog skill on sight. Mandates and <code>OUTPUT FORMAT</code> defer to PR 1 / <code>gan-verdict</code>, where the clarifier widens again. Still owed to PR 1: the remediator&rsquo;s mandate-format clause, and the foundation-skill mandate question the narrowing left open.</p>
+      <span class="files">crossr-skills/.agents/skills/skill-evaluator/SKILL.md</span>
+    </div></div>
+
+    <div class="pr"><div class="pr-id">PR 1</div><div class="pr-body">
+      <h3>Peel persona, mandate, and protocol — no ruleset moves</h3>
+      <p>PR 1 <strong>peels; it does not restructure law.</strong> The rust-* skill bodies stay where they are until PR 5 folds them into the book — building intermediate <code>rust-review</code> / <code>rust-testing</code> delta skills that PR 5 would then delete is touching adversary law twice, which this plan forbids. One rename happens now: <code>rust-architect</code> &rarr; <code>architecture</code>, already 100% language-neutral.</p>
+      <ul>
+        <li>Lift <code>Agent Personality</code> blocks into the persona files; delete from skills.</li>
+        <li><strong>One mandate per role, in the persona.</strong> Delete skill-layer mandates; fix the reviewer&rsquo;s writer-mandate bug.</li>
+        <li><strong>Strip writer prerequisites everywhere</strong> — reviewer and tester skills both say &ldquo;MUST also apply <code>code-writer</code> + <code>rust-code-writer</code>&rdquo;, and all three persona files list writer skills as required. Left in place, these lines put the 73 KB stack back into every subagent the moment PR 2 makes the personas real.</li>
+        <li><strong>Create <code>gan-verdict</code></strong> (~10 lines): verdict tokens, silence &ne; approval, envelope field schema. Delete all three <code>OUTPUT FORMAT</code> blocks. <code>agent-harness</code> gets a pointer, not a copy.</li>
+        <li><strong>Lift the skill-GAN trio&rsquo;s mandates too</strong> — the evaluator is itself a valid GAN target and self-condemns until this lands. Its <code>## Output Format</code> stays (job&rsquo;s report contract, gate-card material). Delete the remediator&rsquo;s mandate-format-matching clause in the same pass.</li>
+        <li><code>scripts/verify-protocol</code> lands <strong>in crossr-loops next to the graphs</strong> — it must read their <code>when:</code> values.</li>
+      </ul>
+      <p>Personas are edited <strong>under their current names</strong> — the <code>rust-</code> prefix drops in PR 2, when every referrer is being rewritten anyway; renaming here would break graph references PR 1 does not otherwise touch.</p>
+      <p><strong>Remote split:</strong> these files span two remotes — two stacked PRs landed together, not &ldquo;one pass.&rdquo; <strong>Pin:</strong> crossr-loops <code>lockfile.toml</code> pins <code>skills = "v0-last-monolith"</code>; the rename breaks it unless the loops PR retargets the pin in the same stack, or the catalog keeps a <code>rust-architect</code> shim until it moves.</p>
+    </div></div>
+
+    <div class="pr"><div class="pr-id">PR 2</div><div class="pr-body">
+      <h3>Promote personas to runtime agents, by generation</h3>
+      <p>Per decision #3, <code>.opencode/agent/</code> is <strong>generated output, never hand-written</strong> — the generation step lands in <code>harness-bootstrap</code>, which already copies <code>.agents/agents/</code> into target repos. Hand-writing both directories is the dual-mandate bug with a new folder name. PR 2 edits the <em>source</em> personas&rsquo; load sets (renaming them to drop the <code>rust-</code> prefix: <code>reviewer-agent</code>, <code>tester-agent</code>, <code>architect-agent</code>); consuming repos regenerate.</p>
+      <p>The conductor entrypoint stops preloading writer and adversary skills. Fix <code>requires.skills</code> in <code>axel.json</code> — the graph already models per-node <code>uses.skill</code> / <code>uses.persona</code>; the bug is the flat union at graph level. Retarget <code>uses.persona</code> to the renamed personas in the same pass (<code>verify-graphs</code> gates it).</p>
+      <p>This is both the load-set fix and the thing that makes &ldquo;delegate to <code>reviewer-agent</code>&rdquo; resolve to something real. <strong>Measurable on the next AXEL session.</strong> Spans loops + harness; stack like PR 1.</p>
+    </div></div>
+
+    <div class="pr"><div class="pr-id">PR 3</div><div class="pr-body">
+      <h3>Delete <code>rust-team-lead</code></h3>
+      <p>AXEL already restates the entire inner GAN, so this is a deletion, not a merge. <strong>Intake stays three doors — no fourth.</strong> The v2 plan artifact is produced <em>by</em> the loop from a blessed PBI; a human-supplied plan document that never went through AVRIL is unblessed work with better stationery. The path for &ldquo;I have a design doc&rdquo; already exists: hand it to AVRIL as intent. Touch only the 8 load-bearing referrers; leave <code>progress.md</code>, pinto tasks, and MIGRATION as history.</p>
+    </div></div>
+
+    <div class="pr"><div class="pr-id">PR 4</div><div class="pr-body">
+      <h3>Card + <code>references/</code> split on <code>axel</code> and <code>avril</code></h3>
+      <p>Cheapest last, after the file has shed the Rust stack table, the RTL pairing prose, and its own persona block. <code>SKILL.md</code> becomes the runtime card — mandate, gates, order, stop conditions, ~2&ndash;3 KB. Verification (scoring law for <code>skill-evaluator</code>, not runtime law), Specialization, personality essays, the pinto flag encyclopedia, and the dashboard reprint move to <code>references/</code>.</p>
+      <p>The three dashboard sections are <strong>near-duplicates, not byte-identical</strong> — deduping into <code>agent-harness</code> means parameterizing &ldquo;board&rdquo; vs &ldquo;plan&rdquo;, a real refactor rather than a delete.</p>
+    </div></div>
+
+    <div class="pr"><div class="pr-id">PR 5</div><div class="pr-body">
+      <h3>One ruleset, progressively disclosed</h3>
+      <p><strong>Depends on PR 1</strong> — the persona/ruleset split must have landed.</p>
+      <p>Build <code>rust/SKILL.md</code> + <code>references/</code>. Absorb <code>rust-errors</code>, the rust-* adversary bodies, <strong>and <code>rust-code-writer</code> (7,674 B) — the generator&rsquo;s copy of the same law.</strong> Left sitting, the book is a third photocopy: generator writes to <code>rust-code-writer</code>, reviewer checks book Rules, and drift manufactures rejections again — §2.7 with new stationery. Generator load set becomes <code>code-writer</code> + the rust book + domain. <code>rust-code-reviewer</code> and <code>rust-code-tester</code> shrink to the gate cards <code>code-review</code> and <code>testing</code> (~1&ndash;2 KB). Retarget the domain skills&rsquo; frontmatter — <code>rust-axum-backend</code>, <code>rust-tui</code>, <code>rust-frontend</code>, <code>brick-coder</code> all declare &ldquo;activate together with <code>rust-code-writer</code>&rdquo;, which stops existing. Assign stable rule ids. The Rules-only projection is <strong>generated</strong>, never hand-copied — hand-copying is what created this problem.</p>
+      <p>Domain skills (<code>rust-axum-backend</code>, <code>rust-tui</code>, <code>rust-frontend</code>) stay separate for now; revisit once the reference model is proven.</p>
+    </div></div>
+
+    <div class="pr"><div class="pr-id">PR 6</div><div class="pr-body">
+      <h3>The v2 chain</h3>
+      <ul>
+        <li>Generator emits an implementation plan with a typed claim list <em>before</em> writing code.</li>
+        <li>Architect moves to <strong>plan time</strong>; rejects for underspecification against the 30% judgment quota.</li>
+        <li>Mechanical gate runs before any LLM gate; red never costs a token.</li>
+        <li>Test verifier scoped to AC coverage + zero regressions — this absorbs the old &ldquo;tester diet&rdquo;.</li>
+        <li>Reviewer scoped to plan/AC conformance + one capped unanticipated-risk pass.</li>
+        <li>Code-time architect escalation fires only on an unsatisfiable claim id.</li>
+        <li>Plan loop trip limit: three architect REJECTs on one plan stops for a human.</li>
+        <li><strong>Graph bug fix:</strong> <code>axel.json</code>&rsquo;s <code>plan</code> node uses <code>axel-conductor-agent</code> as generator — in v2 the plan author is the code Generator; left as-is, the conductor writes the plan it is forbidden to write.</li>
+        <li>Plan artifact committed before implementation, immutable once blessed, append-only claim ids.</li>
+        <li>Mechanical claim audit runs <strong>before</strong> the Architect at the plan gate — bidirectional coverage, quota, id integrity. No second LLM persona at plan time.</li>
+        <li><code>axel</code> step 3 (Decompose) moves inside the plan, so phase boundaries are blessed rather than unilateral.</li>
+      </ul>
+      <p><strong>This replaces the old REJECT matrix rather than patching it.</strong> With gates ordered by blast radius the restart rule nearly writes itself:</p>
+      <div class="scroll"><table>
+        <thead><tr><th>Reject from</th><th>Re-run</th></tr></thead>
+        <tbody>
+          <tr><td>Architect — plan time</td><td class="good">re-plan; no code exists, nothing to invalidate</td></tr>
+          <tr><td>Mechanical</td><td class="good">Generator; free, no LLM</td></tr>
+          <tr><td>Test verifier</td><td>mechanical + test verifier; Reviewer only if production code changed</td></tr>
+          <tr><td>Reviewer</td><td>Reviewer only</td></tr>
+          <tr><td>Architect — escalated, code time</td><td class="warn">full chain; rare by construction</td></tr>
+          <tr><td>Scope change</td><td>back to AVRIL — not a GAN restart</td></tr>
+        </tbody>
+      </table></div>
+    </div></div>
+
+    <div class="pr"><div class="pr-id">PR 7</div><div class="pr-body">
+      <h3>Handoff packets, envelopes, AVRIL batching</h3>
+      <p>Per-conductor envelope specs, packet format in — phase id and &ldquo;k of n&rdquo;, file list + diff, the AC subset claimed, prior verdicts as one-liners. Never sibling SKILL.md files, prior-phase essays, whole-board JSON, or dashboard HTML pasted back in. AVRIL then reviews in batches: PO the set, QA the set, CTO the set; <code>REJECT</code> loops the item, not the siblings.</p>
+      <p><strong>Required guard:</strong> per-item <code>BLESS</code> tokens inside the batch verdict, never one blanket <code>BLESS</code> over a set. Batching is exactly when a reviewer starts blessing by skim.</p>
+    </div></div>
+  </div>
+</section>
+
+<section>
+  <div class="sec-head"><span class="n">07</span><h2>Do not cut</h2></div>
+  <div class="keep-grid">
+    <div><b>Three distinct adversary roles</b><span>Collapsing them into one voice is how the product dies.</span></div>
+    <div><b>The BLESS token, silence &ne; approval</b><span>Cheap to keep, and the anti-collusion property everything rests on.</span></div>
+    <div><b>Blessed intake</b><span>AXEL on unblessed scope is how you spend tokens on work you throw away.</span></div>
+    <div><b>&ldquo;Conductor writes no code&rdquo;</b><span>That is the load-set constraint in PR 2, not decoration.</span></div>
+    <div><b>SKILL.md as law, graphs as maps</b><span>Do not invent a second law document to save tokens.</span></div>
+    <div><b>The LLM Tester</b><span>PR 6 starves its input. It does not delete the gate.</span></div>
+    <div><b>Per-item BLESS when AVRIL batches</b><span>Otherwise you bank the savings and lose the gate.</span></div>
+    <div><b>Architect routing on seams</b><span>Route on touched paths <em>or</em> size — never size alone. A 12-line trait-boundary change is the architect&rsquo;s case.</span></div>
+    <div><b>The reviewer&rsquo;s unanticipated-risk pass</b><span>Conformance-only review misses defects neither the plan nor the AC anticipated. Cap it at three findings; do not delete it.</span></div>
+    <div><b>The judgment-claim quota</b><span>Without it, &ldquo;mechanically verifiable&rdquo; degrades into a plan of unfalsifiable prose and the architect gate becomes theatre.</span></div>
+    <div><b>Plan immutability after blessing</b><span>A plan the Generator can edit post-hoc turns conformance review into self-grading. Commit it before the code, or the reviewer gate is decorative.</span></div>
+    <div><b>One adversary per artifact type</b><span>Adding the reviewer or test verifier to the plan gate buys a duplicate architectural opinion and multiplies iterations on the chattiest loop in the chain.</span></div>
+    <div><b>The plan gate, at every size</b><span>Size-routing may shrink the diff gates; it never skips the plan gate. The small seam change is the plan-first architect&rsquo;s canonical case.</span></div>
+    <div><b>Blessed intake, three doors only</b><span>A plan document is an artifact of a blessed PBI, never a way in. Design docs enter through AVRIL as intent.</span></div>
+  </div>
+</section>
+
+<section>
+  <div class="sec-head"><span class="n">08</span><h2>Measurement</h2></div>
+  <div class="prose">
+    <p>There is no instrumentation today. <code>orchestrator-prompt-template.md</code> ledgers tokens per ticket; the in-harness loops ledger nothing. Every number in this plan — and every number about whether it worked — is otherwise an estimate. <strong>Add to the conductor card in PR 2: record load-set bytes at session start.</strong> Baseline is 73,031.</p>
+  </div>
+  <div class="scroll"><table>
+    <thead><tr><th>PR</th><th>Measurable</th></tr></thead>
+    <tbody>
+      <tr><td class="mono">0</td><td><code>skill-evaluator</code> scores a de-personaed skill at or above its pre-split score</td></tr>
+      <tr><td class="mono">1</td><td><code>verify-protocol</code> passes; one mandate per role; <code>gan-verdict</code> exists; zero writer prerequisites left in adversary skills or persona files</td></tr>
+      <tr><td class="mono">2</td><td>Conductor load-set bytes drop from 73,031; adversary skills absent from the conductor window; <code>.opencode/agent/</code> files carry a generated-do-not-edit header</td></tr>
+      <tr><td class="mono">3</td><td><code>rust-team-lead</code> gone from all 8 load-bearing referrers; <code>axel</code> under 14 KB</td></tr>
+      <tr><td class="mono">4</td><td><code>axel/SKILL.md</code> at or under 3 KB; <code>references/</code> carries Verification and Specialization</td></tr>
+      <tr><td class="mono">5</td><td>One law, one location; ~16 KB of formerly rust-* neutral law serves all languages; Rules projections generated; <code>rust-errors</code> and the adversary bodies absorbed; gate cards &le;2 KB; <strong>one writer skill remains (<code>code-writer</code>)</strong> — language how-to lives only in the book</td></tr>
+      <tr><td class="mono">6</td><td>Architect rejections occur at plan time, never after implementation; zero LLM tokens on a mechanically-red phase or an audit-red plan; bidirectional AC&harr;claim coverage passes by script; plan commit precedes first implementation commit</td></tr>
+      <tr><td class="mono">7</td><td>Adversary windows carry no sibling SKILL.md, no board dump, no prior-phase prose</td></tr>
+    </tbody>
+  </table></div>
+  <div class="callout">
+    <span class="lbl">Acceptance for the whole plan</span>
+    <strong>One.</strong> An Elm or Melange AXEL run loads <code>code-writer</code> + the axel card + the disclosed language writer, with <code>architecture</code> / <code>code-review</code> / <code>testing</code> in the subagents — and it runs, instead of halting or reviewing Elm against <code>thiserror</code> rules.<br><br>
+    <strong>Two.</strong> No architect rejection ever discards a finished implementation. Every seam objection is raised against a plan. Track code-time escalations; the count should trend to near zero, and each one signals a plan whose claim list was too weak.<br><br>
+    Track alongside: rejections per rule id (which reference needs a better <em>How</em>), and mechanical-gate catches (each is an LLM cycle that did not happen).
+  </div>
+</section>
+
+<section>
+  <div class="sec-head"><span class="n">09</span><h2>Decisions and remaining questions</h2></div>
+  <div class="prose"><p>The questions that were load-bearing for PR 1 are now decided in the body — a plan that says &ldquo;decide before PR 1&rdquo; and then doesn&rsquo;t is not a plan.</p></div>
+  <div class="scroll"><table>
+    <thead><tr><th>Question</th><th>Decision</th></tr></thead>
+    <tbody>
+      <tr><td>Naming</td><td>Skill = activity (<code>architecture</code>, <code>code-review</code>, <code>testing</code>). Persona = role (<code>architect-agent</code>). Book = language (<code>rust</code>).</td></tr>
+      <tr><td>Delta mechanism</td><td class="good">None. Language law lives in <code>rust/references/</code>; no intermediate delta skills.</td></tr>
+      <tr><td>Two agent directories</td><td><code>.opencode/agent/</code> is <strong>generated</strong> from <code>.agents/agents/</code> at bootstrap. One hand-written source.</td></tr>
+      <tr><td>Envelope location</td><td>Field schema in <code>gan-verdict</code>, last in the prompt; conductor selects fields and fills values.</td></tr>
+      <tr><td>&ldquo;Material change&rdquo; trigger</td><td class="good">Superseded by PR 6 — escalation is an unsatisfiable claim id; the old matrix no longer exists.</td></tr>
+      <tr><td>Plan artifact location</td><td class="good"><code>docs/plans/pbi/&lt;id&gt;.plan.md</code>, committed before implementation, immutable once blessed.</td></tr>
+    </tbody>
+  </table></div>
+  <div class="prose"><p>Still open, none blocking PR 1:</p></div>
+  <ul>
+    <li><strong>Is the judgment quota 30%?</strong> A starting cap. Instrument on real plans before hardening; do not block PR 6 on the number.</li>
+    <li><strong>Mechanical command registries.</strong> Two is fine: harness owns <code>just test</code> / <code>just clippy</code>; each book reference owns its per-rule <code>check:</code> line.</li>
+    <li><strong><code>brick</code>.</strong> Wait until the AXEL path proves the model.</li>
+    <li><strong>Domain skills.</strong> Stay skills until the book is proven; then become book references if the model holds.</li>
+  </ul>
+  </section>
+
+<footer>
+  <span>docs/plans/gan-layer-separation-plan.md</span>
+  <span>·</span>
+  <span>measured against the tree 2026-08-30</span>
+  <span>·</span>
+  <span>status: proposed, not started</span>
+</footer>
+
+</main>
+
+</body>
+</html>
