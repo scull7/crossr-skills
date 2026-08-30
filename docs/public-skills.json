@@ -27,6 +27,21 @@
       "purpose": "Obsessive test coverage and error-path verification"
     },
     {
+      "name": "ocaml-code-reviewer",
+      "category": "Quality",
+      "purpose": "Pedantic OCaml quality gate: reject writer violations, never edit production"
+    },
+    {
+      "name": "ocaml-code-tester",
+      "category": "Quality",
+      "purpose": "OCaml coverage and error-path gate; lists gaps, never writes tests"
+    },
+    {
+      "name": "ocaml-architect",
+      "category": "Architecture",
+      "purpose": "System-level OCaml architecture gate: one unit one job, never writes code"
+    },
+    {
       "name": "rust-architect",
       "category": "Architecture",
       "purpose": "Torvalds-style system-level architecture gatekeeper"

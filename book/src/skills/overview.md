@@ -16,8 +16,11 @@ The **public catalog** is the machine-readable allowlist in [`docs/public-skills
 | `rust-code-writer` | Idiomatic, pure, stratified, flat-combinator Rust | Rust Core | `code-writer` + this |
 | `ocaml-code-writer` | Idiomatic, pure, stratified OCaml: fail-closed combinators, no nested match, domain types at the edge | OCaml Core | `code-writer` + this |
 | `rust-code-reviewer` | Ruthless Rust code quality guardian | Quality | code GAN |
+| `ocaml-code-reviewer` | Pedantic OCaml quality gate: reject writer violations, never edit production | Quality | OCaml code GAN |
 | `rust-code-tester` | Obsessive test coverage and error-path verification | Quality | code GAN |
+| `ocaml-code-tester` | OCaml coverage and error-path gate; lists gaps, never writes tests | Quality | OCaml code GAN |
 | `rust-architect` | Torvalds-style system-level architecture gatekeeper | Architecture | code GAN final gate |
+| `ocaml-architect` | System-level OCaml architecture gate: one unit one job, never writes code | Architecture | OCaml code GAN final gate |
 | `rust-team-lead` | GAN orchestrator for multi-agent Rust plan execution | Orchestration | AXEL inner GAN on Rust |
 | `avril` | Planning GAN — blessed PBIs (PO → QA → CTO) | Orchestration | `code-writer` + `avril` |
 | `axel` | Execution loop — blessed PBI → PETC + code GAN | Orchestration | `code-writer` + `axel` (+ stack) |
@@ -38,7 +41,7 @@ The **public catalog** is the machine-readable allowlist in [`docs/public-skills
 | `voice-dna` | CrossR sharp-human writing voice with full unslop pattern list | Writing | human-facing artifacts |
 | `unslop` | Voice-agnostic pass that strips AI tells from prose | Writing | any human-facing draft |
 
-**N = 25** public skills. Items in `out` in `public-skills.json` (e.g. `obsidian-cli`, empty diataxis stubs) are **not** marketed.
+**N = 28** public skills. Items in `out` in `public-skills.json` (e.g. `obsidian-cli`, empty diataxis stubs) are **not** marketed.
 
 ## Pipeline skills
 

@@ -1,0 +1,316 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>OCaml GAN — subzeroplay verification</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-slate-950 text-slate-100">
+  <main class="mx-auto max-w-5xl px-6 py-12">
+    <p class="text-xs uppercase tracking-[0.2em] text-cyan-400">CrossR · verification result · 2026-08-29</p>
+    <h1 class="mt-3 text-4xl font-semibold tracking-tight">OCaml GAN skills — dogfood verification</h1>
+    <p class="mt-4 text-lg text-slate-300">
+      Ran <code class="text-cyan-300">ocaml-architect</code>, <code class="text-cyan-300">ocaml-code-reviewer</code>,
+      and <code class="text-cyan-300">ocaml-code-tester</code> against
+      <code class="text-cyan-300">subzeroplay</code> to test whether the skills change agent behaviour.
+      <span class="text-slate-100 font-medium">Verdict: all three fired as specified. No skill needed a fix or a recopy.</span>
+    </p>
+
+    <div class="mt-8 grid gap-4 md:grid-cols-3">
+      <div class="rounded-2xl border border-emerald-500/40 bg-emerald-500/10 p-4">
+        <p class="text-xs uppercase text-emerald-300">Gates</p>
+        <p class="mt-1 font-medium">3 of 3 behaved to spec</p>
+      </div>
+      <div class="rounded-2xl border border-emerald-500/40 bg-emerald-500/10 p-4">
+        <p class="text-xs uppercase text-emerald-300">Proof beyond green</p>
+        <p class="mt-1 font-medium">2 of 2 mutations caught</p>
+      </div>
+      <div class="rounded-2xl border border-amber-500/40 bg-amber-500/10 p-4">
+        <p class="text-xs uppercase text-amber-300">Unverified</p>
+        <p class="mt-1 font-medium"><code>@fmt</code> — no ocamlformat in switch</p>
+      </div>
+    </div>
+
+    <section class="mt-14">
+      <h2 class="text-2xl font-semibold">1. Method</h2>
+      <p class="mt-3 text-slate-300">
+        Five skills copied into <code>subzeroplay/.agents/skills/</code>: <code>code-writer</code>,
+        <code>ocaml-code-writer</code>, and the three new gates. No harness wiring invented (og-04).
+      </p>
+      <p class="mt-3 text-slate-300">
+        Each gate ran as a <span class="font-medium text-slate-100">fresh activation with a deliberately neutral prompt</span>.
+        No agent was told what verdict to reach or which defects existed — otherwise the exercise proves
+        only that agents follow instructions. Every claim an agent made was then re-verified against the
+        source by hand. Steps A, B, C were read-only; file mtimes confirm they wrote nothing.
+      </p>
+      <pre class="mt-4 overflow-x-auto rounded-xl border border-slate-800 bg-slate-900/60 p-4 text-xs text-slate-300">env -i HOME="$HOME" PATH="$(pwd)/_opam/bin:/usr/bin:/bin:/opt/homebrew/bin" \
+  OPAM_SWITCH_PREFIX="$(pwd)/_opam" \
+  CAML_LD_LIBRARY_PATH="$(pwd)/_opam/lib/stublibs" \
+  OCAMLPATH="$(pwd)/_opam/lib" \
+  dune build @check @runtest @server @frontend</pre>
+    </section>
+
+    <section class="mt-14">
+      <h2 class="text-2xl font-semibold">2. Skill × expected observable × happened</h2>
+      <div class="mt-6 overflow-x-auto">
+        <table class="w-full text-left text-sm">
+          <thead class="text-slate-400">
+            <tr>
+              <th class="py-2 pr-4">Skill</th>
+              <th class="py-2 pr-4">Expected observable</th>
+              <th class="py-2 pr-4">Happened</th>
+              <th class="py-2">Evidence</th>
+            </tr>
+          </thead>
+          <tbody class="divide-y divide-slate-800 align-top">
+            <tr>
+              <td class="py-3 pr-4 font-mono text-cyan-300">ocaml-architect</td>
+              <td class="py-3 pr-4">REJECT <code>store.ml</code>; name the jobs</td>
+              <td class="py-3 pr-4 text-emerald-300">Yes</td>
+              <td class="py-3">REJECTED. Named 10 jobs, not the 5 predicted — added identity/session, roster, dashboard reporting, org founding, plus schema migration and demo seeding.</td>
+            </tr>
+            <tr>
+              <td class="py-3 pr-4 font-mono text-cyan-300">ocaml-architect</td>
+              <td class="py-3 pr-4">Must <em>not</em> name files</td>
+              <td class="py-3 pr-4 text-emerald-300">Yes</td>
+              <td class="py-3">Zero filenames in either run. No <code>store_calendar.ml</code>, no proposed module names, no patches. Jobs named structurally.</td>
+            </tr>
+            <tr>
+              <td class="py-3 pr-4 font-mono text-cyan-300">ocaml-code-reviewer</td>
+              <td class="py-3 pr-4">Catch public types mid-file</td>
+              <td class="py-3 pr-4 text-emerald-300">Yes</td>
+              <td class="py-3">Enumerated all 40 exhaustively with line numbers, from <code>signup_error</code> 444 to <code>create_team_error</code> 2200.</td>
+            </tr>
+            <tr>
+              <td class="py-3 pr-4 font-mono text-cyan-300">ocaml-code-reviewer</td>
+              <td class="py-3 pr-4">Catch dest slugs + <code>| kind -&gt; kind</code></td>
+              <td class="py-3 pr-4 text-emerald-300">Yes</td>
+              <td class="py-3"><code>calendar.ml:247–251</code> and <code>253–257</code> flagged as interior slug matching; both silent defaults named separately.</td>
+            </tr>
+            <tr>
+              <td class="py-3 pr-4 font-mono text-cyan-300">ocaml-code-reviewer</td>
+              <td class="py-3 pr-4">Catch string form state</td>
+              <td class="py-3 pr-4 text-emerald-300">Yes</td>
+              <td class="py-3"><code>Form.t</code> 166–180 (<code>kind</code>, <code>homeAway</code>, <code>facilityId</code>, <code>sheetId</code>), plus <code>rsvpStatuses</code> 368.</td>
+            </tr>
+            <tr>
+              <td class="py-3 pr-4 font-mono text-cyan-300">ocaml-code-reviewer</td>
+              <td class="py-3 pr-4">One sentence per violation; never name a split</td>
+              <td class="py-3 pr-4 text-emerald-300">Yes</td>
+              <td class="py-3">110 numbered single-sentence items. Explicitly deferred the seam to the architect rather than proposing files.</td>
+            </tr>
+            <tr>
+              <td class="py-3 pr-4 font-mono text-cyan-300">ocaml-code-tester</td>
+              <td class="py-3 pr-4">TEST VERDICT: REJECTED</td>
+              <td class="py-3 pr-4 text-emerald-300">Yes</td>
+              <td class="py-3">Exact output format. "The native suite is green, and green proves nothing here."</td>
+            </tr>
+            <tr>
+              <td class="py-3 pr-4 font-mono text-cyan-300">ocaml-code-tester</td>
+              <td class="py-3 pr-4">Follow existing runner; no Alcotest</td>
+              <td class="py-3 pr-4 text-emerald-300">Yes</td>
+              <td class="py-3">Kept the hand-rolled <code>expect</code>/<code>fail</code> script as law. Offered AVA/vitest only for the Melange side, gated on dependency approval, and refused to pick silently.</td>
+            </tr>
+            <tr>
+              <td class="py-3 pr-4 font-mono text-cyan-300">ocaml-code-tester</td>
+              <td class="py-3 pr-4">Notice untested dest calcs that rematch slugs</td>
+              <td class="py-3 pr-4 text-emerald-300">Yes</td>
+              <td class="py-3">Named <code>calendar.ml:247</code>/<code>253</code> under the dual-compile rule, plus <code>created_id</code>, <code>team.ml</code> helpers, <code>money.ml</code>.</td>
+            </tr>
+            <tr>
+              <td class="py-3 pr-4 font-mono text-cyan-300">ocaml-code-tester</td>
+              <td class="py-3 pr-4">Must <em>not</em> write a test file</td>
+              <td class="py-3 pr-4 text-emerald-300">Yes</td>
+              <td class="py-3">Wrote nothing. Source mtimes 10:01 vs agent run 17:4x.</td>
+            </tr>
+            <tr>
+              <td class="py-3 pr-4 font-mono text-cyan-300">writer pair</td>
+              <td class="py-3 pr-4">Types to top; do <em>not</em> split the file</td>
+              <td class="py-3 pr-4 text-emerald-300">Yes</td>
+              <td class="py-3">46 types above line 314; last public type ends 312. <code>store.ml</code> still one file (2275 lines). <code>store.mli</code> byte-identical.</td>
+            </tr>
+            <tr>
+              <td class="py-3 pr-4 font-mono text-cyan-300">writer pair</td>
+              <td class="py-3 pr-4">Dest uses domain types; slug helper deleted</td>
+              <td class="py-3 pr-4 text-emerald-300">Yes</td>
+              <td class="py-3">No <code>"practice"</code> anywhere in <code>calendar.ml</code>. New <code>Wire</code> module decodes to <code>Domain.Occurrence</code> variants at the adapter.</td>
+            </tr>
+            <tr>
+              <td class="py-3 pr-4 font-mono text-cyan-300">writer pair</td>
+              <td class="py-3 pr-4">Tests the tester listed, existing runner</td>
+              <td class="py-3 pr-4 text-emerald-300">Yes</td>
+              <td class="py-3">436 → 560 assertions. No framework, no new files, no dependency change.</td>
+            </tr>
+            <tr>
+              <td class="py-3 pr-4 font-mono text-cyan-300">ocaml-architect</td>
+              <td class="py-3 pr-4">Remains REJECTED after the writer pass</td>
+              <td class="py-3 pr-4 text-emerald-300">Yes</td>
+              <td class="py-3">Re-run rejected again and explicitly declined to credit line-level fixes. Correct: hoisting types does not move a seam.</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <section class="mt-14">
+      <h2 class="text-2xl font-semibold">3. The failure conditions</h2>
+      <p class="mt-3 text-slate-300">Four conditions were declared in advance to mean verification failed. None occurred.</p>
+      <div class="mt-6 overflow-x-auto">
+        <table class="w-full text-left text-sm">
+          <thead class="text-slate-400">
+            <tr><th class="py-2 pr-4">Condition</th><th class="py-2 pr-4">Result</th><th class="py-2">Check</th></tr>
+          </thead>
+          <tbody class="divide-y divide-slate-800 align-top">
+            <tr><td class="py-3 pr-4">Dune green but dest still matches <code>"practice"</code></td><td class="py-3 pr-4 text-emerald-300">Did not occur</td><td class="py-3"><code>grep '"practice"' calendar.ml</code> → no match</td></tr>
+            <tr><td class="py-3 pr-4">Types still sit at line 1189</td><td class="py-3 pr-4 text-emerald-300">Did not occur</td><td class="py-3">Last public type ends at 312; first <code>let</code> at 314</td></tr>
+            <tr><td class="py-3 pr-4">Store split into <code>store_types.ml</code></td><td class="py-3 pr-4 text-emerald-300">Did not occur</td><td class="py-3"><code>ls server/</code> — same 7 module pairs, no new file</td></tr>
+            <tr><td class="py-3 pr-4">Skill names a file (architect)</td><td class="py-3 pr-4 text-emerald-300">Did not occur</td><td class="py-3">Both architect runs: zero filenames proposed</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <section class="mt-14">
+      <h2 class="text-2xl font-semibold">4. Green is not the evidence — mutation testing</h2>
+      <p class="mt-3 text-slate-300">
+        A passing suite says nothing about whether the new assertions bite. Two mutations were
+        introduced into the domain and the suite re-run. Both were caught; both were reverted byte-identical.
+      </p>
+      <div class="mt-6 overflow-x-auto">
+        <table class="w-full text-left text-sm">
+          <thead class="text-slate-400">
+            <tr><th class="py-2 pr-4">Mutation</th><th class="py-2 pr-4">Caught</th><th class="py-2">Failure message</th></tr>
+          </thead>
+          <tbody class="divide-y divide-slate-800 align-top">
+            <tr>
+              <td class="py-3 pr-4"><code>attendance_of_string "absent"</code> → <code>None</code></td>
+              <td class="py-3 pr-4 text-emerald-300">Yes</td>
+              <td class="py-3 font-mono text-xs">FAIL: attendance Absent: expected absent to round trip</td>
+            </tr>
+            <tr>
+              <td class="py-3 pr-4"><code>| _, View, _ -&gt; true</code> → <code>false</code></td>
+              <td class="py-3 pr-4 text-emerald-300">Yes</td>
+              <td class="py-3 font-mono text-xs">FAIL: Player Views an Occurrence: expected true</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <p class="mt-4 text-slate-400 text-sm">
+        The second is the load-bearing one. That universal <code>View</code> arm had <em>zero</em> tests before
+        this pass. The tester named it, the writer covered it, and the mutation proves the coverage is real.
+        That is the full GAN loop closing on a defect nobody had written down.
+      </p>
+    </section>
+
+    <section class="mt-14">
+      <h2 class="text-2xl font-semibold">5. Findings not on the prediction list</h2>
+      <p class="mt-3 text-slate-300">
+        The strongest evidence that the skills are doing work rather than pattern-matching a brief:
+        each of these was found unprompted and verified independently.
+      </p>
+      <ul class="mt-4 space-y-4 text-slate-300">
+        <li class="rounded-xl border border-slate-800 bg-slate-900/60 p-4">
+          <p class="font-medium text-slate-100">A dead public error constructor</p>
+          <p class="mt-1 text-sm">
+            <code>Occurrence.write_error.Blocked</code> is unreachable. <code>overlap</code> has only
+            <code>Clear | Notice</code>; <code>blocks</code> maps both to <code>false</code>; so
+            <code>Error Blocked</code> at <code>occurrence.ml:345</code> can never be returned. The one test
+            touching it asserts it is <em>not</em> produced. Found by the tester, confirmed by hand.
+            <code>Scoresheet.Forbidden</code> is the same shape — declared, constructed nowhere.
+          </p>
+        </li>
+        <li class="rounded-xl border border-slate-800 bg-slate-900/60 p-4">
+          <p class="font-medium text-slate-100">The reviewer rejected a false premise it was handed</p>
+          <p class="mt-1 text-sm">
+            The brief stated as a product constraint that "store's module-level <code>let*</code> is
+            <code>Option.bind</code>". The reviewer checked the source and refused it: there is no
+            module-level binding at all. All 17 are function-local — one <code>Option.bind</code> at line 90,
+            sixteen <code>Result.bind</code>. Verified. A gate that verifies its own constraints is worth
+            more than one that obeys them.
+          </p>
+        </li>
+        <li class="rounded-xl border border-slate-800 bg-slate-900/60 p-4">
+          <p class="font-medium text-slate-100">The build proves the layering claim</p>
+          <p class="mt-1 text-sm">
+            <code>test/dune</code> links <code>domain</code> only, and <code>server_lib</code> is
+            <code>(modes melange)</code> feeding a <code>melange.emit</code>. The server library cannot be
+            linked into a test at all, so every calculation that drifted into the store is untestable
+            <em>by construction</em>. The architect and tester reached this independently.
+          </p>
+        </li>
+        <li class="rounded-xl border border-slate-800 bg-slate-900/60 p-4">
+          <p class="font-medium text-slate-100">Command/query entanglement is compiled in</p>
+          <p class="mt-1 text-sm">
+            Every write operation returns the full page read model as its success type, so the type checker
+            couples mutation paths to view shape. A display change breaks a write path.
+          </p>
+        </li>
+        <li class="rounded-xl border border-slate-800 bg-slate-900/60 p-4">
+          <p class="font-medium text-slate-100">A hardcoded fallback credential</p>
+          <p class="mt-1 text-sm">
+            <code>store.ml:39</code> falls back to the literal <code>"playdev"</code> when
+            <code>SEED_PASSWORD</code> is unset. Flagged by the reviewer, confirmed present, deliberately
+            left unfixed — out of scope for this pass and recorded here instead.
+          </p>
+        </li>
+      </ul>
+    </section>
+
+    <section class="mt-14">
+      <h2 class="text-2xl font-semibold">6. Honest caveats</h2>
+      <ul class="mt-4 space-y-3 text-slate-300 text-sm">
+        <li class="rounded-xl border border-amber-500/30 bg-amber-500/5 p-4">
+          <span class="font-medium text-amber-200">@fmt is UNVERIFIED.</span>
+          No <code>.ocamlformat</code> in the repo and no <code>ocamlformat</code> in <code>_opam/bin</code>.
+          Nothing was installed. Formatting of new code is hand-matched, not machine-proven.
+        </li>
+        <li class="rounded-xl border border-amber-500/30 bg-amber-500/5 p-4">
+          <span class="font-medium text-amber-200">Types sit above the first <code>let</code>, but below an FFI block.</span>
+          <code>store.ml:4–11</code> are Melange <code>external</code> declarations, and
+          <code>type env</code>/<code>type mkdir_opts</code> at lines 1–2 exist solely to type them.
+          The reviewer's rule names <code>external</code> as a value binding, so this is a defensible
+          carve-out rather than a clean pass.
+        </li>
+        <li class="rounded-xl border border-amber-500/30 bg-amber-500/5 p-4">
+          <span class="font-medium text-amber-200">One tester imprecision.</span>
+          It quoted <code>blocks</code> as <code>| _ -&gt; false</code> when the source reads
+          <code>| Clear | Notice -&gt; false</code> — exhaustive, not a catch-all. The conclusion holds; the quote was not literal.
+        </li>
+        <li class="rounded-xl border border-amber-500/30 bg-amber-500/5 p-4">
+          <span class="font-medium text-amber-200">Step D was scoped, not complete.</span>
+          Transactions without rollback, quadratic <code>attendance_by_occurrence</code>,
+          <code>loaded_rows</code> re-execution, raw string roster ids, function lengths, and the seed
+          password were all left untouched by instruction. The reviewer's list is not discharged.
+        </li>
+        <li class="rounded-xl border border-slate-700 bg-slate-900/60 p-4">
+          <span class="font-medium text-slate-200">The suite is still one <code>let () =</code>.</span>
+          <code>fail</code> calls <code>exit 1</code>, so the first break masks every later assertion.
+          The tester called this out; restructuring it was out of scope and remains open.
+        </li>
+      </ul>
+    </section>
+
+    <section class="mt-14">
+      <h2 class="text-2xl font-semibold">7. Conclusion</h2>
+      <p class="mt-3 text-slate-300">
+        The three skills change agent behaviour on real code. Each gate produced its specified verdict
+        and format from a neutral prompt, respected its boundary — the architect named jobs and never files,
+        the reviewer never proposed a split, the tester never wrote a test — and each surfaced defects that
+        were not in the brief and that survived independent verification.
+      </p>
+      <p class="mt-3 text-slate-300">
+        No skill required a fix. Nothing was recopied. The architect's standing REJECT is the correct
+        terminal state: <code>store.ml</code> is still one unit doing many jobs, and no amount of line-level
+        cleanup changes that. The seam is the next piece of work, and it belongs to a plan, not to this pass.
+      </p>
+    </section>
+
+    <footer class="mt-16 border-t border-slate-800 pt-6 text-xs text-slate-500">
+      Verified against <code>subzeroplay</code> @ <code>feat/ocaml-code-writer</code> · 2026-08-29 ·
+      Gate: <code>dune build @check @runtest @server @frontend</code> → exit 0 ·
+      <code>@fmt</code> unverified
+    </footer>
+  </main>
+</body>
+</html>

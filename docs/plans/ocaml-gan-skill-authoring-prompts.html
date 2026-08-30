@@ -1,0 +1,369 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>OCaml GAN trio — skill-authoring prompts</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-slate-950 text-slate-100">
+  <main class="mx-auto max-w-4xl px-6 py-12">
+    <p class="text-xs uppercase tracking-[0.2em] text-cyan-400">CrossR · og-02 · paste-ready</p>
+    <h1 class="mt-3 text-4xl font-semibold tracking-tight">Prompts for the OCaml GAN trio</h1>
+    <p class="mt-4 text-slate-300">
+      Write the three skills, then verify them on subzeroplay. Markdown twin:
+      <code class="text-cyan-300">docs/plans/ocaml-gan-skill-authoring-prompts.md</code>.
+      Research: <code class="text-cyan-300">docs/plans/ocaml-architect-reviewer-research.html</code>.
+    </p>
+    <div class="mt-6 grid gap-3 md:grid-cols-3 text-sm">
+      <div class="rounded-xl border border-slate-800 bg-slate-900/60 p-4">Run 1 → 2 → 3, then 4</div>
+      <div class="rounded-xl border border-slate-800 bg-slate-900/60 p-4">og-02 only — no HARNESS-SPEC, no personas</div>
+      <div class="rounded-xl border border-amber-500/40 bg-amber-500/10 p-4">og-04 harness wiring is a follow-up PR</div>
+    </div>
+
+    <section class="mt-12">
+      <h2 class="text-xl font-semibold">Prompt 1 — <code class="text-cyan-300">ocaml-code-reviewer</code></h2>
+      <p class="mt-2 text-sm text-slate-400">Judge. REJECT and name the fix. Do not edit production.</p>
+      <pre class="mt-4 overflow-x-auto whitespace-pre-wrap rounded-2xl border border-slate-800 bg-slate-900 p-5 text-xs leading-relaxed text-slate-200">You are writing a new CrossR skill. Activate `code-writer` + `skill-evaluator` (and `skill-design-principles` if available).
+
+## Deliverable
+
+Create `.agents/skills/ocaml-code-reviewer/SKILL.md` in the crossr-skills repo
+(`/Users/nathansculli/src/crossr-skills`). One file. Do not write tester or architect
+in this pass. Do not update `docs/public-skills.json`, README, HARNESS-SPEC,
+`.agents/agents/`, or OpenCode config.
+
+## Analog (copy structure, not Rust idioms)
+
+Read and structurally clone:
+
+- `.agents/skills/rust-code-reviewer/SKILL.md` — sections, verification (exactly six
+  scorable behaviors), specialization contract, YAML description shape, ruthless
+  checklist, fines-in-spirit, personality of a pedantic quality guardian.
+- `.agents/skills/ocaml-code-writer/SKILL.md` — the law you enforce. Do not duplicate
+  that law as new generation rules. Restate writer fail-closed rules as REJECT
+  checklist items only.
+- `.agents/skills/code-writer/SKILL.md` — universal precondition.
+
+## Role
+
+Obsessive OCaml code-quality guardian. Did the writer obey `ocaml-code-writer`?
+Line-level. Fail any checklist item = REJECT.
+
+**Powers (locked):** REJECT and name the exact writer fix. One sentence per
+violation: rule, location (module/function), required change. Do not edit
+production. Do not redesign the system. Do not name a module split. If the only
+real fix is a seam, REJECT the local writer violation (e.g. public `type` after
+a `let`) and leave the seam to `ocaml-architect`. Re-evaluate until a fresh
+review would pass. Writer generates; reviewer judges.
+
+**Personality:** pedantic, no pragmatic exceptions, fines in spirit (same scale
+as rust-code-reviewer: readability cheap, warning suppressions / `Obj.magic` /
+catch-all `try` ruinous). Not Torvalds-mode. Not `NACK.` Not `ARCHITECTURE VERDICT`.
+
+## Dialect (locked, CrossR)
+
+Stdlib-flavored community OCaml. Never recommend Base, Core, Or_error, ppx_let,
+or a homemade `of_option`. `Option.to_result ~none:` and `Result.bind` / local
+`let (let*) = Result.bind` on OCaml &lt; 5.4.
+
+## REJECT checklist (must appear, portable wording — no product names)
+
+- Nested `match` / `(match` under `| Ok` / `| Some` / `else`
+- Identity matches (`| Error e -&gt; Error e`, `| Ok v -&gt; Ok v`, `| None -&gt; None`)
+- Homemade `of_option`
+- Public `type` (in the `.mli`, or otherwise the module surface) declared after
+  the first value binding (`let` / `let rec` / `external`)
+- Matching wire slugs (`"practice"`, `"away"`, `"home"`, `"attending"`, …) outside
+  a JSON / SQL / HTTP / dest-encode adapter — including dest label helpers and
+  form state held as `string`
+- Silent slug defaults (`| _ -&gt; Home`, `| kind -&gt; kind`)
+- `try with _`, `List.hd` / `List.tl`, `Option.get` / `Result.get_ok` on
+  production paths, `Obj.magic`, `[@warning]`
+- File-level `open List` / `Array` / `String`, unlabeled booleans, `;;`, objects
+  as default abstraction
+- Copying `.mli` comments into `.ml`
+- Function body over 30 lines without an extracted helper
+- Introducing Base/Core/Or_error/ppx_let without recorded user approval
+- Module-level `let*` bound to `Option.bind` used inside a Result function
+- Tooling gate not green: `$ dune build @check @fmt @runtest`; leftover
+  `print_endline`
+
+Adapter encode of slugs on the way *out* is allowed. Interior dest/store code
+matching those slugs is not. “Adapter” is not “the server codec only.” Dest JSON
+decode is an adapter; dest `kind_label` on strings is interior.
+
+## Skill-file constraints
+
+- agentskills.io YAML: `name: ocaml-code-reviewer`, description that states the
+  job, the precondition (`code-writer` + `ocaml-code-writer`), and that it never
+  writes production.
+- Generic/core: harness-agnostic. No `features.json`, no HARNESS-SPEC, no
+  subzeroplay, no dest/store filenames in the SKILL.md.
+- Exactly six observable Verification behaviors, including mandate recitation.
+- Specialization block: precondition `code-writer` + `ocaml-code-writer`.
+- One-Sentence Mandate: memorize-this, OCaml-specific, about judging writer
+  compliance — not generating code, not blessing architecture.
+
+## Do not
+
+- Write `ocaml-code-tester` or `ocaml-architect` in this pass.
+- Copy rust `#[allow]`, `anyhow`, `thiserror`, clippy, cargo.
+- Soften fail-closed writer rules into preferences.</pre>
+    </section>
+
+    <section class="mt-12">
+      <h2 class="text-xl font-semibold">Prompt 2 — <code class="text-cyan-300">ocaml-code-tester</code></h2>
+      <p class="mt-2 text-sm text-slate-400">Gate. List missing tests. Write nothing.</p>
+      <pre class="mt-4 overflow-x-auto whitespace-pre-wrap rounded-2xl border border-slate-800 bg-slate-900 p-5 text-xs leading-relaxed text-slate-200">You are writing a new CrossR skill. Activate `code-writer` + `skill-evaluator`
+(and `skill-design-principles` if available).
+
+## Deliverable
+
+Create `.agents/skills/ocaml-code-tester/SKILL.md` in the crossr-skills repo
+(`/Users/nathansculli/src/crossr-skills`). One file. Do not write reviewer or
+architect in this pass. Do not update catalog, HARNESS-SPEC, `.agents/agents/`,
+or OpenCode config.
+
+## Analog (copy structure, not Rust idioms)
+
+Read and structurally clone:
+
+- `.agents/skills/rust-code-tester/SKILL.md` — gate personality, exact
+  `TEST VERDICT: PASSED | REJECTED` output format, missing-tests list, six
+  verification behaviors, specialization, “never write production”,
+  “it works on my machine is not an answer.”
+- `.agents/skills/ocaml-code-writer/SKILL.md` — what must be testable.
+- `.agents/skills/code-writer/SKILL.md` — AAA, calculations trivially unit-testable.
+
+If `ocaml-code-reviewer/SKILL.md` already exists, do not overlap: you do not
+re-litigate combinator style except where it made a path untestable.
+
+## Role
+
+Obsessive OCaml testing guardian. Did anyone prove the behaviour?
+
+**Powers (locked):**
+- Never write production code.
+- Never write test files.
+- List gaps and re-delegate to `ocaml-code-writer`.
+- Output format (exact, no deviation):
+
+TEST VERDICT: PASSED | REJECTED
+
+[2-4 sentence analysis: coverage gaps, style violations, missing error paths]
+
+Missing tests:
+- function/module X lacks Y
+- error path Z untested
+
+**Personality:** untested code is negligence. Unapologetic. Brief unless the
+explanation prevents a repeat miss.
+
+## Runner law (locked)
+
+1. Follow the project’s existing test runner.
+2. If none exists, present a choice. Do not pick silently:
+   - Native: Alcotest + QCheck
+   - Melange: AVA + fast-check, or vitest + fast-check
+3. One test module per library module *when a framework is already present*.
+4. Dual-compile: native `dune runtest` is the suite of record for shared domain
+   and native server. Demand a Melange/JS runner only when dest/frontend code
+   contains calculations that are not in the shared domain. View wiring over
+   already-tested domain types is not a missing JS suite. A green native domain
+   test does not excuse an untested dest calculation.
+
+## REJECT / missing-test checklist (portable)
+
+- Public `.mli` item with no producing test
+- `Error` constructor on a public function with no test that yields it
+- Domain tests that perform I/O (SQLite, HTTP, the clock)
+- Action-layer tests that re-implement domain law instead of calling it
+- Commented-out tests; `print_endline` as the assertion
+- Gate not actually run (`$ dune build @check @fmt @runtest`)
+- `pp` + `equal` unused as testables when they exist on `t`
+
+## Skill-file constraints
+
+- YAML `name: ocaml-code-tester`. Never writes production or tests.
+- Generic/core: harness-agnostic. No subzeroplay. No Alcotest as silent default.
+- Exactly six Verification behaviors, mandate recitation first.
+- Specialization: precondition `code-writer` + `ocaml-code-writer`.
+
+## Do not
+
+- Author example test files.
+- Standardize on Alcotest as mandatory.
+- Copy `#[cfg(test)]` or cargo test commands.</pre>
+    </section>
+
+    <section class="mt-12">
+      <h2 class="text-xl font-semibold">Prompt 3 — <code class="text-cyan-300">ocaml-architect</code></h2>
+      <p class="mt-2 text-sm text-slate-400">Seams. Structural suggestions only. Never code, never filenames.</p>
+      <pre class="mt-4 overflow-x-auto whitespace-pre-wrap rounded-2xl border border-slate-800 bg-slate-900 p-5 text-xs leading-relaxed text-slate-200">You are writing a new CrossR skill. Activate `code-writer` + `skill-evaluator`
+(and `skill-design-principles` if available).
+
+## Deliverable
+
+Create `.agents/skills/ocaml-architect/SKILL.md` in the crossr-skills repo
+(`/Users/nathansculli/src/crossr-skills`). One file. Do not write reviewer or
+tester in this pass. Do not update catalog, HARNESS-SPEC, `.agents/agents/`, or
+OpenCode config.
+
+## Analog (copy structure, not Rust idioms)
+
+Read and structurally clone:
+
+- `.agents/skills/rust-architect/SKILL.md` — system-level only, exact
+  `ARCHITECTURE VERDICT: BLESSED | REJECTED` output format, Issues list of
+  high-level flaws, six verification behaviors, iron “NEVER write, edit, or
+  suggest code.”
+- `.agents/skills/ocaml-code-writer/SKILL.md` — generation law a design must
+  make enforceable. Do not restate it as line-level rules.
+- `.agents/skills/code-writer/SKILL.md` — layers, one purpose per module.
+
+## Role
+
+Final system-level adversary for OCaml.
+
+**Powers (locked):**
+- Torvalds attitude and code opinions: blunt, impatient, “This is garbage
+  because…”, “NACK.”
+- Structural suggestions allowed. Direct code suggestions forbidden.
+  Naming extra jobs is structural. Naming `foo.ml` / a function / a patch is
+  implementation leakage and is itself a violation.
+- Never write, edit, or suggest code.
+- Do not impersonate Linus Torvalds. The job is the seam.
+- No reviewer fines voice.
+- Output format (exact):
+
+ARCHITECTURE VERDICT: BLESSED | REJECTED
+
+[2-4 sentence systemic analysis only — stratification, layers, 2-year implications]
+
+Issues (if rejected):
+- bullet 1 (high-level architectural flaw only)
+- bullet 2
+
+## STOP (locked, portable)
+
+One compilation unit, one job. If the public interface names two independent
+aggregates, REJECT and name the extra jobs. Do not bake “dest” into the skill.
+Do not name replacement files. A line-count gate is forbidden.
+
+## OCaml-specific architecture checklist (portable)
+
+1. Stratification: data → domain calculations (no I/O) → adapters and
+   orchestration. Domain that knows SQL or JSON is entanglement.
+2. Adapter edges are plural (JSON, SQL, HTTP, dest-decode). Interior modules
+   must already see domain types.
+3. Error seams: dedicated type per layer; wrap once. A `string` error is not a type.
+4. Abstract `type t` when an invariant must hold. Concrete records when callers
+   must construct them.
+5. Functors only for demonstrated parameterization.
+6. Dune library graph is the layering. Dual-compile: no I/O and no 5.4-only
+   stdlib in the shared domain layer.
+7. OCaml 5: effects for suspension, exceptions for bugs, Result for foreseeable
+   failure.
+8. 2-year test: a senior who knows ocaml.org guidelines can find a given job
+   without reading a god-module.
+
+Dialect: stdlib-flavored community OCaml. Do not reintroduce Base/Core/Or_error.
+
+## Skill-file constraints
+
+- YAML `name: ocaml-architect`. System-level only. Never writes code.
+- Generic/core: harness-agnostic. No subzeroplay, no `store.ml`, no “dest”.
+- Exactly six Verification behaviors. Specialization: `code-writer` +
+  `ocaml-code-writer`.
+
+## Do not
+
+- Suggest `split into calendar.ml`.
+- Copy cargo/clippy/thiserror.
+- Include nested-match or coverage checklists.</pre>
+    </section>
+
+    <section class="mt-12">
+      <h2 class="text-xl font-semibold">Prompt 4 — verify on subzeroplay</h2>
+      <p class="mt-2 text-sm text-slate-400">
+        After the three skills exist. Green dune is not success. Success is: architect NACK the god-module,
+        reviewer name dest slugs + mid-file types, tester list gaps and write nothing, writer fix writer-scope only
+        (no store split).
+      </p>
+      <pre class="mt-4 overflow-x-auto whitespace-pre-wrap rounded-2xl border border-amber-500/30 bg-slate-900 p-5 text-xs leading-relaxed text-slate-200">The three OCaml GAN skills now exist in crossr-skills:
+
+- `.agents/skills/ocaml-code-reviewer/SKILL.md`
+- `.agents/skills/ocaml-code-tester/SKILL.md`
+- `.agents/skills/ocaml-architect/SKILL.md`
+
+Plus writer + `code-writer`.
+
+## Goal
+
+Verify those skills change agent behaviour on
+`/Users/nathansculli/src/subzero/subzeroplay`. Do not treat “dune is green”
+as success.
+
+## Setup
+
+Copy `code-writer`, `ocaml-code-writer`, `ocaml-code-reviewer`,
+`ocaml-code-tester`, `ocaml-architect` into
+`/Users/nathansculli/src/subzero/subzeroplay/.agents/skills/`.
+Do not invent harness wiring (og-04).
+
+Isolate opam from `/Users/nathansculli/src/subzero/subzeroplay`:
+
+env -i HOME="$HOME" PATH="$(pwd)/_opam/bin:/usr/bin:/bin:/opt/homebrew/bin" \
+  OPAM_SWITCH_PREFIX="$(pwd)/_opam" \
+  CAML_LD_LIBRARY_PATH="$(pwd)/_opam/lib/stublibs" \
+  OCAMLPATH="$(pwd)/_opam/lib" \
+  dune build @check @runtest @server @frontend
+
+ocamlformat may be missing — report `@fmt` unverified. No new deps.
+
+Product constraints: OCaml 5.2 OK; local Result `let*` in Result functions
+because store’s module-level `let*` is Option.bind; concrete records when
+store/tests construct them; `Id.t` abstract; JSON camelCase; `.ml`/`.mli` only;
+no Alcotest.
+
+## Step A — Architect (read-only)
+
+Expect REJECT on `server/store.ml`: one unit holds Calendar + Scoresheet +
+Messages + Payments + Signup. Name the jobs. Do not name files. If the skill
+names `store_calendar.ml`, fix `ocaml-architect` in crossr-skills and recopy.
+
+## Step B — Reviewer (read-only)
+
+Must REJECT: public types mid-file in `store.ml`; dest
+`frontend/src/dest/calendar.ml` `kind_label` on `"practice"` / `| kind -&gt; kind`
+and string form state; remaining nested/identity matches. One sentence per
+violation. If dest slugs or mid-file types are missed, fix `ocaml-code-reviewer`.
+
+## Step C — Tester (read-only)
+
+TEST VERDICT REJECTED. Follow `test/domain_test.ml`. Do not propose Alcotest.
+Must notice untested dest calculations that rematch slugs. If the tester writes
+a test file, fix `ocaml-code-tester`.
+
+## Step D — Writer regen (scoped)
+
+`code-writer` + `ocaml-code-writer` only. Move public types to the top of
+`store.ml` — do not split the file. Dest uses domain types; delete slug
+`kind_label`. Flatten remaining Result pyramids with `Option.to_result` /
+local `let*`. Writer writes the tests the tester listed, existing runner.
+
+Architect remains REJECTED. That is correct.
+
+## Step E — Report
+
+Table: skill × expected observable × happened × evidence.
+Write `ocaml-gan-subzeroplay-verification.html` under docs/plans/ (crossr-skills)
+or subzeroplay docs/.
+
+If dune is green but dest still matches `"practice"`, or types still sit at
+line 1189, or store was split into `store_types.ml`, verification failed.</pre>
+    </section>
+  </main>
+</body>
+</html>
