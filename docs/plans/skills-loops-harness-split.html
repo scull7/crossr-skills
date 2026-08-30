@@ -17,20 +17,32 @@
   <nav class="sticky top-0 z-40 border-b border-slate-800 bg-slate-950/95 backdrop-blur">
     <div class="max-w-5xl mx-auto px-6 h-12 flex items-center justify-between text-sm">
       <span class="font-display font-semibold">skills / loops / harness split</span>
-      <span class="text-xs px-2 py-0.5 rounded-full border border-amber-500/40 text-amber-400">CHARTER · FREEZE</span>
+      <span class="text-xs px-2 py-0.5 rounded-full border border-sky-500/40 text-sky-300">PAUSED · RESUME AT split-03</span>
     </div>
   </nav>
 
   <main class="max-w-5xl mx-auto px-6 py-10 space-y-12">
     <header>
-      <p class="text-xs uppercase tracking-widest text-slate-500 mb-2">sycamore-hq · split-01</p>
+      <p class="text-xs uppercase tracking-widest text-slate-500 mb-2">sycamore-hq · split-00..02 done · next split-03</p>
       <h1 class="font-display text-3xl font-semibold text-white mb-4">One repo was selling two products. We're cutting it into four remotes.</h1>
       <p class="text-slate-400 leading-relaxed max-w-3xl">
         <code class="text-slate-200">crossr-skills</code> stays the portable catalog.
         Loops, harness, and the public site get their own homes.
         Extract now (same SKILL.md + personas). Explicit graphs later.
+        Agent handoff: <a class="text-emerald-400 hover:underline" href="skills-loops-harness-split.md">skills-loops-harness-split.md</a>.
       </p>
     </header>
+
+    <section class="section p-5 rounded-2xl border border-sky-500/30 bg-sky-950/20">
+      <h2 class="font-display text-sky-300 font-semibold mb-2">Resume here</h2>
+      <p class="text-sm text-slate-300 leading-relaxed">
+        Paused after split-02. Next session: branch off <code>sycamore-hq/crossr-skills</code> <code>main</code>
+        (not the OCaml branch). Copy the loops tree into
+        <a class="text-emerald-400 hover:underline" href="https://github.com/sycamore-hq/crossr-loops">crossr-loops</a>.
+        Leave copies in skills until dual-publish. Exact file list is in the markdown and below.
+        Trigger: “continue the skills/loops/harness split from split-03”.
+      </p>
+    </section>
 
     <section class="section grid sm:grid-cols-2 gap-4">
       <div class="p-5 rounded-2xl bg-zinc-900 border border-zinc-800">
@@ -146,17 +158,44 @@ crossr-web-landing  (links; owns no law)</pre>
     <section class="section">
       <h2 class="font-display text-xl font-semibold text-white mb-3">Migration</h2>
       <ol class="text-sm text-slate-300 space-y-2 list-decimal list-inside leading-relaxed">
-        <li><span class="text-emerald-400">Done.</span> Transfer <code>scull7/crossr-skills</code> → <code>sycamore-hq/crossr-skills</code>. Old git URL 301s. Old Pages URL 404s.</li>
-        <li><span class="text-amber-300">This PR.</span> Charter freeze. Classification. No new orchestration skills.</li>
-        <li><span class="text-amber-300">This session.</span> Empty remotes exist. Seed READMEs + MIT + not-ready.</li>
-        <li>Copy loops (clean tree). Skills keeps copies + <code>moved-to</code> for the dual-publish tag.</li>
-        <li>Copy harness. Rewrite HARNESS-SPEC: no loop law. Bootstrap reads the lockfile.</li>
-        <li>Copy landing. Product READMEs link to it.</li>
-        <li>Dual-publish tag on skills (<code>vN-last-monolith</code>). Old scripts tell you to use harness.</li>
-        <li>Delete moved artifacts from skills. Catalog-only README.</li>
-        <li>Dogfood: bootstrap all three product repos from harness.</li>
-        <li>Graphs: separate loops backlog. Not this chain.</li>
+        <li><span class="text-emerald-400">Done (split-00).</span> Transfer <code>scull7/crossr-skills</code> → <code>sycamore-hq/crossr-skills</code>. Old git URL 301s. Old Pages URL 404s.</li>
+        <li><span class="text-emerald-400">Done (split-01, #95).</span> Charter freeze. Classification. No new orchestration skills.</li>
+        <li><span class="text-emerald-400">Done (split-02).</span> Empty remotes exist. Seed READMEs + MIT + not-ready.</li>
+        <li><span class="text-amber-300">NEXT (split-03).</span> Copy loops (clean tree). Skills keeps copies until split-07.</li>
+        <li>Copy harness (split-04). Rewrite HARNESS-SPEC: no loop law. Bootstrap reads the lockfile.</li>
+        <li>Copy landing (split-05). Product READMEs link to it.</li>
+        <li>Dual-publish tag on skills (split-06). Old scripts tell you to use harness.</li>
+        <li>Delete moved artifacts from skills (split-07). Catalog-only README.</li>
+        <li>Dogfood (split-08): bootstrap all three product repos from harness.</li>
+        <li>Graphs (split-09): separate loops backlog. Not this chain.</li>
       </ol>
+    </section>
+
+    <section class="section">
+      <h2 class="font-display text-xl font-semibold text-white mb-3">split-03 copy list (loops)</h2>
+      <p class="text-sm text-slate-500 mb-3">Clean copy into <code>crossr-loops</code>. Do not delete from skills yet. Do not take BRICK stage skills.</p>
+      <div class="grid md:grid-cols-2 gap-4 text-sm">
+        <div class="p-4 rounded-xl bg-zinc-900 border border-zinc-800">
+          <h3 class="text-white font-semibold mb-2">Skills</h3>
+          <ul class="font-mono text-xs text-emerald-300 space-y-1">
+            <li>.agents/skills/avril/</li>
+            <li>.agents/skills/axel/</li>
+            <li>.agents/skills/brick/</li>
+            <li>.agents/skills/rust-team-lead/</li>
+            <li>.agents/skills/orchestrator-prompt/</li>
+          </ul>
+        </div>
+        <div class="p-4 rounded-xl bg-zinc-900 border border-zinc-800">
+          <h3 class="text-white font-semibold mb-2">Personas + prompts</h3>
+          <ul class="font-mono text-xs text-slate-300 space-y-1">
+            <li>planning-architect, product-owner, qa-architect, visionary-cto</li>
+            <li>axel-conductor, rust-reviewer/tester/architect</li>
+            <li>brick-specifier/coder/refactorer/mutator agents</li>
+            <li>templates/harness/opencode/{agent,command}/{avril,axel}.md</li>
+            <li>book/src/pipeline/{overview,avril,axel,brick}.md</li>
+          </ul>
+        </div>
+      </div>
     </section>
 
     <section class="section">
@@ -170,7 +209,7 @@ crossr-web-landing  (links; owns no law)</pre>
     </section>
 
     <section class="section text-sm text-slate-500">
-      <p>Still open: new remotes assumed public (they are). No custom domain for landing yet.</p>
+      <p>Still open: custom domain for landing (none). Dual-publish tag name is a placeholder (<code>vN-last-monolith</code>).</p>
     </section>
   </main>
 </body>
