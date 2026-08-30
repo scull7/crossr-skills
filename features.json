@@ -745,7 +745,7 @@
       {
         "id": "split-06",
         "title": "Dual-publish last-monolith tag + deprecation pointers",
-        "status": "pending",
+        "status": "completed",
         "features": [
           "last-monolith-tag",
           "moved-to-catalog-markers"

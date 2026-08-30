@@ -23,7 +23,7 @@ A curated collection of **Agent Skills** (`.agents/skills/`) plus a complete, se
 
 The skills strictly follow the [agentskills.io](https://agentskills.io) specification. The process layer (stacked PR discipline, multi-tier verification, PETC loop, GAN reviews, HTML as a first-class human artifact, etc.) is defined in [HARNESS-SPEC.md](HARNESS-SPEC.md).
 
-**Split in progress** (paused after split-05; resume at split-06). This repo is becoming the skills catalog only. Loops, harness, and the public site move to sibling remotes under [sycamore-hq](https://github.com/sycamore-hq). Front door remote: [crossr-web-landing](https://github.com/sycamore-hq/crossr-web-landing) (site copied; live Pages still here until the cut). Plan: [`docs/plans/skills-loops-harness-split.html`](docs/plans/skills-loops-harness-split.html) ([markdown](docs/plans/skills-loops-harness-split.md)).
+**Split in progress** (paused after split-06; resume at split-07). This repo is becoming the skills catalog only. Dual-publish tag: [`v0-last-monolith`](https://github.com/sycamore-hq/crossr-skills/releases/tag/v0-last-monolith) (this tree still contains everything). New installs: use [sycamore-hq/crossr-harness](https://github.com/sycamore-hq/crossr-harness). Front door remote: [crossr-web-landing](https://github.com/sycamore-hq/crossr-web-landing) (site copied; live Pages still here until the cut). Plan: [`docs/plans/skills-loops-harness-split.html`](docs/plans/skills-loops-harness-split.html) ([markdown](docs/plans/skills-loops-harness-split.md)).
 
 **Freeze:** do not add new orchestration skills here (`avril`, `axel`, `brick` conductor, `rust-team-lead`, `orchestrator-prompt`, `dashboard-prompt`, `chief-of-staff`). Writers, reviewers, testers, architects, domain skills, writing skills, `skill-evaluator`, and BRICK *stage* skills still land here.
 
@@ -32,6 +32,8 @@ New projects can be bootstrapped in minutes with:
 ```bash
 ./scripts/harness-bootstrap /path/to/your-project
 ```
+
+That script prints `deprecated: use sycamore-hq/crossr-harness` and still runs. Copies stay until split-07.
 
 ---
 
@@ -86,9 +88,11 @@ Public catalog SSOT: [`docs/public-skills.json`](docs/public-skills.json) (25 sk
 
 **Not in the public catalog:** `obsidian-cli`, `diataxis` (deferred), empty `diataxis-*` stubs — see `out` in `docs/public-skills.json`.
 
+Moved (still copied here until split-07): `avril`, `axel`, `brick`, `rust-team-lead`, `orchestrator-prompt` → [crossr-loops](https://github.com/sycamore-hq/crossr-loops); `dashboard-prompt`, `chief-of-staff` → [crossr-harness](https://github.com/sycamore-hq/crossr-harness). Catalog entries carry `moved-to`.
+
 ### Destination after the split
 
-Copies stay in this repo until the dual-publish tag. Then:
+Dual-publish is live (`v0-last-monolith`). Copies stay until split-07. Then:
 
 | After cut | What |
 |-----------|------|
