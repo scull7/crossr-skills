@@ -18,4 +18,5 @@ description: |
    - findings shape (one-liners | prose)
    - max length
    - `file:line` citations
-6. Adding an envelope field means changing this file — never a conductor card.
+6. The envelope goes **last** in the delegation prompt, after persona + gate card — persona and ruleset are the stable cacheable prefix; the envelope varies per delegation, and splicing it above the ruleset destroys prefix stability.
+7. Adding an envelope field means changing this file — never a conductor card.
