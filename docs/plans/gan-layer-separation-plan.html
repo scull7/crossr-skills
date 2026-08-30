@@ -220,8 +220,8 @@ $ pinto list --json
   </div>
 
   <div class="callout">
-    <span class="lbl">The blocker nobody has hit yet</span>
-    <code>skill-evaluator</code>&rsquo;s rubric already condemns the current shape — its first three items are <em>Concise</em>, <em>Single Responsibility</em>, <em>Progressively Disclosed</em>. But <code>skill-evaluator/SKILL.md:122</code> sets the postcondition &ldquo;preserving 100% of the original target skill&rsquo;s intent, <strong>voice</strong>, and checklist wording.&rdquo; The rubric says split; the postcondition says preserve voice. The evaluator is deadlocked against itself and will reject every de-personaed skill.
+    <span class="lbl">Historical — fixed by PR 0 (#105)</span>
+    <code>skill-evaluator</code>&rsquo;s rubric already condemns the current shape — its first three items are <em>Concise</em>, <em>Single Responsibility</em>, <em>Progressively Disclosed</em>. But <code>skill-evaluator/SKILL.md:122</code> sets the postcondition &ldquo;preserving 100% of the original target skill&rsquo;s intent, <strong>voice</strong>, and checklist wording.&rdquo; The rubric says split; the postcondition says preserve voice. The evaluator was deadlocked against itself and would have rejected every de-personaed skill. PR 0 (#105, follow-up 8920866) removed the voice postcondition; kept here as the evidence that motivated it.
   </div>
 </section>
 
@@ -239,14 +239,14 @@ $ pinto list --json
     </tbody>
   </table></div>
 
-<pre>architect   persona  architect-agent      ~600 B   neutral
-            ruleset  architecture         ~5 KB    neutral
-            delta    rust-architecture    <b>~0</b>       nothing Rust-specific exists
+<pre>architect   persona   architect-agent    ~600 B  neutral
+            gate card architecture       ~2 KB   neutral (already 100% neutral today)
+            book      rust/references/layering.md — Rules projection only
 
-reviewer    persona  reviewer-agent       ~400 B   neutral
-            ruleset  code-review          ~4 KB    neutral
-            delta    rust-review          ~2 KB    thiserror, no anyhow,
-                                                   no unwrap, clippy, crates</pre>
+reviewer    persona   reviewer-agent     ~400 B  neutral
+            gate card code-review        ~1 KB   the job + envelope
+            book      rust/references/*  — Rules projections (thiserror, no anyhow,
+                                           no unwrap, clippy, crates live <b>here</b>)</pre>
 
   <div class="callout">
     <span class="lbl">Why the missing book is the point</span>
@@ -579,7 +579,7 @@ RE-02  Cross-layer propagation uses #[from]; never inline .map_err at a call sit
   <span>·</span>
   <span>measured against the tree 2026-08-30</span>
   <span>·</span>
-  <span>status: proposed, not started</span>
+  <span>status: in progress · PR 0 merged (#105)</span>
 </footer>
 
 </main>

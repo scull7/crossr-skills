@@ -213,7 +213,7 @@ session**. `.pinto/plans/` and `docs/plans/pbi/` were both verified clean.
 out-edge is `reviewer`. Changing this rule requires editing the graph, not just the prose —
 `scripts/verify-graphs` is a gate.
 
-### 2.12 `skill-evaluator` will block the refactor
+### 2.12 `skill-evaluator` blocked the refactor (historical — fixed by PR 0, #105)
 
 Its rubric already condemns the current shape — first three items are *Concise*, *Single
 Responsibility* ("one clear thing"), *Progressively Disclosed*.
@@ -221,8 +221,10 @@ Responsibility* ("one clear thing"), *Progressively Disclosed*.
 But `skill-evaluator/SKILL.md:122` sets the postcondition: "preserving 100% of the original
 target skill's intent, **voice**, and checklist wording."
 
-The rubric says split; the postcondition says preserve voice. The evaluator is deadlocked
-against itself and the remediator will reject every de-personaed skill.
+The rubric says split; the postcondition says preserve voice. The evaluator was deadlocked
+against itself and the remediator would have rejected every de-personaed skill. PR 0
+(#105, follow-up 8920866) removed the voice postcondition; kept here as the evidence that
+motivated it.
 
 ---
 
