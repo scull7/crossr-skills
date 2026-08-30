@@ -639,7 +639,18 @@ Clean copy into https://github.com/sycamore-hq/crossr-loops from skills `main` S
 - `MIGRATION.md` names the source SHA. Loops README replaces the not-ready charter.
 - **Skills still has the copies.** No `moved-to` yet (that's split-06). Stage skills `brick-specifier|coder|refactorer|mutator` stayed here.
 
-Branch on the fork (org write is 403 from this session): `scull7/crossr-loops` `split-03-copy`.
+### split-04 — copy harness (COMPLETED)
 
-**Next:** split-04 copy harness into `sycamore-hq/crossr-harness`. Strip HARNESS-SPEC §12–13 loop law on copy. Work off main, not `feat/ocaml-gan-trio`.
+Clean copy into https://github.com/sycamore-hq/crossr-harness from skills `main` SHA `5f4e3c7d97dae62de437821b78e149ac0d8be3fa`.
+
+- Spec, bootstrap, dashboard, sync-skills, verify-docs, verify-opencode
+- `templates/harness/` minus `/avril` `/axel` bodies (those stay in loops)
+- `/status` OpenCode bodies + `opencode.jsonc` skeleton
+- `dashboard-prompt`, `chief-of-staff`
+- `features.schema.json`, bootstrap smoke test
+- `HARNESS-SPEC.md` §12–13 stripped on copy: loops supplied by `crossr-loops`; harness discloses board, tracking, ritual, dashboard command
+- Lockfile shape documented (`skills = <tag>` / `loops = <tag>`), not implemented as a third tracker
+- **Skills still has the copies.** Catalog `HARNESS-SPEC.md` still has §12–13 until split-07.
+
+**Next:** split-05 copy landing into `sycamore-hq/crossr-web-landing`. Work off main, not `feat/ocaml-gan-trio`.
 
