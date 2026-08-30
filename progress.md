@@ -624,13 +624,22 @@ Stage 4 and the gate that makes BRICK worth choosing over adversarial review.
 - https://github.com/sycamore-hq/crossr-web-landing
 - Each has MIT + a not-ready README. Real trees copy later.
 
-### Resume plan (this PR)
+### Resume plan
 
-Full remaining plan written out so a later session can start at split-03 without the chat:
+Full remaining plan: `docs/plans/skills-loops-harness-split.md` (agent) + HTML (human).
 
-- Markdown (agent handoff): `docs/plans/skills-loops-harness-split.md`
-- HTML updated: status, resume banner, split-03 file list
-- `features.json` now lists split-03…split-08 as pending
+### split-03 — copy loops (COMPLETED)
 
-**Next:** split-03 copy loops into `sycamore-hq/crossr-loops`. Do not mix with `feat/ocaml-gan-trio`.
+Clean copy into https://github.com/sycamore-hq/crossr-loops from skills `main` SHA `2c0b00976928c275e07c7ebc43b4b0e0f400b2ba`.
+
+- Conductors: `avril`, `axel`, `brick` (conductor only), `rust-team-lead`, `orchestrator-prompt`
+- Loop personas (not skill-evaluator/remediator/reviewer)
+- OpenCode `/avril` `/axel` prompt bodies
+- Pipeline chapters `book/src/pipeline/{overview,avril,axel,brick}.md`
+- `MIGRATION.md` names the source SHA. Loops README replaces the not-ready charter.
+- **Skills still has the copies.** No `moved-to` yet (that's split-06). Stage skills `brick-specifier|coder|refactorer|mutator` stayed here.
+
+Branch on the fork (org write is 403 from this session): `scull7/crossr-loops` `split-03-copy`.
+
+**Next:** split-04 copy harness into `sycamore-hq/crossr-harness`. Strip HARNESS-SPEC §12–13 loop law on copy. Work off main, not `feat/ocaml-gan-trio`.
 
