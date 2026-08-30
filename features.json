@@ -726,7 +726,7 @@
       {
         "id": "split-04",
         "title": "Copy harness tree; strip HARNESS-SPEC loop law",
-        "status": "pending",
+        "status": "completed",
         "features": [
           "harness-clean-copy",
           "harness-spec-no-loop-law",

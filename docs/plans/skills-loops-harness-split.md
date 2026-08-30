@@ -1,6 +1,6 @@
 # Split CrossR into four sycamore-hq remotes
 
-**Status:** paused after split-03. Resume at **split-04: copy harness**.
+**Status:** paused after split-04. Resume at **split-05: copy landing**.
 **Human artifact:** [skills-loops-harness-split.html](skills-loops-harness-split.html)
 **Charter PR:** [sycamore-hq/crossr-skills#95](https://github.com/sycamore-hq/crossr-skills/pull/95) (merged)
 
@@ -12,10 +12,10 @@ Do not rewrite AVRIL/AXEL/BRICK while moving them. Do not add new orchestration 
 
 1. Work from `sycamore-hq/crossr-skills` `main` (not `feat/ocaml-gan-trio`).
 2. Read this file + the HTML. Tracking: `features.json` phase `split-skills-loops-harness`.
-3. Next unit of work is **split-04** only. One stacked PR, <10 min review.
-4. Copy into `sycamore-hq/crossr-harness` (clean tree, `MIGRATION.md` with source SHA). Strip HARNESS-SPEC §12–13 loop law on copy. Leave copies in skills until dual-publish.
+3. Next unit of work is **split-05** only. One stacked PR, <10 min review.
+4. Copy into `sycamore-hq/crossr-web-landing` (Zola `site/`, mdBook `book/` rewritten as **links**). No SKILL.md. No spec of record. Leave copies in skills until dual-publish.
 
-Trigger: “continue the skills/loops/harness split from split-04”.
+Trigger: “continue the skills/loops/harness split from split-05”.
 
 ---
 
@@ -35,7 +35,6 @@ Trigger: “continue the skills/loops/harness split from split-04”.
 - `dashboard-prompt` + `chief-of-staff` **move to harness**.
 - Graph DSL: **defer**. Conductors stay SKILL.md until dogfood is green.
 - Public remotes. No custom domain for landing yet.
-- MCP GitHub token cannot write to `sycamore-hq` remotes (403). `gh` as `scull7` can push to personal forks (`scull7/crossr-loops`, `scull7/crossr-skills-1`) and open compare-URLs; a human (or a token with org contents+PR write) must create the org PRs.
 
 ---
 
@@ -55,6 +54,7 @@ After the split, HARNESS-SPEC §12–13 defining AVRIL/AXEL is a spec bug. Loop 
 | split-01 | Charter freeze + classification | #95 merged. README freeze. HTML plan. |
 | split-02 | Empty remotes | [loops](https://github.com/sycamore-hq/crossr-loops), [harness](https://github.com/sycamore-hq/crossr-harness), [landing](https://github.com/sycamore-hq/crossr-web-landing) — MIT + not-ready README. |
 | split-03 | Copy loops | Clean copy of conductors + loop personas + `/avril` `/axel` bodies + pipeline chapters into [crossr-loops](https://github.com/sycamore-hq/crossr-loops). Source SHA `2c0b00976928c275e07c7ebc43b4b0e0f400b2ba`. Skills keeps copies. |
+| split-04 | Copy harness | Clean copy into [crossr-harness](https://github.com/sycamore-hq/crossr-harness). `HARNESS-SPEC.md` §12–13 stripped. Source SHA `5f4e3c7d97dae62de437821b78e149ac0d8be3fa`. Skills keeps copies. |
 
 Local note: original checkout may still be on `feat/ocaml-gan-trio`. Split work used worktree `/Users/nathansculli/src/crossr-skills-split-charter`.
 
@@ -102,7 +102,7 @@ Also: `MIGRATION.md` naming the skills SHA copied from. Loops README replaces no
 
 Stay in skills: `skill-evaluator-agent`, `skill-remediator-agent`, `skill-reviewer-agent`.
 
-### split-04 — copy harness (NEXT)
+### split-04 — copy harness (DONE)
 
 Clean copy into `crossr-harness`.
 
@@ -128,7 +128,7 @@ loops  = <tag>
 
 Bootstrap copies: skills → `.agents/skills/`; loop conductors+personas → skills + `.agents/agents/`; harness templates → project files. Never overwrite existing `.opencode/`. No git submodules.
 
-### split-05 — copy landing
+### split-05 — copy landing (NEXT)
 
 Clean copy into `crossr-web-landing`: Zola `site/`, mdBook `book/` rewritten as **links** (catalog → skills, pipeline → loops, bootstrap → harness). No SKILL.md. No spec of record.
 
