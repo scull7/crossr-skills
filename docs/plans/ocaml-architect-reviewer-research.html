@@ -1,0 +1,382 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>OCaml architect + reviewer — research context</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-slate-950 text-slate-100">
+  <main class="mx-auto max-w-5xl px-6 py-12">
+    <p class="text-xs uppercase tracking-[0.2em] text-cyan-400">CrossR · awaiting approval · 2026-08-29</p>
+    <h1 class="mt-3 text-4xl font-semibold tracking-tight">OCaml architect and reviewer skills</h1>
+    <p class="mt-4 text-lg text-slate-300">
+      Research context for generating <code class="text-cyan-300">ocaml-architect</code>,
+      <code class="text-cyan-300">ocaml-code-reviewer</code>, and
+      <code class="text-cyan-300">ocaml-code-tester</code> as analogs of the Rust GAN trio.
+      Approve this file before any skill or prompt is written.
+    </p>
+
+    <div class="mt-8 grid gap-4 md:grid-cols-3">
+      <div class="rounded-2xl border border-slate-800 bg-slate-900/60 p-4">
+        <p class="text-xs uppercase text-slate-400">This file is</p>
+        <p class="mt-1 font-medium">Evidence + ownership map</p>
+      </div>
+      <div class="rounded-2xl border border-slate-800 bg-slate-900/60 p-4">
+        <p class="text-xs uppercase text-slate-400">This file is not</p>
+        <p class="mt-1 font-medium">A SKILL.md, a prompt, or a split of <code>store.ml</code></p>
+      </div>
+      <div class="rounded-2xl border border-amber-500/40 bg-amber-500/10 p-4">
+        <p class="text-xs uppercase text-amber-300">Next, after approval</p>
+        <p class="mt-1 font-medium">Generate the three skill-authoring prompts</p>
+      </div>
+    </div>
+
+    <section class="mt-14">
+      <h2 class="text-2xl font-semibold">1. What to build</h2>
+      <p class="mt-3 text-slate-300">
+        Rust already has a three-gate code GAN: writer → reviewer → tester → architect.
+        OCaml has only the writer. This wave adds the three quality/architecture gates,
+        not a team-lead.
+      </p>
+      <div class="mt-6 overflow-x-auto">
+        <table class="w-full text-left text-sm">
+          <thead class="text-slate-400">
+            <tr><th class="py-2 pr-4">Rust</th><th class="py-2 pr-4">OCaml analog</th><th class="py-2">Job</th></tr>
+          </thead>
+          <tbody class="divide-y divide-slate-800">
+            <tr><td class="py-3 pr-4 font-mono text-cyan-300">code-writer</td><td class="pr-4 font-mono">code-writer</td><td>Universal base. Shared.</td></tr>
+            <tr><td class="py-3 pr-4 font-mono text-cyan-300">rust-code-writer</td><td class="pr-4 font-mono">ocaml-code-writer</td><td>Exists. Generation law. Do not duplicate it.</td></tr>
+            <tr><td class="py-3 pr-4 font-mono text-cyan-300">rust-code-reviewer</td><td class="pr-4 font-mono">ocaml-code-reviewer</td><td>Pedantic line-level reject of writer violations.</td></tr>
+            <tr><td class="py-3 pr-4 font-mono text-cyan-300">rust-code-tester</td><td class="pr-4 font-mono">ocaml-code-tester</td><td>Coverage + exhaustive error-path gate. Never writes production.</td></tr>
+            <tr><td class="py-3 pr-4 font-mono text-cyan-300">rust-architect</td><td class="pr-4 font-mono">ocaml-architect</td><td>System-level NACK. Never writes or suggests code.</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <p class="mt-4 text-slate-400 text-sm">
+        Names follow the Rust pattern: <code>ocaml-architect</code> (not <code>ocaml-code-architect</code>),
+        <code>ocaml-code-reviewer</code> (the <code>code-</code> marks the quality guardian).
+        Activate with <code>code-writer</code> + <code>ocaml-code-writer</code>.
+      </p>
+    </section>
+
+    <section class="mt-14">
+      <h2 class="text-2xl font-semibold">2. Ownership split (the whole point)</h2>
+      <p class="mt-3 text-slate-300">
+        The writer already failed closed on combinators, nested match, stringly types, and public types at the top of the <code>.ml</code>.
+        Architect and reviewer exist because the writer still scoped past two classes of defect:
+        a god-module, and dest code matching wire slugs. Those classes belong to different skills.
+      </p>
+      <div class="mt-6 grid gap-4 md:grid-cols-2 lg:grid-cols-4">
+        <article class="rounded-2xl border border-slate-800 bg-slate-900/70 p-5">
+          <h3 class="font-semibold text-cyan-300">Writer</h3>
+          <p class="mt-2 text-sm text-slate-300">How the next function is written. Local, syntactic, scorable.</p>
+          <ul class="mt-3 list-disc space-y-1 pl-5 text-sm text-slate-400">
+            <li>Combinators → match → helper</li>
+            <li>No nested Result/Option match</li>
+            <li>No identity match, no homemade <code>of_option</code></li>
+            <li>Public types before first <code>let</code></li>
+            <li>Parse wire strings at the adapter</li>
+            <li>Dedicated <code>result</code> errors, local <code>let*</code> on &lt; 5.4</li>
+            <li>Function ≤ 30 lines</li>
+          </ul>
+        </article>
+        <article class="rounded-2xl border border-slate-800 bg-slate-900/70 p-5">
+          <h3 class="font-semibold text-cyan-300">Reviewer</h3>
+          <p class="mt-2 text-sm text-slate-300">Did the writer obey the writer? Line-level. Reject and demand the exact fix.</p>
+          <ul class="mt-3 list-disc space-y-1 pl-5 text-sm text-slate-400">
+            <li>Every writer fail-closed rule as REJECT</li>
+            <li>Dest matching <code>"practice"</code> is a writer violation the reviewer must not miss</li>
+            <li><code>create_body</code> after a <code>let</code> is REJECT, not “later”</li>
+            <li>May name the offending function. May not redesign the system.</li>
+            <li>Mirrors <code>rust-code-reviewer</code>: checklist + fines, not Torvalds-mode</li>
+          </ul>
+        </article>
+        <article class="rounded-2xl border border-slate-800 bg-slate-900/70 p-5">
+          <h3 class="font-semibold text-cyan-300">Tester</h3>
+          <p class="mt-2 text-sm text-slate-300">Did anyone prove the behaviour? Never writes production.</p>
+          <ul class="mt-3 list-disc space-y-1 pl-5 text-sm text-slate-400">
+            <li>Tests for every calculation and public <code>.mli</code> item</li>
+            <li>Every <code>Error</code> variant has a producing test</li>
+            <li>Arrange-Act-Assert. Domain tests stay pure</li>
+            <li>Follow the project’s existing runner unless a framework is approved</li>
+            <li>Native <code>dune runtest</code> is the suite of record</li>
+            <li>Delegate production fixes to the writer</li>
+            <li><code>TEST VERDICT: PASSED | REJECTED</code></li>
+          </ul>
+        </article>
+        <article class="rounded-2xl border border-slate-800 bg-slate-900/70 p-5">
+          <h3 class="font-semibold text-cyan-300">Architect</h3>
+          <p class="mt-2 text-sm text-slate-300">What the system is. Seams, layers, 2-year shape. Never writes, edits, or suggests code.</p>
+          <ul class="mt-3 list-disc space-y-1 pl-5 text-sm text-slate-400">
+            <li><code>store.ml</code> holding Calendar + Scoresheet + Messages + Payments + Signup is one unit doing five jobs</li>
+            <li>A <code>.mli</code> exporting more than one dest/page/aggregate is a STOP, not a split recipe</li>
+            <li>Layer direction: <code>shared/</code> → codec → server / dest. Dest does not own domain law</li>
+            <li>Abstract vs concrete <code>type t</code> is a seam decision</li>
+            <li>Functors, dune library graph, Melange dual-compile of <code>shared/</code></li>
+            <li>Output: <code>BLESSED | REJECTED</code> only. “Split into X.ml” is implementation leakage</li>
+          </ul>
+        </article>
+      </div>
+      <p class="mt-4 rounded-xl border border-slate-800 bg-slate-900/40 p-4 text-sm text-slate-300">
+        A line-count gate (“split at 400 lines”) is not architecture. It produces
+        <code>store_types.ml</code>. The architect names the <em>flaw</em> (one compilation unit, five dests).
+        The writer, after a new design is blessed, performs the split along those dests.
+      </p>
+    </section>
+
+    <section class="mt-14">
+      <h2 class="text-2xl font-semibold">3. Rust analog contracts to copy structurally</h2>
+      <p class="mt-3 text-slate-300">Copy shape and gates. Do not copy Rust idioms or Torvalds-onto-OCaml without a decision (see questions).</p>
+      <div class="mt-6 space-y-4">
+        <article class="rounded-2xl border border-slate-800 p-5">
+          <h3 class="font-semibold"><code>rust-architect</code></h3>
+          <ul class="mt-2 list-disc space-y-1 pl-5 text-sm text-slate-300">
+            <li>Precondition: <code>code-writer</code> + language writer</li>
+            <li>Never writes, edits, or suggests code. Implementation leakage is itself a violation</li>
+            <li>Verdict: <code>ARCHITECTURE VERDICT: BLESSED | REJECTED</code> plus 2–4 sentences and an Issues list of high-level flaws only</li>
+            <li>Checklist: layers, call graph, actions at edges, 2-year obviousness, compliance with base skills</li>
+            <li>Personality: blunt, “This is garbage because…”, “NACK.”</li>
+            <li>Six scorable verification behaviors including mandate recitation</li>
+          </ul>
+        </article>
+        <article class="rounded-2xl border border-slate-800 p-5">
+          <h3 class="font-semibold"><code>rust-code-reviewer</code></h3>
+          <ul class="mt-2 list-disc space-y-1 pl-5 text-sm text-slate-300">
+            <li>Precondition: <code>code-writer</code> + language writer</li>
+            <li>Obsessive enforcement of the writer’s rules. Fail any checklist item = reject</li>
+            <li>May demand exact fixes / refactor violating code. Must not open a new design</li>
+            <li>Fines in spirit ($100 readability, $100,000 for warning suppressions)</li>
+            <li>Does not replace the tester (coverage) or the architect (seams)</li>
+          </ul>
+        </article>
+        <article class="rounded-2xl border border-slate-800 p-5">
+          <h3 class="font-semibold"><code>rust-code-tester</code></h3>
+          <ul class="mt-2 list-disc space-y-1 pl-5 text-sm text-slate-300">
+            <li>Precondition: <code>code-writer</code> + language writer</li>
+            <li>Never writes, edits, or suggests production code. Delegates all implementation to the writer</li>
+            <li>100% coverage on calculations and public items. Every error path exercised</li>
+            <li>Strict Arrange-Act-Assert. Pure deterministic tests. Mock actions at edges only</li>
+            <li>Verdict: <code>TEST VERDICT: PASSED | REJECTED</code> plus missing-tests list</li>
+            <li>Personality: untested code is negligence. “It works on my machine is not an answer.”</li>
+          </ul>
+        </article>
+      </div>
+    </section>
+
+    <section class="mt-14">
+      <h2 class="text-2xl font-semibold">4. What <code>ocaml-code-writer</code> already owns (do not restated as new law)</h2>
+      <p class="mt-3 text-sm text-slate-400">Reviewer enforces these. Architect assumes them and rejects designs that make them unenforceable.</p>
+      <ul class="mt-4 columns-1 gap-x-8 text-sm text-slate-300 md:columns-2">
+        <li class="mb-2"><code>.mli</code> first, abstract <code>type t</code> when invariants must hold</li>
+        <li class="mb-2">Public types at top of <code>.ml</code>, <code>.mli</code> order, before first value binding</li>
+        <li class="mb-2">Stdlib combinators before match before helper extract — fail-closed</li>
+        <li class="mb-2">Nested match under <code>| Ok</code> / <code>| Some</code> / <code>else</code> is a violation</li>
+        <li class="mb-2">Identity matches are a violation. No homemade <code>of_option</code></li>
+        <li class="mb-2"><code>Option.to_result ~none:</code>, <code>Result.bind</code> / local <code>let*</code> on &lt; 5.4</li>
+        <li class="mb-2">Wire strings die at the JSON/SQL/HTTP adapter. Invalid slugs are errors, not <code>| _ -&gt; Home</code></li>
+        <li class="mb-2">Dedicated error variant per module/layer as <code>result</code>. No exceptions as control flow</li>
+        <li class="mb-2">No <code>Obj.magic</code>, <code>List.hd</code>/<code>List.tl</code>, catch-all <code>try</code>, <code>[@warning]</code></li>
+        <li class="mb-2">No objects by default. No file-level <code>open List</code>. No <code>Util</code> modules</li>
+        <li class="mb-2">odoc <code>[f x] is ...</code> on the interface only</li>
+        <li class="mb-2">Gate: <code>dune build @check @fmt @runtest</code></li>
+        <li class="mb-2">Stdlib-first. Base/Core/Or_error require explicit approval — already decided against for CrossR</li>
+        <li class="mb-2">Function body ≤ 30 lines</li>
+      </ul>
+    </section>
+
+    <section class="mt-14">
+      <h2 class="text-2xl font-semibold">5. Trusted OCaml corpus</h2>
+      <p class="mt-3 text-slate-300">
+        Ranked during the writer research. CrossR dialect is <strong>stdlib-flavored community OCaml</strong>, not Jane Street Base/Core.
+        Architect and reviewer must not reintroduce Or_error, ppx_let, or Core as defaults.
+      </p>
+      <div class="mt-6 overflow-x-auto">
+        <table class="w-full text-left text-sm">
+          <thead class="text-slate-400">
+            <tr><th class="py-2 pr-3">Source</th><th class="py-2 pr-3">Trust</th><th class="py-2">Take for architect / reviewer</th></tr>
+          </thead>
+          <tbody class="divide-y divide-slate-800 text-slate-300">
+            <tr>
+              <td class="py-3 pr-3"><a class="text-cyan-300 underline" href="https://ocaml.org/docs/guidelines">ocaml.org programming guidelines</a></td>
+              <td class="pr-3">Canonical</td>
+              <td>Interface-first, stdlib naming, <code>|> </code> data last, no objects by default, physical equality almost never.</td>
+            </tr>
+            <tr>
+              <td class="py-3 pr-3"><a class="text-cyan-300 underline" href="https://ocaml.org/docs/error-handling">ocaml.org error handling</a></td>
+              <td class="pr-3">Canonical</td>
+              <td>Result for foreseeable failure; exceptions for bugs / omnipresent failure. Dedicated error types. Architect: error types wrap at one seam, not in every handler.</td>
+            </tr>
+            <tr>
+              <td class="py-3 pr-3"><a class="text-cyan-300 underline" href="https://dev.realworldocaml.org/error-handling.html">RWO error-handling chapter</a></td>
+              <td class="pr-3">High (dialect-aware)</td>
+              <td>Result vs exception split. Ignore Jane Street Or_error / sexp Error.t as CrossR default.</td>
+            </tr>
+            <tr>
+              <td class="py-3 pr-3"><a class="text-cyan-300 underline" href="https://ocaml.org/p/ppx_js_style/latest">Jane Street ppx_js_style</a></td>
+              <td class="pr-3">High, picky</td>
+              <td>Annotated ignores, <code>.mli</code> comments are odoc or <code>(*_ *)</code>. Do not import dated-deprecation or Core.</td>
+            </tr>
+            <tr>
+              <td class="py-3 pr-3"><a class="text-cyan-300 underline" href="https://discuss.ocaml.org/t/dunes-style-guide/10802">Dune style / AGENTS.md</a></td>
+              <td class="pr-3">High</td>
+              <td>Module naming, small units, dune as the build law. Architect cares about library graph, not fmt.</td>
+            </tr>
+            <tr>
+              <td class="py-3 pr-3"><a class="text-cyan-300 underline" href="https://github.com/ocaml/ocaml/blob/trunk/CONTRIBUTING.md">ocaml/ocaml CONTRIBUTING</a></td>
+              <td class="pr-3">High, compiler-specific</td>
+              <td>Exhaustive match, no warning suppressions. Skip compiler-runtime special cases.</td>
+            </tr>
+            <tr>
+              <td class="py-3 pr-3">lindig/ocaml-style, OCamlverse docs, Xen XAPI</td>
+              <td class="pr-3">Supporting</td>
+              <td>Interface comments, no Util modules, named layers. XAPI is a large-system existence proof of .mli discipline.</td>
+            </tr>
+            <tr>
+              <td class="py-3 pr-3">CS3110 / UPenn / JHU course notes</td>
+              <td class="pr-3">Teaching</td>
+              <td>Use only as examples of exhaustive match and module signatures. Not production law.</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <p class="mt-4 text-sm text-slate-400">
+        Production-grade OCaml <em>agent skill</em> corpus found in the original research:
+        <a class="text-cyan-300 underline" href="https://github.com/avsm/ocaml-claude-marketplace">avsm/ocaml-claude-marketplace</a>
+        only. skills.sh hits were low-install and mostly unrelated. Do not fork that marketplace into CrossR;
+        steal structure (dune gate, .mli-first) where it already matches the writer.
+      </p>
+    </section>
+
+    <section class="mt-14">
+      <h2 class="text-2xl font-semibold">6. Evidence from subzeroplay (why these two skills)</h2>
+      <p class="mt-3 text-slate-300">
+        The writer regen flattened the Result pyramids and parsed create/rsvp/add bodies at <code>session_json</code>.
+        Isolated <code>dune build @check @runtest @server @frontend</code> went green. Two leftovers were then classified:
+      </p>
+      <div class="mt-6 grid gap-4 md:grid-cols-2">
+        <article class="rounded-2xl border border-amber-500/30 bg-amber-500/5 p-5">
+          <p class="text-xs uppercase text-amber-300">Architect exhibit</p>
+          <h3 class="mt-1 font-semibold"><code>server/store.ml</code> ~2287 lines</h3>
+          <p class="mt-2 text-sm text-slate-300">
+            Not “too many lines.” Calendar, Scoresheet, Messages, Payments, and Signup share one compilation unit.
+            Types for those dests are declared mid-file because the unit is several modules hiding in one file.
+            Moving every type to line 1 without a seam is still a god-module.
+          </p>
+          <p class="mt-2 text-sm text-slate-400">
+            Writer rule (now fail-closed): public types before first <code>let</code>. Architect rule (proposed):
+            a <code>.mli</code> that exports more than one dest/page/aggregate is REJECT. No file names in the verdict.
+          </p>
+        </article>
+        <article class="rounded-2xl border border-amber-500/30 bg-amber-500/5 p-5">
+          <p class="text-xs uppercase text-amber-300">Reviewer exhibit</p>
+          <h3 class="mt-1 font-semibold">Dest <code>calendar.ml</code> matching slugs</h3>
+          <pre class="mt-2 overflow-x-auto rounded-lg bg-slate-950 p-3 text-xs text-slate-300">let kind_label = function
+  | "game" -> "Game"
+  | "practice" -> "Practice"
+  | "activity" -> "Activity"
+  | kind -> kind</pre>
+          <p class="mt-2 text-sm text-slate-300">
+            <code>Occurrence.kind_label</code> already exists. Form state is still <code>kind : string</code>.
+            <code>| kind -> kind</code> is the silent default the writer forbids as <code>| _ -> Home</code>.
+            Encoding slugs on the way <em>out</em> is the adapter. Matching them for labels is interior dest code.
+          </p>
+          <p class="mt-2 text-sm text-slate-400">
+            The writer already forbids this. The reviewer exists so an agent cannot “read adapter as server-only” and ship it.
+          </p>
+        </article>
+      </div>
+      <p class="mt-4 text-sm text-slate-400">
+        Other regen facts the new skills must not forget: OCaml 5.2 native stdlib has no <code>Result.Syntax</code>
+        (Melange does); dual-compile <code>shared/</code> forces local <code>let (let*) = Result.bind</code>.
+        Record types in this product stay concrete because store/tests construct them; hide only clearly internal helpers.
+        <code>Id.t</code> stays abstract. JSON is camelCase on the wire. No new third-party deps without approval.
+      </p>
+    </section>
+
+    <section class="mt-14">
+      <h2 class="text-2xl font-semibold">7. Proposed architect concerns (system-level only)</h2>
+      <p class="mt-3 text-sm text-slate-400">These become the OCaml-specific checklist. Still no code, no file-split recipe.</p>
+      <ul class="mt-4 list-disc space-y-2 pl-5 text-slate-300">
+        <li><strong>One job per compilation unit.</strong> If the interface names two dests, two pages, or two aggregates, the unit is doing two jobs. REJECT. Do not name the replacement files.</li>
+        <li><strong>Stratification.</strong> Lowest: identifiers, variants, records. Middle: domain calculations in <code>shared/</code> (no I/O). Highest: SQL/HTTP/JSON adapters and dest orchestration. A domain module that knows SQL or JSON is entanglement.</li>
+        <li><strong>Adapter edges are plural.</strong> JSON decode, SQL row parse, HTTP param, dest JSON decode are all edges. Interior dests and the store must already see domain types. Architect rejects a design that keeps slugs as the dest’s model.</li>
+        <li><strong>Error seams.</strong> Each layer has its own error type. Conversion happens once at the call into the next layer, not as a forest of inline maps in handlers. Polymorphic variants are allowed; a grab-bag <code>string</code> error is not a type.</li>
+        <li><strong>Abstract vs concrete.</strong> Abstract <code>type t</code> when an invariant must hold (<code>Id.t</code>). Concrete records when store/tests/dests must construct them. Hiding a record “for cleanliness” that every test rebuilds is a fake seam.</li>
+        <li><strong>Functors</strong> only for demonstrated parameterization (the Id functor is the existence proof). Functors as decoration = REJECT.</li>
+        <li><strong>Dune library graph</strong> is the layering. <code>shared/</code> must not depend on <code>server/</code> or dests. Dual-compile (native + Melange) is a constraint on the domain layer: no I/O, no 5.4-only stdlib in <code>shared/</code>.</li>
+        <li><strong>Effects vs exceptions vs Result</strong> (OCaml 5): effects for suspension/control, exceptions for bugs, Result for foreseeable failure. An effects-based error channel in domain code is entanglement.</li>
+        <li><strong>2-year test.</strong> A new senior who knows ocaml.org guidelines, not this repo, can find the Team dest without reading 2k lines of store.</li>
+      </ul>
+    </section>
+
+    <section class="mt-14">
+      <h2 class="text-2xl font-semibold">8. Proposed reviewer concerns (line-level)</h2>
+      <p class="mt-3 text-sm text-slate-400">These are the writer rules restated as REJECT items, plus the dest-adapter reading the writer missed.</p>
+      <ul class="mt-4 list-disc space-y-2 pl-5 text-slate-300">
+        <li>Any <code>(match</code> under <code>| Ok</code> / <code>| Some</code> / <code>else</code></li>
+        <li><code>| Error e -> Error e</code> and friends; homemade <code>of_option</code></li>
+        <li>Public <code>type</code> after a <code>let</code></li>
+        <li>Matching <code>"practice"</code> / <code>"away"</code> / <code>"home"</code> / <code>"attending"</code> outside a JSON, SQL, HTTP, or dest-encode adapter — including dest label helpers and form state</li>
+        <li>Silent slug defaults (<code>| _ -> Home</code>, <code>| kind -> kind</code>)</li>
+        <li><code>try with _</code>, <code>List.hd</code>, <code>Option.get</code> on production paths, <code>Obj.magic</code>, <code>[@warning]</code></li>
+        <li>File-level <code>open List</code>, unlabeled booleans, <code>;;</code>, objects as default abstraction</li>
+        <li>Copying <code>.mli</code> comments into <code>.ml</code></li>
+        <li>Function body over 30 lines without an extracted helper</li>
+        <li>Introducing Base/Core/Or_error/ppx_let without recorded approval</li>
+        <li>Using module-level <code>let*</code> bound to <code>Option.bind</code> inside a Result function (the subzeroplay store trap)</li>
+        <li>Tooling: <code>dune build @check @fmt @runtest</code> not green, leftover <code>print_endline</code></li>
+      </ul>
+      <p class="mt-4 text-sm text-slate-400">
+        Reviewer personality mirrors the Rust guardian (pedantic, fines, no pragmatic exceptions).
+        It does not NACK system shape. If the only fix is a module split, the reviewer REJECTS the local violation
+        (types mid-file) and leaves the seam to the architect.
+      </p>
+    </section>
+
+    <section class="mt-14">
+      <h2 class="text-2xl font-semibold">8b. Proposed tester concerns</h2>
+      <p class="mt-3 text-sm text-slate-400">OCaml translation of <code>rust-code-tester</code>. Still never writes production.</p>
+      <ul class="mt-4 list-disc space-y-2 pl-5 text-slate-300">
+        <li>Every new calculation and public <code>.mli</code> item has a producing test</li>
+        <li>Every <code>Error</code> constructor on a public function has a test that yields it</li>
+        <li>Arrange-Act-Assert. No commented-out tests. No <code>print_endline</code> as the assertion</li>
+        <li>Domain tests (<code>shared/</code>) are pure: no SQLite, no HTTP, no the clock</li>
+        <li>Action-layer tests mock or use a fixture DB at the edge; they do not re-implement domain law</li>
+        <li>Native <code>dune runtest</code> is the suite of record. Melange dests are not exempt from tests of their calculations</li>
+        <li>Follow the project’s existing runner unless a framework is approved. Do not add Alcotest/QCheck by default</li>
+        <li><code>pp</code> + <code>equal</code> as testables when those exist on <code>t</code></li>
+        <li>On failure: re-delegate to <code>ocaml-code-writer</code>. Tester does not patch production to make a test green</li>
+      </ul>
+    </section>
+
+    <section class="mt-14">
+      <h2 class="text-2xl font-semibold">9. Out of scope this wave</h2>
+      <ul class="mt-3 list-disc space-y-1 pl-5 text-slate-300">
+        <li><code>ocaml-team-lead</code> — orchestration analog of <code>rust-team-lead</code>.</li>
+        <li>A Melange/dest domain skill analogous to <code>rust-frontend</code>. Dest slug bugs are reviewer/writer; dest architecture is architect. A separate frontend skill is a later specialization.</li>
+        <li>Rewriting <code>ocaml-code-writer</code> again, except if generation of the new skills finds a contradiction.</li>
+        <li>Performing the <code>store.ml</code> split or the calendar dest regen. Those are product work, not skill work.</li>
+      </ul>
+    </section>
+
+    <section class="mt-14 rounded-2xl border border-cyan-500/40 bg-cyan-500/5 p-6">
+      <h2 class="text-2xl font-semibold">10. Unresolved questions (approve or answer)</h2>
+      <ol class="mt-4 list-decimal space-y-3 pl-5 text-slate-300">
+        <li>Names <code>ocaml-architect</code>, <code>ocaml-code-reviewer</code>, <code>ocaml-code-tester</code> — <strong>keep</strong> (decided).</li>
+        <li>Architect persona — <strong>decided:</strong> Torvalds attitude and code opinions; structural suggestions allowed, never direct code. Blunt, impatient, <code>BLESSED | REJECTED</code>. Never writes or suggests code. Do not impersonate Torvalds. No fines voice on this skill.</li>
+        <li>Architect STOP — <strong>decided:</strong> one compilation unit, one job. If the public interface names two independent aggregates, REJECT and name the extra jobs. Do not bake “dest” into the skill. Do not name replacement files.</li>
+        <li>Reviewer powers — <strong>decided:</strong> REJECT and name the exact writer fix (rule, location, required change). Do not edit production. Fines stay on this skill.</li>
+        <li>Tester runner — <strong>decided:</strong> follow the project. If none exists, present a choice: Alcotest + QCheck (native); AVA + fast-check or vitest + fast-check (Melange). No silent add.</li>
+        <li>Dual-compile suite of record — <strong>decided:</strong> native <code>dune runtest</code> for <code>shared/</code> and native server. Melange runner only when dests contain calculations not in <code>shared/</code>. Native green does not excuse an untested dest calculation.</li>
+        <li>Tester writes tests — <strong>decided:</strong> no. List gaps and re-delegate to <code>ocaml-code-writer</code>. Tester never writes production or test files.</li>
+        <li>Harness wiring — <strong>decided:</strong> follow-up PR (<code>og-04</code> in <code>features.json</code>). Skills + catalog this wave. Personas, HARNESS-SPEC §6/§11, OpenCode GAN wiring after the skills exist.</li>
+      </ol>
+      <p class="mt-6 text-sm text-slate-400">
+        Markdown twin for agent handoff: <code>docs/plans/ocaml-architect-reviewer-research.md</code>.
+        After this HTML is approved (with answers to §10), the next step is three skill-authoring prompts, not the skills themselves.
+      </p>
+    </section>
+  </main>
+</body>
+</html>

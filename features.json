@@ -681,5 +681,49 @@
         ]
       }
     ]
+  },
+  "ocaml-gan-trio": {
+    "status": "in_progress",
+    "commits": [
+      {
+        "id": "og-01",
+        "title": "Research context for ocaml-architect / ocaml-code-reviewer / ocaml-code-tester",
+        "status": "completed",
+        "features": [
+          "ocaml-gan-research"
+        ]
+      },
+      {
+        "id": "og-02",
+        "title": "ocaml-code-reviewer + ocaml-code-tester + ocaml-architect skills",
+        "status": "completed",
+        "features": [
+          "ocaml-code-reviewer-skill",
+          "ocaml-code-tester-skill",
+          "ocaml-architect-skill"
+        ]
+      },
+      {
+        "id": "og-03",
+        "title": "Public catalog + book overview for the OCaml GAN trio",
+        "status": "completed",
+        "features": [
+          "public-catalog-ocaml-gan",
+          "book-ocaml-gan"
+        ]
+      },
+      {
+        "id": "og-04",
+        "title": "OCaml GAN personas + HARNESS-SPEC §6/§11 + OpenCode wiring",
+        "status": "pending",
+        "features": [
+          "ocaml-reviewer-agent",
+          "ocaml-tester-agent",
+          "ocaml-architect-agent",
+          "harness-spec-ocaml-gan",
+          "opencode-ocaml-gan"
+        ]
+      }
+    ]
   }
 }

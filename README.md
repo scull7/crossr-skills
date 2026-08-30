@@ -50,7 +50,7 @@ It also installs the OpenCode slash commands `/avril` (planning) and `/axel` (ex
 
 All skills are designed with the same standards applied to production Rust code: functional purity, stratified design, zero technical debt, and handover-clean artifacts.
 
-Public catalog SSOT: [`docs/public-skills.json`](docs/public-skills.json) (25 skills). Names below must match that file.
+Public catalog SSOT: [`docs/public-skills.json`](docs/public-skills.json) (28 skills). Names below must match that file.
 
 | Skill                  | Purpose                                              | Category      |
 |------------------------|------------------------------------------------------|---------------|
@@ -58,8 +58,11 @@ Public catalog SSOT: [`docs/public-skills.json`](docs/public-skills.json) (25 sk
 | `rust-code-writer`     | Idiomatic, pure, stratified, flat-combinator Rust    | Rust Core     |
 | `ocaml-code-writer`    | Idiomatic, pure, stratified OCaml: fail-closed combinators, no nested match, domain types at the edge | OCaml Core |
 | `rust-code-reviewer`   | Ruthless Rust code quality guardian                  | Quality       |
+| `ocaml-code-reviewer`  | Pedantic OCaml quality gate: reject writer violations, never edit production | Quality |
 | `rust-code-tester`     | Obsessive test coverage and error-path verification  | Quality       |
+| `ocaml-code-tester`    | OCaml coverage and error-path gate; lists gaps, never writes tests | Quality |
 | `rust-architect`       | Torvalds-style system-level architecture gatekeeper  | Architecture  |
+| `ocaml-architect`      | System-level OCaml architecture gate: one unit one job, never writes code | Architecture |
 | `rust-team-lead`       | GAN orchestrator for multi-agent Rust plan execution | Orchestration |
 | `avril`                | Planning GAN — blessed PBIs (PO → QA → CTO)          | Orchestration |
 | `axel`                 | Execution loop — blessed PBI → PETC + code GAN       | Orchestration |

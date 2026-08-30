@@ -601,3 +601,39 @@ Stage 4 and the gate that makes BRICK worth choosing over adversarial review.
 - `AGENTS.md` gains BRICK as step 5b-alt beside AVRIL/AXEL.
 
 **Phase `brick-pipeline` complete** (bk-01…bk-06). Six skills' worth of pipeline delivered as six stacked PRs; catalog N=19→24.
+
+## OCaml GAN trio (`ocaml-gan-trio`) — in progress
+
+OCaml has `ocaml-code-writer` only. This phase adds the three quality/architecture gates as analogs of the Rust code GAN: `ocaml-code-reviewer`, `ocaml-code-tester`, `ocaml-architect`. Not a team-lead. Research: `docs/plans/ocaml-architect-reviewer-research.html`.
+
+### og-01 — research context (COMPLETED)
+
+Research + grill + authoring prompts landed. Human artifacts: `docs/plans/ocaml-architect-reviewer-research.html`, `docs/plans/ocaml-gan-skill-authoring-prompts.html`. Subzeroplay verification: `docs/plans/ocaml-gan-subzeroplay-verification.html`.
+
+Grill-locked decisions:
+
+- Names: `ocaml-architect`, `ocaml-code-reviewer`, `ocaml-code-tester`
+- Architect: Torvalds attitude and opinions; structural suggestions only; `BLESSED | REJECTED`; never writes or suggests code; do not impersonate Torvalds; no fines voice
+- Architect STOP: one compilation unit, one job; name extra aggregates, not replacement files; do not bake “dest” into the skill
+- Reviewer: REJECT and name the exact writer fix; do not edit production; fines stay
+- Tester: follow the project’s runner; if none, present Alcotest+QCheck (native) or AVA+fast-check / vitest+fast-check (Melange)
+- Dual-compile: native `dune runtest` for `shared/` and native server; Melange runner only for dest calculations not in `shared/`
+- Tester never writes production or test files; list gaps and re-delegate to `ocaml-code-writer`
+
+### og-02 — the three skills (COMPLETED)
+
+`ocaml-code-reviewer`, `ocaml-code-tester`, `ocaml-architect` under `.agents/skills/`. Precondition: `code-writer` + `ocaml-code-writer`. Verified against the locked contract (reviewer nested-match carve-out aligned with writer). Subzeroplay regen used as the behavior check.
+
+### og-03 — public catalog (COMPLETED)
+
+Allowlist N=25→28. README, book overview, and site catalog count updated. Featured subset unchanged.
+
+### og-04 — harness wiring (pending, follow-up PR)
+
+**Must not land in the skills PRs.** After the three skills exist:
+
+- Personas under `.agents/agents/` (`ocaml-reviewer-agent`, `ocaml-tester-agent`, `ocaml-architect-agent`)
+- HARNESS-SPEC §6 verification gates and §11 GAN trio named for OCaml as well as Rust
+- OpenCode GAN wiring so an OCaml PETC can actually invoke the trio
+
+This is tracked so it cannot disappear behind “skills shipped.” The harness still only names the Rust trio until og-04 merges.
