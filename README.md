@@ -23,7 +23,7 @@ Process, loops, and the public site live in sibling remotes under [sycamore-hq](
 
 Last tree that still contained everything: [`v0-last-monolith`](https://github.com/sycamore-hq/crossr-skills/releases/tag/v0-last-monolith). Current pins: `skills = "v0-last-monolith"`, `loops = "v0"` ([lockfile.toml](lockfile.toml)).
 
-**Split complete (split-08 dogfood).** Graphs (split-09) are a separate chain. Plan: [`docs/plans/skills-loops-harness-split.html`](docs/plans/skills-loops-harness-split.html) ([markdown](docs/plans/skills-loops-harness-split.md)).
+**Split complete (split-09 graphs).** Topology lives in [crossr-loops `graphs/`](https://github.com/sycamore-hq/crossr-loops/tree/main/graphs). SKILL.md stays the law. Pin remains `loops = "v0"` (graphs are on `main` until a later tag). Plan: [`docs/plans/skills-loops-harness-split.html`](docs/plans/skills-loops-harness-split.html) ([markdown](docs/plans/skills-loops-harness-split.md)).
 
 **Freeze:** do not add new orchestration skills here (conductors, `orchestrator-prompt`, `dashboard-prompt`, `chief-of-staff`). Writers, reviewers, testers, architects, domain skills, writing skills, `skill-evaluator`, and BRICK *stage* skills still land here.
 

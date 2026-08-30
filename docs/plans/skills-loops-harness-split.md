@@ -1,8 +1,9 @@
 # Split CrossR into four sycamore-hq remotes
 
-**Status:** complete after split-08. Graphs (split-09) are a **separate chain**.
+**Status:** complete after split-09. Four remotes live. Graphs are topology, not a runtime.
 **Human artifact:** [skills-loops-harness-split.html](skills-loops-harness-split.html)
 **Charter PR:** [sycamore-hq/crossr-skills#95](https://github.com/sycamore-hq/crossr-skills/pull/95) (merged)
+**Graphs PR:** [sycamore-hq/crossr-loops#3](https://github.com/sycamore-hq/crossr-loops/pull/3) (merged, `2d0d3aa`)
 **Pins:** `skills = "v0-last-monolith"`, `loops = "v0"`, harness `v0`
 
 Do not rewrite AVRIL/AXEL/BRICK. Do not add new orchestration skills to `crossr-skills`.
@@ -11,12 +12,18 @@ Do not rewrite AVRIL/AXEL/BRICK. Do not add new orchestration skills to `crossr-
 
 ## Resume in a later session
 
-1. Work from `sycamore-hq/crossr-skills` `main` (not `feat/ocaml-gan-trio`).
-2. Read this file + the HTML. Tracking: `features.json` phase `split-skills-loops-harness` (completed).
-3. Split-00..08 done. Next unit is **split-09 (graphs)** — not this chain.
-4. Landing Pages is still off. Do not invent a custom domain.
+The four-remote cut is done (split-00..09). Do not continue this chain unless a new unit is named.
 
-Trigger: “continue the skills/loops/harness split from split-09”.
+1. Work from `sycamore-hq/crossr-skills` `main` (not `feat/ocaml-gan-trio`).
+2. Read this file + the HTML. Tracking: `features.json` phase `split-skills-loops-harness` (completed) + `graphs` (completed).
+3. Landing Pages is still off. Do not invent a custom domain.
+4. Pin `loops = "v0"` does **not** include graphs. Graphs live on loops `main`. Do not retag unless a named unit asks.
+
+Not this chain:
+
+- Graph runner (loops backlog). Not Rhai / OpenCode-native on day one. SKILL.md still wins.
+- New loops tag so the pin includes `graphs/`.
+- Landing Pages. Custom domain: none.
 
 ---
 
@@ -34,7 +41,7 @@ Trigger: “continue the skills/loops/harness split from split-09”.
 - BRICK **stages stay in skills**. Conductor `brick` moves.
 - `agent-harness` **stays**. `HARNESS-SPEC.md` **moves**.
 - `dashboard-prompt` + `chief-of-staff` **move to harness**.
-- Graph DSL: **defer**. Conductors stay SKILL.md until dogfood is green.
+- Graph format: JSON `apiVersion: crossr-loops/v0`, nodes + edges. **Not a runtime.** If a graph and a `SKILL.md` disagree, `SKILL.md` wins. No Rhai. No OpenCode-native executor in v0.
 - Public remotes. No custom domain for landing yet.
 - Lockfile: `skills = <tag>`, `loops = <tag>`. Not a third tracker. No git submodules.
 
@@ -44,7 +51,7 @@ Trigger: “continue the skills/loops/harness split from split-09”.
 
 One repo sold a catalog and a process runtime. Catalog must load in Claude/Cursor/Grok without buying CrossR process. Process must compose catalog skills as nodes without owning their text.
 
-After the split, HARNESS-SPEC §12–13 defining AVRIL/AXEL is a spec bug. Loop law → loops. Artifact/ritual law → harness. Skill law → SKILL.md.
+After the split, HARNESS-SPEC §12–13 defining AVRIL/AXEL is a spec bug. Loop law → loops. Artifact/ritual law → harness. Skill law → SKILL.md. Topology → `graphs/` (map, not executor).
 
 ---
 
@@ -61,16 +68,9 @@ After the split, HARNESS-SPEC §12–13 defining AVRIL/AXEL is a spec bug. Loop 
 | split-06 | Dual-publish tag | Skills tag `v0-last-monolith`. Catalog `moved-to` on seven items. Old scripts printed deprecation and still ran. |
 | split-07 | Delete from skills | Catalog-only README. N=18. Shims exit 1. Copies gone. Pages workflow removed. |
 | split-08 | Dogfood | Bootstrap from harness. Pins `skills = "v0-last-monolith"`, `loops = "v0"`. Harness tagged `v0`. `--process-only` on all three products. Smoke green. |
+| split-09 | Graphs | JSON nodes+edges in [crossr-loops `graphs/`](https://github.com/sycamore-hq/crossr-loops/tree/main/graphs). [loops#3](https://github.com/sycamore-hq/crossr-loops/pull/3) `2d0d3aa`. SKILL.md untouched. Pin remains `v0`. |
 
 Local note: original checkout may still be on `feat/ocaml-gan-trio`. Split work used worktree `/Users/nathansculli/src/crossr-skills-split-charter`.
-
----
-
-## Remaining
-
-### split-09 — graphs (not this chain)
-
-Explicit graph format in `crossr-loops` after dogfood is green. YAML/JSON nodes+edges later. Not Rhai/OpenCode-native on day one.
 
 ---
 
@@ -85,8 +85,11 @@ Explicit graph format in `crossr-loops` after dogfood is green. YAML/JSON nodes+
 - Three catalogs + a site. One lockfile. Loops CI against the pinned skills tag. Landing owns no law.
 - Pages: last skills deploy is frozen; landing Pages is not enabled. Old user Pages does not redirect.
 - Chicken-egg dogfood: resolved. Pins exist; `--process-only` on products; full bootstrap on a fresh dir copies catalog + loops + harness files.
+- Graphs are on loops `main`, not in pin `v0`. Bootstrap does not copy `graphs/`. A later tag is a named unit, not an accident.
 
 ## Unresolved
 
 - Custom domain for `crossr-web-landing`? None yet.
 - Landing Pages still off.
+- Graph runner (loops backlog). Not this chain.
+- New loops tag that includes `graphs/`? None yet. Pin stays `v0`.

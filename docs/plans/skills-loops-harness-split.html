@@ -17,18 +17,18 @@
   <nav class="sticky top-0 z-40 border-b border-slate-800 bg-slate-950/95 backdrop-blur">
     <div class="max-w-5xl mx-auto px-6 h-12 flex items-center justify-between text-sm">
       <span class="font-display font-semibold">skills / loops / harness split</span>
-      <span class="text-xs px-2 py-0.5 rounded-full border border-emerald-500/40 text-emerald-300">DONE · GRAPHS ARE split-09</span>
+      <span class="text-xs px-2 py-0.5 rounded-full border border-emerald-500/40 text-emerald-300">DONE · SPLIT-00..09</span>
     </div>
   </nav>
 
   <main class="max-w-5xl mx-auto px-6 py-10 space-y-12">
     <header>
-      <p class="text-xs uppercase tracking-widest text-slate-500 mb-2">sycamore-hq · split-00..08 done · graphs (split-09) separate chain</p>
+      <p class="text-xs uppercase tracking-widest text-slate-500 mb-2">sycamore-hq · split-00..09 done · four remotes live</p>
       <h1 class="font-display text-3xl font-semibold text-white mb-4">One repo was selling two products. We're cutting it into four remotes.</h1>
       <p class="text-slate-400 leading-relaxed max-w-3xl">
         <code class="text-slate-200">crossr-skills</code> stays the portable catalog.
         Loops, harness, and the public site get their own homes.
-        Extract now (same SKILL.md + personas). Explicit graphs later.
+        Extract now (same SKILL.md + personas). Graphs are a map, not a runtime.
         Agent handoff: <a class="text-emerald-400 hover:underline" href="skills-loops-harness-split.md">skills-loops-harness-split.md</a>.
       </p>
     </header>
@@ -36,11 +36,15 @@
     <section class="section p-5 rounded-2xl border border-emerald-500/30 bg-emerald-950/20">
       <h2 class="font-display text-emerald-300 font-semibold mb-2">Resume here</h2>
       <p class="text-sm text-slate-300 leading-relaxed">
-        Split-00..08 done. Dogfood is live. Pins: <code>skills = v0-last-monolith</code>,
+        Split-00..09 done. Four remotes live. Pins: <code>skills = v0-last-monolith</code>,
         <code>loops = v0</code>, harness <code>v0</code>. Catalog-only README. Shims exit 1.
-        Product repos consume harness via <code>--process-only</code>. Landing Pages is still off.
-        Graphs (split-09) are a separate chain.
-        Trigger: “continue the skills/loops/harness split from split-09”.
+        Product repos consume harness via <code>--process-only</code>.
+        Graphs: JSON nodes+edges in
+        <a class="text-emerald-400 hover:underline" href="https://github.com/sycamore-hq/crossr-loops/tree/main/graphs">crossr-loops/graphs</a>
+        (<a class="text-emerald-400 hover:underline" href="https://github.com/sycamore-hq/crossr-loops/pull/3">loops#3</a>, <code>2d0d3aa</code>).
+        SKILL.md stays the law. Pin <code>v0</code> does not include graphs.
+        Landing Pages is still off. Do not invent a custom domain.
+        Do not continue this chain unless a new unit is named.
       </p>
     </section>
 
@@ -88,7 +92,7 @@ crossr-web-landing  (links; owns no law)</pre>
             <tr><td class="p-3 text-slate-400">BRICK stages</td><td class="p-3">Stay in skills. Conductor <code>brick</code> moves.</td></tr>
             <tr><td class="p-3 text-slate-400">agent-harness</td><td class="p-3">Stays (portable how-to). HARNESS-SPEC moves.</td></tr>
             <tr><td class="p-3 text-slate-400">dashboard-prompt / chief-of-staff</td><td class="p-3">Move to harness.</td></tr>
-            <tr><td class="p-3 text-slate-400">Graphs</td><td class="p-3">Defer. Conductors stay SKILL.md until dogfood is green.</td></tr>
+            <tr><td class="p-3 text-slate-400">Graphs</td><td class="p-3">JSON <code>crossr-loops/v0</code> nodes+edges in loops. Map, not a runtime. SKILL.md wins. No Rhai. Pin <code>v0</code> does not include them.</td></tr>
             <tr><td class="p-3 text-slate-400">Install</td><td class="p-3">Harness lockfile pins <code>skills = &lt;tag&gt;</code> and <code>loops = &lt;tag&gt;</code>. No git submodules.</td></tr>
           </tbody>
         </table>
@@ -101,7 +105,7 @@ crossr-web-landing  (links; owns no law)</pre>
         A catalog should load in Claude, Cursor, or Grok without buying CrossR process.
         A process should compose catalog skills as nodes without owning their text.
         That's already the stratified-disclosure design, physically violated by stuffing everything in one tree.
-        After the split, HARNESS-SPEC §12–13 defining AVRIL/AXEL is a spec bug: loop law lives in loops, artifact/ritual law in harness, skill law in SKILL.md.
+        After the split, HARNESS-SPEC §12–13 defining AVRIL/AXEL is a spec bug: loop law lives in loops, artifact/ritual law in harness, skill law in SKILL.md, topology in <code>graphs/</code> (map, not executor).
       </p>
     </section>
 
@@ -167,8 +171,35 @@ crossr-web-landing  (links; owns no law)</pre>
         <li><span class="text-emerald-400">Done (split-06).</span> Dual-publish tag <code>v0-last-monolith</code>. Catalog <code>moved-to</code> on seven items. Old scripts print <code>deprecated: use sycamore-hq/crossr-harness</code>.</li>
         <li><span class="text-emerald-400">Done (split-07).</span> Delete moved artifacts from skills. Catalog-only README. Shims exit 1. N=18. Pages workflow removed; last deploy frozen. Landing Pages still off.</li>
         <li><span class="text-emerald-400">Done (split-08).</span> Dogfood. Pins <code>skills = "v0-last-monolith"</code>, <code>loops = "v0"</code>. Harness tagged <code>v0</code>. <code>--process-only</code> on all three products. Smoke green. Landing Pages still off.</li>
-        <li>Graphs (split-09): separate loops backlog. Not this chain.</li>
+        <li><span class="text-emerald-400">Done (split-09).</span> JSON graphs in <code>crossr-loops/graphs/</code>. Schema <code>crossr-loops/v0</code>. Five graphs: avril, axel, brick, rust-team-lead, flagship. <code>verify-graphs</code> PASS. SKILL.md untouched. Pin remains <code>v0</code>. <a class="text-emerald-400 hover:underline" href="https://github.com/sycamore-hq/crossr-loops/pull/3">loops#3</a> <code>2d0d3aa</code>.</li>
       </ol>
+    </section>
+
+    <section class="section">
+      <h2 class="font-display text-xl font-semibold text-white mb-3">split-09 graphs — done</h2>
+      <p class="text-sm text-slate-500 mb-3">Explicit topology in <code>crossr-loops</code>. Not a runtime. SKILL.md stays the law. Pin <code>loops = v0</code> unchanged — graphs live on <code>main</code>.</p>
+      <div class="grid md:grid-cols-2 gap-4 text-sm">
+        <div class="p-4 rounded-xl bg-zinc-900 border border-zinc-800">
+          <h3 class="text-white font-semibold mb-2">Format</h3>
+          <ul class="font-mono text-xs text-emerald-300 space-y-1">
+            <li>apiVersion: crossr-loops/v0</li>
+            <li>nodes + edges (JSON, not YAML)</li>
+            <li>catalog skills by name (catalog: true)</li>
+            <li>scripts/verify-graphs (+ --html)</li>
+          </ul>
+        </div>
+        <div class="p-4 rounded-xl bg-zinc-900 border border-zinc-800">
+          <h3 class="text-white font-semibold mb-2">Graphs</h3>
+          <ul class="font-mono text-xs text-slate-300 space-y-1">
+            <li>avril — generator → PO → QA → CTO</li>
+            <li>rust-team-lead — inner Rust GAN</li>
+            <li>axel — plan → rust-gan graph → evidence</li>
+            <li>brick — stage pipeline (skills catalog)</li>
+            <li>flagship — intent → AVRIL → AXEL</li>
+          </ul>
+        </div>
+      </div>
+      <p class="text-xs text-slate-500 mt-3">Not in this unit: a runner. Rhai. OpenCode-native graphs. New lockfile tag. Landing Pages.</p>
     </section>
 
     <section class="section">
@@ -331,11 +362,12 @@ crossr-web-landing  (links; owns no law)</pre>
         <li>Spec drift if HARNESS-SPEC still defines AVRIL on copy day. Strip it then.</li>
         <li>Pages: last skills deploy is frozen (workflow removed). Landing Pages is not enabled. <a class="text-emerald-400" href="https://sycamore-hq.github.io/crossr-skills/">sycamore-hq.github.io/crossr-skills</a> is leftover; <code>scull7.github.io</code> does not redirect.</li>
         <li>Chicken-egg dogfood: resolved. Pins exist; <code>--process-only</code> on products; full bootstrap on a fresh dir copies catalog + loops + harness files.</li>
+        <li>Graphs live on loops <code>main</code>, not in pin <code>v0</code>. Bootstrap does not copy <code>graphs/</code>.</li>
       </ul>
     </section>
 
     <section class="section text-sm text-slate-500">
-      <p>Still open: custom domain for landing (none). Landing Pages still off. Dual-publish tag is <code>v0-last-monolith</code>. Loops/harness pins are <code>v0</code>.</p>
+      <p>Still open: custom domain for landing (none). Landing Pages still off. Dual-publish tag is <code>v0-last-monolith</code>. Loops/harness pins are <code>v0</code> (graphs not in the loops pin). Graph runner is loops backlog, not this chain.</p>
     </section>
   </main>
 </body>
