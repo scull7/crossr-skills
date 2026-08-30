@@ -25,6 +25,8 @@ Last tree that still contained everything: [`v0-last-monolith`](https://github.c
 
 **Split complete (split-09 graphs).** Topology lives in [crossr-loops `graphs/`](https://github.com/sycamore-hq/crossr-loops/tree/main/graphs). SKILL.md stays the law. Pin remains `loops = "v0"` (graphs are on `main` until a later tag). Plan: [`docs/plans/skills-loops-harness-split.html`](docs/plans/skills-loops-harness-split.html) ([markdown](docs/plans/skills-loops-harness-split.md)).
 
+The public door is [`crossr-web-landing`](https://github.com/sycamore-hq/crossr-web-landing) → https://sycamore-hq.github.io/crossr-web-landing/ . This repo's Pages host is a **moved stub**, not the catalog UI.
+
 **Freeze:** do not add new orchestration skills here (conductors, `orchestrator-prompt`, `dashboard-prompt`, `chief-of-staff`). Writers, reviewers, testers, architects, domain skills, writing skills, `skill-evaluator`, and BRICK *stage* skills still land here.
 
 New projects: bootstrap from [sycamore-hq/crossr-harness](https://github.com/sycamore-hq/crossr-harness) (`v0`). The old `./scripts/harness-bootstrap` and `./scripts/sync-skills` are shims — they print `deprecated: use sycamore-hq/crossr-harness` and exit 1.
