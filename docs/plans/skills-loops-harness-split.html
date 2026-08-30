@@ -17,13 +17,13 @@
   <nav class="sticky top-0 z-40 border-b border-slate-800 bg-slate-950/95 backdrop-blur">
     <div class="max-w-5xl mx-auto px-6 h-12 flex items-center justify-between text-sm">
       <span class="font-display font-semibold">skills / loops / harness split</span>
-      <span class="text-xs px-2 py-0.5 rounded-full border border-sky-500/40 text-sky-300">PAUSED · RESUME AT split-06</span>
+      <span class="text-xs px-2 py-0.5 rounded-full border border-sky-500/40 text-sky-300">PAUSED · RESUME AT split-07</span>
     </div>
   </nav>
 
   <main class="max-w-5xl mx-auto px-6 py-10 space-y-12">
     <header>
-      <p class="text-xs uppercase tracking-widest text-slate-500 mb-2">sycamore-hq · split-00..05 done · next split-06</p>
+      <p class="text-xs uppercase tracking-widest text-slate-500 mb-2">sycamore-hq · split-00..06 done · next split-07</p>
       <h1 class="font-display text-3xl font-semibold text-white mb-4">One repo was selling two products. We're cutting it into four remotes.</h1>
       <p class="text-slate-400 leading-relaxed max-w-3xl">
         <code class="text-slate-200">crossr-skills</code> stays the portable catalog.
@@ -36,11 +36,11 @@
     <section class="section p-5 rounded-2xl border border-sky-500/30 bg-sky-950/20">
       <h2 class="font-display text-sky-300 font-semibold mb-2">Resume here</h2>
       <p class="text-sm text-slate-300 leading-relaxed">
-        Paused after split-05. Next session: branch off <code>sycamore-hq/crossr-skills</code> <code>main</code>
-        (not the OCaml branch). Dual-publish tag on skills (<code>vN-last-monolith</code> is a placeholder).
-        Old <code>sync-skills</code> / <code>harness-bootstrap</code> print “use sycamore-hq/crossr-harness”.
-        Catalog marks moved items with <code>moved-to</code>. Copies stay until split-07.
-        Trigger: “continue the skills/loops/harness split from split-06”.
+        Paused after split-06. Next session: branch off <code>sycamore-hq/crossr-skills</code> <code>main</code>
+        (not the OCaml branch). Dual-publish tag <code>v0-last-monolith</code> is live. Delete moved
+        artifacts from skills. Catalog-only README. Shim or remove old scripts.
+        Copies of conductors, harness, and site go away here. BRICK stages stay.
+        Trigger: “continue the skills/loops/harness split from split-07”.
       </p>
     </section>
 
@@ -107,7 +107,7 @@ crossr-web-landing  (links; owns no law)</pre>
 
     <section class="section">
       <h2 class="font-display text-xl font-semibold text-white mb-3">Classification — skills</h2>
-      <p class="text-sm text-slate-500 mb-3">Public catalog plus <code>out</code> items. Destination is the home after the dual-publish tag, not today (copies stay here until then).</p>
+      <p class="text-sm text-slate-500 mb-3">Public catalog plus <code>out</code> items. Dual-publish is live (<code>v0-last-monolith</code>); copies stay until split-07. <code>moved-to</code> names the home after the cut.</p>
       <div class="overflow-x-auto rounded-xl border border-zinc-800">
         <table class="w-full text-sm">
           <thead class="bg-zinc-900 text-slate-400 text-left">
@@ -164,11 +164,36 @@ crossr-web-landing  (links; owns no law)</pre>
         <li><span class="text-emerald-400">Done (split-03).</span> Copy loops (clean tree). Skills keeps copies until split-07. Source SHA <code>2c0b00976928c275e07c7ebc43b4b0e0f400b2ba</code>.</li>
         <li><span class="text-emerald-400">Done (split-04).</span> Copy harness. HARNESS-SPEC §12–13 stripped. Skills keeps copies until split-07. Source SHA <code>5f4e3c7</code>.</li>
         <li><span class="text-emerald-400">Done (split-05).</span> Copy landing. Zola <code>site/</code> byte-identical; mdBook rewritten as links. Source SHA <code>9ff577e</code>. Skills keeps copies. Pages still here.</li>
-        <li><span class="text-amber-300">NEXT (split-06).</span> Dual-publish tag on skills. Old scripts tell you to use harness.</li>
-        <li>Delete moved artifacts from skills (split-07). Catalog-only README.</li>
+        <li><span class="text-emerald-400">Done (split-06).</span> Dual-publish tag <code>v0-last-monolith</code>. Catalog <code>moved-to</code> on seven items. Old scripts print <code>deprecated: use sycamore-hq/crossr-harness</code>.</li>
+        <li><span class="text-amber-300">NEXT (split-07).</span> Delete moved artifacts from skills. Catalog-only README.</li>
         <li>Dogfood (split-08): bootstrap all three product repos from harness.</li>
         <li>Graphs (split-09): separate loops backlog. Not this chain.</li>
       </ol>
+    </section>
+
+    <section class="section">
+      <h2 class="font-display text-xl font-semibold text-white mb-3">split-06 dual-publish — done</h2>
+      <p class="text-sm text-slate-500 mb-3">Tag <code>v0-last-monolith</code> on skills. Placeholder <code>vN-last-monolith</code> resolved (no prior version tags). Copies stay until split-07.</p>
+      <div class="grid md:grid-cols-2 gap-4 text-sm">
+        <div class="p-4 rounded-xl bg-zinc-900 border border-zinc-800">
+          <h3 class="text-white font-semibold mb-2">Catalog moved-to</h3>
+          <ul class="font-mono text-xs text-emerald-300 space-y-1">
+            <li>avril, axel, brick → crossr-loops</li>
+            <li>rust-team-lead, orchestrator-prompt → loops</li>
+            <li>dashboard-prompt, chief-of-staff → harness</li>
+            <li>BRICK stages unmarked (stay)</li>
+          </ul>
+        </div>
+        <div class="p-4 rounded-xl bg-zinc-900 border border-zinc-800">
+          <h3 class="text-white font-semibold mb-2">Deprecation pointers</h3>
+          <ul class="font-mono text-xs text-slate-300 space-y-1">
+            <li>scripts/sync-skills stderr</li>
+            <li>scripts/harness-bootstrap stderr</li>
+            <li>print: deprecated: use sycamore-hq/crossr-harness</li>
+            <li>scripts still run (dual-publish)</li>
+          </ul>
+        </div>
+      </div>
     </section>
 
     <section class="section">
@@ -255,12 +280,12 @@ crossr-web-landing  (links; owns no law)</pre>
         <li>Three catalogs + a site. One lockfile. Loops CI against the pinned skills tag. Landing owns no law.</li>
         <li>Spec drift if HARNESS-SPEC still defines AVRIL on copy day. Strip it then.</li>
         <li>Pages churn: <a class="text-emerald-400" href="https://sycamore-hq.github.io/crossr-skills/">sycamore-hq.github.io/crossr-skills</a> works; <code>scull7.github.io</code> does not redirect.</li>
-        <li>Chicken-egg dogfood. First loops/harness commits are manual until tags exist.</li>
+        <li>Chicken-egg dogfood. Tag <code>v0-last-monolith</code> exists; bootstrap dogfood is still split-08.</li>
       </ul>
     </section>
 
     <section class="section text-sm text-slate-500">
-      <p>Still open: custom domain for landing (none). Dual-publish tag name is a placeholder (<code>vN-last-monolith</code>).</p>
+      <p>Still open: custom domain for landing (none). Dual-publish tag is <code>v0-last-monolith</code>.</p>
     </section>
   </main>
 </body>

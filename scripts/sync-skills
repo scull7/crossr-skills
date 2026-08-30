@@ -20,6 +20,8 @@
 
 set -euo pipefail
 
+echo "deprecated: use sycamore-hq/crossr-harness" >&2
+
 if [ $# -eq 0 ]; then
     cat <<EOF
 Usage: $0 /path/to/crossr-skills
@@ -33,6 +35,8 @@ Recommended workflow:
 3. Review the diff and commit the updated skills
 
 You can also set CROSSR_SKILLS_PATH as an environment variable.
+
+This copy still works until split-07. New installs: use sycamore-hq/crossr-harness.
 EOF
     exit 0
 fi

@@ -34,22 +34,26 @@
     {
       "name": "rust-team-lead",
       "category": "Orchestration",
-      "purpose": "GAN orchestrator for multi-agent Rust plan execution"
+      "purpose": "GAN orchestrator for multi-agent Rust plan execution",
+      "moved-to": "sycamore-hq/crossr-loops"
     },
     {
       "name": "avril",
       "category": "Orchestration",
-      "purpose": "Planning GAN \u2014 blessed PBIs (PO \u2192 QA \u2192 CTO)"
+      "purpose": "Planning GAN \u2014 blessed PBIs (PO \u2192 QA \u2192 CTO)",
+      "moved-to": "sycamore-hq/crossr-loops"
     },
     {
       "name": "axel",
       "category": "Orchestration",
-      "purpose": "Execution loop \u2014 blessed PBI \u2192 PETC + code GAN"
+      "purpose": "Execution loop \u2014 blessed PBI \u2192 PETC + code GAN",
+      "moved-to": "sycamore-hq/crossr-loops"
     },
     {
       "name": "orchestrator-prompt",
       "category": "Orchestration",
-      "purpose": "Generate stateless AXEL/AVRIL orchestrator prompts per project"
+      "purpose": "Generate stateless AXEL/AVRIL orchestrator prompts per project",
+      "moved-to": "sycamore-hq/crossr-loops"
     },
     {
       "name": "rust-axum-backend",
@@ -94,17 +98,20 @@
     {
       "name": "dashboard-prompt",
       "category": "Orchestration",
-      "purpose": "Wire a proven status dashboard to a project's real trackers"
+      "purpose": "Wire a proven status dashboard to a project's real trackers",
+      "moved-to": "sycamore-hq/crossr-harness"
     },
     {
       "name": "chief-of-staff",
       "category": "Orchestration",
-      "purpose": "Portfolio status briefing built from verified project dashboards"
+      "purpose": "Portfolio status briefing built from verified project dashboards",
+      "moved-to": "sycamore-hq/crossr-harness"
     },
     {
       "name": "brick",
       "category": "Orchestration",
-      "purpose": "BRICK pipeline \u2014 informal spec to mutation-verified code"
+      "purpose": "BRICK pipeline \u2014 informal spec to mutation-verified code",
+      "moved-to": "sycamore-hq/crossr-loops"
     },
     {
       "name": "brick-specifier",

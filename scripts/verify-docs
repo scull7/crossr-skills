@@ -58,8 +58,23 @@ with open(path) as f:
 assert "version" in data and "skills" in data and "out" in data
 names = [s["name"] for s in data["skills"]]
 assert len(names) == len(set(names)), "duplicate skill names"
+moved = {
+    "avril": "sycamore-hq/crossr-loops",
+    "axel": "sycamore-hq/crossr-loops",
+    "brick": "sycamore-hq/crossr-loops",
+    "rust-team-lead": "sycamore-hq/crossr-loops",
+    "orchestrator-prompt": "sycamore-hq/crossr-loops",
+    "dashboard-prompt": "sycamore-hq/crossr-harness",
+    "chief-of-staff": "sycamore-hq/crossr-harness",
+}
 for s in data["skills"]:
     assert "name" in s and "category" in s and "purpose" in s
+    want = moved.get(s["name"])
+    got = s.get("moved-to")
+    if want:
+        assert got == want, (s["name"], got, want)
+    else:
+        assert got is None, s["name"]
 for o in data["out"]:
     assert "name" in o and "reason" in o
 print("\n".join(names))

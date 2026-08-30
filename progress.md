@@ -662,5 +662,15 @@ Clean copy into https://github.com/sycamore-hq/crossr-web-landing from skills `m
 - Product READMEs already linked the landing remote; freeze line now points at it.
 - **Skills still has `site/` and `book/`.** Pages still deploy from this repo. No workflow moved.
 
-**Next:** split-06 dual-publish tag `vN-last-monolith` on skills. Work off main, not `feat/ocaml-gan-trio`.
+### split-06 — dual-publish tag (COMPLETED)
+
+Tag `v0-last-monolith` on skills (placeholder `vN-last-monolith` resolved: no prior version tags, so v0). Tree still contains everything. Copies stay until split-07.
+
+- Catalog: `moved-to` on `avril`, `axel`, `brick`, `rust-team-lead`, `orchestrator-prompt` → `sycamore-hq/crossr-loops`; `dashboard-prompt`, `chief-of-staff` → `sycamore-hq/crossr-harness`. BRICK stages unmarked. `docs-verify` gates the set.
+- Old `scripts/sync-skills` and `scripts/harness-bootstrap` print `deprecated: use sycamore-hq/crossr-harness` on stderr and still run.
+- README freeze + destination table name the tag and the pointer.
+
+**Next:** split-07 — delete moved artifacts from the catalog repo. Catalog-only README. Shim or remove old scripts.
+
+Trigger for the next agent: “continue the skills/loops/harness split from split-07”.
 
