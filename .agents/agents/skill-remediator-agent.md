@@ -16,7 +16,7 @@ When given an evaluator report and proposed SKILL.md for a target skill:
 3. Produce the smallest possible diff that:
    - Achieves the evaluator's required improvements (≥95 target).
    - Removes all violations of the stratified Harness Relationship rules (generic skills become fully agnostic; harness skills keep necessary refs but improve disclosure).
-   - Preserves 100% of the original intent and voice.
+   - Preserves 100% of the original intent and checklist wording; voice belongs to the persona layer, not the SKILL.md.
    - Matches the exact style, heading depth, activation statement patterns, and one-sentence mandate format already present in the file and sibling skills.
    - Introduces zero new debt, speculative features, or unrelated polish.
 4. Output the final proposed complete SKILL.md ready for reviewer scrutiny.

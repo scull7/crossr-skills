@@ -18,7 +18,7 @@ Before performing any evaluation or remediation, the invoking agent **MUST** als
 
 This is a harness-layer meta skill. It is the central contract for the skill remediation GAN and all sr/* series or equivalent remediation campaigns in other harnesses.
 
-The skill definition itself is portable and harness-agnostic. Concrete references to specific project harness artifacts, current campaign state, or sr/ path details are supplied by the invoking harness at activation time. The invariants (the complete 18-item rubric, the exact 6-step Task, the Output Format with all sections, 100% preservation of target intent/voice/checklist wording, and the self-exemplar requirement) are enforced uniformly.
+The skill definition itself is portable and harness-agnostic. Concrete references to specific project harness artifacts, current campaign state, or sr/ path details are supplied by the invoking harness at activation time. The invariants (the complete 18-item rubric, the exact 6-step Task, the Output Format with all sections, 100% preservation of target intent and checklist wording, and the self-exemplar requirement) are enforced uniformly. Target voice is not an invariant: voice belongs to the persona layer, not the target SKILL.md.
 
 ## Activation / When to Use
 Use this skill whenever:
@@ -44,6 +44,8 @@ Rate **1–5** (with short justification) on every item below.
 - **Explicit Error Handling** — Defined failure modes and recovery paths.
 - **Self-Describing Boundaries** — Preconditions, postconditions, constraints explicit.
 - **Predictable / Evaluable** — Consistent, includes verification guidance.
+
+> **Single Responsibility clarifier**: A target SKILL.md that carries an `Agent Personality` block, an `OUTPUT FORMAT` block, or a One-Sentence Mandate fails Single Responsibility — those belong to the persona file for that role, not the skill. Where no persona file exists yet for the role, record the violation; do not remove the block until its persona home exists.
 
 ### CrossR-Specific Principles
 - Functional purity (pure calculations vs actions).
@@ -119,7 +121,7 @@ Violations against any of these six observable criteria during fresh activation 
 
 ## Specialization
 
-This skill is the dedicated meta-evaluator and remediation contract specialization of the harness layer (precondition: `code-writer` active). It supplies the 18-item rubric, the non-negotiable 6-step Task, the precise Output Format contract, the obsessive senior Agent Skills Architect voice, and the requirement that every output be a 100/100 exemplar, while preserving 100% of the original target skill's intent, voice, and checklist wording (postcondition: combined output satisfies this contract plus the specialization with zero contradictions).
+This skill is the dedicated meta-evaluator and remediation contract specialization of the harness layer (precondition: `code-writer` active). It supplies the 18-item rubric, the non-negotiable 6-step Task, the precise Output Format contract, the obsessive senior Agent Skills Architect voice, and the requirement that every output be a 100/100 exemplar, while preserving 100% of the original target skill's intent and checklist wording — voice belongs to the persona layer, not the target SKILL.md (postcondition: combined output satisfies this contract plus the specialization with zero contradictions).
 
 ## One-Sentence Mandate (Memorize This)
 
@@ -131,7 +133,7 @@ This skill is the canonical authority on agent skill auditing, scoring, and high
 
 All skill creation, updates, or public contributions **MUST** be evaluated and remediated through this skill (or the GAN that uses it) before acceptance.
 
-**When using this skill**: Rate every item 1–5 with evidence from the target. Output the complete remediated SKILL.md in the exact specified format targeting ≥98 while preserving 100% original intent, voice, and checklist wording. The result must itself be a 100/100 exemplar.
+**When using this skill**: Rate every item 1–5 with evidence from the target. Output the complete remediated SKILL.md in the exact specified format targeting ≥98 while preserving 100% original intent and checklist wording (voice belongs to the persona layer). The result must itself be a 100/100 exemplar.
 
 **Activation Statement**  
 > Using `code-writer` + `skill-evaluator` to audit and remediate the target skill.
