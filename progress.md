@@ -652,5 +652,15 @@ Clean copy into https://github.com/sycamore-hq/crossr-harness from skills `main`
 - Lockfile shape documented (`skills = <tag>` / `loops = <tag>`), not implemented as a third tracker
 - **Skills still has the copies.** Catalog `HARNESS-SPEC.md` still has §12–13 until split-07.
 
-**Next:** split-05 copy landing into `sycamore-hq/crossr-web-landing`. Work off main, not `feat/ocaml-gan-trio`.
+### split-05 — copy landing (COMPLETED)
+
+Clean copy into https://github.com/sycamore-hq/crossr-web-landing from skills `main` SHA `9ff577e6c2279bf4f0d0617417fb094e322985d5`.
+
+- Zola `site/` byte-identical (17 files). `base_url` left pointing at skills Pages.
+- mdBook rewritten as links: catalog → skills, pipeline → loops, bootstrap → harness. SUMMARY TOC unchanged. No SKILL.md. No spec of record.
+- `MIGRATION.md` names the source SHA. Landing README replaces the not-ready charter.
+- Product READMEs already linked the landing remote; freeze line now points at it.
+- **Skills still has `site/` and `book/`.** Pages still deploy from this repo. No workflow moved.
+
+**Next:** split-06 dual-publish tag `vN-last-monolith` on skills. Work off main, not `feat/ocaml-gan-trio`.
 

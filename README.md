@@ -23,7 +23,7 @@ A curated collection of **Agent Skills** (`.agents/skills/`) plus a complete, se
 
 The skills strictly follow the [agentskills.io](https://agentskills.io) specification. The process layer (stacked PR discipline, multi-tier verification, PETC loop, GAN reviews, HTML as a first-class human artifact, etc.) is defined in [HARNESS-SPEC.md](HARNESS-SPEC.md).
 
-**Split in progress** (paused after split-04; resume at split-05). This repo is becoming the skills catalog only. Loops, harness, and the public site move to sibling remotes under [sycamore-hq](https://github.com/sycamore-hq). Plan: [`docs/plans/skills-loops-harness-split.html`](docs/plans/skills-loops-harness-split.html) ([markdown](docs/plans/skills-loops-harness-split.md)).
+**Split in progress** (paused after split-05; resume at split-06). This repo is becoming the skills catalog only. Loops, harness, and the public site move to sibling remotes under [sycamore-hq](https://github.com/sycamore-hq). Front door remote: [crossr-web-landing](https://github.com/sycamore-hq/crossr-web-landing) (site copied; live Pages still here until the cut). Plan: [`docs/plans/skills-loops-harness-split.html`](docs/plans/skills-loops-harness-split.html) ([markdown](docs/plans/skills-loops-harness-split.md)).
 
 **Freeze:** do not add new orchestration skills here (`avril`, `axel`, `brick` conductor, `rust-team-lead`, `orchestrator-prompt`, `dashboard-prompt`, `chief-of-staff`). Writers, reviewers, testers, architects, domain skills, writing skills, `skill-evaluator`, and BRICK *stage* skills still land here.
 
