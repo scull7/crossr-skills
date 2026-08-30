@@ -683,7 +683,7 @@
     ]
   },
   "split-skills-loops-harness": {
-    "status": "in_progress",
+    "status": "completed",
     "commits": [
       {
         "id": "split-00",
@@ -762,7 +762,7 @@
       {
         "id": "split-08",
         "title": "Dogfood: bootstrap product repos from harness",
-        "status": "pending",
+        "status": "completed",
         "features": [
           "harness-dogfood"
         ]
