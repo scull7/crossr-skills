@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Plan · Split skills, loops, harness</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    @import url("https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Space+Grotesk:wght@500;600&display=swap");
+    body { font-family: Inter, system-ui, sans-serif; }
+    .font-display { font-family: "Space Grotesk", Inter, system-ui, sans-serif; }
+    code, pre { font-family: ui-monospace, SFMono-Regular, Menlo, monospace; }
+    .section { scroll-margin-top: 4.5rem; }
+  </style>
+</head>
+<body class="bg-slate-950 text-slate-200">
+  <nav class="sticky top-0 z-40 border-b border-slate-800 bg-slate-950/95 backdrop-blur">
+    <div class="max-w-5xl mx-auto px-6 h-12 flex items-center justify-between text-sm">
+      <span class="font-display font-semibold">skills / loops / harness split</span>
+      <span class="text-xs px-2 py-0.5 rounded-full border border-amber-500/40 text-amber-400">CHARTER · FREEZE</span>
+    </div>
+  </nav>
+
+  <main class="max-w-5xl mx-auto px-6 py-10 space-y-12">
+    <header>
+      <p class="text-xs uppercase tracking-widest text-slate-500 mb-2">sycamore-hq · split-01</p>
+      <h1 class="font-display text-3xl font-semibold text-white mb-4">One repo was selling two products. We're cutting it into four remotes.</h1>
+      <p class="text-slate-400 leading-relaxed max-w-3xl">
+        <code class="text-slate-200">crossr-skills</code> stays the portable catalog.
+        Loops, harness, and the public site get their own homes.
+        Extract now (same SKILL.md + personas). Explicit graphs later.
+      </p>
+    </header>
+
+    <section class="section grid sm:grid-cols-2 gap-4">
+      <div class="p-5 rounded-2xl bg-zinc-900 border border-zinc-800">
+        <h2 class="font-display text-white font-semibold mb-2">The cut</h2>
+        <pre class="text-xs text-emerald-300 leading-relaxed overflow-x-auto">crossr-harness  →  crossr-loops  →  crossr-skills
+crossr-web-landing  (links; owns no law)</pre>
+        <p class="text-sm text-slate-400 mt-3">Acyclic. Harness installs pinned tags. Loops reference skills by name. Skills never import loops or harness. Landing is a door, not a spec.</p>
+      </div>
+      <div class="p-5 rounded-2xl bg-zinc-900 border border-zinc-800">
+        <h2 class="font-display text-white font-semibold mb-3">Remotes</h2>
+        <ul class="text-sm space-y-2">
+          <li><a class="text-emerald-400 hover:underline" href="https://github.com/sycamore-hq/crossr-skills">sycamore-hq/crossr-skills</a> — catalog</li>
+          <li><a class="text-emerald-400 hover:underline" href="https://github.com/sycamore-hq/crossr-loops">sycamore-hq/crossr-loops</a> — AVRIL / AXEL / BRICK / GAN</li>
+          <li><a class="text-emerald-400 hover:underline" href="https://github.com/sycamore-hq/crossr-harness">sycamore-hq/crossr-harness</a> — spec, bootstrap, dashboard</li>
+          <li><a class="text-emerald-400 hover:underline" href="https://github.com/sycamore-hq/crossr-web-landing">sycamore-hq/crossr-web-landing</a> — public front door</li>
+        </ul>
+      </div>
+    </section>
+
+    <section class="section p-5 rounded-2xl border border-amber-500/30 bg-amber-950/20">
+      <h2 class="font-display text-amber-300 font-semibold mb-2">Freeze (now)</h2>
+      <p class="text-sm text-slate-300 leading-relaxed">
+        Do not add new <strong class="text-white">orchestration</strong> skills to this catalog:
+        conductors (<code>avril</code>, <code>axel</code>, <code>brick</code>, <code>rust-team-lead</code>),
+        <code>orchestrator-prompt</code>, <code>dashboard-prompt</code>, <code>chief-of-staff</code>.
+        Capability skills (writers, reviewers, testers, architects, domain, writing, <code>skill-evaluator</code>, BRICK <em>stages</em>) still land here.
+        Do not rewrite AVRIL/AXEL/BRICK while moving them.
+      </p>
+    </section>
+
+    <section class="section">
+      <h2 class="font-display text-xl font-semibold text-white mb-3">Locked decisions</h2>
+      <div class="overflow-x-auto rounded-xl border border-zinc-800">
+        <table class="w-full text-sm">
+          <thead class="bg-zinc-900 text-slate-400 text-left">
+            <tr><th class="p-3">Call</th><th class="p-3">Decision</th></tr>
+          </thead>
+          <tbody class="divide-y divide-zinc-800">
+            <tr><td class="p-3 text-slate-400">Org</td><td class="p-3">sycamore-hq. <code>scull7/crossr-skills</code> already transferred.</td></tr>
+            <tr><td class="p-3 text-slate-400">Shape</td><td class="p-3">Three products + landing. Not two.</td></tr>
+            <tr><td class="p-3 text-slate-400">History</td><td class="p-3">Skills keeps git history. New remotes are clean copies + MIGRATION.md with source SHAs.</td></tr>
+            <tr><td class="p-3 text-slate-400">Consumers</td><td class="p-3">Dual-publish one tagged monolith release, then cut. Old bootstrap prints the harness URL.</td></tr>
+            <tr><td class="p-3 text-slate-400">BRICK stages</td><td class="p-3">Stay in skills. Conductor <code>brick</code> moves.</td></tr>
+            <tr><td class="p-3 text-slate-400">agent-harness</td><td class="p-3">Stays (portable how-to). HARNESS-SPEC moves.</td></tr>
+            <tr><td class="p-3 text-slate-400">dashboard-prompt / chief-of-staff</td><td class="p-3">Move to harness.</td></tr>
+            <tr><td class="p-3 text-slate-400">Graphs</td><td class="p-3">Defer. Conductors stay SKILL.md until dogfood is green.</td></tr>
+            <tr><td class="p-3 text-slate-400">Install</td><td class="p-3">Harness lockfile pins <code>skills = &lt;tag&gt;</code> and <code>loops = &lt;tag&gt;</code>. No git submodules.</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <section class="section">
+      <h2 class="font-display text-xl font-semibold text-white mb-2">Why this is the right cut</h2>
+      <p class="text-sm text-slate-400 leading-relaxed max-w-3xl">
+        A catalog should load in Claude, Cursor, or Grok without buying CrossR process.
+        A process should compose catalog skills as nodes without owning their text.
+        That's already the stratified-disclosure design, physically violated by stuffing everything in one tree.
+        After the split, HARNESS-SPEC §12–13 defining AVRIL/AXEL is a spec bug: loop law lives in loops, artifact/ritual law in harness, skill law in SKILL.md.
+      </p>
+    </section>
+
+    <section class="section">
+      <h2 class="font-display text-xl font-semibold text-white mb-3">Classification — skills</h2>
+      <p class="text-sm text-slate-500 mb-3">Public catalog plus <code>out</code> items. Destination is the home after the dual-publish tag, not today (copies stay here until then).</p>
+      <div class="overflow-x-auto rounded-xl border border-zinc-800">
+        <table class="w-full text-sm">
+          <thead class="bg-zinc-900 text-slate-400 text-left">
+            <tr><th class="p-3">Skill</th><th class="p-3">After cut</th><th class="p-3">Why</th></tr>
+          </thead>
+          <tbody class="divide-y divide-zinc-800">
+            <tr><td class="p-3 font-mono text-emerald-400">code-writer</td><td class="p-3">skills</td><td class="p-3">Foundation capability</td></tr>
+            <tr><td class="p-3 font-mono text-emerald-400">rust-code-writer / reviewer / tester / architect</td><td class="p-3">skills</td><td class="p-3">Language GAN nodes</td></tr>
+            <tr><td class="p-3 font-mono text-emerald-400">ocaml-code-writer (+ GAN when merged)</td><td class="p-3">skills</td><td class="p-3">Language GAN nodes</td></tr>
+            <tr><td class="p-3 font-mono text-emerald-400">rust-errors, axum, frontend, tui</td><td class="p-3">skills</td><td class="p-3">Domain capabilities</td></tr>
+            <tr><td class="p-3 font-mono text-emerald-400">voice-dna, unslop, diataxis, obsidian-cli</td><td class="p-3">skills</td><td class="p-3">Writing / local tooling</td></tr>
+            <tr><td class="p-3 font-mono text-emerald-400">skill-evaluator</td><td class="p-3">skills</td><td class="p-3">Meta: operates on SKILL.md</td></tr>
+            <tr><td class="p-3 font-mono text-emerald-400">agent-harness</td><td class="p-3">skills</td><td class="p-3">Portable harness-design. CrossR realization is HARNESS-SPEC in harness.</td></tr>
+            <tr><td class="p-3 font-mono text-emerald-400">brick-specifier / coder / refactorer / mutator</td><td class="p-3">skills</td><td class="p-3">Stage capabilities. Conductor is the loop.</td></tr>
+            <tr><td class="p-3 font-mono text-amber-300">avril, axel, brick, rust-team-lead</td><td class="p-3">loops</td><td class="p-3">Conductors</td></tr>
+            <tr><td class="p-3 font-mono text-amber-300">orchestrator-prompt</td><td class="p-3">loops</td><td class="p-3">Generates a loop runner prompt</td></tr>
+            <tr><td class="p-3 font-mono text-sky-300">dashboard-prompt, chief-of-staff</td><td class="p-3">harness</td><td class="p-3">Dashboard wiring and portfolio briefing</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <section class="section">
+      <h2 class="font-display text-xl font-semibold text-white mb-3">Classification — everything else</h2>
+      <div class="overflow-x-auto rounded-xl border border-zinc-800">
+        <table class="w-full text-sm">
+          <thead class="bg-zinc-900 text-slate-400 text-left">
+            <tr><th class="p-3">Artifact</th><th class="p-3">After cut</th><th class="p-3">Notes</th></tr>
+          </thead>
+          <tbody class="divide-y divide-zinc-800">
+            <tr><td class="p-3 font-mono">skill-*-agent.md</td><td class="p-3">skills</td><td class="p-3">Evaluator / remediator / reviewer</td></tr>
+            <tr><td class="p-3 font-mono">planning-*, product-owner, qa-architect, visionary-cto, axel-conductor, rust-*-agent, brick-*-agent</td><td class="p-3">loops</td><td class="p-3">Graph nodes for the conductors</td></tr>
+            <tr><td class="p-3 font-mono">/avril /axel prompt bodies</td><td class="p-3">loops</td><td class="p-3">Harness bootstrap copies them into a project</td></tr>
+            <tr><td class="p-3 font-mono">book pipeline chapters</td><td class="p-3">loops (SSOT)</td><td class="p-3">Landing links; does not rewrite law</td></tr>
+            <tr><td class="p-3 font-mono">HARNESS-SPEC.md</td><td class="p-3">harness</td><td class="p-3">Strip §12–13 loop law on copy</td></tr>
+            <tr><td class="p-3 font-mono">harness-bootstrap, status-dashboard, sync-skills</td><td class="p-3">harness</td><td class="p-3">sync-skills grows a two-tag lockfile</td></tr>
+            <tr><td class="p-3 font-mono">verify-docs, verify-opencode</td><td class="p-3">harness</td><td class="p-3">Harness-facing checks</td></tr>
+            <tr><td class="p-3 font-mono">sync-claude-skills</td><td class="p-3">skills</td><td class="p-3">Catalog compatibility copies</td></tr>
+            <tr><td class="p-3 font-mono">/status, AGENTS/features templates, features.schema.json</td><td class="p-3">harness</td><td class="p-3">Project scaffolding</td></tr>
+            <tr><td class="p-3 font-mono">site/, book/ (marketing + getting-started)</td><td class="p-3">landing</td><td class="p-3">No SKILL.md, no spec of record</td></tr>
+            <tr><td class="p-3 font-mono">docs/public-skills.json</td><td class="p-3">skills</td><td class="p-3">Catalog allowlist. Dual-publish marks moved items, then drops them.</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <p class="text-sm text-slate-500 mt-3">Each product repo still has AGENTS.md / features.json / a dashboard as a <em>consumer</em> of harness, via published tags. That instance is not the product source.</p>
+    </section>
+
+    <section class="section">
+      <h2 class="font-display text-xl font-semibold text-white mb-3">Migration</h2>
+      <ol class="text-sm text-slate-300 space-y-2 list-decimal list-inside leading-relaxed">
+        <li><span class="text-emerald-400">Done.</span> Transfer <code>scull7/crossr-skills</code> → <code>sycamore-hq/crossr-skills</code>. Old git URL 301s. Old Pages URL 404s.</li>
+        <li><span class="text-amber-300">This PR.</span> Charter freeze. Classification. No new orchestration skills.</li>
+        <li><span class="text-amber-300">This session.</span> Empty remotes exist. Seed READMEs + MIT + not-ready.</li>
+        <li>Copy loops (clean tree). Skills keeps copies + <code>moved-to</code> for the dual-publish tag.</li>
+        <li>Copy harness. Rewrite HARNESS-SPEC: no loop law. Bootstrap reads the lockfile.</li>
+        <li>Copy landing. Product READMEs link to it.</li>
+        <li>Dual-publish tag on skills (<code>vN-last-monolith</code>). Old scripts tell you to use harness.</li>
+        <li>Delete moved artifacts from skills. Catalog-only README.</li>
+        <li>Dogfood: bootstrap all three product repos from harness.</li>
+        <li>Graphs: separate loops backlog. Not this chain.</li>
+      </ol>
+    </section>
+
+    <section class="section">
+      <h2 class="font-display text-xl font-semibold text-white mb-3">Risks we already named</h2>
+      <ul class="text-sm text-slate-300 space-y-2 list-disc list-inside">
+        <li>Three catalogs + a site. One lockfile. Loops CI against the pinned skills tag. Landing owns no law.</li>
+        <li>Spec drift if HARNESS-SPEC still defines AVRIL on copy day. Strip it then.</li>
+        <li>Pages churn: <a class="text-emerald-400" href="https://sycamore-hq.github.io/crossr-skills/">sycamore-hq.github.io/crossr-skills</a> works; <code>scull7.github.io</code> does not redirect.</li>
+        <li>Chicken-egg dogfood. First loops/harness commits are manual until tags exist.</li>
+      </ul>
+    </section>
+
+    <section class="section text-sm text-slate-500">
+      <p>Still open: new remotes assumed public (they are). No custom domain for landing yet.</p>
+    </section>
+  </main>
+</body>
+</html>

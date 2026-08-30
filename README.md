@@ -12,8 +12,8 @@ High-quality agent skills and a battle-tested harness for building reliable, lon
 
 This repository dogfoods its own harness. The public website and documentation were built using the exact process described here.
 
-- **Marketing Site**: [https://scull7.github.io/crossr-skills/](https://scull7.github.io/crossr-skills/)
-- **Documentation**: [https://scull7.github.io/crossr-skills/docs/](https://scull7.github.io/crossr-skills/docs/)
+- **Marketing Site**: [https://sycamore-hq.github.io/crossr-skills/](https://sycamore-hq.github.io/crossr-skills/)
+- **Documentation**: [https://sycamore-hq.github.io/crossr-skills/docs/](https://sycamore-hq.github.io/crossr-skills/docs/)
 
 ---
 
@@ -22,6 +22,10 @@ This repository dogfoods its own harness. The public website and documentation w
 A curated collection of **Agent Skills** (`.agents/skills/`) plus a complete, self-hosting **harness process** for teams that want their AI agents to ship production-grade code across many sessions.
 
 The skills strictly follow the [agentskills.io](https://agentskills.io) specification. The process layer (stacked PR discipline, multi-tier verification, PETC loop, GAN reviews, HTML as a first-class human artifact, etc.) is defined in [HARNESS-SPEC.md](HARNESS-SPEC.md).
+
+**Split in progress.** This repo is becoming the skills catalog only. Loops, harness, and the public site move to sibling remotes under [sycamore-hq](https://github.com/sycamore-hq). Plan: [`docs/plans/skills-loops-harness-split.html`](docs/plans/skills-loops-harness-split.html).
+
+**Freeze:** do not add new orchestration skills here (`avril`, `axel`, `brick` conductor, `rust-team-lead`, `orchestrator-prompt`, `dashboard-prompt`, `chief-of-staff`). Writers, reviewers, testers, architects, domain skills, writing skills, `skill-evaluator`, and BRICK *stage* skills still land here.
 
 New projects can be bootstrapped in minutes with:
 
@@ -34,7 +38,7 @@ New projects can be bootstrapped in minutes with:
 ## Quick Start
 
 ```bash
-git clone https://github.com/scull7/crossr-skills.git
+git clone https://github.com/sycamore-hq/crossr-skills.git
 ./crossr-skills/scripts/harness-bootstrap /path/to/your-new-project
 cd /path/to/your-new-project
 just harness-validate
@@ -82,9 +86,20 @@ Public catalog SSOT: [`docs/public-skills.json`](docs/public-skills.json) (25 sk
 
 **Not in the public catalog:** `obsidian-cli`, `diataxis` (deferred), empty `diataxis-*` stubs — see `out` in `docs/public-skills.json`.
 
-Flagship pipeline: **Intent → AVRIL → Blessed Backlog → AXEL → Done** ([docs](https://scull7.github.io/crossr-skills/docs/pipeline/overview.html)).
+### Destination after the split
 
-See the [full documentation](https://scull7.github.io/crossr-skills/docs/) for pipeline chapters, catalog, and bootstrap.
+Copies stay in this repo until the dual-publish tag. Then:
+
+| After cut | What |
+|-----------|------|
+| **this repo** | Capability skills, BRICK stages, `agent-harness`, `skill-evaluator`, `sync-claude-skills` |
+| [crossr-loops](https://github.com/sycamore-hq/crossr-loops) | `avril`, `axel`, `brick` conductor, `rust-team-lead`, `orchestrator-prompt`, loop personas, `/avril` `/axel` bodies |
+| [crossr-harness](https://github.com/sycamore-hq/crossr-harness) | HARNESS-SPEC, bootstrap, dashboard, `dashboard-prompt`, `chief-of-staff`, `/status` |
+| [crossr-web-landing](https://github.com/sycamore-hq/crossr-web-landing) | Public site. Links out. Owns no law. |
+
+Flagship pipeline: **Intent → AVRIL → Blessed Backlog → AXEL → Done** ([docs](https://sycamore-hq.github.io/crossr-skills/docs/pipeline/overview.html)).
+
+See the [full documentation](https://sycamore-hq.github.io/crossr-skills/docs/) for pipeline chapters, catalog, and bootstrap.
 
 ---
 

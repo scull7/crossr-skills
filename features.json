@@ -681,5 +681,38 @@
         ]
       }
     ]
+  },
+  "split-skills-loops-harness": {
+    "status": "in_progress",
+    "commits": [
+      {
+        "id": "split-00",
+        "title": "Transfer scull7/crossr-skills to sycamore-hq/crossr-skills",
+        "status": "completed",
+        "features": [
+          "org-transfer"
+        ]
+      },
+      {
+        "id": "split-01",
+        "title": "Charter freeze: split plan HTML + classification + orchestration freeze",
+        "status": "completed",
+        "features": [
+          "split-plan-html",
+          "artifact-classification",
+          "orchestration-skill-freeze"
+        ]
+      },
+      {
+        "id": "split-02",
+        "title": "Empty sibling remotes: loops, harness, web-landing",
+        "status": "completed",
+        "features": [
+          "crossr-loops-remote",
+          "crossr-harness-remote",
+          "crossr-web-landing-remote"
+        ]
+      }
+    ]
   }
 }
