@@ -705,3 +705,13 @@ Explicit JSON graphs in [`sycamore-hq/crossr-loops`](https://github.com/sycamore
 
 Not this chain: graph runner (loops backlog); new loops tag so the pin includes `graphs/`; landing Pages; custom domain.
 
+
+### gan-layer-separation — PR 1a (COMPLETED)
+
+Peel persona / mandate / protocol per [`docs/plans/gan-layer-separation-plan.md`](docs/plans/gan-layer-separation-plan.md) §4 PR 1. No ruleset moves — rust-* Core Principles and Ruthless Checklists untouched (law folds into the book in PR 5).
+
+- `rust-architect` → `architecture` (already 100% language-neutral). Allowlist + README follow.
+- New `gan-verdict` (~10-line contract): `BLESS`/`REJECT` only, one verdict per delegation, verdict names its gate, REJECT cites blockers, envelope field schema. All three gate skills point at it; `agent-harness` points, does not copy.
+- Deleted from the three gate skills: `Agent Personality` blocks (staged for the loops personas), skill-layer One-Sentence Mandates (persona's mandate wins — the reviewer's skill mandate was a writer's mandate), `OUTPUT FORMAT` blocks (`PASSED`/`BLESSED` vocabularies retired), writer prerequisites (`code-writer` + `rust-code-writer` echoes in frontmatter / intro / Verification / Specialization / closing).
+- Skill-GAN trio: evaluator's duplicate mandate deleted (persona owns it), Verification recitation retargeted at the persona, SR clarifier widened (personality blocks, output-format blocks, role mandates where a persona file exists — flag-don't-strip; foundation skills without personas keep their mandates). Remediator's mandate-format-matching clause deleted.
+- Stacked with crossr-loops `pr1-personas-verify-protocol` (persona edits, `scripts/verify-protocol`, pin → `v1-gan-layers`, a tag to cut at this branch's merge commit).

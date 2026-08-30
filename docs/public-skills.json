@@ -27,9 +27,9 @@
       "purpose": "Obsessive test coverage and error-path verification"
     },
     {
-      "name": "rust-architect",
+      "name": "architecture",
       "category": "Architecture",
-      "purpose": "Torvalds-style system-level architecture gatekeeper"
+      "purpose": "System-level architecture gate: stratification, layers, 2-year maintainability"
     },
     {
       "name": "rust-axum-backend",
@@ -90,6 +90,11 @@
       "name": "brick-mutator",
       "category": "Orchestration",
       "purpose": "BRICK stage 4 — mutation testing gate, zero survivors"
+    },
+    {
+      "name": "gan-verdict",
+      "category": "Protocol",
+      "purpose": "GAN verdict tokens and report envelope schema"
     }
   ],
   "out": [
