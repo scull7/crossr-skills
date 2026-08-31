@@ -1,6 +1,6 @@
 # Plan: crossr v2 — Layer Separation, Shared Ruleset, Plan-First GAN
 
-**Status:** in progress · PR 0 merged (#105) · PR 1 landed (skills `pr1-peel-persona-protocol` + loops `pr1-personas-verify-protocol`, stacked)
+**Status:** in progress · PR 0 merged (#105) · PR 1 landed · PR 2 landed (loops [#5](https://github.com/sycamore-hq/crossr-loops/pull/5), harness [#4](https://github.com/sycamore-hq/crossr-harness/pull/4), this PR)
 **Scope:** `crossr-skills`, `crossr-loops`, `crossr-harness`
 **Origin:** token-burn critique of the crossr-* agent infrastructure, verified against the trees 2026-08-30.
 
@@ -629,6 +629,22 @@ This is both the load-set fix and the thing that makes "delegate to `reviewer-ag
 resolve to something real. **Measurable on the next AXEL session.** Spans loops + harness;
 stack them like PR 1.
 
+**Landed** as the three-PR stack:
+
+- loops [#5](https://github.com/sycamore-hq/crossr-loops/pull/5) (2a) — personas renamed to role names; conductor load set is `axel` + `gan-verdict`; tag `v1-runtime-agents` cut on the merge commit.
+- harness [#4](https://github.com/sycamore-hq/crossr-harness/pull/4) (2b) — `harness-bootstrap` generates `.opencode/agent/` from persona sources; unmarked files are never overwritten.
+- this PR (2c) — pin bump `skills = "v1-gan-layers"` / `loops = "v1-runtime-agents"`; delete unmarked `axel.md` then regenerate; plan record.
+
+**Landed note:** `verify-skill-refs` added in 2a — graphs' `uses.skill` / `requires.skills` / `uses.persona` / `uses.graph` names are mechanically checked against the catalog and this checkout.
+
+**§7 instrumentation:** landed on `axel-conductor-agent` invocation step 2 (persona, not law). The 2c brief's `.agents/skills/axel/SKILL.md` home was a briefing error — `axel` is loops-owned and absent from the `v1-gan-layers` catalog (`verify-docs` GONE list). No SKILL.md edit in this PR.
+
+**Parked gaps:**
+
+- AVRIL has no conductor persona, so `avril.md` remains hand-written (a surviving dual-source instance — needs an `avril-conductor-agent` source, unscheduled).
+- Persona voice is still Rust-flavored; revisit in PR 5.
+- `copy_agents` never overwrites: a `v0` checkout keeps `rust-*-agent` beside the renamed files. This catalog had none. Other dogfood repos must refresh personas on pin move (2b tripwire: `warn_orphan_personas`).
+
 ### PR 3 — Delete `rust-team-lead`
 
 **Files:** the 8 load-bearing referrers in §2.9. Leave `progress.md`, pinto tasks, and
@@ -642,6 +658,19 @@ already named: hand it to AVRIL as intent, get blessed PBIs, then AXEL. Collapse
 `graphs/rust-team-lead.json` into `axel.json` or keep it as the named inner subgraph, but
 delete the duplicated prose either way.
 
+Also delete the now-vestigial hand-written template entrypoints in crossr-loops
+(`templates/harness/opencode/agent/`) — superseded by generation (2b).
+
+**Named window from PR 2 (do not lose):** the persona and graph load by role, but these
+still teach the old writer-stack activation. Until the card rewrite (this PR / PR 4), a
+conductor that obeys SKILL.md-as-law will put the 73k stack back:
+
+- `axel/SKILL.md` frontmatter: “Always activate together with `code-writer`”
+- `axel/SKILL.md` body: “MUST also apply `code-writer` and every language/domain skill”
+- `axel/SKILL.md` activation statement: `code-writer` + `axel` + `rust-team-lead`
+- `templates/harness/opencode/command/axel.md`: “Load the `axel` and `code-writer` skills”
+- `book/src/pipeline/axel.md:39`: `code-writer` + `axel` + `rust-code-writer` + `rust-team-lead`
+
 ### PR 4 — Card + `references/` split on `axel` and `avril`
 
 Cheapest last, after the file has shed the Rust stack table, the RTL pairing prose, and its
@@ -653,7 +682,8 @@ Move to `references/`: Verification (7 scorable behaviors — that is scoring la
 encyclopedia, and the dashboard reprint (replaced by one line: "refresh via harness
 command"). Deduplicate the near-identical dashboard sections into `agent-harness` and
 parameterize the "board" vs "plan" wording — they are **not** byte-identical, so this is a
-real refactor, not a delete.
+real refactor, not a delete. The PR 2 writer-stack window (card frontmatter / body /
+activation still demand `code-writer` + RTL) closes here.
 
 ### PR 5 — One ruleset, progressively disclosed
 
@@ -788,7 +818,10 @@ ticket; the in-harness loops ledger nothing. Every number in this plan — and e
 about whether it worked — is otherwise an estimate.
 
 Add to the conductor card in PR 2: **record load-set bytes at session start.** Baseline is
-73,031 bytes for a naive Rust AXEL conductor window.
+73,031 bytes for a naive Rust AXEL conductor window. **Landed in 2a** on
+`axel-conductor-agent` invocation step 2 (persona, not the catalog `axel/SKILL.md` — that
+skill is loops-owned). Measured conductor window after 2c regenerate: `axel` + `gan-verdict`
+= 19,816 bytes.
 
 Per-PR success criteria:
 

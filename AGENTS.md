@@ -49,7 +49,8 @@ Run the appropriate commands before declaring work complete.
 - `.agents/skills/` — All reusable capabilities (agentskills.io format). All skills follow the canonical portable structure with proper Harness Relationship (Stratified) disclosure.
 - `.agents/agents/` — Skill GAN personas only (`skill-evaluator-agent`, `skill-remediator-agent`, `skill-reviewer-agent`). Code GAN and AVRIL/AXEL personas live in `crossr-loops`.
 - `docs/public-skills.json` — Public catalog SSOT. README table must match. No `moved-to` after split-07.
-- `lockfile.toml` — Consumer pins: `skills = "v0-last-monolith"`, `loops = "v0"`. Not a third tracker. Graphs live in `crossr-loops/graphs/` on `main`; pin `v0` does not include them. Topology only — if a graph and a conductor `SKILL.md` disagree, the skill wins.
+- `lockfile.toml` — Consumer pins: `skills = "v1-gan-layers"`, `loops = "v1-runtime-agents"`. Not a third tracker. Graphs live in `crossr-loops/graphs/` and are in the `v1-runtime-agents` pin. Topology only — if a graph and a conductor `SKILL.md` disagree, the skill wins.
+- `.opencode/agent/` — generated from `.agents/agents/` at bootstrap when a persona source exists (GENERATED marker; do not hand-edit). `avril.md` and `status.md` stay hand-written (no conductor persona / no persona source).
 - `features.json` + `progress.md` — Machine + human tracking of work (phase → commits → features model).
 - `scripts/sync-claude-skills` — Catalog compatibility copies. Canonical source is always `.agents/skills/<name>/SKILL.md`.
 - `scripts/verify-docs` — Catalog gate.

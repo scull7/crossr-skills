@@ -813,6 +813,21 @@
         "id": "pr1b",
         "title": "crossr-loops: persona edits + verify-protocol + pin retarget",
         "status": "completed"
+      },
+      {
+        "id": "pr2a",
+        "title": "crossr-loops: rename personas to role names; conductor loads by role",
+        "status": "completed"
+      },
+      {
+        "id": "pr2b",
+        "title": "crossr-harness: generate .opencode/agent/ from persona sources",
+        "status": "completed"
+      },
+      {
+        "id": "pr2c",
+        "title": "Pin bump + regenerate conductor entrypoint + plan record",
+        "status": "completed"
       }
     ]
   }

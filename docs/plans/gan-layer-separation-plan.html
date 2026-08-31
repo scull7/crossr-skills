@@ -97,7 +97,7 @@
 
 <div class="bar"><div class="bar-in">
   <span class="bar-name">gan layer separation</span>
-  <span class="pill">crossr v2 · PR 0 merged · PR 1 landed · 6 to go</span>
+  <span class="pill">crossr v2 · PR 0 merged · PR 1 landed · PR 2 landed · 5 to go</span>
 </div></div>
 
 <main>
@@ -444,21 +444,23 @@ RE-02  Cross-layer propagation uses #[from]; never inline .map_err at a call sit
     </div></div>
 
     <div class="pr"><div class="pr-id">PR 2</div><div class="pr-body">
-      <h3>Promote personas to runtime agents, by generation</h3>
+      <h3>Promote personas to runtime agents, by generation <span class="good" style="font-family:var(--mono);font-size:.72rem">✓ landed · loops #5 · harness #4 · skills 2c</span></h3>
       <p>Per decision #3, <code>.opencode/agent/</code> is <strong>generated output, never hand-written</strong> — the generation step lands in <code>harness-bootstrap</code>, which already copies <code>.agents/agents/</code> into target repos. Hand-writing both directories is the dual-mandate bug with a new folder name. PR 2 edits the <em>source</em> personas&rsquo; load sets (renaming them to drop the <code>rust-</code> prefix: <code>reviewer-agent</code>, <code>tester-agent</code>, <code>architect-agent</code>); consuming repos regenerate.</p>
       <p>The conductor entrypoint stops preloading writer and adversary skills. Fix <code>requires.skills</code> in <code>axel.json</code> — the graph already models per-node <code>uses.skill</code> / <code>uses.persona</code>; the bug is the flat union at graph level. Retarget <code>uses.persona</code> to the renamed personas in the same pass (<code>verify-graphs</code> gates it).</p>
       <p>This is both the load-set fix and the thing that makes &ldquo;delegate to <code>reviewer-agent</code>&rdquo; resolve to something real. <strong>Measurable on the next AXEL session.</strong> Spans loops + harness; stack like PR 1.</p>
+      <p><strong>Landed</strong> as loops <a href="https://github.com/sycamore-hq/crossr-loops/pull/5">#5</a> (2a, tag <code>v1-runtime-agents</code>) + harness <a href="https://github.com/sycamore-hq/crossr-harness/pull/4">#4</a> (2b) + this PR (2c). <code>verify-skill-refs</code> added in 2a. §7 load-set bytes landed on <code>axel-conductor-agent</code> (persona; the catalog has no <code>axel</code> skill). Parked: <code>avril.md</code> stays hand-written (no <code>avril-conductor-agent</code>); persona voice still Rust-flavored (PR 5); <code>copy_agents</code> keep-existing is a pin-move refresh window.</p>
     </div></div>
 
     <div class="pr"><div class="pr-id">PR 3</div><div class="pr-body">
       <h3>Delete <code>rust-team-lead</code></h3>
       <p>AXEL already restates the entire inner GAN, so this is a deletion, not a merge. <strong>Intake stays three doors — no fourth.</strong> The v2 plan artifact is produced <em>by</em> the loop from a blessed PBI; a human-supplied plan document that never went through AVRIL is unblessed work with better stationery. The path for &ldquo;I have a design doc&rdquo; already exists: hand it to AVRIL as intent. Touch only the 8 load-bearing referrers; leave <code>progress.md</code>, pinto tasks, and MIGRATION as history.</p>
+      <p>Also delete the now-vestigial hand-written template entrypoints in crossr-loops (<code>templates/harness/opencode/agent/</code>) — superseded by generation. Named window: AXEL card / <code>/axel</code> command / <code>book/src/pipeline/axel.md</code> still teach the writer-stack activation; a conductor that obeys SKILL.md-as-law will put the 73k stack back until the card rewrite.</p>
     </div></div>
 
     <div class="pr"><div class="pr-id">PR 4</div><div class="pr-body">
       <h3>Card + <code>references/</code> split on <code>axel</code> and <code>avril</code></h3>
       <p>Cheapest last, after the file has shed the Rust stack table, the RTL pairing prose, and its own persona block. <code>SKILL.md</code> becomes the runtime card — mandate, gates, order, stop conditions, ~2&ndash;3 KB. Verification (scoring law for <code>skill-evaluator</code>, not runtime law), Specialization, personality essays, the pinto flag encyclopedia, and the dashboard reprint move to <code>references/</code>.</p>
-      <p>The three dashboard sections are <strong>near-duplicates, not byte-identical</strong> — deduping into <code>agent-harness</code> means parameterizing &ldquo;board&rdquo; vs &ldquo;plan&rdquo;, a real refactor rather than a delete.</p>
+      <p>The three dashboard sections are <strong>near-duplicates, not byte-identical</strong> — deduping into <code>agent-harness</code> means parameterizing &ldquo;board&rdquo; vs &ldquo;plan&rdquo;, a real refactor rather than a delete. The PR 2 writer-stack window (card frontmatter / body / activation still demand <code>code-writer</code> + RTL) closes here.</p>
     </div></div>
 
     <div class="pr"><div class="pr-id">PR 5</div><div class="pr-body">
@@ -528,7 +530,7 @@ RE-02  Cross-layer propagation uses #[from]; never inline .map_err at a call sit
 <section>
   <div class="sec-head"><span class="n">08</span><h2>Measurement</h2></div>
   <div class="prose">
-    <p>There is no instrumentation today. <code>orchestrator-prompt-template.md</code> ledgers tokens per ticket; the in-harness loops ledger nothing. Every number in this plan — and every number about whether it worked — is otherwise an estimate. <strong>Add to the conductor card in PR 2: record load-set bytes at session start.</strong> Baseline is 73,031.</p>
+    <p>There is no instrumentation today. <code>orchestrator-prompt-template.md</code> ledgers tokens per ticket; the in-harness loops ledger nothing. Every number in this plan — and every number about whether it worked — is otherwise an estimate. <strong>Record load-set bytes at session start</strong> landed in 2a on <code>axel-conductor-agent</code> (persona, not the catalog <code>axel/SKILL.md</code>). Baseline is 73,031. Measured conductor window after 2c: <code>axel</code> + <code>gan-verdict</code> = 19,816.</p>
   </div>
   <div class="scroll"><table>
     <thead><tr><th>PR</th><th>Measurable</th></tr></thead>
@@ -579,7 +581,7 @@ RE-02  Cross-layer propagation uses #[from]; never inline .map_err at a call sit
   <span>·</span>
   <span>measured against the tree 2026-08-30</span>
   <span>·</span>
-  <span>status: in progress · PR 0 merged (#105) · PR 1 landed (stacked branches)</span>
+  <span>status: in progress · PR 0 merged (#105) · PR 1 landed · PR 2 landed (loops #5 · harness #4 · skills 2c)</span>
 </footer>
 
 </main>

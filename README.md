@@ -21,15 +21,15 @@ Process, loops, and the public site live in sibling remotes under [sycamore-hq](
 | [crossr-harness](https://github.com/sycamore-hq/crossr-harness) | HARNESS-SPEC, bootstrap, dashboard, `dashboard-prompt`, `chief-of-staff`, `/status` |
 | [crossr-web-landing](https://github.com/sycamore-hq/crossr-web-landing) | Public site. Links out. Owns no law. |
 
-Last tree that still contained everything: [`v0-last-monolith`](https://github.com/sycamore-hq/crossr-skills/releases/tag/v0-last-monolith). Current pins: `skills = "v0-last-monolith"`, `loops = "v0"` ([lockfile.toml](lockfile.toml)).
+Last tree that still contained everything: [`v0-last-monolith`](https://github.com/sycamore-hq/crossr-skills/releases/tag/v0-last-monolith). Current pins: `skills = "v1-gan-layers"`, `loops = "v1-runtime-agents"` ([lockfile.toml](lockfile.toml)).
 
-**Split complete (split-09 graphs).** Topology lives in [crossr-loops `graphs/`](https://github.com/sycamore-hq/crossr-loops/tree/main/graphs). SKILL.md stays the law. Pin remains `loops = "v0"` (graphs are on `main` until a later tag). Plan: [`docs/plans/skills-loops-harness-split.html`](docs/plans/skills-loops-harness-split.html) ([markdown](docs/plans/skills-loops-harness-split.md)).
+**Split complete (split-09 graphs).** Topology lives in [crossr-loops `graphs/`](https://github.com/sycamore-hq/crossr-loops/tree/main/graphs) and is in the `v1-runtime-agents` pin. SKILL.md stays the law. Plan: [`docs/plans/skills-loops-harness-split.html`](docs/plans/skills-loops-harness-split.html) ([markdown](docs/plans/skills-loops-harness-split.md)).
 
 The public door is [`crossr-web-landing`](https://github.com/sycamore-hq/crossr-web-landing) → https://sycamore-hq.github.io/crossr-web-landing/ . This repo's Pages host is a **moved stub**, not the catalog UI.
 
 **Freeze:** do not add new orchestration skills here (conductors, `orchestrator-prompt`, `dashboard-prompt`, `chief-of-staff`). Writers, reviewers, testers, architects, domain skills, writing skills, `skill-evaluator`, and BRICK *stage* skills still land here.
 
-New projects: bootstrap from [sycamore-hq/crossr-harness](https://github.com/sycamore-hq/crossr-harness) (`v0`). The old `./scripts/harness-bootstrap` and `./scripts/sync-skills` are shims — they print `deprecated: use sycamore-hq/crossr-harness` and exit 1.
+New projects: bootstrap from [sycamore-hq/crossr-harness](https://github.com/sycamore-hq/crossr-harness). `.opencode/agent/` files with a persona source are generated (do not hand-edit); `avril.md` and `status.md` stay hand-written. The old `./scripts/harness-bootstrap` and `./scripts/sync-skills` are shims — they print `deprecated: use sycamore-hq/crossr-harness` and exit 1.
 
 ---
 
