@@ -259,7 +259,8 @@ reviewer    persona   reviewer-agent     ~400 B  neutral
     <thead><tr><th>Window</th><th>Loads</th></tr></thead>
     <tbody>
       <tr><td class="mono">conductor</td><td>conductor card + current PBI + 20-line handoff packet + board snapshot of that item</td></tr>
-      <tr><td class="mono">generator</td><td><code>code-writer</code> + language writer + domain</td></tr>
+      <tr><td class="mono">generator (plan)</td><td><code>plan-writer</code> + book <strong>Rules</strong> + the PBI</td></tr>
+      <tr><td class="mono">generator (execute)</td><td><code>code-writer</code> + language writer + domain</td></tr>
       <tr><td class="mono">reviewer</td><td><code>reviewer-agent</code> + <code>code-review</code> card + book Rules projection</td></tr>
       <tr><td class="mono">tester</td><td><code>tester-agent</code> + <code>testing</code> card + book Rules tagged <code>test</code></td></tr>
       <tr><td class="mono">architect</td><td><code>architect-agent</code> + <code>architecture</code> card + book Rules (layering)</td></tr>
@@ -368,6 +369,7 @@ RE-02  Cross-layer propagation uses #[from]; never inline .map_err at a call sit
   <ul>
     <li><strong>The reviewer needs a second, capped mandate.</strong> &ldquo;Faithful to plan and AC&rdquo; is bounded and checkable — but a plan saying &ldquo;add a retry wrapper&rdquo; is satisfied by a retry wrapper with an unbounded loop. Conformant, and still wrong. So: conformance <em>plus one bounded pass for unanticipated risk</em> — each finding names a concrete failure mode, at most three, and anything architectural escalates rather than being resolved inline.</li>
     <li><strong>The generator writes the plan it must then satisfy.</strong> It will write one it finds easy. The architect gate only mitigates that if it can reject a plan <em>for being underspecified</em> — which puts the entire weight on the claim taxonomy.</li>
+    <li><strong>Same role, different card.</strong> The Generator loads <code>plan-writer</code> at plan time and <code>code-writer</code> at execute time &mdash; but stays <strong>one persona</strong>. The chain&rsquo;s saving depends on the paragraph being the implementer&rsquo;s own cheap draft, and the &ldquo;cannot satisfy claim N&rdquo; tripwire only stays high-signal while the agent that fails a claim is the agent that wrote it.</li>
     <li><strong>The plan loop gets a trip limit.</strong> Architect&harr;Generator has no natural terminus. Three architect <code>REJECT</code>s on one plan stops the loop for a human — otherwise v2 spends the saved implementation tokens on plan tennis.</li>
   </ul>
 
@@ -480,6 +482,7 @@ RE-02  Cross-layer propagation uses #[from]; never inline .map_err at a call sit
     <div class="pr"><div class="pr-id">PR 6</div><div class="pr-body">
       <h3>The v2 chain</h3>
       <ul>
+        <li><strong>New catalog skill <code>plan-writer</code></strong> (language-neutral, card-shaped) is the plan-time Generator card: claim taxonomy, plan artifact format and its four rules, bidirectional AC&harr;claim mapping, append-only ids, and phase decomposition moved out of the conductor. A <strong>skill, not a persona</strong>. <code>code-writer</code> is absent from the plan window &mdash; loading diff law to write a specification is the category error PR 2 fixed on the conductor.</li>
         <li>Generator emits an implementation plan with a typed claim list <em>before</em> writing code.</li>
         <li>Architect moves to <strong>plan time</strong>; rejects for underspecification against the 30% judgment quota.</li>
         <li>Mechanical gate runs before any LLM gate; red never costs a token.</li>
@@ -528,6 +531,7 @@ RE-02  Cross-layer propagation uses #[from]; never inline .map_err at a call sit
     <div><b>The reviewer&rsquo;s unanticipated-risk pass</b><span>Conformance-only review misses defects neither the plan nor the AC anticipated. Cap it at three findings; do not delete it.</span></div>
     <div><b>The judgment-claim quota</b><span>Without it, &ldquo;mechanically verifiable&rdquo; degrades into a plan of unfalsifiable prose and the architect gate becomes theatre.</span></div>
     <div><b>Plan immutability after blessing</b><span>A plan the Generator can edit post-hoc turns conformance review into self-grading. Commit it before the code, or the reviewer gate is decorative.</span></div>
+    <div><b><code>plan-writer</code> as a skill, not a role</b><span>Promoting it to a persona splits plan from implementation and blinds the claim-id escalation tripwire. Split only on the decision-table evidence.</span></div>
     <div><b>One adversary per artifact type</b><span>Adding the reviewer or test verifier to the plan gate buys a duplicate architectural opinion and multiplies iterations on the chattiest loop in the chain.</span></div>
     <div><b>The plan gate, at every size</b><span>Size-routing may shrink the diff gates; it never skips the plan gate. The small seam change is the plan-first architect&rsquo;s canonical case.</span></div>
     <div><b>Blessed intake, three doors only</b><span>A plan document is an artifact of a blessed PBI, never a way in. Design docs enter through AVRIL as intent.</span></div>
@@ -547,8 +551,8 @@ RE-02  Cross-layer propagation uses #[from]; never inline .map_err at a call sit
       <tr><td class="mono">2</td><td>Conductor load-set bytes drop from 73,031; adversary skills absent from the conductor window; <code>.opencode/agent/</code> files carry a generated-do-not-edit header</td></tr>
       <tr><td class="mono">3</td><td><code>rust-team-lead</code> gone from all 8 load-bearing referrers; pairing prose 536 B (<code>axel</code> 18,148). 14 KB card split is PR 4</td></tr>
       <tr><td class="mono">4</td><td><code>axel</code> <strong>5,989</strong> (irreducible gates <strong>5,443</strong>: Intake 899 + Method 2,998 + Strict 969 + Checklist 480 + frontmatter 97). <code>avril</code> <strong>4,984</strong> (irreducible 4,097). Floor is the always-loaded law, not a wish &mdash; &le;3 KB could only be met by exiling AC evidence / board&rarr;done. Second restatement (14 KB &rarr; PR 4 in 3c; 3 KB &rarr; &le;6 KB here); this one is sound because it is the sum of gates the card still must load. <code>references/</code> carries Verification and Specialization</td></tr>
-      <tr><td class="mono">5</td><td>One law, one location; ~16 KB of formerly rust-* neutral law serves all languages; Rules projections generated; <code>rust-errors</code> and the adversary bodies absorbed; gate cards &le;2 KB; <strong>one writer skill remains (<code>code-writer</code>)</strong> — language how-to lives only in the book</td></tr>
-      <tr><td class="mono">6</td><td>Architect rejections occur at plan time, never after implementation; zero LLM tokens on a mechanically-red phase or an audit-red plan; bidirectional AC&harr;claim coverage passes by script; plan commit precedes first implementation commit</td></tr>
+      <tr><td class="mono">5</td><td>One law, one location; ~16 KB of formerly rust-* neutral law serves all languages; Rules projections generated; <code>rust-errors</code> and the adversary bodies absorbed; gate cards &le;2 KB; <strong>one <em>code</em> writer skill remains (<code>code-writer</code>)</strong> — language how-to lives only in the book (<code>plan-writer</code>, added in PR 6, is a different artifact class)</td></tr>
+      <tr><td class="mono">6</td><td><code>plan-writer</code> exists and <code>code-writer</code> is absent from the plan-time window; architect rejections occur at plan time, never after implementation; zero LLM tokens on a mechanically-red phase or an audit-red plan; bidirectional AC&harr;claim coverage passes by script; plan commit precedes first implementation commit</td></tr>
       <tr><td class="mono">7</td><td>Adversary windows carry no sibling SKILL.md, no board dump, no prior-phase prose</td></tr>
     </tbody>
   </table></div>
@@ -572,6 +576,7 @@ RE-02  Cross-layer propagation uses #[from]; never inline .map_err at a call sit
       <tr><td>Envelope location</td><td>Field schema in <code>gan-verdict</code>, last in the prompt; conductor selects fields and fills values.</td></tr>
       <tr><td>&ldquo;Material change&rdquo; trigger</td><td class="good">Superseded by PR 6 — escalation is an unsatisfiable claim id; the old matrix no longer exists.</td></tr>
       <tr><td>Plan artifact location</td><td class="good"><code>docs/plans/pbi/&lt;id&gt;.plan.md</code>, committed before implementation, immutable once blessed.</td></tr>
+      <tr><td>Plan authorship</td><td class="good"><code>plan-writer</code> is a <strong>skill, not a persona</strong>. Different artifact, different card (&sect;3.2) &mdash; but not a second <em>role</em>: (a) the chain&rsquo;s saving depends on the plan being the implementer&rsquo;s own cheap draft, so a separate author makes it spec-handoff; (b) the &ldquo;cannot satisfy claim N&rdquo; tripwire and acceptance condition 2 stop being measurable once the planner lacks the implementer&rsquo;s codebase knowledge, since unsatisfiable claims become routine; (c) the self-serving-plan hazard is already caught mechanically (underspecification REJECT, 30% quota, bidirectional coverage) &mdash; an LLM-layer fix for a scripted check violates <em>mechanical before LLM</em>; (d) a second persona at the plan gate multiplies iterations on the chain&rsquo;s most-iterated loop, the same cost argument that keeps the reviewer and test verifier out. <strong>Revisit when</strong> code-time escalations trend to near zero <em>while</em> plan-REJECTs are dominated by satisfiable-but-self-serving plans the quota and coverage script passed.</td></tr>
     </tbody>
   </table></div>
   <div class="prose"><p>Still open, none blocking PR 1:</p></div>
