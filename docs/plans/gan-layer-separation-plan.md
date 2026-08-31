@@ -1,6 +1,6 @@
 # Plan: crossr v2 — Layer Separation, Shared Ruleset, Plan-First GAN
 
-**Status:** in progress · PR 0 merged (#105) · PR 1 landed · PR 2 landed · PR 3 landed (loops [#6](https://github.com/sycamore-hq/crossr-loops/pull/6), harness [#5](https://github.com/sycamore-hq/crossr-harness/pull/5), skills 3c)
+**Status:** in progress · PR 0 merged (#105) · PR 1 landed · PR 2 landed · PR 3 landed (loops [#6](https://github.com/sycamore-hq/crossr-loops/pull/6), harness [#5](https://github.com/sycamore-hq/crossr-harness/pull/5), skills [#109](https://github.com/sycamore-hq/crossr-skills/pull/109))
 **Scope:** `crossr-skills`, `crossr-loops`, `crossr-harness`
 **Origin:** token-burn critique of the crossr-* agent infrastructure, verified against the trees 2026-08-30.
 
@@ -664,7 +664,7 @@ delete the duplicated prose either way.
 
 - loops [#6](https://github.com/sycamore-hq/crossr-loops/pull/6) (3a) — deleted `.agents/skills/rust-team-lead/`; graph `git mv` `graphs/rust-team-lead.json` → `graphs/code-gan.json` (topology unchanged: generate → reviewer → tester → architect → commit; `axel.json` node/edges/`uses.graph` follow; `conductor` retargeted to `axel`); `axel-conductor-agent` step 7 is plain Generator; tag `v1-no-rtl` cut on the merge commit.
 - harness [#5](https://github.com/sycamore-hq/crossr-harness/pull/5) (3b) — consumer pins `skills = "v1-gan-layers"` / `loops = "v1-no-rtl"`; HARNESS-SPEC + harness skills stop teaching the deleted skill.
-- this PR (3c) — catalog pin `loops = "v1-no-rtl"`; `just regen-agents`; refreshed `.agents/agents/` copies + regenerated `.opencode/agent/axel.md`; plan record.
+- skills [#109](https://github.com/sycamore-hq/crossr-skills/pull/109) (3c) — catalog pin `loops = "v1-no-rtl"`; `just regen-agents`; refreshed `.agents/agents/` copies + regenerated `.opencode/agent/axel.md`; plan record.
 
 **Graph rename:** the inner subgraph was kept, not collapsed into `axel.json`. Filename and law pointer are `code-gan`.
 
