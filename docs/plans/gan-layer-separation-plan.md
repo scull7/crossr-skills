@@ -947,7 +947,7 @@ mechanical-gate catches (each one is an LLM cycle that did not happen).
 
 ## 8. Decisions and remaining questions
 
-Questions 1–5, 10, and 11 are now **decided in the body**; 1–5 and 10 were load-bearing for PR 1 and
+Questions 1–5, 10, 11, and 12 are now **decided in the body**; 1–5 and 10 were load-bearing for PR 1 and
 a plan that says "decide before PR 1" and then doesn't is not a plan.
 
 | # | Question | Decision |
@@ -959,6 +959,7 @@ a plan that says "decide before PR 1" and then doesn't is not a plan.
 | 5 | "Material change" trigger | **Superseded by PR 6.** The escalation trigger is an unsatisfiable claim id; the old matrix no longer exists to need it. |
 | 10 | Plan artifact location | `docs/plans/pbi/<id>.plan.md`, committed before implementation, immutable once blessed (§3.7). |
 | 11 | Plan authorship | **`plan-writer` is a skill, not a persona.** The plan and the diff are different artifacts needing different law, so the Generator loads a different card per phase (§3.2). It is not a second *role*: (a) §3.5's saving depends on the plan being the implementer's own cheap draft — a separate author makes it spec-handoff; (b) §3.6's "cannot satisfy claim N" tripwire and §7 acceptance condition 2 ("escalations trend to near zero") stop being measurable once the planner lacks the implementer's codebase knowledge, since unsatisfiable claims become routine; (c) the self-serving-plan hazard is already caught mechanically (underspecification REJECT, 30% quota, bidirectional coverage `comm`) — an LLM-layer fix for a scripted check violates *mechanical before LLM*; (d) a second persona at the plan gate multiplies iterations on the chain's most-iterated loop, the same cost argument that keeps the reviewer and test verifier out (§3.5). **Revisit when:** code-time architect escalations trend to near zero *while* architect plan-REJECTs are dominated by satisfiable-but-self-serving plans that the quota and coverage script passed. |
+| 12 | Restating a landed measurable | **Landed §7 rows are frozen.** A row freezes when its PR merges: from then on it is the contract that PR was blessed against — a historical fact, not a current target. A restatement is a **new line naming the row it supersedes**; never an in-place overwrite. Rows for unlanded PRs are drafts and may be edited freely — **the rule starts at merge, not at first draft**, or §7 becomes a scratch pad. *This is not §3.7 rule 2 applied to the plan itself*: claim ids are append-only because they are **citations**; §7 rows are **criteria**, and they freeze because a landed criterion is a fact. No file split, no script, and **no retrofit** of rows already landed — 4b's PR 4 row already carries the 14 KB → ≤3 KB → ≤6 KB chain in prose, and rewriting settled rows to demonstrate a convention serves no reader. Rebase immediately before merge stays process, not tooling. *Why:* #111 vs 4b — a stale-base amendment still carried `≤3KB` while `main` carried the 5,989 / 5,443 derivation. A resolver who does not know which side is the contract can silently revert a landed number; append-shaped hunks do not prevent that resolve, this decision is what makes it illegal. |
 
 Still open, none blocking PR 1:
 
