@@ -727,3 +727,4 @@ Pin bump + regenerate after 2a/2b landed. Per [`docs/plans/gan-layer-separation-
 - §7 load-set bytes already landed on `axel-conductor-agent` in 2a. No SKILL.md edit here (briefing error: `axel` is loops-owned).
 - Conductor window: 19,816 bytes (`axel` 18,684 + `gan-verdict` 1,132) vs 73,031 baseline.
 - Stack: loops [#5](https://github.com/sycamore-hq/crossr-loops/pull/5) → harness [#4](https://github.com/sycamore-hq/crossr-harness/pull/4) → this PR.
+- Review hold: `AGENTS.md` inventory line now matches the directory (owned skill-GAN + runtime copies from the loops pin). Harness lockfile still `v0-last-monolith` / `v0` named as a harness follow-on, not this PR.

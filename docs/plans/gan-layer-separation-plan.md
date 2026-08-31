@@ -644,6 +644,8 @@ stack them like PR 1.
 - AVRIL has no conductor persona, so `avril.md` remains hand-written (a surviving dual-source instance — needs an `avril-conductor-agent` source, unscheduled).
 - Persona voice is still Rust-flavored; revisit in PR 5.
 - `copy_agents` never overwrites: a `v0` checkout keeps `rust-*-agent` beside the renamed files. This catalog had none. Other dogfood repos must refresh personas on pin move (2b tripwire: `warn_orphan_personas`).
+- **Harness follow-on (do not dissolve into "PR 2 closed"):** [`crossr-harness/lockfile.toml`](https://github.com/sycamore-hq/crossr-harness/blob/main/lockfile.toml) still pins `skills = "v0-last-monolith"` / `loops = "v0"`. Fresh bootstraps from that remote never see this pin and generate the fat pre-2a conductor. That remote owns the bump.
+- Catalog dogfood regenerate (re-run bootstrap, then strip the GONE-listed overlay) lives only in the 2c PR body today. A `just regen-agents` target wrapping bootstrap-plus-strip would make the next pin move mechanical — same follow-on company as the harness pin bump. This catalog's `/axel` stays decorative: the `axel` skill it loads is GONE-listed here.
 
 ### PR 3 — Delete `rust-team-lead`
 
