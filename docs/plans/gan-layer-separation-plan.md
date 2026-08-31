@@ -1,6 +1,6 @@
 # Plan: crossr v2 — Layer Separation, Shared Ruleset, Plan-First GAN
 
-**Status:** in progress · PR 0 merged (#105) · PR 1 landed · PR 2 landed · PR 3 landed · PR 4 landed (loops [#7](https://github.com/sycamore-hq/crossr-loops/pull/7), skills 4b)
+**Status:** in progress · PR 0 merged (#105) · PR 1 landed · PR 2 landed · PR 3 landed · PR 4 landed (loops [#7](https://github.com/sycamore-hq/crossr-loops/pull/7), skills [#110](https://github.com/sycamore-hq/crossr-skills/pull/110))
 **Scope:** `crossr-skills`, `crossr-loops`, `crossr-harness`
 **Origin:** token-burn critique of the crossr-* agent infrastructure, verified against the trees 2026-08-30.
 
@@ -701,7 +701,7 @@ reprint (replaced by one line: "refresh via the harness dashboard command").
 **Landed** as the two-PR stack:
 
 - loops [#7](https://github.com/sycamore-hq/crossr-loops/pull/7) (4a) — card + `references/` split; conductor mandates lift onto personas; new `avril-conductor-agent`; deleted `templates/harness/opencode/agent/avril.md`; tag `v1-cards` cut on the merge commit. Cards: `axel` **5,989** / `avril` **4,984**.
-- skills 4b — pin `loops = "v1-cards"`; `just regen-agents`; deleted unmarked `.opencode/agent/avril.md` (stale-target remedy — never-overwrite would have kept it forever) then regenerated from `avril-conductor-agent`; plan record.
+- skills [#110](https://github.com/sycamore-hq/crossr-skills/pull/110) (4b) — pin `loops = "v1-cards"`; `just regen-agents`; deleted unmarked `.opencode/agent/avril.md` (stale-target remedy — never-overwrite would have kept it forever) then regenerated from `avril-conductor-agent`; plan record.
 
 **§7 correction (second restatement).** The PR 4 row said `axel/SKILL.md` ≤ 3KB
 (the old “under 14KB” line lived here after 3c). That number is unreachable without
