@@ -680,6 +680,12 @@ delete the duplicated prose either way.
 - `templates/harness/opencode/command/axel.md`: load `axel` + `gan-verdict` (3a); this catalog's copy is unmarked and not overwritten by regen
 - `book/src/pipeline/axel.md`: `code-writer` teaching left (RTL name dropped)
 
+**Parked from 3a / 3b / 3c review (record here, not only in PR bodies):**
+
+- `graphs/code-gan.json` nodes/`requires` still name `rust-code-writer` / `rust-code-reviewer` / `rust-code-tester` (AXEL card language stack the same). Retarget when PR 5 folds those into the book + `code-review` / `testing` cards.
+- `HARNESS-SPEC.md` §6 gates 2–3 still name `rust-code-reviewer` / `rust-code-tester`. Gate 4 is already `architecture` (3b). Same PR 5 retarget.
+- Landing: `crossr-web-landing/site/templates/index.html` still names `rust-team-lead`; harness `scripts/verify-docs` featured-set still requires it. Dead in this catalog (no `site/`). Move the allowlist and the landing copy together — not a pin-only bump.
+
 ### PR 4 — Card + `references/` split on `axel` and `avril`
 
 Cheapest last, after the file has shed the Rust stack table and its own persona
@@ -726,6 +732,17 @@ Parked here from PR 1a review:
   final activity names while the skills keep `rust-*` names until this PR (decision #1).
   The tokens are final — only the skill/directory names move here; `gan-verdict` and the
   response contracts need no edits.
+
+Parked here from PR 3a / 3b review:
+
+- `graphs/code-gan.json` (kept inner subgraph, renamed in 3a) still names
+  `rust-code-writer` / `rust-code-reviewer` / `rust-code-tester` in per-node `uses.skill`
+  and `requires.skills`. Topology is already language-neutral; the skill names are not.
+  Retarget with the absorb — do not invent intermediate `rust-review` / `rust-testing`
+  skills (shape B).
+- `HARNESS-SPEC.md` §6 gates 2–3 still name `rust-code-reviewer` / `rust-code-tester`.
+  Gate 4 became `architecture` in 3b. Same one-word retarget class as loops#4 / skills#107,
+  owned by this PR because those names die when the book lands.
 
 ### PR 6 — The v2 chain
 

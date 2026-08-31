@@ -156,7 +156,9 @@ if [[ -f "$ROOT/scripts/status-dashboard" ]]; then
     echo "  - scripts/status-dashboard"
 fi
 
-# Bootstrap appends status / status-html when it copies status-dashboard.
+# Bootstrap appends status / status-html when it copies status-dashboard
+# (harness-bootstrap printf starts with \n). Replace with "" — a "\n"
+# replacement grows the justfile by one trailing blank on every run.
 # Those recipes must not survive the strip — this catalog does not ship
 # the dashboard binary (GONE overlay).
 if [[ ! -f "$ROOT/scripts/status-dashboard" && -f "$ROOT/justfile" ]]; then
@@ -169,7 +171,7 @@ new, n = re.subn(
     r"\n# Orchestration status dashboard \(in-harness UI\)\n"
     r"status:\n    @\./scripts/status-dashboard\n\n"
     r"status-html:\n    @\./scripts/status-dashboard --html\n",
-    "\n",
+    "",
     text,
     count=1,
 )
@@ -177,6 +179,10 @@ if n:
     path.write_text(new, encoding="utf-8")
     print("  - justfile status / status-html")
 PY
+    if grep -qE '^status(-html)?:' "$ROOT/justfile"; then
+        echo "Error: justfile still has status recipes after strip — harness-bootstrap append block no longer matches the strip regex. docs-verify does not check the justfile." >&2
+        exit 1
+    fi
 fi
 
 echo ""
