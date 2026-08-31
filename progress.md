@@ -728,3 +728,14 @@ Pin bump + regenerate after 2a/2b landed. Per [`docs/plans/gan-layer-separation-
 - Conductor window: 19,816 bytes (`axel` 18,684 + `gan-verdict` 1,132) vs 73,031 baseline.
 - Stack: loops [#5](https://github.com/sycamore-hq/crossr-loops/pull/5) → harness [#4](https://github.com/sycamore-hq/crossr-harness/pull/4) → this PR.
 - Review hold: `AGENTS.md` inventory line now matches the directory (owned skill-GAN + runtime copies from the loops pin). Harness lockfile still `v0-last-monolith` / `v0` named as a harness follow-on, not this PR.
+
+### gan-layer-separation — PR 3c (COMPLETED)
+
+Pin bump + `just regen-agents` + plan record after 3a/3b landed. Per [`docs/plans/gan-layer-separation-plan.md`](docs/plans/gan-layer-separation-plan.md) §4 PR 3 / §7.
+
+- Pin: `loops = "v1-no-rtl"` (skills pin unchanged at `v1-gan-layers`).
+- New `just regen-agents`: overwrite loop-owned `.agents/agents/` copies from the loops pin, run harness-bootstrap, strip the `verify-docs` GONE overlay (conductor skills, HARNESS-SPEC, status-dashboard, the status just recipes bootstrap appends).
+- Refreshed `axel-conductor-agent.md` + regenerated `.opencode/agent/axel.md`: step 7 is plain Generator (no `rust-team-lead`). Other loop copies were already byte-identical to the pin. No `! orphan persona` warnings. `avril.md` / `status.md` unmarked, untouched.
+- Plan: PR 3 marked landed (loops [#6](https://github.com/sycamore-hq/crossr-loops/pull/6), harness [#5](https://github.com/sycamore-hq/crossr-harness/pull/5), this PR). Graph rename `code-gan` recorded. `avril.md` template retention recorded (only `axel.md` was vestigial). `axel` card 18,148 B (pairing 536 B); 14 KB measurable moves to PR 4. Writer-stack window now entirely on PR 4.
+- Conductor window: 19,280 bytes (`axel` 18,148 + `gan-verdict` 1,132).
+- Stack: loops [#6](https://github.com/sycamore-hq/crossr-loops/pull/6) → harness [#5](https://github.com/sycamore-hq/crossr-harness/pull/5) → this PR.

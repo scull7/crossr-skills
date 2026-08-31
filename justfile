@@ -30,6 +30,12 @@ harness-validate:
         echo "jq not found — skipping features.json validation"; \
     fi
 
+# Refresh loop persona copies from the loops pin, regenerate marked
+# .opencode/agent files, strip catalog-forbidden bootstrap overlay.
+# Next pin move: bump lockfile.toml, then this target.
+regen-agents:
+    @./scripts/regen-agents
+
 # Catalog allowlist vs README vs SKILL.md
 docs-verify:
     @./scripts/verify-docs

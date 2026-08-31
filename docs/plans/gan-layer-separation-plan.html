@@ -97,7 +97,7 @@
 
 <div class="bar"><div class="bar-in">
   <span class="bar-name">gan layer separation</span>
-  <span class="pill">crossr v2 · PR 0 merged · PR 1 landed · PR 2 landed · 5 to go</span>
+  <span class="pill">crossr v2 · PR 0 merged · PR 1 landed · PR 2 landed · PR 3 landed · 4 to go</span>
 </div></div>
 
 <main>
@@ -448,19 +448,19 @@ RE-02  Cross-layer propagation uses #[from]; never inline .map_err at a call sit
       <p>Per decision #3, <code>.opencode/agent/</code> is <strong>generated output, never hand-written</strong> — the generation step lands in <code>harness-bootstrap</code>, which already copies <code>.agents/agents/</code> into target repos. Hand-writing both directories is the dual-mandate bug with a new folder name. PR 2 edits the <em>source</em> personas&rsquo; load sets (renaming them to drop the <code>rust-</code> prefix: <code>reviewer-agent</code>, <code>tester-agent</code>, <code>architect-agent</code>); consuming repos regenerate.</p>
       <p>The conductor entrypoint stops preloading writer and adversary skills. Fix <code>requires.skills</code> in <code>axel.json</code> — the graph already models per-node <code>uses.skill</code> / <code>uses.persona</code>; the bug is the flat union at graph level. Retarget <code>uses.persona</code> to the renamed personas in the same pass (<code>verify-graphs</code> gates it).</p>
       <p>This is both the load-set fix and the thing that makes &ldquo;delegate to <code>reviewer-agent</code>&rdquo; resolve to something real. <strong>Measurable on the next AXEL session.</strong> Spans loops + harness; stack like PR 1.</p>
-      <p><strong>Landed</strong> as loops <a href="https://github.com/sycamore-hq/crossr-loops/pull/5">#5</a> (2a, tag <code>v1-runtime-agents</code>) + harness <a href="https://github.com/sycamore-hq/crossr-harness/pull/4">#4</a> (2b) + skills <a href="https://github.com/sycamore-hq/crossr-skills/pull/108">#108</a> (2c). <code>verify-skill-refs</code> added in 2a. §7 load-set bytes landed on <code>axel-conductor-agent</code> (persona; the catalog has no <code>axel</code> skill). Parked: <code>avril.md</code> stays hand-written (no <code>avril-conductor-agent</code>); persona voice still Rust-flavored (PR 5); <code>copy_agents</code> keep-existing is a pin-move refresh window. <strong>Harness follow-on (do not dissolve into &ldquo;PR 2 closed&rdquo;):</strong> <code>crossr-harness/lockfile.toml</code> still pins <code>v0-last-monolith</code> / <code>v0</code> — fresh bootstraps from that remote generate the fat pre-2a conductor; that remote owns the bump. Catalog dogfood regenerate (bootstrap + GONE-list strip) is a <code>just regen-agents</code> candidate on the same follow-on; this catalog&rsquo;s <code>/axel</code> stays decorative (GONE-listed skill).</p>
+      <p><strong>Landed</strong> as loops <a href="https://github.com/sycamore-hq/crossr-loops/pull/5">#5</a> (2a, tag <code>v1-runtime-agents</code>) + harness <a href="https://github.com/sycamore-hq/crossr-harness/pull/4">#4</a> (2b) + skills <a href="https://github.com/sycamore-hq/crossr-skills/pull/108">#108</a> (2c). <code>verify-skill-refs</code> added in 2a. §7 load-set bytes landed on <code>axel-conductor-agent</code> (persona; the catalog has no <code>axel</code> skill). Parked: <code>avril.md</code> stays hand-written (no <code>avril-conductor-agent</code>); persona voice still Rust-flavored (PR 5); <code>copy_agents</code> keep-existing is a pin-move refresh window &mdash; this catalog&rsquo;s pin move is now <code>just regen-agents</code> (3c), which overwrites loop-owned copies from the pin before bootstrap. <strong>Harness follow-on (landed 3b, <a href="https://github.com/sycamore-hq/crossr-harness/pull/5">#5</a>):</strong> <code>crossr-harness/lockfile.toml</code> is <code>v1-gan-layers</code> / <code>v1-no-rtl</code>. Catalog <code>just regen-agents</code> landed 3c. This catalog&rsquo;s <code>/axel</code> stays decorative (GONE-listed skill).</p>
     </div></div>
 
     <div class="pr"><div class="pr-id">PR 3</div><div class="pr-body">
-      <h3>Delete <code>rust-team-lead</code></h3>
+      <h3>Delete <code>rust-team-lead</code> <span class="good" style="font-family:var(--mono);font-size:.72rem">✓ landed · loops #6 · harness #5 · skills 3c</span></h3>
       <p>AXEL already restates the entire inner GAN, so this is a deletion, not a merge. <strong>Intake stays three doors — no fourth.</strong> The v2 plan artifact is produced <em>by</em> the loop from a blessed PBI; a human-supplied plan document that never went through AVRIL is unblessed work with better stationery. The path for &ldquo;I have a design doc&rdquo; already exists: hand it to AVRIL as intent. Touch only the 8 load-bearing referrers; leave <code>progress.md</code>, pinto tasks, and MIGRATION as history.</p>
-      <p>Also delete the now-vestigial hand-written template entrypoints in crossr-loops (<code>templates/harness/opencode/agent/</code>) — superseded by generation. Named window: AXEL card / <code>/axel</code> command / <code>book/src/pipeline/axel.md</code> still teach the writer-stack activation; a conductor that obeys SKILL.md-as-law will put the 73k stack back until the card rewrite.</p>
+      <p><strong>Landed</strong> as loops <a href="https://github.com/sycamore-hq/crossr-loops/pull/6">#6</a> (3a, tag <code>v1-no-rtl</code>) + harness <a href="https://github.com/sycamore-hq/crossr-harness/pull/5">#5</a> (3b) + this PR (3c). Graph <code>git mv</code> <code>rust-team-lead.json</code> &rarr; <code>code-gan.json</code> (topology unchanged; <code>axel.json</code> node/edges follow). 3a deleted <code>templates/harness/opencode/agent/axel.md</code> only &mdash; the &ldquo;delete the template entrypoints&rdquo; line was overbroad. <strong><code>avril.md</code> stays</strong> until the parked <code>avril-conductor-agent</code> gap closes. <code>axel/SKILL.md</code> is <strong>18,148</strong> B (pairing prose 536 B). The §7 &ldquo;axel under 14 KB&rdquo; measurable was unreachable from this PR&rsquo;s file scope and moves to PR 4. Writer-stack window now rests entirely on PR 4.</p>
     </div></div>
 
     <div class="pr"><div class="pr-id">PR 4</div><div class="pr-body">
       <h3>Card + <code>references/</code> split on <code>axel</code> and <code>avril</code></h3>
-      <p>Cheapest last, after the file has shed the Rust stack table, the RTL pairing prose, and its own persona block. <code>SKILL.md</code> becomes the runtime card — mandate, gates, order, stop conditions, ~2&ndash;3 KB. Verification (scoring law for <code>skill-evaluator</code>, not runtime law), Specialization, personality essays, the pinto flag encyclopedia, and the dashboard reprint move to <code>references/</code>.</p>
-      <p>The three dashboard sections are <strong>near-duplicates, not byte-identical</strong> — deduping into <code>agent-harness</code> means parameterizing &ldquo;board&rdquo; vs &ldquo;plan&rdquo;, a real refactor rather than a delete. The PR 2 writer-stack window (card frontmatter / body / activation still demand <code>code-writer</code> + RTL) closes here.</p>
+      <p>Cheapest last, after the file has shed the Rust stack table and its own persona block. RTL pairing prose is already gone (PR 3; <code>axel</code> is 18,148 B). <code>SKILL.md</code> becomes the runtime card — mandate, gates, order, stop conditions, ~2&ndash;3 KB. Verification (scoring law for <code>skill-evaluator</code>, not runtime law), Specialization, personality essays, the pinto flag encyclopedia, and the dashboard reprint move to <code>references/</code>.</p>
+      <p>The three dashboard sections are <strong>near-duplicates, not byte-identical</strong> — deduping into <code>agent-harness</code> means parameterizing &ldquo;board&rdquo; vs &ldquo;plan&rdquo;, a real refactor rather than a delete. The writer-stack window (card frontmatter / body / activation still demand <code>code-writer</code> + language writer) closes here &mdash; it rests entirely on this PR after PR 3 dropped the RTL name.</p>
     </div></div>
 
     <div class="pr"><div class="pr-id">PR 5</div><div class="pr-body">
@@ -530,7 +530,7 @@ RE-02  Cross-layer propagation uses #[from]; never inline .map_err at a call sit
 <section>
   <div class="sec-head"><span class="n">08</span><h2>Measurement</h2></div>
   <div class="prose">
-    <p>There is no instrumentation today. <code>orchestrator-prompt-template.md</code> ledgers tokens per ticket; the in-harness loops ledger nothing. Every number in this plan — and every number about whether it worked — is otherwise an estimate. <strong>Record load-set bytes at session start</strong> landed in 2a on <code>axel-conductor-agent</code> (persona, not the catalog <code>axel/SKILL.md</code>). Baseline is 73,031. Measured conductor window after 2c: <code>axel</code> + <code>gan-verdict</code> = 19,816.</p>
+    <p>There is no instrumentation today. <code>orchestrator-prompt-template.md</code> ledgers tokens per ticket; the in-harness loops ledger nothing. Every number in this plan — and every number about whether it worked — is otherwise an estimate. <strong>Record load-set bytes at session start</strong> landed in 2a on <code>axel-conductor-agent</code> (persona, not the catalog <code>axel/SKILL.md</code>). Baseline is 73,031. Measured conductor window after 2c: <code>axel</code> + <code>gan-verdict</code> = 19,816. After PR 3 (<code>axel</code> 18,148): <strong>19,280</strong>.</p>
   </div>
   <div class="scroll"><table>
     <thead><tr><th>PR</th><th>Measurable</th></tr></thead>
@@ -538,8 +538,8 @@ RE-02  Cross-layer propagation uses #[from]; never inline .map_err at a call sit
       <tr><td class="mono">0</td><td><code>skill-evaluator</code> scores a de-personaed skill at or above its pre-split score</td></tr>
       <tr><td class="mono">1</td><td><code>verify-protocol</code> passes; one mandate per role; <code>gan-verdict</code> exists; zero writer prerequisites left in adversary skills or persona files</td></tr>
       <tr><td class="mono">2</td><td>Conductor load-set bytes drop from 73,031; adversary skills absent from the conductor window; <code>.opencode/agent/</code> files carry a generated-do-not-edit header</td></tr>
-      <tr><td class="mono">3</td><td><code>rust-team-lead</code> gone from all 8 load-bearing referrers; <code>axel</code> under 14 KB</td></tr>
-      <tr><td class="mono">4</td><td><code>axel/SKILL.md</code> at or under 3 KB; <code>references/</code> carries Verification and Specialization</td></tr>
+      <tr><td class="mono">3</td><td><code>rust-team-lead</code> gone from all 8 load-bearing referrers; pairing prose 536 B (<code>axel</code> 18,148). 14 KB card split is PR 4</td></tr>
+      <tr><td class="mono">4</td><td><code>axel/SKILL.md</code> at or under 3 KB (the old &ldquo;under 14 KB&rdquo; line lived here); <code>references/</code> carries Verification and Specialization</td></tr>
       <tr><td class="mono">5</td><td>One law, one location; ~16 KB of formerly rust-* neutral law serves all languages; Rules projections generated; <code>rust-errors</code> and the adversary bodies absorbed; gate cards &le;2 KB; <strong>one writer skill remains (<code>code-writer</code>)</strong> — language how-to lives only in the book</td></tr>
       <tr><td class="mono">6</td><td>Architect rejections occur at plan time, never after implementation; zero LLM tokens on a mechanically-red phase or an audit-red plan; bidirectional AC&harr;claim coverage passes by script; plan commit precedes first implementation commit</td></tr>
       <tr><td class="mono">7</td><td>Adversary windows carry no sibling SKILL.md, no board dump, no prior-phase prose</td></tr>
@@ -581,7 +581,7 @@ RE-02  Cross-layer propagation uses #[from]; never inline .map_err at a call sit
   <span>·</span>
   <span>measured against the tree 2026-08-30</span>
   <span>·</span>
-  <span>status: in progress · PR 0 merged (#105) · PR 1 landed · PR 2 landed (loops #5 · harness #4 · skills #108)</span>
+  <span>status: in progress · PR 0 merged (#105) · PR 1 landed · PR 2 landed · PR 3 landed (loops #6 · harness #5 · skills 3c)</span>
 </footer>
 
 </main>

@@ -1,6 +1,6 @@
 # Plan: crossr v2 — Layer Separation, Shared Ruleset, Plan-First GAN
 
-**Status:** in progress · PR 0 merged (#105) · PR 1 landed · PR 2 landed (loops [#5](https://github.com/sycamore-hq/crossr-loops/pull/5), harness [#4](https://github.com/sycamore-hq/crossr-harness/pull/4), skills [#108](https://github.com/sycamore-hq/crossr-skills/pull/108))
+**Status:** in progress · PR 0 merged (#105) · PR 1 landed · PR 2 landed · PR 3 landed (loops [#6](https://github.com/sycamore-hq/crossr-loops/pull/6), harness [#5](https://github.com/sycamore-hq/crossr-harness/pull/5), skills 3c)
 **Scope:** `crossr-skills`, `crossr-loops`, `crossr-harness`
 **Origin:** token-burn critique of the crossr-* agent infrastructure, verified against the trees 2026-08-30.
 
@@ -643,11 +643,11 @@ stack them like PR 1.
 
 - AVRIL has no conductor persona, so `avril.md` remains hand-written (a surviving dual-source instance — needs an `avril-conductor-agent` source, unscheduled).
 - Persona voice is still Rust-flavored; revisit in PR 5.
-- `copy_agents` never overwrites: a `v0` checkout keeps `rust-*-agent` beside the renamed files. This catalog had none. Other dogfood repos must refresh personas on pin move (2b tripwire: `warn_orphan_personas`).
-- **Harness follow-on (do not dissolve into "PR 2 closed"):** [`crossr-harness/lockfile.toml`](https://github.com/sycamore-hq/crossr-harness/blob/main/lockfile.toml) still pins `skills = "v0-last-monolith"` / `loops = "v0"`. Fresh bootstraps from that remote never see this pin and generate the fat pre-2a conductor. That remote owns the bump.
-- Catalog dogfood regenerate (re-run bootstrap, then strip the GONE-listed overlay) lives only in the 2c PR body today. A `just regen-agents` target wrapping bootstrap-plus-strip would make the next pin move mechanical — same follow-on company as the harness pin bump. This catalog's `/axel` stays decorative: the `axel` skill it loads is GONE-listed here.
+- `copy_agents` never overwrites: a `v0` checkout keeps `rust-*-agent` beside the renamed files. This catalog had none. Other dogfood repos must refresh personas on pin move (2b tripwire: `warn_orphan_personas`). This catalog's pin move is now `just regen-agents` (3c), which overwrites loop-owned copies from the pin before bootstrap.
+- **Harness follow-on (landed 3b, [#5](https://github.com/sycamore-hq/crossr-harness/pull/5)):** [`crossr-harness/lockfile.toml`](https://github.com/sycamore-hq/crossr-harness/blob/main/lockfile.toml) is `skills = "v1-gan-layers"` / `loops = "v1-no-rtl"`.
+- Catalog `just regen-agents` (landed 3c): bootstrap + GONE-list strip, so the next pin move is mechanical. This catalog's `/axel` stays decorative: the `axel` skill it loads is GONE-listed here.
 
-### PR 3 — Delete `rust-team-lead`
+### PR 3 — Delete `rust-team-lead` ✅ landed
 
 **Files:** the 8 load-bearing referrers in §2.9. Leave `progress.md`, pinto tasks, and
 MIGRATION alone.
@@ -660,23 +660,30 @@ already named: hand it to AVRIL as intent, get blessed PBIs, then AXEL. Collapse
 `graphs/rust-team-lead.json` into `axel.json` or keep it as the named inner subgraph, but
 delete the duplicated prose either way.
 
-Also delete the now-vestigial hand-written template entrypoints in crossr-loops
-(`templates/harness/opencode/agent/`) — superseded by generation (2b).
+**Landed** as the three-PR stack:
 
-**Named window from PR 2 (do not lose):** the persona and graph load by role, but these
-still teach the old writer-stack activation. Until the card rewrite (this PR / PR 4), a
-conductor that obeys SKILL.md-as-law will put the 73k stack back:
+- loops [#6](https://github.com/sycamore-hq/crossr-loops/pull/6) (3a) — deleted `.agents/skills/rust-team-lead/`; graph `git mv` `graphs/rust-team-lead.json` → `graphs/code-gan.json` (topology unchanged: generate → reviewer → tester → architect → commit; `axel.json` node/edges/`uses.graph` follow; `conductor` retargeted to `axel`); `axel-conductor-agent` step 7 is plain Generator; tag `v1-no-rtl` cut on the merge commit.
+- harness [#5](https://github.com/sycamore-hq/crossr-harness/pull/5) (3b) — consumer pins `skills = "v1-gan-layers"` / `loops = "v1-no-rtl"`; HARNESS-SPEC + harness skills stop teaching the deleted skill.
+- this PR (3c) — catalog pin `loops = "v1-no-rtl"`; `just regen-agents`; refreshed `.agents/agents/` copies + regenerated `.opencode/agent/axel.md`; plan record.
+
+**Graph rename:** the inner subgraph was kept, not collapsed into `axel.json`. Filename and law pointer are `code-gan`.
+
+**`avril.md` template retention:** the plan's "delete the template entrypoints" line was overbroad. 3a deleted `templates/harness/opencode/agent/axel.md` only. **`avril.md` stays** — AVRIL has no conductor persona, generation cannot replace the file. Parked until `avril-conductor-agent` exists (unscheduled).
+
+**`axel/SKILL.md` bytes:** 18,684 → **18,148** (536 B pairing prose). The §7 "axel under 14KB" measurable was unreachable from PR 3's file scope (Agent Personality, Status Dashboard, Mitchell, Verification, Specialization remain). Restated: PR 3 = RTL prose gone; 14 KB card split moves to PR 4.
+
+**Writer-stack window now rests entirely on PR 4.** 3a dropped the RTL name from the activation statement, `command/axel.md`, and the book. These still teach `code-writer` (+ `rust-code-writer` on Rust):
 
 - `axel/SKILL.md` frontmatter: “Always activate together with `code-writer`”
 - `axel/SKILL.md` body: “MUST also apply `code-writer` and every language/domain skill”
-- `axel/SKILL.md` activation statement: `code-writer` + `axel` + `rust-team-lead`
-- `templates/harness/opencode/command/axel.md`: “Load the `axel` and `code-writer` skills”
-- `book/src/pipeline/axel.md:39`: `code-writer` + `axel` + `rust-code-writer` + `rust-team-lead`
+- `axel/SKILL.md` activation statement: `code-writer` + `axel` (+ language/domain)
+- `templates/harness/opencode/command/axel.md`: load `axel` + `gan-verdict` (3a); this catalog's copy is unmarked and not overwritten by regen
+- `book/src/pipeline/axel.md`: `code-writer` teaching left (RTL name dropped)
 
 ### PR 4 — Card + `references/` split on `axel` and `avril`
 
-Cheapest last, after the file has shed the Rust stack table, the RTL pairing prose, and its
-own persona block.
+Cheapest last, after the file has shed the Rust stack table and its own persona
+block. RTL pairing prose is already gone (PR 3; `axel` is 18,148 B).
 
 `SKILL.md` becomes the runtime card — mandate, gates, order, stop conditions, ~2–3KB.
 Move to `references/`: Verification (7 scorable behaviors — that is scoring law for
@@ -684,8 +691,9 @@ Move to `references/`: Verification (7 scorable behaviors — that is scoring la
 encyclopedia, and the dashboard reprint (replaced by one line: "refresh via harness
 command"). Deduplicate the near-identical dashboard sections into `agent-harness` and
 parameterize the "board" vs "plan" wording — they are **not** byte-identical, so this is a
-real refactor, not a delete. The PR 2 writer-stack window (card frontmatter / body /
-activation still demand `code-writer` + RTL) closes here.
+real refactor, not a delete. The writer-stack window (card frontmatter / body /
+activation still demand `code-writer` + language writer) closes here — it rests
+entirely on this PR after PR 3 dropped the RTL name.
 
 ### PR 5 — One ruleset, progressively disclosed
 
@@ -721,8 +729,8 @@ Parked here from PR 1a review:
 
 ### PR 6 — The v2 chain
 
-**Files:** `axel/SKILL.md`, both entrypoints, `graphs/axel.json`, `graphs/rust-team-lead.json`,
-the architect / reviewer / tester personas.
+**Files:** `axel/SKILL.md`, both entrypoints, `graphs/axel.json`, `graphs/code-gan.json`
+(renamed from `rust-team-lead.json` in PR 3), the architect / reviewer / tester personas.
 
 **Includes a graph bug fix:** `graphs/axel.json`'s `plan` node currently uses
 `axel-conductor-agent` as its generator persona. In v2 the plan author is the **code
@@ -823,7 +831,7 @@ Add to the conductor card in PR 2: **record load-set bytes at session start.** B
 73,031 bytes for a naive Rust AXEL conductor window. **Landed in 2a** on
 `axel-conductor-agent` invocation step 2 (persona, not the catalog `axel/SKILL.md` — that
 skill is loops-owned). Measured conductor window after 2c regenerate: `axel` + `gan-verdict`
-= 19,816 bytes.
+= 19,816 bytes. After PR 3 (`axel` 18,148): **19,280**.
 
 Per-PR success criteria:
 
@@ -832,8 +840,8 @@ Per-PR success criteria:
 | 0 | `skill-evaluator` scores a de-personaed skill ≥ its pre-split score |
 | 1 | `verify-protocol` passes; one mandate per role; `gan-verdict` exists; zero writer prerequisites left in adversary skills or persona files |
 | 2 | Conductor load-set bytes drop from 73,031; adversary skills absent from the conductor window; `.opencode/agent/` files carry a generated-do-not-edit header |
-| 3 | `rust-team-lead` gone from all 8 load-bearing referrers; `axel` under 14KB |
-| 4 | `axel/SKILL.md` ≤ 3KB; `references/` carries Verification and Specialization |
+| 3 | `rust-team-lead` gone from all 8 load-bearing referrers; pairing prose 536 B (`axel` 18,148). 14 KB card split is PR 4 |
+| 4 | `axel/SKILL.md` ≤ 3KB (the old “under 14KB” line lived here); `references/` carries Verification and Specialization |
 | 5 | One law, one location; ~16KB of formerly `rust-*` neutral law now serves all languages; Rules projections generated, not hand-copied; `rust-errors` and the rust-* adversary bodies absorbed; gate cards ≤2KB; **one writer skill remains (`code-writer`)** — language how-to lives only in the book |
 | 6 | Architect rejections occur at plan time, not after implementation; zero LLM tokens spent on a mechanically-red phase or an audit-red plan; bidirectional AC↔claim coverage passes by script; plan commit precedes first implementation commit |
 | 7 | Adversary windows carry no sibling SKILL.md, no board dump, no prior-phase prose |

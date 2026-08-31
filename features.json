@@ -828,6 +828,21 @@
         "id": "pr2c",
         "title": "Pin bump + regenerate conductor entrypoint + plan record",
         "status": "completed"
+      },
+      {
+        "id": "pr3a",
+        "title": "crossr-loops: delete rust-team-lead; graph rename to code-gan; tag v1-no-rtl",
+        "status": "completed"
+      },
+      {
+        "id": "pr3b",
+        "title": "crossr-harness: pins to v1-gan-layers/v1-no-rtl; retarget rust-team-lead mentions",
+        "status": "completed"
+      },
+      {
+        "id": "pr3c",
+        "title": "Pin bump to v1-no-rtl; just regen-agents; refresh personas; plan record",
+        "status": "completed"
       }
     ]
   }
