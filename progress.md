@@ -715,3 +715,15 @@ Peel persona / mandate / protocol per [`docs/plans/gan-layer-separation-plan.md`
 - Deleted from the three gate skills: `Agent Personality` blocks (staged for the loops personas), skill-layer One-Sentence Mandates (persona's mandate wins — the reviewer's skill mandate was a writer's mandate), `OUTPUT FORMAT` blocks (`PASSED`/`BLESSED` vocabularies retired), writer prerequisites (`code-writer` + `rust-code-writer` echoes in frontmatter / intro / Verification / Specialization / closing).
 - Skill-GAN trio: evaluator's duplicate mandate deleted (persona owns it), Verification recitation retargeted at the persona, SR clarifier widened (personality blocks, output-format blocks, role mandates where a persona file exists — flag-don't-strip; foundation skills without personas keep their mandates). Remediator's mandate-format-matching clause deleted.
 - Stacked with crossr-loops `pr1-personas-verify-protocol` (persona edits, `scripts/verify-protocol`, pin → `v1-gan-layers`, a tag to cut at this branch's merge commit).
+
+### gan-layer-separation — PR 2c (COMPLETED)
+
+Pin bump + regenerate after 2a/2b landed. Per [`docs/plans/gan-layer-separation-plan.md`](docs/plans/gan-layer-separation-plan.md) §4 PR 2 / §7.
+
+- Pins: `skills = "v1-gan-layers"`, `loops = "v1-runtime-agents"`.
+- Deleted unmarked hand-written `.opencode/agent/axel.md`, then ran harness-bootstrap. Generated `axel.md` is `mode: primary`, loads `axel` + `gan-verdict`, delegates `reviewer-agent` → `tester-agent` → `architect-agent`, carries the GENERATED marker. `avril.md` / `status.md` unmarked, untouched.
+- New `.agents/agents/` copies from the loops pin (renamed personas). No `rust-*-agent` leftovers in this catalog.
+- Catalog overlay from bootstrap (conductor skills, HARNESS-SPEC, status-dashboard) stripped — `verify-docs` GONE list. Not committed.
+- §7 load-set bytes already landed on `axel-conductor-agent` in 2a. No SKILL.md edit here (briefing error: `axel` is loops-owned).
+- Conductor window: 19,816 bytes (`axel` 18,684 + `gan-verdict` 1,132) vs 73,031 baseline.
+- Stack: loops [#5](https://github.com/sycamore-hq/crossr-loops/pull/5) → harness [#4](https://github.com/sycamore-hq/crossr-harness/pull/4) → this PR.

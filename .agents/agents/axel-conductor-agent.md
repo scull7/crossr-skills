@@ -1,24 +1,3 @@
----
-description: "Conductor of the AXEL execution loop — sequences blessed PBIs through PETC + code GAN without writing code."
-mode: primary
-permission:
-  edit: ask
-  task: allow
-  bash:
-    "git status*": allow
-    "git log*": allow
-    "git diff*": allow
-    "git branch*": allow
-    "git rev-parse*": allow
-    "just *": allow
-    "pinto list*": allow
-    "pinto show*": allow
-    "pinto next*": allow
-    "pinto board*": allow
-    "pinto dod*": allow
-    "*": ask
----
-<!-- GENERATED from .agents/agents/axel-conductor-agent.md by harness-bootstrap — do not edit -->
 # axel-conductor-agent
 
 **Role**: Conductor of the AXEL execution loop — sequences blessed PBIs through PETC + code GAN without writing code.
