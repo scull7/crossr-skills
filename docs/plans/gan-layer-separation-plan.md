@@ -273,7 +273,8 @@ run. New languages work on day one; books accumulate later.
 | Window | Loads |
 |---|---|
 | Conductor | conductor card + current PBI + 20-line handoff packet + board snapshot of that item |
-| Generator subagent | `code-writer` + language writer + domain |
+| Generator subagent (**plan** phase) | `plan-writer` + book **Rules** + the PBI |
+| Generator subagent (**execute** phase) | `code-writer` + language writer + domain |
 | Reviewer subagent | `reviewer-agent` + `code-review` card + book Rules projection |
 | Tester subagent | `tester-agent` + `testing` card + book Rules (tagged `test`) |
 | Architect subagent | `architect-agent` + `architecture` card + book Rules (layering) |
@@ -424,6 +425,13 @@ anything architectural escalates rather than being resolved inline.
 *The generator writes the plan it must then satisfy.* It will write one it finds easy. The architect
 gate only mitigates that if it can reject a plan **for being underspecified**, which puts the entire
 weight on the claim taxonomy below.
+
+*Same role, different card.* The plan and the diff are different artifacts needing different law, so
+the Generator loads **`plan-writer`** at plan time and `code-writer` at execute time (§3.2). It stays
+**one persona**: the plan-first chain's saving depends on the paragraph being the implementer's own
+cheap draft, and the §3.6 escalation trigger is only a high-signal tripwire while the agent that
+cannot satisfy claim N is the agent that wrote it. See decision #11 for the evidence that would
+justify splitting the role itself.
 
 *The plan loop gets a trip limit.* Architect↔Generator is the most iterated loop in the chain and
 has no natural terminus. **Three architect REJECTs on one plan stops the loop for a human.**
@@ -797,7 +805,8 @@ Parked here from PR 3a / 3b review:
 ### PR 6 — The v2 chain
 
 **Files:** `axel/SKILL.md`, both entrypoints, `graphs/axel.json`, `graphs/code-gan.json`
-(renamed from `rust-team-lead.json` in PR 3), the architect / reviewer / tester personas.
+(renamed from `rust-team-lead.json` in PR 3), the architect / reviewer / tester personas;
+new `plan-writer` (crossr-skills catalog).
 
 **Includes a graph bug fix:** `graphs/axel.json`'s `plan` node currently uses
 `axel-conductor-agent` as its generator persona. In v2 the plan author is the **code
@@ -806,6 +815,12 @@ is forbidden to write. Retarget the node's `uses.persona`.
 
 Implement §3.5 and §3.6:
 
+- **New catalog skill `plan-writer`** (language-neutral, ~2 KB card shape) is the plan-time
+  Generator card: the claim taxonomy (§3.6), the plan artifact format and its four rules (§3.7),
+  bidirectional AC↔claim mapping, append-only claim ids, and phase decomposition — which moves out
+  of the conductor and becomes plan content. It is a **skill, not a persona** (decision #11).
+  `code-writer` is absent from the plan window: its Data/Calculations/Actions law is diff law, and
+  loading it to write a specification is the same category error PR 2 fixed on the conductor.
 - Generator emits an implementation plan with a typed claim list before writing code.
 - Architect moves to **plan time**; rejects for underspecification against the 30% judgment quota.
 - Mechanical gate runs before any LLM gate; red never costs a token.
@@ -879,6 +894,8 @@ per-item tokens you bank the savings and lose the gate.
   unfalsifiable prose and the architect gate becomes theatre.
 - **Plan immutability after blessing.** A plan the Generator can edit post-hoc turns conformance
   review into self-grading. Commit it before the code, or the reviewer gate is decorative.
+- **`plan-writer` as a skill, not a role.** Promoting it to a persona splits plan from implementation
+  and blinds the §3.6 escalation tripwire. Split only on the decision #11 evidence.
 - **One adversary per artifact type.** Adding the reviewer or test verifier to the plan gate buys a
   duplicate architectural opinion and multiplies iterations on the chattiest loop in the chain.
 - **The plan gate, at every size.** Size-routing may shrink the diff gates; it never skips the
@@ -910,8 +927,8 @@ Per-PR success criteria:
 | 2 | Conductor load-set bytes drop from 73,031; adversary skills absent from the conductor window; `.opencode/agent/` files carry a generated-do-not-edit header |
 | 3 | `rust-team-lead` gone from all 8 load-bearing referrers; pairing prose 536 B (`axel` 18,148). 14 KB card split is PR 4 |
 | 4 | `axel` **5,989** (irreducible gates **5,443**: Intake 899 + Method 2,998 + Strict 969 + Checklist 480 + frontmatter 97). `avril` **4,984** (irreducible 4,097). Floor is the always-loaded law, not a wish — ≤3KB could only be met by exiling AC evidence / board→done. Second restatement (14KB → PR 4 in 3c; 3KB → ≤6KB here); this one is sound because it is the sum of gates the card still must load. `references/` carries Verification and Specialization |
-| 5 | One law, one location; ~16KB of formerly `rust-*` neutral law now serves all languages; Rules projections generated, not hand-copied; `rust-errors` and the rust-* adversary bodies absorbed; gate cards ≤2KB; **one writer skill remains (`code-writer`)** — language how-to lives only in the book |
-| 6 | Architect rejections occur at plan time, not after implementation; zero LLM tokens spent on a mechanically-red phase or an audit-red plan; bidirectional AC↔claim coverage passes by script; plan commit precedes first implementation commit |
+| 5 | One law, one location; ~16KB of formerly `rust-*` neutral law now serves all languages; Rules projections generated, not hand-copied; `rust-errors` and the rust-* adversary bodies absorbed; gate cards ≤2KB; **one *code* writer skill remains (`code-writer`)** — language how-to lives only in the book. (`plan-writer`, added in PR 6, is a different artifact class, not a second language writer.) |
+| 6 | `plan-writer` exists and `code-writer` is absent from the plan-time window; architect rejections occur at plan time, not after implementation; zero LLM tokens spent on a mechanically-red phase or an audit-red plan; bidirectional AC↔claim coverage passes by script; plan commit precedes first implementation commit |
 | 7 | Adversary windows carry no sibling SKILL.md, no board dump, no prior-phase prose |
 
 Two acceptance conditions for the whole plan:
@@ -930,7 +947,7 @@ mechanical-gate catches (each one is an LLM cycle that did not happen).
 
 ## 8. Decisions and remaining questions
 
-Questions 1–5 and 10 are now **decided in the body**; they were load-bearing for PR 1 and
+Questions 1–5, 10, and 11 are now **decided in the body**; 1–5 and 10 were load-bearing for PR 1 and
 a plan that says "decide before PR 1" and then doesn't is not a plan.
 
 | # | Question | Decision |
@@ -941,6 +958,7 @@ a plan that says "decide before PR 1" and then doesn't is not a plan.
 | 4 | Envelope location | Field schema in `gan-verdict`, last in the prompt; conductor selects fields and fills values (§3.3). No `contracts/` tree. |
 | 5 | "Material change" trigger | **Superseded by PR 6.** The escalation trigger is an unsatisfiable claim id; the old matrix no longer exists to need it. |
 | 10 | Plan artifact location | `docs/plans/pbi/<id>.plan.md`, committed before implementation, immutable once blessed (§3.7). |
+| 11 | Plan authorship | **`plan-writer` is a skill, not a persona.** The plan and the diff are different artifacts needing different law, so the Generator loads a different card per phase (§3.2). It is not a second *role*: (a) §3.5's saving depends on the plan being the implementer's own cheap draft — a separate author makes it spec-handoff; (b) §3.6's "cannot satisfy claim N" tripwire and §7 acceptance condition 2 ("escalations trend to near zero") stop being measurable once the planner lacks the implementer's codebase knowledge, since unsatisfiable claims become routine; (c) the self-serving-plan hazard is already caught mechanically (underspecification REJECT, 30% quota, bidirectional coverage `comm`) — an LLM-layer fix for a scripted check violates *mechanical before LLM*; (d) a second persona at the plan gate multiplies iterations on the chain's most-iterated loop, the same cost argument that keeps the reviewer and test verifier out (§3.5). **Revisit when:** code-time architect escalations trend to near zero *while* architect plan-REJECTs are dominated by satisfiable-but-self-serving plans that the quota and coverage script passed. |
 
 Still open, none blocking PR 1:
 
