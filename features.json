@@ -843,6 +843,16 @@
         "id": "pr3c",
         "title": "Pin bump to v1-no-rtl; just regen-agents; refresh personas; plan record",
         "status": "completed"
+      },
+      {
+        "id": "pr4a",
+        "title": "crossr-loops: card + references/ split; avril-conductor-agent; tag v1-cards",
+        "status": "completed"
+      },
+      {
+        "id": "pr4b",
+        "title": "Pin bump to v1-cards; just regen-agents; generated avril.md; plan record + §7 correction",
+        "status": "completed"
       }
     ]
   }
