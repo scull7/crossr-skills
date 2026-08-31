@@ -1,24 +1,3 @@
----
-description: "Conductor of the AVRIL planning loop — sequences intent through the planning GAN to a unanimously blessed Product Backlog without writing PBIs or code."
-mode: primary
-permission:
-  edit: ask
-  task: allow
-  bash:
-    "git status*": allow
-    "git log*": allow
-    "git diff*": allow
-    "git branch*": allow
-    "git rev-parse*": allow
-    "just *": allow
-    "pinto list*": allow
-    "pinto show*": allow
-    "pinto next*": allow
-    "pinto board*": allow
-    "pinto dod*": allow
-    "*": ask
----
-<!-- GENERATED from .agents/agents/avril-conductor-agent.md by harness-bootstrap — do not edit -->
 # avril-conductor-agent
 
 **Role**: Conductor of the AVRIL planning loop — sequences intent through the planning GAN to a unanimously blessed Product Backlog without writing PBIs or code.
