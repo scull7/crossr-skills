@@ -1,0 +1,185 @@
+#!/usr/bin/env bash
+#
+# regen-agents
+# Refresh this catalog from its lockfile pins, then strip the overlay
+# verify-docs forbids.
+#
+#   1. Overwrite loop-owned .agents/agents/*.md from the loops pin
+#      (copy_agents never overwrites, and the skills pin may still
+#      carry older copies — without this step a pin move is a no-op).
+#   2. Run the harness-bootstrap from CROSSR_HARNESS_PATH, a sibling
+#      crossr-harness checkout, or a clone of sycamore-hq/crossr-harness.
+#   3. Strip GONE-listed skill dirs plus HARNESS-SPEC.md and
+#      scripts/status-dashboard (bootstrap output that fails verify-docs).
+#
+# Usage:
+#   ./scripts/regen-agents
+#   just regen-agents
+#
+# Overrides:
+#   CROSSR_HARNESS_PATH  harness checkout with scripts/harness-bootstrap
+#   CROSSR_LOOPS_PATH    loops checkout at the lockfile pin
+#
+# CROSSR_SKILLS_PATH is forced to this repo so bootstrap does not
+# replace the working tree with a clone of the skills pin.
+
+set -euo pipefail
+
+ROOT="$(cd "$(dirname "$0")/.." && pwd)"
+cd "$ROOT"
+
+SKILLS_URL="${CROSSR_SKILLS_URL:-https://github.com/sycamore-hq/crossr-skills.git}"
+LOOPS_URL="${CROSSR_LOOPS_URL:-https://github.com/sycamore-hq/crossr-loops.git}"
+HARNESS_URL="${CROSSR_HARNESS_URL:-https://github.com/sycamore-hq/crossr-harness.git}"
+
+lockfile_get() {
+    python3 - "$1" "$2" <<'PY'
+import re, sys
+path, key = sys.argv[1], sys.argv[2]
+text = open(path).read()
+m = re.search(r'(?m)^\s*' + re.escape(key) + r'\s*=\s*"([^"]+)"', text)
+if not m:
+    sys.exit(1)
+print(m.group(1))
+PY
+}
+
+gone_names() {
+    python3 - "$ROOT/scripts/verify-docs" <<'PY'
+import json, re, sys
+text = open(sys.argv[1], encoding="utf-8").read()
+m = re.search(r"^GONE='(\[.*\])'", text, re.M)
+if not m:
+    sys.exit("verify-docs: missing GONE list")
+for name in json.loads(m.group(1)):
+    print(name)
+PY
+}
+
+PIN_DIRS=()
+cleanup() { rm -rf "${PIN_DIRS[@]+"${PIN_DIRS[@]}"}"; }
+trap cleanup EXIT
+
+fetch_pin() {
+    local url="$1" tag="$2"
+    local dest
+    dest="$(mktemp -d "${TMPDIR:-/tmp}/crossr-pin.XXXXXX")"
+    PIN_DIRS+=("$dest")
+    echo "  → clone $url @ $tag" >&2
+    git -c advice.detachedHead=false clone --quiet --depth 1 --branch "$tag" "$url" "$dest"
+    echo "$dest"
+}
+
+if [[ ! -f "$ROOT/lockfile.toml" ]]; then
+    echo "Error: missing $ROOT/lockfile.toml" >&2
+    exit 1
+fi
+
+LOOPS_TAG="$(lockfile_get "$ROOT/lockfile.toml" loops)"
+SKILLS_TAG="$(lockfile_get "$ROOT/lockfile.toml" skills)"
+if [[ -z "$LOOPS_TAG" || -z "$SKILLS_TAG" ]]; then
+    echo "Error: lockfile.toml missing skills/loops tags" >&2
+    exit 1
+fi
+
+echo "→ regen-agents (skills=${SKILLS_TAG} loops=${LOOPS_TAG})"
+
+if [[ -n "${CROSSR_LOOPS_PATH:-}" ]]; then
+    LOOPS_TREE="$(cd "$CROSSR_LOOPS_PATH" && pwd)"
+    echo "  loops tree: $LOOPS_TREE (CROSSR_LOOPS_PATH)"
+else
+    LOOPS_TREE="$(fetch_pin "$LOOPS_URL" "$LOOPS_TAG")"
+    echo "  loops tree: $LOOPS_TREE"
+fi
+
+if [[ ! -d "$LOOPS_TREE/.agents/agents" ]]; then
+    echo "Error: no .agents/agents in loops tree $LOOPS_TREE" >&2
+    exit 1
+fi
+
+echo ""
+echo "Refreshing loop persona copies from the loops pin..."
+mkdir -p "$ROOT/.agents/agents"
+refreshed=0
+for f in "$LOOPS_TREE/.agents/agents/"*.md; do
+    [[ -f "$f" ]] || continue
+    base="$(basename "$f")"
+    [[ "$base" == "README.md" ]] && continue
+    cp "$f" "$ROOT/.agents/agents/$base"
+    echo "  ~ .agents/agents/$base"
+    refreshed=$((refreshed + 1))
+done
+echo "  refreshed $refreshed persona file(s)"
+
+HARNESS=""
+if [[ -n "${CROSSR_HARNESS_PATH:-}" ]]; then
+    HARNESS="$(cd "$CROSSR_HARNESS_PATH" && pwd)"
+elif [[ -x "$ROOT/../crossr-harness/scripts/harness-bootstrap" ]]; then
+    HARNESS="$(cd "$ROOT/../crossr-harness" && pwd)"
+    echo "  harness: $HARNESS (sibling)"
+else
+    HARNESS="$(mktemp -d "${TMPDIR:-/tmp}/crossr-harness.XXXXXX")"
+    PIN_DIRS+=("$HARNESS")
+    echo "  → clone $HARNESS_URL @ HEAD"
+    git -c advice.detachedHead=false clone --quiet --depth 1 "$HARNESS_URL" "$HARNESS"
+fi
+
+BOOTSTRAP="$HARNESS/scripts/harness-bootstrap"
+if [[ ! -x "$BOOTSTRAP" ]]; then
+    echo "Error: missing $BOOTSTRAP" >&2
+    exit 1
+fi
+
+echo ""
+echo "Running harness-bootstrap..."
+CROSSR_SKILLS_PATH="$ROOT" \
+CROSSR_LOOPS_PATH="$LOOPS_TREE" \
+    "$BOOTSTRAP" "$ROOT"
+
+echo ""
+echo "Stripping GONE-listed overlay..."
+while IFS= read -r name; do
+    [[ -z "$name" ]] && continue
+    dest="$ROOT/.agents/skills/$name"
+    if [[ -e "$dest" ]]; then
+        rm -rf "$dest"
+        echo "  - .agents/skills/$name"
+    fi
+done < <(gone_names)
+
+if [[ -f "$ROOT/HARNESS-SPEC.md" ]]; then
+    rm -f "$ROOT/HARNESS-SPEC.md"
+    echo "  - HARNESS-SPEC.md"
+fi
+if [[ -f "$ROOT/scripts/status-dashboard" ]]; then
+    rm -f "$ROOT/scripts/status-dashboard"
+    echo "  - scripts/status-dashboard"
+fi
+
+# Bootstrap appends status / status-html when it copies status-dashboard.
+# Those recipes must not survive the strip — this catalog does not ship
+# the dashboard binary (GONE overlay).
+if [[ ! -f "$ROOT/scripts/status-dashboard" && -f "$ROOT/justfile" ]]; then
+    python3 - "$ROOT/justfile" <<'PY'
+from pathlib import Path
+import re, sys
+path = Path(sys.argv[1])
+text = path.read_text(encoding="utf-8")
+new, n = re.subn(
+    r"\n# Orchestration status dashboard \(in-harness UI\)\n"
+    r"status:\n    @\./scripts/status-dashboard\n\n"
+    r"status-html:\n    @\./scripts/status-dashboard --html\n",
+    "\n",
+    text,
+    count=1,
+)
+if n:
+    path.write_text(new, encoding="utf-8")
+    print("  - justfile status / status-html")
+PY
+fi
+
+echo ""
+echo "✓ regen-agents complete"
+echo "  Pins: skills=${SKILLS_TAG} loops=${LOOPS_TAG}"
+echo "  Next: just docs-verify  (must PASS on the stripped tree)"

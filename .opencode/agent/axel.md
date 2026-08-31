@@ -40,7 +40,7 @@ When asked to execute blessed backlog work:
 4. Select one ready PBI (deps complete; `pinto next` when available).
 5. Emit concise Plan with unresolved questions; stop if blocking.
 6. Move board → in-progress; decompose into smallest phases.
-7. For each phase: Generator (or `rust-team-lead`) → `reviewer-agent` → `tester-agent` → `architect-agent`; require explicit `BLESS` from each; on reject, minimal fix + full re-chain.
+7. For each phase: Generator → `reviewer-agent` → `tester-agent` → `architect-agent`; require explicit `BLESS` from each; on reject, minimal fix + full re-chain.
 8. **Decomposition mode (opt-in only):** if human/harness enabled mitchell/decomposition mode, measure phase LOC (`git diff --numstat` added+deleted) before commit; if over threshold (default 1500), halt commit, decompose+massage, recurse chunks (sequential fallback required). Never bypass intake. See `docs/plans/mitchell-decomposition-contract.html`.
 9. After phases: collect AC evidence, run disclosed verification matrix, only then board → review/done.
 10. Commit + update tracking with PBI id after each blessed phase; emit PBI Completion Record.
