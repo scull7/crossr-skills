@@ -448,7 +448,7 @@ RE-02  Cross-layer propagation uses #[from]; never inline .map_err at a call sit
       <p>Per decision #3, <code>.opencode/agent/</code> is <strong>generated output, never hand-written</strong> — the generation step lands in <code>harness-bootstrap</code>, which already copies <code>.agents/agents/</code> into target repos. Hand-writing both directories is the dual-mandate bug with a new folder name. PR 2 edits the <em>source</em> personas&rsquo; load sets (renaming them to drop the <code>rust-</code> prefix: <code>reviewer-agent</code>, <code>tester-agent</code>, <code>architect-agent</code>); consuming repos regenerate.</p>
       <p>The conductor entrypoint stops preloading writer and adversary skills. Fix <code>requires.skills</code> in <code>axel.json</code> — the graph already models per-node <code>uses.skill</code> / <code>uses.persona</code>; the bug is the flat union at graph level. Retarget <code>uses.persona</code> to the renamed personas in the same pass (<code>verify-graphs</code> gates it).</p>
       <p>This is both the load-set fix and the thing that makes &ldquo;delegate to <code>reviewer-agent</code>&rdquo; resolve to something real. <strong>Measurable on the next AXEL session.</strong> Spans loops + harness; stack like PR 1.</p>
-      <p><strong>Landed</strong> as loops <a href="https://github.com/sycamore-hq/crossr-loops/pull/5">#5</a> (2a, tag <code>v1-runtime-agents</code>) + harness <a href="https://github.com/sycamore-hq/crossr-harness/pull/4">#4</a> (2b) + this PR (2c). <code>verify-skill-refs</code> added in 2a. §7 load-set bytes landed on <code>axel-conductor-agent</code> (persona; the catalog has no <code>axel</code> skill). Parked: <code>avril.md</code> stays hand-written (no <code>avril-conductor-agent</code>); persona voice still Rust-flavored (PR 5); <code>copy_agents</code> keep-existing is a pin-move refresh window.</p>
+      <p><strong>Landed</strong> as loops <a href="https://github.com/sycamore-hq/crossr-loops/pull/5">#5</a> (2a, tag <code>v1-runtime-agents</code>) + harness <a href="https://github.com/sycamore-hq/crossr-harness/pull/4">#4</a> (2b) + skills <a href="https://github.com/sycamore-hq/crossr-skills/pull/108">#108</a> (2c). <code>verify-skill-refs</code> added in 2a. §7 load-set bytes landed on <code>axel-conductor-agent</code> (persona; the catalog has no <code>axel</code> skill). Parked: <code>avril.md</code> stays hand-written (no <code>avril-conductor-agent</code>); persona voice still Rust-flavored (PR 5); <code>copy_agents</code> keep-existing is a pin-move refresh window.</p>
     </div></div>
 
     <div class="pr"><div class="pr-id">PR 3</div><div class="pr-body">
@@ -581,7 +581,7 @@ RE-02  Cross-layer propagation uses #[from]; never inline .map_err at a call sit
   <span>·</span>
   <span>measured against the tree 2026-08-30</span>
   <span>·</span>
-  <span>status: in progress · PR 0 merged (#105) · PR 1 landed · PR 2 landed (loops #5 · harness #4 · skills 2c)</span>
+  <span>status: in progress · PR 0 merged (#105) · PR 1 landed · PR 2 landed (loops #5 · harness #4 · skills #108)</span>
 </footer>
 
 </main>

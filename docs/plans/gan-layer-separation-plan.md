@@ -1,6 +1,6 @@
 # Plan: crossr v2 — Layer Separation, Shared Ruleset, Plan-First GAN
 
-**Status:** in progress · PR 0 merged (#105) · PR 1 landed · PR 2 landed (loops [#5](https://github.com/sycamore-hq/crossr-loops/pull/5), harness [#4](https://github.com/sycamore-hq/crossr-harness/pull/4), this PR)
+**Status:** in progress · PR 0 merged (#105) · PR 1 landed · PR 2 landed (loops [#5](https://github.com/sycamore-hq/crossr-loops/pull/5), harness [#4](https://github.com/sycamore-hq/crossr-harness/pull/4), skills [#108](https://github.com/sycamore-hq/crossr-skills/pull/108))
 **Scope:** `crossr-skills`, `crossr-loops`, `crossr-harness`
 **Origin:** token-burn critique of the crossr-* agent infrastructure, verified against the trees 2026-08-30.
 
@@ -633,7 +633,7 @@ stack them like PR 1.
 
 - loops [#5](https://github.com/sycamore-hq/crossr-loops/pull/5) (2a) — personas renamed to role names; conductor load set is `axel` + `gan-verdict`; tag `v1-runtime-agents` cut on the merge commit.
 - harness [#4](https://github.com/sycamore-hq/crossr-harness/pull/4) (2b) — `harness-bootstrap` generates `.opencode/agent/` from persona sources; unmarked files are never overwritten.
-- this PR (2c) — pin bump `skills = "v1-gan-layers"` / `loops = "v1-runtime-agents"`; delete unmarked `axel.md` then regenerate; plan record.
+- skills [#108](https://github.com/sycamore-hq/crossr-skills/pull/108) (2c) — pin bump `skills = "v1-gan-layers"` / `loops = "v1-runtime-agents"`; delete unmarked `axel.md` then regenerate; plan record.
 
 **Landed note:** `verify-skill-refs` added in 2a — graphs' `uses.skill` / `requires.skills` / `uses.persona` / `uses.graph` names are mechanically checked against the catalog and this checkout.
 
