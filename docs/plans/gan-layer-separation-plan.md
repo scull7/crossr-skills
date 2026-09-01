@@ -947,7 +947,7 @@ mechanical-gate catches (each one is an LLM cycle that did not happen).
 
 ## 8. Decisions and remaining questions
 
-Questions 1–5, 10, 11, and 12 are now **decided in the body**; 1–5 and 10 were load-bearing for PR 1 and
+Questions 1–5, 10, 11 are now **decided in the body**; 1–5 and 10 were load-bearing for PR 1 and
 a plan that says "decide before PR 1" and then doesn't is not a plan.
 
 | # | Question | Decision |
