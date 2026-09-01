@@ -440,13 +440,24 @@ RENAMES (git mv, keep history):
     tester-agent.md:28     testing: BLESS | REJECT
     architect-agent.md:27  architecture: BLESS | REJECT
   Verifying and protecting those three lines is 5d's job, not 5c's.
-- Both gate cards KEEP Verification and Specialization as contract references,
+- Both gate cards CARRY Verification and Specialization as contract references,
   not in the <=2 KB card. rust-code-reviewer's Verification alone is 1,051 B of
   5,059 B. Same home as the books and as axel: references/specialization.md +
   references/verification.md. The card routes. Dropping them would make rust,
   ocaml, code-review and testing the first four catalog skills since the split
   to lose the canonical structure, and verify-docs only checks SKILL.md is
   non-empty.
+  verification.md transfers verbatim — it is already language-neutral in both
+  cards and already says "the disclosed book Rules projection when one exists".
+  specialization.md must be de-Rusted in this PR: the gate is language-neutral
+  now, so "the dedicated Rust code quality review gate card" -> "the code
+  quality review gate card", "pedantic Rust code quality review for all Rust
+  code" -> "...for the code under review", "All Rust code generation" ->
+  "All code generation". Four loci in the reviewer, three in the tester.
+  Enumerate them in the PR body — they are protected-law edits like any other.
+  This does not apply to the books: rust/references/specialization.md and
+  ocaml/references/specialization.md name their language. The neutrality grep
+  never looks at them.
 
 ARCHITECTURE (protected law — one disclosed edit; architecture/SKILL.md is 4,791 B):
 - Core Principle 2, "Violates the principles of `code-writer` + `rust-code-writer` (and
@@ -523,8 +534,9 @@ writers must not disturb either book; featured ⊆ skills). wc -c table:
 code-review, testing (both <=2 KB), architecture (4,791 B ± the CP2 line).
 
 PR BODY: mapping table old law -> book file + rule ids, line by line; every
-protected-law edit enumerated (architecture CP2, both gate-card strips, each
-domain locus, both shape-B loci, featured, README:78); stack line (merge after
+protected-law edit enumerated (architecture CP2, both gate-card strips, the
+seven specialization.md de-Rust loci, each domain locus, both shape-B loci,
+featured, README:78); stack line (merge after
 5b, cut tag v1-one-law here after pasted validation); the named consumers that break until 5d
 (loops graphs + personas at the current pin — the pin insulates them; nothing
 breaks until the pin moves, which is what the tags are for); the Claude-copy
@@ -937,6 +949,8 @@ HTML had this section and the markdown did not.)
    "drift-detectable, gated by review discipline". Decision 8.
 6. **Contract references.** `specialization.md` + `verification.md` on every book
    and both gate cards. Extractor skips them. PR 4's axel card is the exemplar.
+   Gate-card `specialization.md` is de-Rusted in 5c so the language-neutrality
+   grep stays green. Books keep their language names.
 
 Review measurements that were stale on this tree, recorded so they are not re-raised
 as blockers:
