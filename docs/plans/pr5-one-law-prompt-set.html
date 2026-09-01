@@ -135,15 +135,15 @@
 
 <section>
   <div class="sec-head"><span class="n">02</span><h2>The stack</h2></div>
-  <div class="prose"><p>Additive PRs first. Creating a book breaks no consumer, so 5a and 5b need no window, no dangling name and no coordinated tag; all breakage collapses into 5c and 5d, where the graph and the disclosure move anyway. Tag names <code>v1-one-law</code> / <code>v1-one-law-consumers</code> are the names — cut them where the stack says, on the merge commit after CI, never re-point a cut tag.</p></div>
+  <div class="prose"><p>Additive PRs first. Creating a book breaks no consumer, so 5a and 5b need no window, no dangling name and no coordinated tag; all breakage collapses into 5c and 5d, where the graph and the disclosure move anyway. Tag names <code>v1-one-law</code> / <code>v1-one-law-consumers</code> are the names — cut them where the stack says, on the merge commit after the brief&rsquo;s own pasted validation has been re-run against that commit. There is no CI (decision 8). Never re-point a cut tag.</p></div>
   <pre>5a  skills   book infrastructure + rust/ book                     ADDITIVE — deletes nothing
 5b  skills   ocaml/ book                                          ADDITIVE — genericity test
 5c  skills   gate cards, architecture CP2, two-shape retargets,
              featured/README, delete the three absorbed writers
-             → cut skills tag v1-one-law on the 5c merge commit (after CI)
+             → cut skills tag v1-one-law on the 5c merge commit
 5d  loops    pin; neutral code-gan.json + requires.book; schema +
              verifier; personas; harness-parameters Language stack
-             → cut loops tag v1-one-law-consumers on the merge commit (after CI)
+             → cut loops tag v1-one-law-consumers on the merge commit
 5e  harness  HARNESS-SPEC §6; lockfile books; smoke; measured sweep
 5f  skills   loops pin bump + just regen-agents + plan record closing PR 5
 5g  landing  (rider, any time after 5c) drop rust-team-lead + the five retired names
@@ -154,12 +154,13 @@
   <div class="sec-head"><span class="n">03</span><h2>Decisions settled before dispatch</h2></div>
   <ul>
     <li><strong>OCaml is in.</strong> Reverses the “park OCaml” recommendation. <code>ocaml-code-writer</code> (19,551 B) is absorbed in 5b. Second consequence: OCaml gains adversaries for the first time — §2.4’s <code>ocaml reviewer ✗ tester ✗ architect ✗</code> row closes the moment the gate cards go language-neutral in 5c.</li>
-    <li><strong>The graph carries no language.</strong> <code>code-gan.json</code>’s <code>generate</code> node retargets to <code>code-writer</code>, not to a book. <code>books = [...]</code> and <code>requires.book</code> are <em>not</em> mechanical until three readers exist (5d/5e): lockfile schema accepts <code>books</code>; AXEL pre-flight step 4 reads it; <code>requires.book: true</code> + empty/missing <code>books</code> is a verifier or smoke failure. Multi-book: per-PBI, or stop and ask — not first-listed. Retargeting to <code>rust</code> would force <code>code-gan-&lt;lang&gt;.json</code> forks with identical topology — the duplication PR 3 deleted <code>rust-team-lead</code> to kill.</li>
-    <li><strong>The Rules projection is <code>&lt;book&gt;/RULES.md</code>.</strong> One generated file per book: committed (bootstrap copies trees and never runs generators), drift-gated, ids fully qualified. Not under <code>references/</code> — that directory is the extractor’s input, and keeping it How-only makes “the reviewer never sees How” checkable.</li>
-    <li><strong>The contract is universal; the topic set is per book.</strong> Every reference carries <code>## Rules</code> + <code>## How</code>; ids are append-only; <code>RULES.md</code> is generated. Which topics a book has is the book’s business. Prefixes are a baseline, not a closed set — the extractor accepts unknown prefixes. Sharing <code>RE</code> = errors is nice for humans; enforcing the rust list is how OCaml monads get stuffed into <code>RF</code>.</li>
+    <li><strong>The graph carries no language.</strong> <code>code-gan.json</code>’s <code>generate</code> node retargets to <code>code-writer</code>, not to a book. <code>books = [...]</code> and <code>requires.book</code> are <em>not</em> mechanical until three readers exist (5d/5e): lockfile schema accepts <code>books</code>; AXEL pre-flight step 4 reads it; <code>requires.book: true</code> + an explicit <code>books = []</code> (or a consumer lockfile supplied via env) is a verifier or smoke failure. Absence of the <code>books</code> key on the loops self-pin is not a failure. The empty-array demo lives in the 5e smoke fixture. Multi-book: per-PBI, or stop and ask — not first-listed. Retargeting to <code>rust</code> would force <code>code-gan-&lt;lang&gt;.json</code> forks with identical topology — the duplication PR 3 deleted <code>rust-team-lead</code> to kill.</li>
+    <li><strong>The Rules projection is <code>&lt;book&gt;/RULES.md</code>.</strong> One generated file per book: committed (bootstrap copies trees and never runs generators), drift-detectable and gated by review discipline (decision 8), ids fully qualified. Not under <code>references/</code> — that directory is the extractor’s input, and keeping it How-only makes “the reviewer never sees How” checkable.</li>
+    <li><strong>The contract is universal; the topic set is per book.</strong> The contract governs <em>topic</em> references: each carries <code>## Rules</code> + <code>## How</code>; ids are append-only; <code>RULES.md</code> is generated. <code>specialization.md</code> and <code>verification.md</code> are contract references — neither heading, extractor skips them, fail-loud does not apply. Same home as the PR 4 exemplar (<code>axel/references/</code>). 19 of 21 catalog skills already carry both. Which topics a book has is the book’s business. Prefixes are a baseline, not a closed set — the extractor accepts unknown prefixes. Sharing <code>RE</code> = errors is nice for humans; enforcing the rust list is how OCaml monads get stuffed into <code>RF</code>.</li>
     <li><strong>Staged duplication is allowed and time-boxed.</strong> 5a and 5b create books while the three writers still exist. The <strong>old path stays authoritative through 5b</strong>. 5c deletes the superseded writers. 5d moves the consumer disclosure. The pin insulates consumers in between. Do not write “old path authoritative until 5d” in a 5a PR body — a 5c reviewer will treat a correct deletion as a brief violation.</li>
     <li><strong>Book membership is explicit.</strong> A book is a catalog skill directory whose <code>SKILL.md</code> frontmatter carries <code>book: true</code>. <code>extract-rules</code> selects on that marker; <code>verify-skill-refs</code> reads the same one. Not inferred from “any <code>references/</code> with a <code>## Rules</code> heading” and not inferred from “a directory containing <code>RULES.md</code>”. <code>diataxis</code> is not a book.</li>
     <li><strong>Featured set after 5c</strong> is <code>["code-writer", "rust", "code-review", "agent-harness", "skill-evaluator"]</code>. <code>verify-docs</code> asserts <code>featured ⊆ skills</code>. 5c cites this; 5e reconciles the harness must-list; 5g mirrors the landing pills. Product choice, not an agent’s call.</li>
+    <li><strong>There is no CI.</strong> Measured: loops and harness have no <code>.github/</code>; skills has one Pages-deploy workflow; this prompt-set PR reports zero check runs. Do not fold a workflow into PR 5. Tags cut after pasted validation. Every gate this stack adds is drift-detectable, gated by review discipline. Write §7 row 5 that way, not “drift-gated”.</li>
   </ul>
 </section>
 
@@ -193,9 +194,10 @@
 - Do not touch progress.md / MIGRATION history / features.json except 5f&#x27;s plan-record
   append, gan-verdict (tokens are final — §4 PR 5 parked note), or anything outside
   the declared file list. Scope creep is a REJECT.
-- Tags are immutable once cut. Cut on the merge commit after CI. Merge order is the
-  stack order. The PR body carries the stack line (what merges before, what tag is
-  cut, what comes next).
+- Tags are immutable once cut. Cut on the merge commit, after the brief&#x27;s own
+  pasted validation has been re-run against that commit. There is no CI
+  (decision 8). Merge order is the stack order. The PR body carries the stack
+  line (what merges before, what tag is cut, what comes next).
 - The Tester is starved, never deleted. The testing gate card must exist and load.</pre>
 </section>
 
@@ -219,12 +221,17 @@ the pin insulates consumers in between. Say that in the PR body — a reviewer w
 otherwise read the duplication as the regression this plan exists to cure.
 
 THE PROJECTION CONTRACT (universal; every book obeys it, now and for Elm/TS/JS):
-- Every reference file carries exactly two sections:
+- The contract governs TOPIC references. Every topic file carries exactly two
+  sections:
   ## Rules  — normative, checkable. Each rule &lt;=3 lines. A `check:` command line
               where mechanically checkable; `check:` does NOT count against the
               3-line cap (a rule + check: is 4 lines and is legal). Tag `test` on
               rules the test verifier owns.
   ## How    — examples, patterns, reasoning. Adversaries must NEVER load this.
+- Contract references (`specialization.md`, `verification.md`) carry neither
+  heading. The extractor skips them. Fail-loud does not apply to them. Same
+  home as the PR 4 exemplar (axel/references/specialization.md +
+  verification.md). 19 of 21 catalog skills already carry both sections.
 - Rule ids: bare `&lt;TOPIC&gt;-nn` in the source file, emitted fully qualified as
   `&lt;book&gt;/&lt;TOPIC&gt;-nn` in the generated projection. Append-only from birth:
   superseded, never renumbered (§3.7 logic applies to rule ids). Do not park this.
@@ -271,12 +278,25 @@ CREATE .agents/skills/rust/ with `book: true` in SKILL.md frontmatter:
                                         input trust, secrets. NOT unwrap (RE owns
                                         that). Performance is not Security; the
                                         name admits the merge.
+- references/specialization.md          — CONTRACT, not a topic. Precondition/
+                                        postcondition against code-writer.
+                                        Extractor skips it. rust-code-writer&#x27;s
+                                        Specialization is 444 B.
+- references/verification.md            — CONTRACT, not a topic. The six
+                                        &quot;directly observable and scorable&quot;
+                                        activation criteria. skill-evaluator
+                                        reads this. Extractor skips it.
+                                        rust-code-writer&#x27;s Verification is
+                                        the evaluation hook; rust-code-reviewer&#x27;s
+                                        is 1,051 B of 5,059 B.
 
   control-flow, type-system, and safety-performance-and-security are new relative
   to the plan&#x27;s six-file sketch. The sketch left rust-code-writer&#x27;s &quot;Code Style &amp;
   Structure&quot;, &quot;Type System &amp; Data&quot;, &quot;Safety &amp; Performance&quot; and &quot;Security&quot; sections
   with no honest home. Note the additions in the PR body as a disclosed refinement
-  of §3.4, not a silent expansion.
+  of §3.4, not a silent expansion. specialization.md and verification.md are not
+  new topics — they are the two canonical sections 19 of 21 catalog skills already
+  carry, homed the way PR 4&#x27;s axel card already answered.
 
 SOURCE MATERIAL (measured on main) — COPY, DO NOT DELETE. Deletion is 5c:
 - rust-code-writer/SKILL.md      7,674 B
@@ -308,9 +328,10 @@ CREATE scripts/extract-rules:
   pass). Learn from scripts/verify-docs GONE list and scripts/regen-agents
   justfile-strip guard (both exist, landed 3c / #109): silent skips manufacture
   the drift this script exists to prevent.
-- Fail LOUD on any malformed Rules block in a *selected book file* (missing id,
-  duplicate id within a book, no `## Rules` section in a book reference, a rule
-  over 3 lines excluding the optional `check:` line). Do not fail on non-book
+- Fail LOUD on any malformed Rules block in a *topic* reference of a selected
+  book (missing id, duplicate id within a book, no `## Rules` section, a rule
+  over 3 lines excluding the optional `check:` line). Skip `specialization.md`
+  and `verification.md` (no `## Rules`, not topics). Do not fail on non-book
   references/ trees.
 - Deterministic (no timestamps) and idempotent: second run byte-identical.
 - justfile: `rules-sync` + `rules-check`; add rules-check to harness-validate.
@@ -336,6 +357,11 @@ CATALOG BOOKKEEPING:
 - Grep the catalog for `rust-errors` and `rust-code-writer`; list every referrer in the
   PR body and state that all of them remain correct until 5c (the old path is still the
   live one). Nothing is dangling in this PR — that is the point of the ordering.
+- Do not write dying skill names (`rust-code-writer`, `rust-errors`,
+  `ocaml-code-writer`, `rust-code-reviewer`, `rust-code-tester`) into the new
+  book trees. Deprecation markers stay on the dying SKILL.md files (deleted in
+  5c). 5c&#x27;s `.agents/skills/` grep hits the book trees; a How note that names
+  the source skill paints a correct 5c red.
 
 VALIDATE: just harness-validate PASS including the new rules-check;
 ./scripts/extract-rules twice -&gt; git status clean; --check red/green demonstrated (edit
@@ -397,6 +423,9 @@ Distribute &quot;OCaml-Specific Anti-Patterns&quot; into the topic each belongs 
 an anti-patterns grab-bag reference — a bag with no topic has no reviewer projection.
 Do NOT restate code-writer&#x27;s Fines System (see 5a).
 Remaining Pattern Matching rules that are match-discipline (not edge parsing) go in RF.
+Add the same two contract references as 5a: references/specialization.md and
+references/verification.md. Extractor already skips them (5a). Same rule: do not
+write dying skill names into the ocaml book tree.
 
 DEPRECATION MARKER on ocaml-code-writer (superseded-by ocaml, deleted in 5c, measured
 19,551 B). Do not delete it here.
@@ -416,7 +445,7 @@ language fact rather than a contract violation.</pre>
       <div class="pr-id">5c</div>
       <div class="pr-body">
         <h3>skills · gate cards, architecture CP2, two-shape retargets, deletions</h3>
-        <p>The staging window closes. Adversary skills become language-neutral gate cards; Rust-subject skills retarget to the rust book; brick-coder and agent-harness take the disclosed book; featured and README stay consistent; the three absorbed writers are deleted. Tag <code>v1-one-law</code> is cut on the merge commit after CI. One PR, not 5c′ — retargets and deletions are atomic.</p>
+        <p>The staging window closes. Adversary skills become language-neutral gate cards; Rust-subject skills retarget to the rust book; brick-coder and agent-harness take the disclosed book; featured and README stay consistent; the three absorbed writers are deleted. Tag <code>v1-one-law</code> is cut on the merge commit after pasted validation (there is no CI). One PR, not 5c′ — retargets and deletions are atomic.</p>
         <pre>You are implementing crossr v2 PR 5c in sycamore-hq/crossr-skills, stacked on 5b
 (both books exist; the three writers are staged for deletion and frozen).
 
@@ -426,7 +455,8 @@ GOAL: the adversary skills become thin, LANGUAGE-NEUTRAL gate cards named for th
 activity (plan decision #1); every writer-stack reference retargets; the superseded
 writers are deleted; featured and README stay internally consistent. After this PR
 the catalog has ONE writer skill (code-writer) plus N books, and the tag v1-one-law
-is cut on the merge commit after CI.
+is cut on the merge commit after this brief&#x27;s pasted validation has been re-run
+against that commit (decision 8 — there is no CI).
 
 This PR stays one PR, not 5c′. Retargets and deletions are atomic — a dangling
 rust-code-writer name in a live skill is the class of bug verify-skill-refs exists
@@ -452,9 +482,22 @@ RENAMES (git mv, keep history):
   says &quot;rules tagged `test` in the disclosed book&#x27;s Rules projection&quot;.
   rust-code-tester:35 still delegates fixes to `rust-code-writer`. That locus dies
   here. Point it at the generator (`code-writer`), not a book.
-- The verdict gate names in gan-verdict and the response contracts are ALREADY
-  code-review: / testing: / architecture: (PR 1a decision) — verify with grep, change
-  nothing there.
+- gan-verdict/SKILL.md is generic: `&lt;gate&gt;: BLESS | REJECT` (e.g. `architecture:
+  BLESS`). It does not carry the literal `code-review:` / `testing:` strings.
+  Do not edit it (tokens are final — §4 PR 5 parked note; also in the guardrails).
+  A 5c grep of this repo cannot verify the gate names — they live in the
+  crossr-loops personas, which this PR cannot see:
+    reviewer-agent.md:27   code-review: BLESS | REJECT
+    tester-agent.md:28     testing: BLESS | REJECT
+    architect-agent.md:27  architecture: BLESS | REJECT
+  Verifying and protecting those three lines is 5d&#x27;s job, not 5c&#x27;s.
+- Both gate cards KEEP Verification and Specialization as contract references,
+  not in the &lt;=2 KB card. rust-code-reviewer&#x27;s Verification alone is 1,051 B of
+  5,059 B. Same home as the books and as axel: references/specialization.md +
+  references/verification.md. The card routes. Dropping them would make rust,
+  ocaml, code-review and testing the first four catalog skills since the split
+  to lose the canonical structure, and verify-docs only checks SKILL.md is
+  non-empty.
 
 ARCHITECTURE (protected law — one disclosed edit; architecture/SKILL.md is 4,791 B):
 - Core Principle 2, &quot;Violates the principles of `code-writer` + `rust-code-writer` (and
@@ -533,7 +576,7 @@ code-review, testing (both &lt;=2 KB), architecture (4,791 B ± the CP2 line).
 PR BODY: mapping table old law -&gt; book file + rule ids, line by line; every
 protected-law edit enumerated (architecture CP2, both gate-card strips, each
 domain locus, both shape-B loci, featured, README:78); stack line (merge after
-5b, cut tag v1-one-law here after CI); the named consumers that break until 5d
+5b, cut tag v1-one-law here after pasted validation); the named consumers that break until 5d
 (loops graphs + personas at the current pin — the pin insulates them; nothing
 breaks until the pin moves, which is what the tags are for); the Claude-copy
 note (FOREIGN, left alone).</pre>
@@ -556,6 +599,9 @@ delta skills / shape B&quot;. Do not write &quot;decision #2&quot; without the q
 with the plan open will load the wrong #2.)
 
 - lockfile.toml: skills = &quot;v1-one-law&quot; (the loops self-pin line: leave as is).
+  README.md:9 writes the same skills pin today (`skills = &quot;v1-gan-layers&quot;`).
+  Update it here. A pin written in two places that only one brief moves is
+  the same single-authority bug decision 2 killed for the language.
 
 - graphs/code-gan.json (the 3a park, recorded in the plan):
     generate  node uses.skill: rust-code-writer   -&gt; code-writer
@@ -582,9 +628,14 @@ with the plan open will load the wrong #2.)
      property of file contents. The day architecture grows a references/ file with
      a ## Rules heading, the old definition would fail code-gan.json with a
      monoculture error for an unrelated change.
-  2. If a graph declares requires.book: true and the consumer lockfile&#x27;s `books`
-     array is missing or empty, FAIL. This is reader (iii) of prompt-set decision 2.
-     Graph-shape alone does not fail a session that disclosed no book.
+  2. If a graph declares requires.book: true AND a consumer lockfile (supplied
+     via env, not the loops self-pin) has an explicit `books = []`, FAIL. Absence
+     of the `books` key is not a failure. This is reader (iii) of prompt-set
+     decision 2. The loops self-pin is `skills` + `loops = &quot;v0&quot;` only and must
+     not grow a `books` key. The empty-array demo lives in the 5e smoke fixture
+     (`requires.book: true + books = []`), not in `just verify-skill-refs`
+     against loops&#x27; own lockfile. Graph-shape alone does not fail a session
+     that disclosed no book.
   3. Resolve persona Required Skills lines against the catalog. Today verify-skill-refs
      checks graphs only — nothing mechanical catches a stale persona requirement, which
      is why this brief has to enumerate them by hand below.
@@ -605,6 +656,16 @@ with the plan open will load the wrong #2.)
      (RC, 5a already placed them). The persona keeps the $100 / $100,000 *shape*
      without the Rust token. If the gauntlet greps `Rust` in .agents/agents/, these
      have to move or the grep is theatre.
+  3. DON&#x27;T TOUCH the verdict-format lines. They sit two lines from the
+     Rust-flavoured role line this brief de-Rusts:
+       reviewer-agent.md:27  **Verdict format** (per gan-verdict): code-review: BLESS | REJECT
+       tester-agent.md:28    **Verdict format** (per gan-verdict): testing: BLESS | REJECT
+       architect-agent.md:27 **Verdict format** (per gan-verdict): architecture: BLESS | REJECT
+     verify-protocol checks that personas declare BLESS/REJECT verbatim and
+     carry no retired tokens. It never checks the gate-name prefix. Clipping
+     `code-review:` would leave validation green and break the verdict
+     protocol. Protect those three lines. gan-verdict itself is generic
+     (`&lt;gate&gt;: BLESS | REJECT`) and is not in this repo.
 
 - .agents/skills/axel/references/harness-parameters.md §&quot;Language stack (stratified)&quot; —
   THE DISCLOSURE AUTHORITY, and the file v1 of this prompt set never named. Its &quot;Rust
@@ -642,8 +703,11 @@ with the plan open will load the wrong #2.)
 VALIDATE: graphs-verify, verify-protocol and verify-skill-refs all PASS with
 CROSSR_SKILLS_PATH pointed at a v1-one-law checkout; paste the output, including a
 demonstration that the new requires.book rule fails when you temporarily point a node at
-a book AND when books is empty. Cut tag v1-one-law-consumers on the merge commit after
-CI (stack line in the body).</pre>
+a book. Do NOT demo &quot;when books is empty&quot; against the loops checkout — that is
+unsatisfiable without poisoning the self-pin. Empty-books is the 5e smoke fixture.
+The three verdict-format lines above are unchanged. Cut tag v1-one-law-consumers
+on the merge commit after this brief&#x27;s pasted validation has been re-run against
+that commit (decision 8 — there is no CI; stack line in the body).</pre>
       </div>
     </div>
     <div class="pr">
@@ -659,6 +723,8 @@ and state peeled SHAs.
 
 - lockfile.toml + lockfile.toml.example: skills = &quot;v1-one-law&quot;,
   loops = &quot;v1-one-law-consumers&quot;. Example comment updated.
+  README.md writes the same pins today (lines 7, 20, 29-30). Update those
+  three loci here. Same single-authority rule as 5f.
 
 - NEW: the per-project book declaration. Add to lockfile.toml.example, with a comment:
       books = [&quot;rust&quot;]     # disclosed language books; [&quot;ocaml&quot;], [&quot;rust&quot;, &quot;ts&quot;], ...
@@ -670,9 +736,10 @@ and state peeled SHAs.
   This is reader (i) of prompt-set decision 2 — lockfile schema accepts `books`.
   Do not call the declaration &quot;mechanical&quot; in the spec until you have also:
     * accepted the key in whatever parses lockfile.toml
-    * wired the 5d pre-flight / verify-skill-refs empty-books failure (already
-      briefed; cite it)
-    * added a smoke (or verify) failure for requires.book: true + books == []
+    * wired AXEL pre-flight step 4 (5d reader ii; already briefed)
+    * added a smoke failure for requires.book: true + books == []
+      (reader iii — this fixture is the home; 5d verify-skill-refs does
+      not fail the loops self-pin for a missing books key)
   Multi-book selection (state it in the spec, do not leave it implicit): when
   more than one book is listed, the session discloses which applies per PBI;
   if unspecified, stop and ask; do not default to first-listed.
@@ -740,6 +807,18 @@ as higher law than this brief.
 
 - lockfile.toml: loops = &quot;v1-one-law-consumers&quot;.
   Starting pin is v1-cards (measured; landed #110 / 4b). This is a one-tag bump.
+  The same pin is written in three more places that agree with lockfile.toml
+  today. Update all four or the stack desynchronizes four currently-consistent
+  statements of the same fact (the single-authority bug decision 2 killed
+  for the language):
+      lockfile.toml          loops  = &quot;v1-cards&quot;          (authority)
+      AGENTS.md:53           Consumer pins: ... loops = &quot;v1-cards&quot;
+                             ...and are in the `v1-cards` pin
+      README.md:24           Current pins: ... loops = &quot;v1-cards&quot;
+      README.md:26           Topology ... is in the `v1-cards` pin
+  lockfile.toml is the pin. The other three are documentation of it. They
+  move in this PR because a second authority for the pin is already in the
+  tree.
 
 - Deleted/stale check first, then just regen-agents. This target EXISTS — it
   landed in 3c (skills#109): scripts/regen-agents + the justfile recipe. It is
@@ -767,7 +846,8 @@ as higher law than this brief.
   - §7 row 5, replace the unsatisfiable &quot;one writer skill remains (code-writer)&quot; with:
       &quot;One universal writer skill (code-writer) plus one book per language. Zero
        &lt;lang&gt;-code-writer skills remain — rust-code-writer, rust-errors and
-       ocaml-code-writer absorbed. Rules projections generated per book and drift-gated;
+       ocaml-code-writer absorbed. Rules projections generated per book and
+       drift-detectable, gated by review discipline (decision 8);
        gate cards &lt;=2 KB and book-agnostic; the code-gan graph names no language.&quot;
     Record the measured results: N rules per book with stable ids, gate-card bytes,
     reviewer load set (gate card + RULES.md) against the pre-PR reviewer skill at 5,059 B.
@@ -781,7 +861,9 @@ as higher law than this brief.
   - Add the decisions this stack settled that the plan did not previously contain:
     the projection contract vs. per-book topic sets; &lt;book&gt;/RULES.md placement;
     requires.book; the lockfile `books` declaration; book: true frontmatter;
-    featured set (decision 7); open prefix registry; check: excluded from the 3-line cap.
+    featured set (decision 7); open prefix registry; check: excluded from the 3-line cap;
+    contract vs topic references (specialization.md / verification.md); no CI /
+    drift-detectable (decision 8).
   - Discharge the parked items this stack closed: architecture CP2 (1a), code-gan.json
     (3a), HARNESS-SPEC §6 (3b), persona voice (2a), the harness half of the featured-set
     item (5e). Mark the landing half (5g) as the only remaining piece if it has not
@@ -793,7 +875,7 @@ as higher law than this brief.
     demonstrated, only unblocked.
 - progress.md + features.json entries per house style. In scope here.
 - VALIDATE: just harness-validate PASS (including rules-check). .opencode/ grep above
-  is green.</pre>
+  is green. All four pin loci read `v1-one-law-consumers`.</pre>
       </div>
     </div>
     <div class="pr">
@@ -837,14 +919,14 @@ the landing copy together&quot;).
   <div class="prose"><p>What each PR is checked against when it comes back.</p></div>
   <div class="scroll"><table>
     <thead><tr><th>PR</th><th>Checked</th></tr></thead><tbody>
-      <tr><td class="mono">5a</td><td>Extractor run twice, byte-identical; <code>--check</code> demonstrated red <em>and</em> green <em>and</em> disappeared-id; every rule id unique and ≤3 lines (<code>check:</code> excluded); no <code>code-writer</code> / Fines photocopy; <code>RULES.md</code> outside <code>references/</code>; nothing deleted; <code>book: true</code> on rust; extractor ignores <code>diataxis</code>; RD / RF / RS-rename disclosed as a §3.4 refinement; rust card is ~2 KB, not a 6 KB axel photocopy.</td></tr>
-      <tr><td class="mono">5b</td><td><code>git diff --stat</code> proves zero lines of <code>scripts/extract-rules</code> — the PR’s entire point; OCaml topic set justified per topic; <code>RM</code> is its own file, not stuffed into <code>RF</code>; no anti-patterns grab-bag; ids namespaced <code>ocaml/</code>; <code>book: true</code> on ocaml.</td></tr>
-      <tr><td class="mono">5c</td><td>Mapping table verified line by line; gate cards ≤2 KB measured <em>and</em> <code>grep -rniE '\b(rust|ocaml)\b'</code>-clean; CP2 the only architecture edit; all three writers gone; featured is decision 7; README:78 retargeted; empty Rust Core / OCaml Core categories gone; shape B uses the disclosed book; <code>.opencode/</code> not in the grep; Claude-copy note in the body.</td></tr>
-      <tr><td class="mono">5d</td><td><code>code-gan.json</code> names no language; <code>requires.book</code> in the schema <em>and</em> enforced (names-a-book AND empty-books), both failures demonstrated; book-ness is <code>book: true</code>; voice grep for “Rust” in <code>.agents/agents/</code> actually clean (mandate, personality, clippy); brick personas say disclosed book, not rust; <code>harness-parameters.md</code> rewritten; repo-wide grep pasted.</td></tr>
-      <tr><td class="mono">5e</td><td>Smoke run locally with the absence assertions failing on a pre-5c tree; conductor window still 7,121; books present with committed <code>RULES.md</code>; empty-books fixture fails; <code>verify-docs</code> decision argued; <code>AGENTS.md</code> and <code>templates/harness/AGENTS.md.template</code> retargeted (measured list, not chief-of-staff / dashboard-prompt).</td></tr>
-      <tr><td class="mono">5f</td><td>Double regen clean; <code>.opencode/</code> dying-name grep zero; plan twins consistent; §7 row 5 and §2.4 both updated; every park discharged or re-parked with a home; the OCaml reversal recorded with its evidence; <code>progress.md</code> + <code>features.json</code> appended.</td></tr>
+      <tr><td class="mono">5a</td><td>Extractor run twice, byte-identical; <code>--check</code> demonstrated red <em>and</em> green <em>and</em> disappeared-id; every rule id unique and ≤3 lines (<code>check:</code> excluded); no <code>code-writer</code> / Fines photocopy; <code>RULES.md</code> outside <code>references/</code>; nothing deleted; <code>book: true</code> on rust; extractor ignores <code>diataxis</code>; RD / RF / RS-rename disclosed as a §3.4 refinement; rust card is ~2 KB, not a 6 KB axel photocopy; <code>specialization.md</code> + <code>verification.md</code> exist as contract refs (extractor skips them); no dying names in the rust book tree.</td></tr>
+      <tr><td class="mono">5b</td><td><code>git diff --stat</code> proves zero lines of <code>scripts/extract-rules</code> — the PR’s entire point; OCaml topic set justified per topic; <code>RM</code> is its own file, not stuffed into <code>RF</code>; no anti-patterns grab-bag; ids namespaced <code>ocaml/</code>; <code>book: true</code> on ocaml; <code>specialization.md</code> + <code>verification.md</code> present; no dying names in the ocaml book tree.</td></tr>
+      <tr><td class="mono">5c</td><td>Mapping table verified line by line; gate cards ≤2 KB measured <em>and</em> <code>grep -rniE '\b(rust|ocaml)\b'</code>-clean; CP2 the only architecture edit; all three writers gone; featured is decision 7; README:78 retargeted; empty Rust Core / OCaml Core categories gone; shape B uses the disclosed book; <code>.opencode/</code> not in the grep; Claude-copy note in the body; <code>gan-verdict</code> untouched; both gate cards ship <code>references/specialization.md</code> + <code>verification.md</code>.</td></tr>
+      <tr><td class="mono">5d</td><td><code>code-gan.json</code> names no language; <code>requires.book</code> in the schema <em>and</em> enforced (names-a-book demonstrated; empty-books is the 5e fixture, not a fail against the loops self-pin); book-ness is <code>book: true</code>; voice grep for “Rust” in <code>.agents/agents/</code> actually clean (mandate, personality, clippy) <em>and</em> the three verdict-format lines still carry <code>code-review:</code> / <code>testing:</code> / <code>architecture:</code>; brick personas say disclosed book, not rust; <code>harness-parameters.md</code> rewritten; repo-wide grep pasted; README.md:9 pin moved with lockfile.toml.</td></tr>
+      <tr><td class="mono">5e</td><td>Smoke run locally with the absence assertions failing on a pre-5c tree; conductor window still 7,121; books present with committed <code>RULES.md</code>; empty-books fixture fails (reader iii home); <code>verify-docs</code> decision argued; <code>AGENTS.md</code> and <code>templates/harness/AGENTS.md.template</code> retargeted (measured list, not chief-of-staff / dashboard-prompt); README pin loci moved with lockfile.toml.</td></tr>
+      <tr><td class="mono">5f</td><td>Double regen clean; <code>.opencode/</code> dying-name grep zero; plan twins consistent; §7 row 5 and §2.4 both updated; every park discharged or re-parked with a home; the OCaml reversal recorded with its evidence; <code>progress.md</code> + <code>features.json</code> appended; all four pin loci read <code>v1-one-law-consumers</code>; §7 row 5 says drift-detectable.</td></tr>
       <tr><td class="mono">5g</td><td><code>:222</code> and <code>:230</code> both retargeted; featured pills match decision 7.</td></tr>
-      <tr><td class="mono">all</td><td>No delta skills, no hand-copied Rules, no book name in a graph / gate card / persona, tags cut where the stack says (after CI).</td></tr>
+      <tr><td class="mono">all</td><td>No delta skills, no hand-copied Rules, no book name in a graph / gate card / persona, tags cut where the stack says (after pasted validation; no CI).</td></tr>
     </tbody></table></div>
 </section>
 
@@ -852,15 +934,19 @@ the landing copy together&quot;).
   <div class="sec-head"><span class="n">07</span><h2>Left to the human</h2></div>
   <div class="prose"><p>Answers recorded on the lines they belong to; repeated here so the twins agree. There is no generator for this twin. Both files are hand-maintained and must agree. (The PR body that claimed the HTML was generated from the markdown was false — the HTML had this section and the markdown did not.)</p></div>
   <ul>
-    <li><strong><code>books = [...]</code> in 5e.</strong> Keep it. Do not park to PR 6. Do not call it mechanical until the three readers in prompt-set decision 2 exist (schema + pre-flight + empty-books verifier/smoke). Multi-book: per-PBI, or stop and ask. Not first-listed.</li>
-    <li><strong>Tag names.</strong> <code>v1-one-law</code> / <code>v1-one-law-consumers</code>. Keep them. Cut on the merge commit after CI. Never re-point.</li>
+    <li><strong><code>books = [...]</code> in 5e.</strong> Keep it. Do not park to PR 6. Do not call it mechanical until the three readers in prompt-set decision 2 exist (schema + pre-flight + empty-books smoke fixture). Absence of <code>books</code> on the loops self-pin is not a failure. Multi-book: per-PBI, or stop and ask. Not first-listed.</li>
+    <li><strong>Tag names.</strong> <code>v1-one-law</code> / <code>v1-one-law-consumers</code>. Keep them. Cut on the merge commit after the brief’s own pasted validation has been re-run against that commit. There is no CI (decision 8). Never re-point.</li>
     <li><strong>5c size.</strong> Keep as one PR. Retargets and deletions are atomic. The two retarget shapes (Rust-subject vs disclosed-book) are separate instruction blocks, not a 5c′ PR. Splitting 5c′ <em>after</em> deletions leaves dangling <code>rust-code-writer</code> names in live skills; splitting it <em>before</em> deletions makes the 5c acceptance grep unsatisfiable. brick-coder and agent-harness stay language-clean.</li>
     <li><strong>Rule id scheme.</strong> Keep bare <code>&lt;TOPIC&gt;-nn</code> in source, <code>&lt;book&gt;/&lt;TOPIC&gt;-nn</code> in the projection, append-only from birth. Do not park. Do not enforce the prefix list as a closed set. Registry is the rust book card + <code>docs/book-topics.md</code>. Extractor accepts unknown prefixes. <code>check:</code> does not count against the 3-line cap. <code>--check</code> fails on disappeared ids.</li>
+    <li><strong>No CI, no workflow in PR 5.</strong> Tags cut after pasted validation. §7 row 5 is “drift-detectable, gated by review discipline”. Decision 8.</li>
+    <li><strong>Contract references.</strong> <code>specialization.md</code> + <code>verification.md</code> on every book and both gate cards. Extractor skips them. PR 4’s axel card is the exemplar.</li>
   </ul>
   <div class="prose"><p>Review measurements that were stale on this tree, recorded so they are not re-raised as blockers:</p></div>
   <ul>
     <li><code>just regen-agents</code> / <code>scripts/regen-agents</code> exist (landed 3c, skills#109). 5f runs the existing target; it does not invent one.</li>
     <li>This catalog’s loops pin is <code>v1-cards</code> (landed #110 / 4b), not <code>v1-runtime-agents</code>. 5f is a one-tag bump.</li>
+    <li>There is no CI. loops and harness have no <code>.github/</code>; skills has one Pages-deploy workflow; this PR reports zero check runs. “After CI” was asserted without measuring.</li>
+    <li><code>gan-verdict/SKILL.md</code> is generic (<code>&lt;gate&gt;:</code>). Literal gate names live in the loops personas at reviewer-agent.md:27, tester-agent.md:28, architect-agent.md:27.</li>
   </ul>
 </section>
 
