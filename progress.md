@@ -761,3 +761,14 @@ Installed two GitHub review-loop skills into the catalog, verbatim from their so
 - Allowlist + README table follow (21 skills). Category `Quality`.
 - `scripts/sync-claude-skills` now copies the whole skill directory (`SKILL.md` plus `references/`), so the Claude compatibility copy of `github-pr-fix` carries its reference files. Drift check is `diff -rq` over the directory; a replaced copy is backed up whole and stale files in it are removed.
 - Not run: skill GAN (evaluator → remediator → reviewer). Both skills are generic, zero harness references, but carry no Verification / Specialization sections yet. Repository-agnostic rewrite is planned for later PRs.
+
+### github-pr-skills — gh-pr-02 (COMPLETED)
+
+`github-pr-review` revised from a skill-creator eval loop run against PR #115 (three evals: fresh review, re-review of own threads, dry run; each run with the revised skill and the gh-pr-01 snapshot as baseline; six graded runs).
+
+- `references/github.md` now documents the GitHub MCP surface that actually exists (`pull_request_review_write` methods, `add_comment_to_pending_review`, `add_reply_to_pull_request_comment`, `pull_request_read` methods) alongside `gh`, a no-`gh` checkout path (`git worktree`), that `submit_pending` returns no review id, and that replies create empty review shells and collide with a pending review.
+- `SKILL.md`: re-fetch the thread inventory immediately before submit (a concurrent review produced one duplicate thread in eval-1); out-of-diff anchoring rule; "run the whole story" verification rule (the baseline posted an overstated finding); probe the states the PR body does not list; root-sandbox reproductions; author-as-reviewer event rule (GitHub rejects self-APPROVE); re-review ordering (replies and unresolves before the pending review), sibling-session and untouched-thread branches; post-submit recovery for a wrong own thread; report allows two trailing lines and a prior-threads table.
+- `scripts/validate_review.py`: `q` may omit `Suggested fix`; `--self-review` accepts a zero-finding COMMENT and rejects APPROVE.
+- `evals/evals.json`: three evals with 31 assertions, revised from grader feedback (format split from content, correctness of "reproduced" claims, cross-run duplicates, `verification.log`).
+- Iteration-1 benchmark: revised 93% vs snapshot 89% assertion pass rate; every revised-skill failure was environmental (tool names, stale inventory). Recall gap noted: the snapshot found two real sync-script defects the revised skill missed; addressed in the verification section, to be re-measured.
+- Not run: skill GAN (evaluator → remediator → reviewer); `just` is not installed here, `./scripts/verify-docs` PASS.
