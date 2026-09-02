@@ -751,3 +751,13 @@ Pin bump + `just regen-agents` + plan record after 4a landed. Per [`docs/plans/g
 - Plan + HTML: PR 4 marked landed (loops [#7](https://github.com/sycamore-hq/crossr-loops/pull/7), skills [#110](https://github.com/sycamore-hq/crossr-skills/pull/110)). §7 row corrected: `axel` 5,989 / irreducible 5,443 (second restatement; 3KB would exile gates). Conductor dual-mandate (§2.5) fully discharged. Writer-stack window closed on the cards and on loops book/command; this catalog's unmarked `.opencode/command/{axel,avril}.md` still teach `code-writer` (decorative). AVRIL dual-source closed. Dashboard home blessed as the parameterized pair. Harness pin still `v1-no-rtl` (owed).
 - Conductor window: 7,121 bytes (`axel` 5,989 + `gan-verdict` 1,132).
 - Stack: loops [#7](https://github.com/sycamore-hq/crossr-loops/pull/7) → [#110](https://github.com/sycamore-hq/crossr-skills/pull/110).
+
+### github-pr-skills — gh-pr-01 (COMPLETED)
+
+Installed two GitHub review-loop skills into the catalog, verbatim from their source.
+
+- `github-pr-review`: inline-only review comments with the `<blocker|should-fix|nit|q> [<cluster>]` first line, `Done when` conditions, cluster anchors, and the APPROVE / REQUEST_CHANGES / COMMENT rule.
+- `github-pr-fix`: reads open threads, applies `blocker` + `should-fix` on the PR head, replies on each thread, resolves only where `Done when` holds on HEAD. Ships `references/github.md` (thread protocol, id spaces) and `references/examples.md` (reply shapes).
+- Allowlist + README table follow (21 skills). New category `GitHub`.
+- Not run: skill GAN (evaluator → remediator → reviewer). Both skills are generic, zero harness references, but carry no Verification / Specialization sections yet.
+- Known gap: `scripts/sync-claude-skills` copies `SKILL.md` only, so the Claude compatibility copy of `github-pr-fix` lacks `references/`. Same gap already applies to `diataxis`. Follow-on, not this PR.

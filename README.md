@@ -37,7 +37,7 @@ New projects: bootstrap from [sycamore-hq/crossr-harness](https://github.com/syc
 
 All skills are designed with the same standards applied to production Rust code: functional purity, stratified design, zero technical debt, and handover-clean artifacts.
 
-Public catalog SSOT: [`docs/public-skills.json`](docs/public-skills.json) (19 skills). Names below must match that file.
+Public catalog SSOT: [`docs/public-skills.json`](docs/public-skills.json) (21 skills). Names below must match that file.
 
 | Skill                  | Purpose                                              | Category      |
 |------------------------|------------------------------------------------------|---------------|
@@ -60,6 +60,8 @@ Public catalog SSOT: [`docs/public-skills.json`](docs/public-skills.json) (19 sk
 | `voice-dna`            | CrossR sharp-human writing voice with full unslop pattern list | Writing       |
 | `unslop`               | Voice-agnostic pass that strips AI tells from prose  | Writing       |
 | `gan-verdict`          | GAN verdict tokens and report envelope schema        | Protocol      |
+| `github-pr-review`     | Structured inline PR review: severity grammar, clusters, Done-when conditions | GitHub        |
+| `github-pr-fix`        | Apply PR review threads, push to the PR head, reply and resolve only what holds | GitHub        |
 
 **Not in the public catalog:** `obsidian-cli`, `diataxis` (deferred), empty `diataxis-*` stubs — see `out` in `docs/public-skills.json`.
 
