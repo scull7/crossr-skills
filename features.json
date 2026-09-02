@@ -855,5 +855,15 @@
         "status": "completed"
       }
     ]
+  },
+  "github-pr-skills": {
+    "status": "completed",
+    "commits": [
+      {
+        "id": "gh-pr-01",
+        "title": "Install github-pr-review + github-pr-fix into the catalog (allowlist, README, tracking)",
+        "status": "completed"
+      }
+    ]
   }
 }
