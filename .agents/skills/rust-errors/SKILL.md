@@ -7,6 +7,8 @@ description: |
   Fully portable across agentskills.io environments and models. Always activate together with `code-writer` and `rust-code-writer`.
 ---
 
+> **DEPRECATED.** Superseded by `.agents/skills/rust/`. Deleted in PR 5c. Measured at absorb: 5470 bytes (`wc -c`). Frozen — do not edit.
+
 # Rust Errors Skill
 
 **You are now acting as a senior Rust error-handling architect with obsessive attention to layered boundaries, conversion hygiene, and pedantic diagnostic power.**

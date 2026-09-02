@@ -9,7 +9,13 @@
     {
       "name": "rust-code-writer",
       "category": "Rust Core",
-      "purpose": "Idiomatic, pure, stratified, flat-combinator Rust"
+      "purpose": "Idiomatic, pure, stratified, flat-combinator Rust",
+      "status": "superseded-by: rust"
+    },
+    {
+      "name": "rust",
+      "category": "Rust Book",
+      "purpose": "Rust language book: situational Rules + How, generated RULES.md"
     },
     {
       "name": "ocaml-code-writer",
@@ -49,7 +55,8 @@
     {
       "name": "rust-errors",
       "category": "Backend",
-      "purpose": "Layered thiserror handling (no anyhow)"
+      "purpose": "Layered thiserror handling (no anyhow)",
+      "status": "superseded-by: rust"
     },
     {
       "name": "agent-harness",
