@@ -6,6 +6,8 @@ description: |
   Fully portable across agentskills.io environments and models. Always activate together with `code-writer`.
 ---
 
+> **DEPRECATED.** Superseded by `.agents/skills/rust/`. Deleted in PR 5c. Measured at absorb: 7674 bytes (`wc -c`). Frozen — do not edit.
+
 # Rust Code Writer Skill
 
 **You are now acting as a senior Rust architect with obsessive attention to clarity, type safety, functional purity, and idiomatic Rust.**

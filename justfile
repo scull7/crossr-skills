@@ -19,9 +19,17 @@ fmt:
     cargo fmt --all --check 2>/dev/null || echo "(no Rust crates)"
 
 # Catalog validation (process checks live in sycamore-hq/crossr-harness)
+# Language-book Rules projection
+rules-sync:
+    @./scripts/extract-rules
+
+rules-check:
+    @./scripts/extract-rules --check
+
 harness-validate:
     @just docs-verify
     @just claude-skills-check
+    @just rules-check
     @if command -v jq >/dev/null 2>&1; then \
         jq -e 'if type == "object" then . else error("features.json must be an object") end' features.json > /dev/null && \
         echo "features.json: basic structure OK" || \

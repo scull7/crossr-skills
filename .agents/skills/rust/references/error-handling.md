@@ -1,0 +1,55 @@
+# Error handling
+
+SOLE OWNER of unwrap. Other topics do not restate it.
+
+## Rules
+
+RE-01  Every layer defines its own error enum via thiserror. Never `anyhow`.
+       check: rg 'anyhow' --glob '*.rs' → 0
+
+RE-02  Cross-layer propagation uses `#[from]` / `From`; never inline `.map_err` at a call site.
+       check: rg '\.map_err\(' src/ --glob '!adapters/**' → 0
+
+RE-03  Never `.unwrap()` in production paths.
+       check: rg '\.unwrap\(' src/ --glob '!**/tests/**' → 0
+
+RE-04  `.expect()` only for documented invariants, with an explanatory comment.
+
+RE-05  Fallible operations return `Result<T, E>`. Propagate with `?`.
+
+RE-06  A `.map_err` at a call site means a `From` impl is missing — add the impl, never the patch.
+
+RE-07  The public API boundary converts domain errors into the gateway type via `From`.
+
+## How
+
+One enum per layer. Conversions live on the type, once.
+
+```rust
+#[derive(thiserror::Error, Debug)]
+pub enum QueryError {
+    #[error("row not found")]
+    NotFound,
+    #[error(transparent)]
+    Sql(#[from] rusqlite::Error),
+}
+
+#[derive(thiserror::Error, Debug)]
+pub enum GatewayError {
+    #[error("query failed: {0}")]
+    Query(#[from] QueryError),
+}
+
+fn get_user(id: u64) -> Result<User, GatewayError> {
+    let row = repo.find(id)?; // QueryError → GatewayError via From
+    Ok(row.into())
+}
+```
+
+Bad — the same mapping, pasted:
+
+```rust
+repo.find(id).map_err(|e| GatewayError::Query(e.into()))?;
+```
+
+`anyhow` is forbidden. Inline wrapping is a design smell, not a style preference.
