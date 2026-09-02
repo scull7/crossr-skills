@@ -90,7 +90,9 @@ finding becomes a comment:
 - **Run the whole story you are about to tell.** If the comment says "and it
   never recovers", run the recovery step too. A finding that reproduces the
   first half and extrapolates the second is the most convincing kind of wrong:
-  it comes with evidence.
+  it comes with evidence. Start each reproduction from a fresh scratch state;
+  a target left over from the previous one silently changes which branch of
+  the code runs.
 - **Claims about callers** ("nothing handles the new variant", "this breaks
   `foo`'s contract"): grep for them. Name the file you found in the comment.
 - **Claims about tests** ("untested"): look for the test, including in files the
@@ -168,7 +170,8 @@ stale, a caller two functions down, a range in the same file outside any hunk.
 GitHub will not anchor a comment there. Anchor on the changed line that causes
 the problem — the header that now contradicts the doc, the signature the
 caller breaks on — and put the real location (`path:line`) in the Issue line so
-the fixer knows where to go. Do not drop the finding because the anchor is
+the fixer knows where to go. In the chat report, write the anchor followed by
+the real location in parentheses: `scripts/sync:7 (real: AGENTS.md:56)`. Do not drop the finding because the anchor is
 imperfect, and do not move it to the conversation tab where nothing can resolve
 it.
 
@@ -265,6 +268,12 @@ Threads opened by other reviewers are context. Do not resolve them, do not
 re-post their findings under your severity grammar, and do not pile a second
 comment onto their thread unless you have evidence they lack.
 
+If HEAD is the commit your last review was on, there is no incremental diff.
+A pass is still worth doing when the user asks for one: re-check each open
+thread's `Done when` (pushes are not the only way things change — replies,
+resolves, and your own earlier mistakes are), and post only what is genuinely
+new. Nothing new is a valid answer; say so in the report and post nothing.
+
 If the pass you are about to post is already on GitHub — a sibling session on
 the same account got there first with the same verdicts — verify its work as
 you would your own and stop. Two identical reviews are noise; a review that
@@ -334,7 +343,9 @@ Review: <REQUEST_CHANGES|COMMENT|APPROVE> — <PR url>
 Under the table, at most two short lines: one for what you ran (checks,
 reproductions, the commit you ran them on) and one for anything a human needs
 to decide — a check you could not run, a `q` that gates a finding, a thread
-from a prior review you unresolved. On a re-review, add a `Prior threads`
+from a prior review you unresolved. When the user asked a question ("is this
+safe to merge?"), the second line is the answer, stated as yes or no and tied
+to whether a blocker exists. On a re-review, add a `Prior threads`
 table with the same columns plus `Status` and `Action`. On a zero-finding
 review, the findings table is replaced by the one sentence you put in the
 review body. When the user asked for no post, the first line says `(drafted,
