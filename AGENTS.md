@@ -53,7 +53,7 @@ Run the appropriate commands before declaring work complete.
 - `lockfile.toml` — Consumer pins: `skills = "v1-gan-layers"`, `loops = "v1-cards"`. Not a third tracker. Graphs live in `crossr-loops/graphs/` and are in the `v1-cards` pin. Topology only — if a graph and a conductor `SKILL.md` disagree, the skill wins.
 - `.opencode/agent/` — generated from `.agents/agents/` at bootstrap when a persona source exists (GENERATED marker; do not hand-edit). `avril.md` is generated from `avril-conductor-agent`. `status.md` is the only hand-written entrypoint.
 - `features.json` + `progress.md` — Machine + human tracking of work (phase → commits → features model).
-- `scripts/sync-claude-skills` — Catalog compatibility copies. Canonical source is always `.agents/skills/<name>/SKILL.md`.
+- `scripts/sync-claude-skills` — Catalog compatibility copies. Canonical source is always `.agents/skills/<name>/` (the whole directory: `SKILL.md` plus `references/`).
 - `scripts/verify-docs` — Catalog gate.
 
 **Do not add** orchestration skills here: `avril`, `axel`, `brick` conductor, `rust-team-lead`, `orchestrator-prompt`, `dashboard-prompt`, `chief-of-staff`. BRICK *stage* skills still land here.
