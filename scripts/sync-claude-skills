@@ -3,7 +3,8 @@
 # sync-claude-skills
 # Generates the Claude compatibility copies of the canonical skills.
 #
-# Canonical source is always .agents/skills/<name>/SKILL.md in this repository.
+# Canonical source is always .agents/skills/<name>/ in this repository: the
+# whole directory is copied (SKILL.md plus any references/ or assets it ships).
 # (Harness process: sycamore-hq/crossr-harness HARNESS-SPEC.md §2.1.)
 #
 # Usage:
@@ -82,22 +83,22 @@ UPDATED=0; ADDED=0; SAME=0; DRIFT=0; MISSING=0
 BACKUP_DIR=""
 
 for name in $SELECTED; do
-    src="$SOURCE_DIR/$name/SKILL.md"
-    dest="$TARGET/$name/SKILL.md"
+    src="$SOURCE_DIR/$name"
+    dest="$TARGET/$name"
 
-    if [[ ! -f "$src" ]]; then
+    if [[ ! -f "$src/SKILL.md" ]]; then
         echo "  ✗ no canonical skill named '$name' in .agents/skills/"
         MISSING=$((MISSING + 1))
         continue
     fi
 
-    if [[ -f "$dest" ]] && diff -q "$src" "$dest" >/dev/null 2>&1; then
+    if [[ -f "$dest/SKILL.md" ]] && diff -rq "$src" "$dest" >/dev/null 2>&1; then
         SAME=$((SAME + 1))
         continue
     fi
 
     if [[ "$MODE" == "check" ]]; then
-        if [[ -f "$dest" ]]; then
+        if [[ -f "$dest/SKILL.md" ]]; then
             echo "  ! drifted: $name"
         else
             echo "  ! not installed: $name"
@@ -106,14 +107,14 @@ for name in $SELECTED; do
         continue
     fi
 
-    if [[ -f "$dest" ]]; then
+    if [[ -f "$dest/SKILL.md" ]]; then
         if ! $DRY_RUN; then
             if [[ -z "$BACKUP_DIR" ]]; then
                 BACKUP_DIR="$TARGET.backup-$(date +%Y%m%d-%H%M%S)"
                 mkdir -p "$BACKUP_DIR"
             fi
-            mkdir -p "$BACKUP_DIR/$name"
-            cp "$dest" "$BACKUP_DIR/$name/SKILL.md"
+            cp -r "$dest" "$BACKUP_DIR/$name"
+            rm -rf "$dest"
         fi
         echo "  ~ updated $name"
         UPDATED=$((UPDATED + 1))
@@ -123,8 +124,8 @@ for name in $SELECTED; do
     fi
 
     if ! $DRY_RUN; then
-        mkdir -p "$TARGET/$name"
-        cp "$src" "$dest"
+        mkdir -p "$dest"
+        cp -r "$src"/. "$dest"/
     fi
 done
 
