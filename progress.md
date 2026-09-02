@@ -758,6 +758,6 @@ Installed two GitHub review-loop skills into the catalog, verbatim from their so
 
 - `github-pr-review`: inline-only review comments with the `<blocker|should-fix|nit|q> [<cluster>]` first line, `Done when` conditions, cluster anchors, and the APPROVE / REQUEST_CHANGES / COMMENT rule.
 - `github-pr-fix`: reads open threads, applies `blocker` + `should-fix` on the PR head, replies on each thread, resolves only where `Done when` holds on HEAD. Ships `references/github.md` (thread protocol, id spaces) and `references/examples.md` (reply shapes).
-- Allowlist + README table follow (21 skills). New category `GitHub`.
-- Not run: skill GAN (evaluator → remediator → reviewer). Both skills are generic, zero harness references, but carry no Verification / Specialization sections yet.
-- Known gap: `scripts/sync-claude-skills` copies `SKILL.md` only, so the Claude compatibility copy of `github-pr-fix` lacks `references/`. Same gap already applies to `diataxis`. Follow-on, not this PR.
+- Allowlist + README table follow (21 skills). Category `Quality`.
+- `scripts/sync-claude-skills` now copies the whole skill directory (`SKILL.md` plus `references/`), so the Claude compatibility copy of `github-pr-fix` carries its reference files. Drift check is `diff -rq` over the directory; a replaced copy is backed up whole and stale files in it are removed.
+- Not run: skill GAN (evaluator → remediator → reviewer). Both skills are generic, zero harness references, but carry no Verification / Specialization sections yet. Repository-agnostic rewrite is planned for later PRs.

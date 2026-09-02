@@ -60,8 +60,8 @@ Public catalog SSOT: [`docs/public-skills.json`](docs/public-skills.json) (21 sk
 | `voice-dna`            | CrossR sharp-human writing voice with full unslop pattern list | Writing       |
 | `unslop`               | Voice-agnostic pass that strips AI tells from prose  | Writing       |
 | `gan-verdict`          | GAN verdict tokens and report envelope schema        | Protocol      |
-| `github-pr-review`     | Structured inline PR review: severity grammar, clusters, Done-when conditions | GitHub        |
-| `github-pr-fix`        | Apply PR review threads, push to the PR head, reply and resolve only what holds | GitHub        |
+| `github-pr-review`     | Structured inline PR review: severity grammar, clusters, Done-when conditions | Quality       |
+| `github-pr-fix`        | Apply PR review threads, push to the PR head, reply and resolve only what holds | Quality       |
 
 **Not in the public catalog:** `obsidian-cli`, `diataxis` (deferred), empty `diataxis-*` stubs — see `out` in `docs/public-skills.json`.
 
