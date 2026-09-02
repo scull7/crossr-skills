@@ -125,7 +125,7 @@ for name in $SELECTED; do
 
     if ! $DRY_RUN; then
         mkdir -p "$dest"
-        cp -r "$src"/. "$dest"/
+        cp -r "$src"/. "$dest"/ || { echo "  ✗ copy failed: $name (previous copy is in ${BACKUP_DIR:-<none>})" >&2; MISSING=$((MISSING + 1)); }
     fi
 done
 
