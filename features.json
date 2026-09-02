@@ -863,6 +863,11 @@
         "id": "gh-pr-01",
         "title": "Install github-pr-review + github-pr-fix into the catalog (allowlist, README, tracking)",
         "status": "completed"
+      },
+      {
+        "id": "gh-pr-02",
+        "title": "github-pr-review: eval-driven revision (MCP tool surface, no-gh checkout, re-review protocol, validator, evals)",
+        "status": "completed"
       }
     ]
   }

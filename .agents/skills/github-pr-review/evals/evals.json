@@ -1,0 +1,68 @@
+{
+  "skill_name": "github-pr-review",
+  "evals": [
+    {
+      "id": 1,
+      "name": "fresh-review-post",
+      "prompt": "Review https://github.com/sycamore-hq/crossr-skills/pull/115",
+      "expected_output": "A single submitted review on PR #115 whose findings are all inline comments in the severity grammar, with Done-when conditions, on lines that exist in the diff; review event consistent with severities; a short table in chat. The sync-claude-skills script change should get real scrutiny (rm -rf of a path derived from $TARGET/$name, cp -r backup semantics, dry-run path).",
+      "files": [],
+      "expectations": [
+        "Exactly one review with a non-empty body or inline comments was submitted by this run (implicit empty review shells created by thread replies do not count); no pending review is left behind",
+        "The review body is a one- or two-sentence summary with no findings in it; every finding is an inline review comment",
+        "Every comment's first line matches the grammar <blocker|should-fix|nit|q> [<slug>] <problem> with single spaces",
+        "Every comment body has Issue and Done when lines; non-nits also have Why it matters; non-questions also have Suggested fix",
+        "Every comment anchors to a path and RIGHT-side line inside a hunk of the base...head diff (validate_review.py reports 0 anchoring problems against a diff taken from the PR's base sha)",
+        "The review event matches the severities present: REQUEST_CHANGES iff any blocker, APPROVE (or COMMENT when reviewer is the PR author) iff zero findings, otherwise COMMENT",
+        "At least one comment addresses the destructive path of the scripts/sync-claude-skills change (rm -rf of the target dir, the cp -r backup, or the dry-run branch), or the review body explicitly states that path was exercised and found safe",
+        "outputs/verification.log (or the transcript quoting raw command output) shows the sync script was run on the PR head against a scratch target, and every 'reproduced' claim in a comment re-runs true including any recovery step the comment asserts fails",
+        "No GitHub write call failed; or, if one did, the run recovered and the final state has exactly one submitted review and no pending review",
+        "The chat report contains a findings table with severity, path:line and problem per finding plus the event and PR URL",
+        "The chat report has no narrative restating the diff; after the table there are at most two short lines (what was run; what a human must decide)",
+        "Comment count is at most 15, no two comments target the same lines for the same issue, and no comment duplicates a thread that was open on GitHub at submit time",
+        "No comment is praise-only, a diff restatement, or about formatter/linter/generated-file noise"
+      ]
+    },
+    {
+      "id": 2,
+      "name": "re-review-existing-threads",
+      "prompt": "I've already reviewed sycamore-hq/crossr-skills#115 once. Do a second pass \u2014 check whether the threads I opened are actually addressed and only flag anything new.",
+      "expected_output": "Finds the account's prior review, diffs from its commit_id to HEAD (or reports nothing changed), checks each own thread's Done-when on HEAD, replies/unresolves where not held, does not duplicate existing threads, posts at most one new review with the event determined by still-open blockers, reports in chat.",
+      "files": [],
+      "expectations": [
+        "The transcript shows the run listed the PR's reviews, identified the authenticated account's own prior submitted review(s) (ignoring empty reply shells), and recorded their commit_id",
+        "The run diffed from the prior review's commit_id to HEAD (incremental diff) rather than reviewing the base diff again from scratch",
+        "For each thread the account opened, threads.json records a per-thread verdict (Done when holds / does not hold / outdated) checked against HEAD, and the verdicts match ground truth",
+        "The thread satisfied by the fix commit is recognised as addressed, gets a reply naming the commit, and is resolved (or the run explicitly declined only because an identical reply/resolve was already on GitHub)",
+        "The thread that was resolved without a fix gets an explanatory reply and is unresolved (or the run explicitly declined only because an identical reply/unresolve was already on GitHub); no new thread is opened for the same defect",
+        "Threads that were not addressed are neither duplicated as new inline comments nor replied to with a bare 'still open'",
+        "At most one new non-empty review is submitted; its event is COMMENT unless a blocker is still open (REQUEST_CHANGES) or the reviewer is not the author and nothing is open (APPROVE)",
+        "The one-line fix commit's own follow-on defect (the success summary still prints after the new failure line) is either flagged as a new nit on a changed line or explicitly considered and dismissed with a reason in the transcript",
+        "The chat report states every prior thread with its status and action in a Prior threads table",
+        "The chat report's findings section is a table plus at most two short lines of notes"
+      ]
+    },
+    {
+      "id": 3,
+      "name": "dry-run-no-post",
+      "prompt": "is sycamore-hq/crossr-skills#115 safe to merge? Don't post anything to GitHub, just give me your findings here.",
+      "expected_output": "No review or comment posted to GitHub. Findings presented in chat as the severity-tagged table plus the drafted review JSON (validated against the diff) saved to a file, with a clear merge verdict tied to whether any blocker exists.",
+      "files": [],
+      "expectations": [
+        "Nothing was posted to GitHub: posted.json says posted=false, the transcript contains no review-write, pending-review-comment, issue-comment, thread-resolve or reply calls, and no live thread on the PR matches the draft's path:line + first line",
+        "The chat report gives an explicit merge verdict (safe / not safe) and states it follows from whether any blocker-severity finding exists",
+        "A drafted review.json exists on disk with event, body and comments; the report's first line says '(drafted, not posted)', names the file, and states which event it would carry",
+        "Every drafted comment's first line matches the grammar <blocker|should-fix|nit|q> [<slug>] <problem>",
+        "Every drafted comment anchors to a path and RIGHT-side line inside a hunk of the base...head diff; validate_review.py reports 0 anchoring problems",
+        "Findings in the chat report are in a markdown table with severity and path:line columns",
+        "outputs/verification.log (or the transcript quoting raw command output) shows at least one finding was verified by exercising the PR head, and every 'reproduced' claim re-runs true",
+        "At least one finding addresses the destructive path of the scripts/sync-claude-skills change (rm -rf, cp -r backup, or dry-run), or the report explicitly states that path was exercised and found safe"
+      ]
+    }
+  ],
+  "notes": [
+    "Run eval-2 AFTER eval-1 has posted; push one small commit satisfying one thread and mark a different, unfixed thread resolved so both re-review branches are exercised.",
+    "Never run two eval-2 configurations concurrently on the same PR and account: the first to post blocks the second's replies and the GitHub state becomes unattributable. Serialize them, or use two PRs.",
+    "Ask executors to save raw command output to outputs/verification.log so graders can re-check reproductions rather than trust the transcript summary."
+  ]
+}
