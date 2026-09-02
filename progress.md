@@ -772,3 +772,4 @@ Installed two GitHub review-loop skills into the catalog, verbatim from their so
 - `evals/evals.json`: three evals with 31 assertions, revised from grader feedback (format split from content, correctness of "reproduced" claims, cross-run duplicates, `verification.log`).
 - Iteration-1 benchmark: revised 93% vs snapshot 89% assertion pass rate; every revised-skill failure was environmental (tool names, stale inventory). Recall gap noted: the snapshot found two real sync-script defects the revised skill missed; addressed in the verification section, to be re-measured.
 - Not run: skill GAN (evaluator → remediator → reviewer); `just` is not installed here, `./scripts/verify-docs` PASS.
+- `scripts/sync-claude-skills` no longer ships `evals/` or `__pycache__/` (diff and copy both skip them), so skill-creator eval sets live next to their skill without reaching `~/.claude/skills`.

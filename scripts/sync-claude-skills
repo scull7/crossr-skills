@@ -4,7 +4,8 @@
 # Generates the Claude compatibility copies of the canonical skills.
 #
 # Canonical source is always .agents/skills/<name>/ in this repository: the
-# whole directory is copied (SKILL.md plus any references/ or assets it ships).
+# whole directory is copied (SKILL.md plus any references/ or assets it ships),
+# except evals/ (skill-creator test prompts) and __pycache__/, which stay here.
 # (Harness process: sycamore-hq/crossr-harness HARNESS-SPEC.md §2.1.)
 #
 # Usage:
@@ -79,6 +80,8 @@ selected() {
 
 SELECTED="$(selected | sort -u)"
 
+# Source-only directories: never copied, ignored by the drift check.
+NOT_SHIPPED=(--exclude=evals --exclude=__pycache__)
 UPDATED=0; ADDED=0; SAME=0; DRIFT=0; MISSING=0
 BACKUP_DIR=""
 
@@ -92,7 +95,7 @@ for name in $SELECTED; do
         continue
     fi
 
-    if [[ -f "$dest/SKILL.md" ]] && diff -rq "$src" "$dest" >/dev/null 2>&1; then
+    if [[ -f "$dest/SKILL.md" ]] && diff -rq "${NOT_SHIPPED[@]}" "$src" "$dest" >/dev/null 2>&1; then
         SAME=$((SAME + 1))
         continue
     fi
@@ -125,7 +128,11 @@ for name in $SELECTED; do
 
     if ! $DRY_RUN; then
         mkdir -p "$dest"
-        cp -r "$src"/. "$dest"/ || { echo "  ✗ copy failed: $name (previous copy is in ${BACKUP_DIR:-<none>})" >&2; MISSING=$((MISSING + 1)); }
+        if cp -r "$src"/. "$dest"/; then
+            rm -rf "$dest/evals" "$dest/__pycache__"
+        else
+            echo "  ✗ copy failed: $name (previous copy is in ${BACKUP_DIR:-<none>})" >&2; MISSING=$((MISSING + 1))
+        fi
     fi
 done
 
