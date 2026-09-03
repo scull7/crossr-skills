@@ -1,6 +1,6 @@
 # Specialization
 
-This skill is the dedicated code quality review gate card of the code GAN (precondition: the disclosed gate card inputs are supplied). It supplies the exhaustive pedantic checklist, the violation fine system, and ruthless enforcement patterns (postcondition: combined output satisfies this contract with zero contradictions). Voice and mandate live in the reviewer persona; the response contract lives in `gan-verdict`.
+This skill is the dedicated code quality review gate card of the code GAN (precondition: the disclosed gate card inputs are supplied). It routes review to `code-writer` and the disclosed book's Rules projection, and supplies the ruthless enforcement patterns (postcondition: combined output satisfies this contract with zero contradictions). Voice and mandate live in the reviewer persona; the response contract lives in `gan-verdict`.
 
 ---
 

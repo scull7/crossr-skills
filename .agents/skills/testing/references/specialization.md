@@ -1,6 +1,6 @@
 # Specialization
 
-This skill is the dedicated testing and verification gate card of the code GAN (precondition: the disclosed gate card inputs are supplied). It supplies the high-signal RUTHLESS CHECKLIST, the strict delegation boundaries ("NEVER write production code"), the Arrange-Act-Assert + exhaustive error path discipline, and ruthless enforcement patterns (postcondition: combined output satisfies this contract with zero contradictions). Voice and mandate live in the tester persona; the response contract lives in `gan-verdict`.
+This skill is the dedicated testing and verification gate card of the code GAN (precondition: the disclosed gate card inputs are supplied). It routes verification to the rules tagged `test` in the disclosed book's Rules projection and supplies the strict delegation boundaries ("NEVER write production code"), the Arrange-Act-Assert + exhaustive error path discipline, and ruthless enforcement patterns (postcondition: combined output satisfies this contract with zero contradictions). Voice and mandate live in the tester persona; the response contract lives in `gan-verdict`.
 
 ---
 
