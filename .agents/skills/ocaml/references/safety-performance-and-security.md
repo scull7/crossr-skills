@@ -5,7 +5,7 @@ SOLE OWNER of partial functions, catch-all handlers, and warning suppressions. O
 ## Rules
 
 RS-01  Never `Obj.magic`, `Marshal` of untrusted data, or an unchecked `Array.get` without a proven index.
-       check: rg 'Obj\.magic|Marshal\.' --glob '*.ml' → 0
+       check: rg 'Obj\.magic' --glob '*.ml' → 0; rg 'Marshal\.' --glob '*.ml' → review each hit; none on untrusted input
 
 RS-02  `List.hd` / `List.tl` / unchecked `Option.get` / `Result.get_ok` never on production results. Startup and tests only, where failure is a bug.
        check: rg 'List\.hd|List\.tl|Option\.get\b|Result\.get_ok' --glob '*.ml' → review each hit; none outside tests / startup

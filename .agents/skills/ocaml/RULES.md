@@ -14,7 +14,7 @@ ocaml/RA-04  Public types are declared at the top of the `.ml`, in `.mli` order,
 
 ocaml/RA-05  GADTs only when a simpler variant cannot state the invariant. Never the object system by default.
 
-ocaml/RA-06  Docs live in the `.mli`, in odoc comments below the signature: `[name args] is ...`, ending with a period. `@raise` documents every exception a function may raise.
+ocaml/RA-06  Every public item is documented in the `.mli`, in odoc comments below the signature: `[name args] is ...`, ending with a period. `@raise` documents every exception a function may raise.
 
 ocaml/RA-07  Interface comments are never copied into the `.ml`. Implementation comments explain algorithms and invariants only.
 
@@ -108,11 +108,11 @@ ocaml/RL-07  One compilation unit, one responsibility. File `user_profile.ml` is
 ## monads
 
 ocaml/RM-01  `let*` is always `Result.bind`; `let**` is always `Option.bind`. Neither symbol is bound to anything else in any file of the codebase.
-            check: rg 'let \( *let\* *\) *=' --glob '*.ml' → every hit is `Result.bind`
+            check: rg 'let \( *let\* *\) *=' --glob '*.ml' → every hit is `Result.bind`; rg 'open Option\.Syntax' --glob '*.ml' → 0
 
 ocaml/RM-02  Both operators are declared at the top of the module that needs them (OCaml < 5.4): `let (let*) = Result.bind` and `let (let**) = Option.bind`.
 
-ocaml/RM-03  On OCaml 5.4+ `open Result.Syntax` may supply `let*`, but a codebase that already declares the operators keeps them. Never `Result.Syntax` in one file and a declared `let*` in another.
+ocaml/RM-03  On OCaml 5.4+ `open Result.Syntax` may supply `let*`, but a codebase that already declares the operators keeps them. Never `open Option.Syntax` — Option pipelines stay on declared `let**`. Never `Result.Syntax` in one file and a declared `let*` in another.
 
 ocaml/RM-04  Never shadow one symbol with the other monad inside a function. A local `let (let*) = Option.bind` in a Result module is forbidden — use `let**`.
 
@@ -127,7 +127,7 @@ ocaml/RM-08  A combinator missing from the target stdlib falls back to the flat-
 ## safety-performance-and-security
 
 ocaml/RS-01  Never `Obj.magic`, `Marshal` of untrusted data, or an unchecked `Array.get` without a proven index.
-            check: rg 'Obj\.magic|Marshal\.' --glob '*.ml' → 0
+            check: rg 'Obj\.magic' --glob '*.ml' → 0; rg 'Marshal\.' --glob '*.ml' → review each hit; none on untrusted input
 
 ocaml/RS-02  `List.hd` / `List.tl` / unchecked `Option.get` / `Result.get_ok` never on production results. Startup and tests only, where failure is a bug.
             check: rg 'List\.hd|List\.tl|Option\.get\b|Result\.get_ok' --glob '*.ml' → review each hit; none outside tests / startup
