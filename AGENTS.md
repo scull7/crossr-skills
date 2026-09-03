@@ -110,3 +110,10 @@ Example filenames: `architecture-review.html`, `pr-summary.html`, `deploy-guide.
 8. `just docs-verify` must PASS. README table == `docs/public-skills.json`.
 
 **All agents must follow these rules.** Violations will be called out during review.
+
+## Cursor Cloud
+
+Agents started on this repo use `.cursor/environment.json` + `.cursor/Dockerfile`
+(just 1.58.0, Python 3, jq, Rust 1.83.0). That file wins over a personal or team
+dashboard environment. After checkout, `install` runs `.cursor/install.sh`
+(`just init`). Canonical commands stay under Project Commands.

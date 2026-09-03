@@ -1,0 +1,12 @@
+{
+  "name": "crossr-skills",
+  "user": "ubuntu",
+  "build": {
+    "dockerfile": "Dockerfile"
+  },
+  "install": "bash .cursor/install.sh",
+  "repositoryDependencies": [
+    "github.com/sycamore-hq/crossr-harness",
+    "github.com/sycamore-hq/crossr-loops"
+  ]
+}
