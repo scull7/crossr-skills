@@ -49,11 +49,11 @@ def parse_frontmatter(text: str) -> dict[str, str]:
 
 
 def is_book(skill_md: Path) -> bool:
-    # Dual-read: prefer metadata.book (agentskills.io), accept top-level book
-    # until 5b's next book lands on metadata only. Line-splitter is indentation-
-    # blind, so nested `book: "true"` still lands in fields["book"].
+    # Line-splitter is indentation-blind: nested `metadata: / book: "true"`
+    # still lands in fields["book"]. Top-level `book:` is accepted the same way
+    # during transition. There is no dotted `metadata.book` key.
     fm = parse_frontmatter(skill_md.read_text(encoding="utf-8"))
-    raw = fm.get("book") or fm.get("metadata.book") or ""
+    raw = fm.get("book") or ""
     return raw.strip("\"'").lower() in {"true", "yes", "1"}
 
 

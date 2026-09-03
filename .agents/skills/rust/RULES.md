@@ -127,7 +127,7 @@ rust/RC-08  `cargo build` and `cargo test` run with zero warnings.
 
 ## type-system
 
-rust/RD-01  Use newtypes for semantically distinct values — especially wire-originated strings (`Email`, `UserId`, …); naked `String` / `&str` must not carry meaning in the core.
+rust/RD-01  Use newtypes for semantically distinct values (`UserId(u64)` vs `OrderId(u64)`). Wire-originated strings are RP-01's case, not a second rule here.
 
 rust/RD-02  Prefer `Option<T>` over sentinel values or boolean flags.
 
