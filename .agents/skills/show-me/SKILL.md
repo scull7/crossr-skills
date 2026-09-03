@@ -172,8 +172,7 @@ House palette when the artifact is for Sycamore / CrossR:
 - Canopy shade `#2E342C`
 
 Write the file next to the work (`show-me-<slug>.html` or under
-`docs/plans/`). Open it with whatever preview the environment
-provides; do not depend on any one harness's open command.
+`docs/plans/`).
 
 ## Guidance
 
@@ -181,8 +180,48 @@ Place each visual next to the short text it supports. Keep only the
 calls, files, props, states, and boundaries needed to answer the
 current question.
 
+If the visual is larger than the point, drop to a smaller form.
+If the HTML file cannot be opened, the text, tree, or Mermaid
+form stands.
+
 This skill presents shape. It does not review, bless, reject, or
 open a PR.
+
+## Verification
+
+In a fresh activation the following six behaviors are directly
+observable and scorable:
+
+- The agent picks one form from When that matches the current
+  topic (PR, plan, architecture plan, or other) before writing
+  prose, and does not restate a GitHub diff.
+- The agent uses the smallest view that makes the point: a
+  shape-diff when the surrounding shape exists, the whole block
+  only when omitted context would hide ownership or order.
+- The agent places each visual next to the short text it
+  supports and keeps only the calls, files, props, states, and
+  boundaries needed for the current question.
+- HTML artifacts are one self-contained file (inline styles or
+  a CDN stylesheet, no local assets), written next to the work
+  or under the harness plan directory, using the harness palette
+  when the artifact is for that harness.
+- The agent does not post a GitHub review thread, issue a
+  BLESS/REJECT, or open a PR.
+- On failure (form too large, preview unavailable) the agent
+  drops to a smaller form or lets the text/Mermaid stand.
+
+Violations against any of these six observable criteria during
+fresh activation indicate the skill was not followed and must
+be corrected before the work can be considered complete.
+
+## Specialization
+
+This skill is the visual-explanation specialization of the
+writing layer (precondition: a current topic of conversation).
+It supplies the form catalog, the smallest-view rule, the
+self-contained HTML contract, and the non-goal boundary
+against review and verdict skills (postcondition: the output
+is a shape next to short prose, never a gate or a PR).
 
 Adapted from HumanLayer show-me. Copyright (c) 2026 HumanLayer.
 MIT License — see https://github.com/humanlayer/skills/blob/main/LICENSE

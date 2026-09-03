@@ -330,8 +330,9 @@ five seconds; a silently resolved thread costs them the question of why.
 
 ## Report
 
-A short table in chat, nothing else. The review lives on GitHub; the chat gets
-the index.
+A short table in chat, nothing else — except a `show-me` visual when the
+PR's shape is the point. Do not restate the GitHub diff. The review lives
+on GitHub; the chat gets the index.
 
 ```
 Review: <REQUEST_CHANGES|COMMENT|APPROVE> — <PR url>
