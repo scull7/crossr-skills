@@ -97,7 +97,7 @@
 
 <div class="bar"><div class="bar-in">
   <span class="bar-name">pr 5 prompt set</span>
-  <span class="pill">crossr v2 · seven PRs · two tags · dispatch-ready</span>
+  <span class="pill">crossr v2 · seven PRs · two tags · 5a landed · 5b in flight</span>
 </div></div>
 
 <main>
@@ -115,6 +115,36 @@
   <div><span class="v">9</span><span class="k">reference topics in the Rust book; the v1 six left Safety, Security, Code Style and Type System homeless</span></div>
   <div><span class="v">2</span><span class="k">tags cut, on 5c and 5d — the pins insulate consumers until each moves</span></div>
 </div>
+
+<section>
+  <div class="sec-head"><span class="n">00</span><h2>Status — measured 2026-09-03</h2></div>
+  <div class="prose"><p>Interim record. <code>progress.md</code> / <code>features.json</code> do not carry PR 5 until 5f (guardrails); until then this section and its Markdown twin are where the stack&rsquo;s state lives. Both are hand-maintained and must agree.</p></div>
+  <div class="scroll"><table>
+    <thead><tr><th>PR</th><th>Repo</th><th>State</th><th>Evidence</th></tr></thead><tbody>
+      <tr><td class="mono">5a</td><td>skills</td><td class="good">Landed</td><td><a href="https://github.com/sycamore-hq/crossr-skills/pull/117">#117</a>, rebase-merged 2026-09-03 as <code>ecc1e62</code>..<code>94e3a15</code> (7 commits). 15 review threads, all resolved.</td></tr>
+      <tr><td class="mono">5b</td><td>skills</td><td class="warn">In flight</td><td>Dispatched to a separate agent. No branch on origin yet. <code>ocaml-code-writer</code> (19,551 B) still unabsorbed.</td></tr>
+      <tr><td class="mono">5c</td><td>skills</td><td>Not started</td><td>5c acceptance grep hits 13 files. No skills tag exists; <code>v1-one-law</code> uncut.</td></tr>
+      <tr><td class="mono">5d</td><td>loops</td><td>Not started</td><td><code>graphs/code-gan.json</code> still names <code>rust-code-writer</code> / <code>rust-code-reviewer</code> / <code>rust-code-tester</code>. Pins <code>skills = v1-gan-layers</code>, <code>loops = v0</code>.</td></tr>
+      <tr><td class="mono">5e</td><td>harness</td><td>Not started</td><td><code>HARNESS-SPEC.md:196-197</code>, <code>AGENTS.md:12</code>, <code>templates/harness/AGENTS.md.template:12</code> still name dead skills. Pins <code>v1-gan-layers</code> / <code>v1-cards</code>.</td></tr>
+      <tr><td class="mono">5f</td><td>skills</td><td>Not started</td><td>Loops pin <code>v1-cards</code> at all four loci. Plan §4 PR 5 not marked landed.</td></tr>
+      <tr><td class="mono">5g</td><td>landing</td><td>Not started</td><td><code>site/templates/index.html</code> :222, :230, :259-260, :287 all still stale.</td></tr>
+    </tbody></table></div>
+  <h3>What 5a landed (measured on main at <code>94e3a15</code>)</h3>
+  <ul>
+    <li><code>.agents/skills/rust/</code>: card 2,035 B; 9 topic refs + 2 contract refs; <code>RULES.md</code> 5,142 B, 52 rules. <code>scripts/extract-rules --check</code> clean.</li>
+    <li><code>scripts/extract-rules</code> (8,374 B); <code>just rules-sync</code> / <code>rules-check</code>; <code>rules-check</code> in <code>harness-validate</code>.</li>
+    <li><code>docs/book-topics.md</code> (630 B) — the only home of the prefix rows.</li>
+    <li>Deprecation markers on <code>rust-code-writer</code> (7,674 B) and <code>rust-errors</code> (5,470 B). Catalog entries carry <code>superseded-by: rust</code>; <code>featured</code> unchanged (5c).</li>
+  </ul>
+  <h3>Amendments the 5a review settled (the briefs below are patched to match)</h3>
+  <ul>
+    <li><strong>Book marker is <code>metadata.book: &quot;true&quot;</code></strong>, quoted, not a top-level <code>book: true</code>. A top-level key is outside the agentskills.io frontmatter set and fails strict validators; <code>metadata</code> is the spec&rsquo;s extension point. <code>extract-rules</code> reads the <code>book</code> key after an indentation-blind split, so it accepts the metadata shape and nothing needs the top-level form. 5b writes the metadata shape; 5d&rsquo;s <code>verify-skill-refs</code> selects on the same key. (Decision 6; briefs 5a / 5b / 5d; gauntlet 5a / 5b / 5d.)</li>
+    <li><strong>Rule retirement is supersession, not deletion.</strong> §3.7 applied to ids: keep the bare id in the topic <code>## Rules</code> block, rewrite the body to <code>Superseded by &lt;book&gt;/&lt;PREFIX&gt;-nn</code>, drop that rule&rsquo;s <code>check:</code> and <code>tag:</code>. Write and <code>--check</code> stay green because the id did not disappear. No <code>--retire</code> flag, no <code>retired:</code> list on the card. Documented in the <code>scripts/extract-rules</code> docstring. Append-only began at the #117 merge.</li>
+    <li><strong>Prefix rows live only in <code>docs/book-topics.md</code>.</strong> The rust card links to the registry instead of carrying a second copy (&ldquo;Left to the human&rdquo; item 4 said card + registry). 5b appends <code>RM</code> there.</li>
+    <li><strong>Append-only guard anchors ids at line start</strong>, so an id mentioned in another rule&rsquo;s prose no longer masks a disappeared rule. Ids with three or more digits parse; a second <code>check:</code> / <code>tag:</code> on one rule fails loud.</li>
+    <li><strong>Rules dedupe from review:</strong> RE-06 folded into RE-02 (then-uncommitted, so legal); RD-01 points at RP-01 for wire strings; RD-06 keeps the builder-with-private-fields mandate; RE-02 / RE-03 checks are review-each-hit and name no directory.</li>
+  </ul>
+</section>
 
 <section>
   <div class="sec-head"><span class="n">01</span><h2>What changed from v1 of this prompt set</h2></div>
@@ -158,7 +188,7 @@
     <li><strong>The Rules projection is <code>&lt;book&gt;/RULES.md</code>.</strong> One generated file per book: committed (bootstrap copies trees and never runs generators), drift-detectable and gated by review discipline (decision 8), ids fully qualified. Not under <code>references/</code> — that directory is the extractor’s input, and keeping it How-only makes “the reviewer never sees How” checkable.</li>
     <li><strong>The contract is universal; the topic set is per book.</strong> The contract governs <em>topic</em> references: each carries <code>## Rules</code> + <code>## How</code>; ids are append-only; <code>RULES.md</code> is generated. <code>specialization.md</code> and <code>verification.md</code> are contract references — neither heading, extractor skips them, fail-loud does not apply. Same home as the PR 4 exemplar (<code>axel/references/</code>). 19 of 21 catalog skills already carry both. Which topics a book has is the book’s business. Prefixes are a baseline, not a closed set — the extractor accepts unknown prefixes. Sharing <code>RE</code> = errors is nice for humans; enforcing the rust list is how OCaml monads get stuffed into <code>RF</code>.</li>
     <li><strong>Staged duplication is allowed and time-boxed.</strong> 5a and 5b create books while the three writers still exist. The <strong>old path stays authoritative through 5b</strong>. 5c deletes the superseded writers. 5d moves the consumer disclosure. The pin insulates consumers in between. Do not write “old path authoritative until 5d” in a 5a PR body — a 5c reviewer will treat a correct deletion as a brief violation.</li>
-    <li><strong>Book membership is explicit.</strong> A book is a catalog skill directory whose <code>SKILL.md</code> frontmatter carries <code>book: true</code>. <code>extract-rules</code> selects on that marker; <code>verify-skill-refs</code> reads the same one. Not inferred from “any <code>references/</code> with a <code>## Rules</code> heading” and not inferred from “a directory containing <code>RULES.md</code>”. <code>diataxis</code> is not a book.</li>
+    <li><strong>Book membership is explicit.</strong> A book is a catalog skill directory whose <code>SKILL.md</code> frontmatter carries <code>metadata.book: &quot;true&quot;</code> (quoted; a top-level <code>book:</code> key is outside the agentskills.io frontmatter set — 5a review). <code>extract-rules</code> selects on that marker; <code>verify-skill-refs</code> reads the same one. Not inferred from “any <code>references/</code> with a <code>## Rules</code> heading” and not inferred from “a directory containing <code>RULES.md</code>”. <code>diataxis</code> is not a book.</li>
     <li><strong>Featured set after 5c</strong> is <code>["code-writer", "rust", "code-review", "agent-harness", "skill-evaluator"]</code>. <code>verify-docs</code> asserts <code>featured ⊆ skills</code>. 5c cites this; 5e reconciles the harness must-list; 5g mirrors the landing pills. Product choice, not an agent’s call.</li>
     <li><strong>There is no CI.</strong> Measured: loops and harness have no <code>.github/</code>; skills has one Pages-deploy workflow; this prompt-set PR reports zero check runs. Do not fold a workflow into PR 5. Tags cut after pasted validation. Every gate this stack adds is drift-detectable, gated by review discipline. Write §7 row 5 that way, not “drift-gated”.</li>
   </ul>
@@ -245,7 +275,7 @@ THE PROJECTION CONTRACT (universal; every book obeys it, now and for Elm/TS/JS):
   list. Sharing prefixes is optional — do not require OCaml to reuse RF for monads.
 - The topic SET is per book. Do not hardcode this list anywhere in the tooling.
 
-CREATE .agents/skills/rust/ with `book: true` in SKILL.md frontmatter:
+CREATE .agents/skills/rust/ with `metadata.book: &quot;true&quot;` in SKILL.md frontmatter:
 - SKILL.md — a ~2 KB card in the style of the PR-4 conductor cards (see
   crossr-loops .agents/skills/axel/SKILL.md at tag v1-cards, 5,989 B, for the
   *shape*, not the size — pointing at a 6 KB exemplar for a 2 KB target will
@@ -311,7 +341,7 @@ Non-Negotiable Core Principles.
 
 CREATE scripts/extract-rules:
 - BOOK-GENERIC. Selects skill directories whose SKILL.md frontmatter has
-  `book: true` (prompt-set decision 6). Iterates only those dirs&#x27;
+  `metadata.book: &quot;true&quot;` (prompt-set decision 6). Iterates only those dirs&#x27;
   references/*.md; emits one .agents/skills/&lt;book&gt;/RULES.md per book. The
   output path is deliberately OUTSIDE references/ so the extractor never
   ingests its own output. Do not hardcode `rust`, and do not hardcode the
@@ -395,7 +425,7 @@ HARD ACCEPTANCE CONDITION:
   hardcoded something and the fix belongs in a 5a follow-up, not here. State the
   zero-line result in the PR body with `git diff --stat`.
 
-CREATE .agents/skills/ocaml/ with `book: true` in SKILL.md frontmatter, absorbing
+CREATE .agents/skills/ocaml/ with `metadata.book: &quot;true&quot;` in SKILL.md frontmatter, absorbing
 ocaml-code-writer/SKILL.md (19,551 B — the largest file in the catalog). Same
 contract, ids `ocaml/&lt;TOPIC&gt;-nn`. Its topic set is OCaml&#x27;s, not Rust&#x27;s. From the
 source headings, expect:
@@ -634,7 +664,7 @@ with the plan open will load the wrong #2.)
   output:
   1. If a graph declares requires.book: true, FAIL if any uses.skill or requires.skills
      entry resolves to a book skill. A book skill is a catalog skill directory whose
-     SKILL.md frontmatter has `book: true` (prompt-set decision 6 — the same marker
+     SKILL.md frontmatter has `metadata.book: &quot;true&quot;` (prompt-set decision 6 — the same marker
      extract-rules selects on). Do NOT infer book-ness from &quot;directory contains
      RULES.md&quot;: that definition disagrees with 5a and makes membership an emergent
      property of file contents. The day architecture grows a references/ file with
@@ -872,7 +902,7 @@ as higher law than this brief.
     on. Record 5b&#x27;s zero-line extractor diff as the evidence that it does.
   - Add the decisions this stack settled that the plan did not previously contain:
     the projection contract vs. per-book topic sets; &lt;book&gt;/RULES.md placement;
-    requires.book; the lockfile `books` declaration; book: true frontmatter;
+    requires.book; the lockfile `books` declaration; metadata.book: &quot;true&quot; frontmatter;
     featured set (decision 7); open prefix registry; check: excluded from the 3-line cap;
     contract vs topic references (specialization.md / verification.md); no CI /
     drift-detectable (decision 8).
@@ -931,10 +961,10 @@ the landing copy together&quot;).
   <div class="prose"><p>What each PR is checked against when it comes back.</p></div>
   <div class="scroll"><table>
     <thead><tr><th>PR</th><th>Checked</th></tr></thead><tbody>
-      <tr><td class="mono">5a</td><td>Extractor run twice, byte-identical; <code>--check</code> demonstrated red <em>and</em> green <em>and</em> disappeared-id; every rule id unique and ≤3 lines (<code>check:</code> excluded); no <code>code-writer</code> / Fines photocopy; <code>RULES.md</code> outside <code>references/</code>; nothing deleted; <code>book: true</code> on rust; extractor ignores <code>diataxis</code>; RD / RF / RS-rename disclosed as a §3.4 refinement; rust card is ~2 KB, not a 6 KB axel photocopy; <code>specialization.md</code> + <code>verification.md</code> exist as contract refs (extractor skips them); no dying names in the rust book tree.</td></tr>
-      <tr><td class="mono">5b</td><td><code>git diff --stat</code> proves zero lines of <code>scripts/extract-rules</code> — the PR’s entire point; OCaml topic set justified per topic; <code>RM</code> is its own file, not stuffed into <code>RF</code>; no anti-patterns grab-bag; ids namespaced <code>ocaml/</code>; <code>book: true</code> on ocaml; <code>specialization.md</code> + <code>verification.md</code> present; no dying names in the ocaml book tree.</td></tr>
+      <tr><td class="mono">5a</td><td>Extractor run twice, byte-identical; <code>--check</code> demonstrated red <em>and</em> green <em>and</em> disappeared-id; every rule id unique and ≤3 lines (<code>check:</code> excluded); no <code>code-writer</code> / Fines photocopy; <code>RULES.md</code> outside <code>references/</code>; nothing deleted; <code>metadata.book: &quot;true&quot;</code> on rust; extractor ignores <code>diataxis</code>; RD / RF / RS-rename disclosed as a §3.4 refinement; rust card is ~2 KB, not a 6 KB axel photocopy; <code>specialization.md</code> + <code>verification.md</code> exist as contract refs (extractor skips them); no dying names in the rust book tree.</td></tr>
+      <tr><td class="mono">5b</td><td><code>git diff --stat</code> proves zero lines of <code>scripts/extract-rules</code> — the PR’s entire point; OCaml topic set justified per topic; <code>RM</code> is its own file, not stuffed into <code>RF</code>; no anti-patterns grab-bag; ids namespaced <code>ocaml/</code>; <code>metadata.book: &quot;true&quot;</code> on ocaml; <code>specialization.md</code> + <code>verification.md</code> present; no dying names in the ocaml book tree.</td></tr>
       <tr><td class="mono">5c</td><td>Mapping table verified line by line; gate cards ≤2 KB measured <em>and</em> <code>grep -rniE '\b(rust|ocaml)\b'</code>-clean; CP2 the only architecture edit; all three writers gone; featured is decision 7; README:78 retargeted; empty Rust Core / OCaml Core categories gone; shape B uses the disclosed book; <code>.opencode/</code> not in the grep; Claude-copy note in the body; <code>gan-verdict</code> untouched; both gate cards ship <code>references/specialization.md</code> + <code>verification.md</code>.</td></tr>
-      <tr><td class="mono">5d</td><td><code>code-gan.json</code> names no language; <code>requires.book</code> in the schema <em>and</em> enforced (names-a-book demonstrated; empty-books is the 5e fixture, not a fail against the loops self-pin); book-ness is <code>book: true</code>; voice grep for “Rust” in <code>.agents/agents/</code> actually clean (mandate, personality, clippy) <em>and</em> the three verdict-format lines still carry <code>code-review:</code> / <code>testing:</code> / <code>architecture:</code>; brick personas say disclosed book, not rust; <code>harness-parameters.md</code> rewritten; repo-wide grep pasted; README.md:9 pin moved with lockfile.toml.</td></tr>
+      <tr><td class="mono">5d</td><td><code>code-gan.json</code> names no language; <code>requires.book</code> in the schema <em>and</em> enforced (names-a-book demonstrated; empty-books is the 5e fixture, not a fail against the loops self-pin); book-ness is <code>metadata.book: &quot;true&quot;</code>; voice grep for “Rust” in <code>.agents/agents/</code> actually clean (mandate, personality, clippy) <em>and</em> the three verdict-format lines still carry <code>code-review:</code> / <code>testing:</code> / <code>architecture:</code>; brick personas say disclosed book, not rust; <code>harness-parameters.md</code> rewritten; repo-wide grep pasted; README.md:9 pin moved with lockfile.toml.</td></tr>
       <tr><td class="mono">5e</td><td>Smoke run locally with the absence assertions failing on a pre-5c tree; conductor window still 7,121; books present with committed <code>RULES.md</code>; empty-books fixture fails (reader iii home); <code>verify-docs</code> decision argued; <code>AGENTS.md</code> and <code>templates/harness/AGENTS.md.template</code> retargeted (measured list, not chief-of-staff / dashboard-prompt); README pin loci moved with lockfile.toml.</td></tr>
       <tr><td class="mono">5f</td><td>Double regen clean; <code>.opencode/</code> dying-name grep zero; plan twins consistent; §7 row 5 and §2.4 both updated; every park discharged or re-parked with a home; the OCaml reversal recorded with its evidence; <code>progress.md</code> + <code>features.json</code> appended; all four pin loci read <code>v1-one-law-consumers</code>; §7 row 5 says drift-detectable.</td></tr>
       <tr><td class="mono">5g</td><td><code>:222</code> and <code>:230</code> both retargeted; featured pills match decision 7.</td></tr>
@@ -949,7 +979,7 @@ the landing copy together&quot;).
     <li><strong><code>books = [...]</code> in 5e.</strong> Keep it. Do not park to PR 6. Do not call it mechanical until the three readers in prompt-set decision 2 exist (schema + pre-flight + empty-books smoke fixture). Absence of <code>books</code> on the loops self-pin is not a failure. Multi-book: per-PBI, or stop and ask. Not first-listed.</li>
     <li><strong>Tag names.</strong> <code>v1-one-law</code> / <code>v1-one-law-consumers</code>. Keep them. Cut on the merge commit after the brief’s own pasted validation has been re-run against that commit. There is no CI (decision 8). Never re-point.</li>
     <li><strong>5c size.</strong> Keep as one PR. Retargets and deletions are atomic. The two retarget shapes (Rust-subject vs disclosed-book) are separate instruction blocks, not a 5c′ PR. Splitting 5c′ <em>after</em> deletions leaves dangling <code>rust-code-writer</code> names in live skills; splitting it <em>before</em> deletions makes the 5c acceptance grep unsatisfiable. brick-coder and agent-harness stay language-clean.</li>
-    <li><strong>Rule id scheme.</strong> Keep bare <code>&lt;TOPIC&gt;-nn</code> in source, <code>&lt;book&gt;/&lt;TOPIC&gt;-nn</code> in the projection, append-only from birth. Do not park. Do not enforce the prefix list as a closed set. Registry is the rust book card + <code>docs/book-topics.md</code>. Extractor accepts unknown prefixes. <code>check:</code> does not count against the 3-line cap. <code>--check</code> fails on disappeared ids.</li>
+    <li><strong>Rule id scheme.</strong> Keep bare <code>&lt;TOPIC&gt;-nn</code> in source, <code>&lt;book&gt;/&lt;TOPIC&gt;-nn</code> in the projection, append-only from birth. Do not park. Do not enforce the prefix list as a closed set. Registry is <code>docs/book-topics.md</code> alone; the card links to it (5a review). Extractor accepts unknown prefixes. <code>check:</code> does not count against the 3-line cap. <code>--check</code> fails on disappeared ids.</li>
     <li><strong>No CI, no workflow in PR 5.</strong> Tags cut after pasted validation. §7 row 5 is “drift-detectable, gated by review discipline”. Decision 8.</li>
     <li><strong>Contract references.</strong> <code>specialization.md</code> + <code>verification.md</code> on every book and both gate cards. Extractor skips them. PR 4’s axel card is the exemplar. Gate-card <code>specialization.md</code> is de-Rusted in 5c so the language-neutrality grep stays green. Books keep their language names.</li>
   </ul>
@@ -967,7 +997,7 @@ the landing copy together&quot;).
   <span>·</span>
   <span>measured against the tree 2026-09-01</span>
   <span>·</span>
-  <span>status: dispatch-ready · plan §4 PR 5 / §3.4 · pins skills v1-gan-layers · loops v1-cards (skills, harness) · loops self-pin v0</span>
+  <span>status: 5a landed (#117) · 5b in flight · 5c–5g not started · measured 2026-09-03 · plan §4 PR 5 / §3.4 · pins skills v1-gan-layers · loops v1-cards (skills, harness) · loops self-pin v0</span>
 </footer>
 
 </main>
