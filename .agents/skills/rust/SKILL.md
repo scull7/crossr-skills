@@ -32,21 +32,9 @@ Test verifier: rules tagged `test` in `RULES.md`.
 
 Contract refs (not topics; extractor skips them): `references/specialization.md`, `references/verification.md`.
 
-## Topic prefixes (baseline, not a closed set)
+## Topic prefixes
 
-| Prefix | Topic |
-|---|---|
-| RE | error-handling |
-| RP | input-parsing |
-| RD | type-system |
-| RL | layering |
-| RF | control-flow |
-| RT | testing |
-| RA | api-surface |
-| RC | tooling |
-| RS | safety-performance-and-security |
-
-Registry: `docs/book-topics.md`. A later book may mint a prefix this table does not have. The extractor accepts unknown prefixes.
+Registry: `docs/book-topics.md` (baseline, not a closed set). A later book may mint a prefix the registry does not list. The extractor accepts unknown prefixes.
 
 ## One-Sentence Mandate (Memorize This)
 
