@@ -18,7 +18,6 @@ clippy:
 fmt:
     cargo fmt --all --check 2>/dev/null || echo "(no Rust crates)"
 
-# Catalog validation (process checks live in sycamore-hq/crossr-harness)
 # Language-book Rules projection
 rules-sync:
     @./scripts/extract-rules
@@ -26,6 +25,7 @@ rules-sync:
 rules-check:
     @./scripts/extract-rules --check
 
+# Catalog validation (process checks live in sycamore-hq/crossr-harness)
 harness-validate:
     @just docs-verify
     @just claude-skills-check
