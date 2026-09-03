@@ -43,7 +43,7 @@ rust/RE-06  The public API boundary converts domain errors into the gateway type
 
 ## input-parsing
 
-rust/RP-01  Parse wire values into domain types at the adapter edge. Do not validate later.
+rust/RP-01  Parse wire values into domain newtypes at the adapter edge. Do not validate later. Naked `String` / `&str` must not cross into the core.
 
 rust/RP-02  Newtypes that wrap wire input are constructed at the edge, not deep in the core.
 
@@ -127,7 +127,7 @@ rust/RC-08  `cargo build` and `cargo test` run with zero warnings.
 
 ## type-system
 
-rust/RD-01  Use newtypes for semantically distinct values.
+rust/RD-01  Use newtypes for semantically distinct values — especially wire-originated strings (`Email`, `UserId`, …); naked `String` / `&str` must not carry meaning in the core.
 
 rust/RD-02  Prefer `Option<T>` over sentinel values or boolean flags.
 
@@ -136,3 +136,5 @@ rust/RD-03  Derive `Debug`, `Clone`, `PartialEq`, `Eq`, `Hash` where those trait
 rust/RD-04  `#[derive(Default)]` only when a truly sensible default exists.
 
 rust/RD-05  Treat data as immutable by default.
+
+rust/RD-06  Use a builder for complex construction with private fields (invariants enforced in `build()`).
