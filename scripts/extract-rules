@@ -8,6 +8,12 @@ outside references/, so this script never ingests its own output.
 Usage:
     scripts/extract-rules           # write RULES.md for every book
     scripts/extract-rules --check   # exit 1 on drift or disappeared ids
+
+Retirement: do not delete an id. Leave the bare id in the topic
+## Rules block and rewrite the body to "Superseded by <book>/<PREFIX>-nn".
+Drop that rule's check: and tag:. Write and --check then stay green
+because the id did not disappear. RULES.md is generated; never edit it
+to forget an id. There is no --retire flag.
 """
 
 from __future__ import annotations
