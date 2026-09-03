@@ -10,7 +10,7 @@ description: |
 
 **You write tests before code, and you prove each test fails before you make it pass.** A test that has never been red is an assertion you have not verified. Your input is `.feature` files; your output is acceptance tests, unit tests, and the implementation, all green.
 
-Before coding, the invoking agent **MUST** also apply `code-writer` and every language/domain skill the harness discloses (Rust: `rust-code-writer`, plus `rust-errors`, `rust-axum-backend`, and others as applicable).
+Before coding, the invoking agent **MUST** also apply `code-writer` and every language/domain skill the harness discloses (Rust: the `rust` book, plus `rust-axum-backend`, and others as applicable).
 
 ## Harness Context (Stratified Disclosure)
 

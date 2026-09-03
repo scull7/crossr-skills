@@ -7,21 +7,9 @@
       "purpose": "Core coding philosophy (Grokking Simplicity + SICP)"
     },
     {
-      "name": "rust-code-writer",
-      "category": "Rust Core",
-      "purpose": "Idiomatic, pure, stratified, flat-combinator Rust",
-      "status": "superseded-by: rust"
-    },
-    {
       "name": "rust",
       "category": "Rust Book",
       "purpose": "Rust language book: situational Rules + How, generated RULES.md"
-    },
-    {
-      "name": "ocaml-code-writer",
-      "category": "OCaml Core",
-      "purpose": "Idiomatic, pure, stratified OCaml: fail-closed combinators, no nested match, domain types at the adapter edge",
-      "status": "superseded-by: ocaml"
     },
     {
       "name": "ocaml",
@@ -29,12 +17,12 @@
       "purpose": "OCaml language book: situational Rules + How, generated RULES.md"
     },
     {
-      "name": "rust-code-reviewer",
+      "name": "code-review",
       "category": "Quality",
-      "purpose": "Ruthless Rust code quality guardian"
+      "purpose": "Ruthless code quality guardian"
     },
     {
-      "name": "rust-code-tester",
+      "name": "testing",
       "category": "Quality",
       "purpose": "Obsessive test coverage and error-path verification"
     },
@@ -57,12 +45,6 @@
       "name": "rust-tui",
       "category": "TUI",
       "purpose": "ratatui Component + Action + two-phase dispatch"
-    },
-    {
-      "name": "rust-errors",
-      "category": "Backend",
-      "purpose": "Layered thiserror handling (no anyhow)",
-      "status": "superseded-by: rust"
     },
     {
       "name": "agent-harness",
@@ -148,8 +130,8 @@
   ],
   "featured": [
     "code-writer",
-    "rust-code-writer",
-    "rust-code-reviewer",
+    "rust",
+    "code-review",
     "agent-harness",
     "skill-evaluator"
   ]

@@ -2,14 +2,14 @@
 name: rust-tui
 description: |
   Specialized skill for building production-grade terminal UIs in Rust using ratatui.
-  Extends `rust-code-writer` with ratatui-specific patterns for the unidirectional Component + Action + centralized dispatch architecture, pure `handle_key` translator (no mutation), two-phase update contract, offloading long-running work via mpsc, pure calculation layers, and exhaustive TestBackend + dispatch testing.
-  Harness-layer domain skill with clean stratified disclosure. Fully portable across agentskills.io environments and models when paired with a compatible harness. Always activate together with `code-writer` + `rust-code-writer`.
+  Extends `code-writer` + the `rust` book with ratatui-specific patterns for the unidirectional Component + Action + centralized dispatch architecture, pure `handle_key` translator (no mutation), two-phase update contract, offloading long-running work via mpsc, pure calculation layers, and exhaustive TestBackend + dispatch testing.
+  Harness-layer domain skill with clean stratified disclosure. Fully portable across agentskills.io environments and models when paired with a compatible harness. Always activate together with `code-writer` + the `rust` book.
 ---
 
 # Rust TUI Skill (ratatui + Unidirectional Architecture)
 
-**This skill extends `rust-code-writer`.**  
-You **MUST** apply `code-writer` + `rust-code-writer` first, then layer on these TUI-specific rules.
+**This skill extends `code-writer` + the `rust` book.**  
+You **MUST** apply `code-writer` + the `rust` book first, then layer on these TUI-specific rules.
 
 ## Harness Context (Stratified Disclosure)
 
@@ -70,7 +70,7 @@ Formatting, data shaping, filtering, health calculations, etc. live in pure modu
 In a fresh activation the following six behaviors are directly observable and scorable:
 
 - The agent recites the One-Sentence Mandate verbatim before emitting any TUI-specific guidance or recommendations.
-- The agent explicitly states that `code-writer` + `rust-code-writer` must be applied first before any ratatui, Component, Action, AppState, or TUI-specific rules or patterns are given.
+- The agent explicitly states that `code-writer` + the `rust` book must be applied first before any ratatui, Component, Action, AppState, or TUI-specific rules or patterns are given.
 - The agent delivers exactly the portable Core TUI Architecture (Component + Action + centralized dispatch, pure handle_key translator, offload everything, pure calculation layer, Testing Idioms) using the original high-value wording with zero additions, omissions, or unrelated refactoring suggestions.
 - Any reference to ferro-wg or the concrete `Component` trait definition appears *only* inside the Harness Context block and is always wrapped in qualified disclosure language ("battle-tested in ferro-wg", "When the invoking harness discloses a project using a similar ratatui unidirectional architecture", "high-signal patterns (refined in that codebase) are recommended realizations", "projects whose harness discloses equivalent architectural constraints").
 - The agent never promotes ferro-wg patterns or the concrete trait as universal "must" mandates or "the architecture" in the Core TUI Architecture, or any other section outside the Harness Context.
@@ -80,11 +80,11 @@ Violations against any of these six observable criteria during fresh activation 
 
 ## Specialization
 
-This skill is the dedicated ratatui TUI specialization of the harness layer (precondition: `code-writer` + `rust-code-writer` active). It supplies the practical voice and patterns for the unidirectional Component + Action + centralized dispatch architecture, pure `handle_key` translator (no mutation), two-phase update contract, offloading long-running work via mpsc, pure calculation layers, and exhaustive TestBackend + dispatch testing, while preserving every principle of the base skills (postcondition: combined output satisfies this contract plus the specialization with zero contradictions).
+This skill is the dedicated ratatui TUI specialization of the harness layer (precondition: `code-writer` + the `rust` book active). It supplies the practical voice and patterns for the unidirectional Component + Action + centralized dispatch architecture, pure `handle_key` translator (no mutation), two-phase update contract, offloading long-running work via mpsc, pure calculation layers, and exhaustive TestBackend + dispatch testing, while preserving every principle of the base skills (postcondition: combined output satisfies this contract plus the specialization with zero contradictions).
 
 ## One-Sentence Mandate (Memorize This)
 
-> “Apply ratatui TUI patterns on top of `code-writer` + `rust-code-writer` by building as a pure unidirectional data flow: Components emit Actions via a pure `handle_key` translator, a single `AppState::dispatch` owns all mutation, side effects are offloaded, calculations stay pure, and every component is exhaustively testable with `TestBackend` — treating all ferro-wg-derived concrete trait shapes and architecture details as qualified, harness-disclosed examples only.”
+> “Apply ratatui TUI patterns on top of `code-writer` + the `rust` book by building as a pure unidirectional data flow: Components emit Actions via a pure `handle_key` translator, a single `AppState::dispatch` owns all mutation, side effects are offloaded, calculations stay pure, and every component is exhaustively testable with `TestBackend` — treating all ferro-wg-derived concrete trait shapes and architecture details as qualified, harness-disclosed examples only.”
 
 ---
 
@@ -92,9 +92,9 @@ This skill is the canonical authority on clean, stratified ratatui TUI developme
 
 All ratatui component, Action, AppState, event loop, or terminal UI architecture work **MUST** route through this skill (combined with the prerequisites) to guarantee portable, high-signal patterns without harness coupling.
 
-**When using this skill**: Always combine it with the core `code-writer` + `rust-code-writer`. Reference any project-specific realizations (e.g. exact `Component` trait signature, dispatch implementation, or ferro-wg patterns) only as disclosed by the invoking harness at activation. Apply the unidirectional pure-translator + exhaustive-test discipline mercilessly.
+**When using this skill**: Always combine it with the core `code-writer` + the `rust` book. Reference any project-specific realizations (e.g. exact `Component` trait signature, dispatch implementation, or ferro-wg patterns) only as disclosed by the invoking harness at activation. Apply the unidirectional pure-translator + exhaustive-test discipline mercilessly.
 
 **Activation Statement**  
-> Using `code-writer` + `rust-code-writer` + `rust-tui` for this terminal UI task.
+> Using `code-writer` + the `rust` book + `rust-tui` for this terminal UI task.
 
 Apply this skill **mercilessly** on every ratatui TUI, Component, Action, or terminal UI task.
