@@ -773,3 +773,14 @@ Installed two GitHub review-loop skills into the catalog, verbatim from their so
 - Iteration-1 benchmark: revised 93% vs snapshot 89% assertion pass rate; every revised-skill failure was environmental (tool names, stale inventory). Recall gap noted: the snapshot found two real sync-script defects the revised skill missed; addressed in the verification section, to be re-measured.
 - Not run: skill GAN (evaluator → remediator → reviewer); `just` is not installed here, `./scripts/verify-docs` PASS.
 - `scripts/sync-claude-skills` no longer ships `evals/` or `__pycache__/` (diff and copy both skip them), so skill-creator eval sets live next to their skill without reaching `~/.claude/skills`.
+
+### show-me — show-me-01 (IN PROGRESS)
+
+Compact visual skill for PRs, plans, and architecture plans. Adapted from HumanLayer `show-me` (MIT). Not a gate.
+
+- `.agents/skills/show-me/SKILL.md`: form catalog (pseudocode, trees, Mermaid, shape-diff, copyable target, one HTML file). Harness Context discloses palette / location / open command. House palette is the CrossR example.
+- Allowlist + README table (23→24). Category `Writing`.
+- `AGENTS.md` rule 11 one-liner points at `show-me` for the visual forms.
+- Optional xrefs: `architecture` Response contract (missing visual is not a REJECT); `github-pr-review` Report (shape visual next to the table, do not restate the GitHub diff).
+- Skill GAN (`skill-evaluator-agent` → `skill-remediator-agent` → `skill-reviewer-agent`): evaluator 82/100 → remediator smallest diff (failure recovery, Verification, Specialization; drop duplicate open-command sentence) → reviewer **PASS at 98/100**. Report: `docs/skill-remediation/show-me-01-remediation-report.html`.
+- Outside PR 5 and PR 6. Sister change for Berea is separate.

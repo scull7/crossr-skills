@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>show-me-01 — skill GAN report</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        pitch: '#171412',
+                        plaster: '#F3EEE6',
+                        mile: '#C4A882',
+                        fig: '#9E4E36',
+                        leaf: '#6A7348',
+                        canopy: '#2E342C'
+                    },
+                    fontFamily: {
+                        display: ['"Iowan Old Style"', 'Palatino', 'Georgia', 'serif'],
+                        mono: ['ui-monospace', 'SFMono-Regular', 'Menlo', 'monospace']
+                    }
+                }
+            }
+        }
+    </script>
+</head>
+<body class="bg-pitch text-plaster">
+    <div class="max-w-3xl mx-auto px-6 py-12">
+        <header class="border-b border-mile/30 pb-8 mb-10">
+            <div class="text-xs tracking-[0.2em] uppercase text-mile mb-3">skill GAN · show-me-01</div>
+            <h1 class="font-display text-4xl leading-tight">show-me is a shape skill, not a gate</h1>
+            <p class="mt-4 text-plaster/80 max-w-xl">Evaluator 82 → remediator smallest diff → reviewer PASS at 98. Catalog bookkeeping (README 23→24, rule 11, xrefs, tracker) lands in the same commit so <code class="text-mile">just docs-verify</code> goes green.</p>
+        </header>
+
+        <section class="grid grid-cols-3 gap-4 mb-12">
+            <div class="rounded-2xl border border-mile/20 bg-canopy/40 p-4">
+                <div class="text-xs uppercase tracking-widest text-mile">Evaluator</div>
+                <div class="font-display text-3xl mt-1">82</div>
+                <div class="text-sm text-plaster/70">18-item rubric</div>
+            </div>
+            <div class="rounded-2xl border border-mile/20 bg-canopy/40 p-4">
+                <div class="text-xs uppercase tracking-widest text-mile">Remediator</div>
+                <div class="font-display text-3xl mt-1">min</div>
+                <div class="text-sm text-plaster/70">failure + verify + spec</div>
+            </div>
+            <div class="rounded-2xl border border-leaf/40 bg-leaf/20 p-4">
+                <div class="text-xs uppercase tracking-widest text-leaf">Reviewer</div>
+                <div class="font-display text-3xl mt-1 text-leaf">PASS</div>
+                <div class="text-sm text-plaster/70">98 / 100</div>
+            </div>
+        </section>
+
+        <section class="mb-12">
+            <h2 class="font-display text-2xl mb-2">Shape of the change</h2>
+            <pre class="bg-canopy/50 border border-mile/20 rounded-2xl p-4 text-sm overflow-x-auto leading-relaxed">.agents/skills/
+ ├── show-me/SKILL.md          # + failure, Verification, Specialization
+ ├── architecture/SKILL.md     # + show-me one-liner (not a REJECT)
+ └── github-pr-review/SKILL.md # + Report visual exception
+README.md                      # row + 23→24
+AGENTS.md                      # rule 11 points at show-me
+features.json / progress.md    # show-me / show-me-01</pre>
+        </section>
+
+        <section class="mb-12">
+            <h2 class="font-display text-2xl mb-4">Evaluator ratings</h2>
+            <div class="text-sm text-plaster/60 mb-4">Persona mandate recited. Full <code class="text-mile">SKILL.md</code> read before scoring. Classification: harness-layer writing skill (palette / location / open command disclosed).</div>
+            <div class="overflow-hidden rounded-2xl border border-mile/20">
+                <table class="w-full text-sm">
+                    <thead class="bg-canopy/60 text-mile text-left">
+                        <tr>
+                            <th class="px-4 py-2 font-medium">Item</th>
+                            <th class="px-4 py-2 font-medium w-16">Score</th>
+                            <th class="px-4 py-2 font-medium">Evidence</th>
+                        </tr>
+                    </thead>
+                    <tbody class="divide-y divide-mile/10">
+                        <tr><td class="px-4 py-2">Concise</td><td class="px-4 py-2">4</td><td class="px-4 py-2 text-plaster/70">Tight When. Forms are long because the examples are the contract.</td></tr>
+                        <tr><td class="px-4 py-2">Single Responsibility</td><td class="px-4 py-2">5</td><td class="px-4 py-2 text-plaster/70">Present shape. No personality, no verdict, no PR open.</td></tr>
+                        <tr><td class="px-4 py-2">Composable</td><td class="px-4 py-2">5</td><td class="px-4 py-2 text-plaster/70">Not-for names github-pr-review, architecture, gan-verdict.</td></tr>
+                        <tr><td class="px-4 py-2">Progressively Disclosed</td><td class="px-4 py-2">4</td><td class="px-4 py-2 text-plaster/70">Description → When → Forms → HTML. No references/ dump.</td></tr>
+                        <tr><td class="px-4 py-2">Harness-Agnostic</td><td class="px-4 py-2">4</td><td class="px-4 py-2 text-plaster/70">Disclosure block present. Palette labeled as CrossR example.</td></tr>
+                        <tr><td class="px-4 py-2">Well-Documented</td><td class="px-4 py-2">4</td><td class="px-4 py-2 text-plaster/70">Use-when + Not-for. Failure modes were implicit.</td></tr>
+                        <tr><td class="px-4 py-2">Portable / Secure</td><td class="px-4 py-2">5</td><td class="px-4 py-2 text-plaster/70">Self-contained HTML. MIT copyright + license pointer.</td></tr>
+                        <tr><td class="px-4 py-2">Idempotent &amp; Retry-Safe</td><td class="px-4 py-2">5</td><td class="px-4 py-2 text-plaster/70">Re-run draws the same topic again. No source mutation.</td></tr>
+                        <tr><td class="px-4 py-2">Observable</td><td class="px-4 py-2">3</td><td class="px-4 py-2 text-plaster/70">No Verification section on the incoming file.</td></tr>
+                        <tr><td class="px-4 py-2">Explicit Error Handling</td><td class="px-4 py-2">3</td><td class="px-4 py-2 text-plaster/70">Boundaries yes; no recovery when the form is too large or HTML will not open.</td></tr>
+                        <tr><td class="px-4 py-2">Self-Describing Boundaries</td><td class="px-4 py-2">5</td><td class="px-4 py-2 text-plaster/70">Description Not-for + Guidance last paragraph.</td></tr>
+                        <tr><td class="px-4 py-2">Predictable / Evaluable</td><td class="px-4 py-2">3</td><td class="px-4 py-2 text-plaster/70">Happy path is clear; no scorable activation contract.</td></tr>
+                        <tr><td class="px-4 py-2">Functional purity</td><td class="px-4 py-2">4</td><td class="px-4 py-2 text-plaster/70">Pick-the-form is a calculation; write/open is an action.</td></tr>
+                        <tr><td class="px-4 py-2">Stratified design</td><td class="px-4 py-2">4</td><td class="px-4 py-2 text-plaster/70">Text trees → Mermaid → HTML. Harness params isolated.</td></tr>
+                        <tr><td class="px-4 py-2">Zero technical debt</td><td class="px-4 py-2">4</td><td class="px-4 py-2 text-plaster/70">PR 121 nits already applied. Duplicate open-command sentence remained.</td></tr>
+                        <tr><td class="px-4 py-2">Idiomatic / self-verifying</td><td class="px-4 py-2">3</td><td class="px-4 py-2 text-plaster/70">Matches writing-skill voice; missing Verification / Specialization.</td></tr>
+                        <tr><td class="px-4 py-2">Aligns with repo harness</td><td class="px-4 py-2">3</td><td class="px-4 py-2 text-plaster/70">Skill file ready; README / AGENTS / tracker were still owed.</td></tr>
+                        <tr><td class="px-4 py-2">Harness Relationship</td><td class="px-4 py-2">5</td><td class="px-4 py-2 text-plaster/70">Correct harness-layer disclosure after 81a378c.</td></tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+
+        <section class="mb-12">
+            <h2 class="font-display text-2xl mb-3">Top 3 / top 3</h2>
+            <div class="grid md:grid-cols-2 gap-6 text-sm">
+                <div>
+                    <div class="text-leaf uppercase tracking-widest text-xs mb-2">Strengths</div>
+                    <ol class="list-decimal list-inside space-y-2 text-plaster/80">
+                        <li>Single job with explicit non-goals.</li>
+                        <li>Worked form templates are the contract.</li>
+                        <li>Stratified harness disclosure after the first review pass.</li>
+                    </ol>
+                </div>
+                <div>
+                    <div class="text-fig uppercase tracking-widest text-xs mb-2">Improvements</div>
+                    <ol class="list-decimal list-inside space-y-2 text-plaster/80">
+                        <li>Add Verification (six observable behaviors).</li>
+                        <li>State failure recovery (too-large form, no preview).</li>
+                        <li>Add Specialization; drop the duplicate open-command sentence.</li>
+                    </ol>
+                </div>
+            </div>
+        </section>
+
+        <section class="mb-12">
+            <h2 class="font-display text-2xl mb-3">Remediator</h2>
+            <p class="text-sm text-plaster/80 mb-4">Smallest convention-faithful diff. Forms examples left untouched (already review-fixed). No Activation Statement footer — writing siblings do not carry one.</p>
+            <ul class="text-sm space-y-2 text-plaster/80">
+                <li><span class="text-leaf">kept</span> — When, Forms, HTML palette, MIT notice, Harness Context.</li>
+                <li><span class="text-leaf">added</span> — two Guidance recovery lines; Verification (6); Specialization.</li>
+                <li><span class="text-fig">removed</span> — HTML “open with whatever preview…” (already in Harness Context).</li>
+            </ul>
+            <p class="text-sm text-plaster/60 mt-4">Tension: sibling writing skills (`voice-dna`, `unslop`) have no Verification block. Added anyway — the evaluator invariant and AGENTS.md skill-GAN rule require a scorable contract once a skill is run through the GAN.</p>
+        </section>
+
+        <section class="mb-12">
+            <h2 class="font-display text-2xl mb-3">Reviewer</h2>
+            <p class="text-sm text-plaster/80 mb-4">Diff + new <code class="text-mile">SKILL.md</code> against the 18-item rubric and the 12 AGENTS.md rules. Stratified classification holds. Xrefs in <code class="text-mile">architecture</code> and <code class="text-mile">github-pr-review</code> are one sentence each and do not make a missing visual a gate.</p>
+            <div class="rounded-2xl border border-leaf/40 bg-leaf/10 px-5 py-4">
+                <div class="text-leaf font-medium">skill-reviewer: BLESS</div>
+                <div class="text-sm text-plaster/80 mt-1">Zero remaining issues of any severity on the skill contract. Catalog bookkeeping is required for <code class="text-mile">docs-verify</code> and is in this same change.</div>
+            </div>
+        </section>
+
+        <footer class="border-t border-mile/20 pt-6 text-xs text-plaster/50">
+            CrossR house palette · self-contained · no local assets · show-me-01
+        </footer>
+    </div>
+</body>
+</html>

@@ -870,5 +870,23 @@
         "status": "completed"
       }
     ]
+  },
+  "show-me": {
+    "status": "in_progress",
+    "commits": [
+      {
+        "id": "show-me-01",
+        "title": "Add show-me Writing skill: compact visuals for PRs, plans, and architecture plans",
+        "status": "in_progress",
+        "features": [
+          "show-me-skill",
+          "show-me-catalog",
+          "show-me-agents-rule-11",
+          "show-me-architecture-xref",
+          "show-me-pr-review-xref",
+          "show-me-gan"
+        ]
+      }
+    ]
   }
 }

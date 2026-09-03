@@ -20,7 +20,7 @@ These rules are non-negotiable and derived from repeated observed failures acros
 8. **Checkpoint after significant work.** After major steps, summarize what was done, what was verified, what remains, and any open questions.
 9. **Fail loud and early.** Surface uncertainty, errors, limitations, or conflicts immediately. Never hide problems or guess.
 10. **Respect token budgets and context.** Be concise. Summarize when appropriate. Restart context when needed rather than continuing with degraded performance.
-11. **Use HTML for human-facing deliverables.** When producing specs, reports, reviews, dashboards, prototypes, or any artifact primarily for human consumption, prefer a self-contained HTML file (with Tailwind via CDN) over raw Markdown. HTML dramatically improves human comprehension and engagement.
+11. **Use HTML for human-facing deliverables.** When producing specs, reports, reviews, dashboards, prototypes, or any artifact primarily for human consumption, prefer a self-contained HTML file (with Tailwind via CDN) over raw Markdown. HTML dramatically improves human comprehension and engagement. For the visual forms (shape-diff, trees, Mermaid, focused HTML), use `show-me`.
 12. **Follow the stacked PR discipline.** All work must be delivered in small, reviewable PRs (< 10 minutes deep review). Use explicit traceability, plan mode, and the PETC loop.
 
 ---
