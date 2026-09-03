@@ -128,8 +128,7 @@ For a call-tree or call-stack change:
      persistPrompt
 +    expandSkillMention
      launchAgent
--  navigateToSession
-+  navigateToSession
+   navigateToSession
 +    subscribeToEvents
 ```
 
@@ -158,7 +157,8 @@ function expandSkill(command: string): string {
 ## HTML
 
 For a visual UI, layout, state comparison, or concept too dense for
-Mermaid, write one focused HTML file — a diagram, an infographic, or
+Mermaid, write one focused, self-contained HTML file (inline styles
+or a CDN stylesheet, no local assets) — a diagram, an infographic, or
 a short slide deck. Match the product's colors, type, spacing, and
 components. Use real labels and data. Support desktop and mobile.
 
