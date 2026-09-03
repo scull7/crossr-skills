@@ -4,7 +4,7 @@ Newtypes as data. Option over sentinels. Immutable by default.
 
 ## Rules
 
-RD-01  Use newtypes for semantically distinct values — especially wire-originated strings (`Email`, `UserId`, …); naked `String` / `&str` must not carry meaning in the core.
+RD-01  Use newtypes for semantically distinct values (`UserId(u64)` vs `OrderId(u64)`). Wire-originated strings are RP-01's case, not a second rule here.
 
 RD-02  Prefer `Option<T>` over sentinel values or boolean flags.
 
@@ -18,7 +18,7 @@ RD-06  Use a builder for complex construction with private fields (invariants en
 
 ## How
 
-`UserId(u64)` and `OrderId(u64)` are different types. Mixing them is a compile error, not a review comment. The same for strings from the edge: `Email(String)` / `PathBuf`-style wrappers beat a bare `String` that any caller can forge. See also RP-01 / RP-02.
+`UserId(u64)` and `OrderId(u64)` are different types. Mixing them is a compile error, not a review comment. Wire-originated strings (`Email`, …) are parsed at the edge under RP-01 / RP-02 — this topic owns newtypes-as-data, not the edge ban.
 
 A `status: i32` where `0` means missing is a sentinel. Use `Option<Status>`. A `is_admin: bool` paired with `role: String` is a flag hiding an enum.
 
