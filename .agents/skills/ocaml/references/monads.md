@@ -5,11 +5,11 @@ One symbol, one meaning, codebase-wide. `let*` is Result. `let**` is Option.
 ## Rules
 
 RM-01  `let*` is always `Result.bind`; `let**` is always `Option.bind`. Neither symbol is bound to anything else in any file of the codebase.
-       check: rg 'let \( *let\* *\) *=' --glob '*.ml' → every hit is `Result.bind`
+       check: rg 'let \( *let\* *\) *=' --glob '*.ml' → every hit is `Result.bind`; rg 'open Option\.Syntax' --glob '*.ml' → 0
 
 RM-02  Both operators are declared at the top of the module that needs them (OCaml < 5.4): `let (let*) = Result.bind` and `let (let**) = Option.bind`.
 
-RM-03  On OCaml 5.4+ `open Result.Syntax` may supply `let*`, but a codebase that already declares the operators keeps them. Never `Result.Syntax` in one file and a declared `let*` in another.
+RM-03  On OCaml 5.4+ `open Result.Syntax` may supply `let*`, but a codebase that already declares the operators keeps them. Never `open Option.Syntax` — Option pipelines stay on declared `let**`. Never `Result.Syntax` in one file and a declared `let*` in another.
 
 RM-04  Never shadow one symbol with the other monad inside a function. A local `let (let*) = Option.bind` in a Result module is forbidden — use `let**`.
 

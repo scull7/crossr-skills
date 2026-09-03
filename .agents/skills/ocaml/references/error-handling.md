@@ -28,7 +28,7 @@ RE-09  OCaml 5 effects are for suspension and control; exceptions are for errors
 One error variant per layer, wrapped once at the seam:
 
 ```ocaml
-(* store.mli *)
+(*_ store.mli *)
 type error = Not_found | Sql of string
 val find_user : id:Id.User.t -> (User.t, error) result
 

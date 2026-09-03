@@ -14,7 +14,7 @@ RA-04  Public types are declared at the top of the `.ml`, in `.mli` order, befor
 
 RA-05  GADTs only when a simpler variant cannot state the invariant. Never the object system by default.
 
-RA-06  Docs live in the `.mli`, in odoc comments below the signature: `[name args] is ...`, ending with a period. `@raise` documents every exception a function may raise.
+RA-06  Every public item is documented in the `.mli`, in odoc comments below the signature: `[name args] is ...`, ending with a period. `@raise` documents every exception a function may raise.
 
 RA-07  Interface comments are never copied into the `.ml`. Implementation comments explain algorithms and invariants only.
 
@@ -26,7 +26,7 @@ RA-08  `.mli` comments are documentation (`(** *)`) or explicitly ignored (`(*_ 
 Design the `.mli` first. It is the contract; the `.ml` is one implementation of it.
 
 ```ocaml
-(* team.mli *)
+(*_ team.mli *)
 type t
 (** A team with at least one member. *)
 
@@ -34,7 +34,10 @@ val v : name:string -> members:Member.t list -> t option
 (** [v ~name ~members] is the team, or [None] when [members] is empty. *)
 
 val pp : Format.formatter -> t -> unit
+(** [pp fmt t] prints [t]. *)
+
 val equal : t -> t -> bool
+(** [equal a b] is [true] when [a] and [b] are the same team. *)
 ```
 
 An abstract `t` with a smart constructor means an invalid team cannot be named anywhere in the program. A public record means every caller can.
