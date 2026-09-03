@@ -22,7 +22,7 @@ CONTRACT_FILES = frozenset({"specialization.md", "verification.md"})
 ID_RE = re.compile(r"^([A-Z][A-Z0-9]*)-(\d{2})\b")
 FRONTMATTER_RE = re.compile(r"^---\n(.*?)\n---\n", re.S)
 BOOK_TRUE_RE = re.compile(r"(?m)^book:\s*(true|yes)\s*$")
-QUALIFIED_ID_RE = re.compile(r"\b([A-Za-z0-9_-]+/[A-Z][A-Z0-9]*-\d{2})\b")
+QUALIFIED_ID_RE = re.compile(r"(?m)^([A-Za-z0-9_-]+/[A-Z][A-Z0-9]*-\d{2})\b")
 
 
 def repo_root() -> Path:

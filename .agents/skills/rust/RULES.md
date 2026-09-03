@@ -29,19 +29,17 @@ rust/RF-06  Single responsibility per function and type.
 rust/RE-01  Every layer defines its own error enum via thiserror. Never `anyhow`.
             check: rg 'anyhow' --glob '*.rs' → 0
 
-rust/RE-02  Cross-layer propagation uses `#[from]` / `From`; never inline `.map_err` at a call site.
-            check: rg '\.map_err\(' src/ --glob '!adapters/**' → 0
+rust/RE-02  Cross-layer propagation uses `#[from]` / `From`; never inline `.map_err` at a call site — a call-site `.map_err` means a `From` impl is missing, add the impl.
+            check: rg '\.map_err\(' --glob '*.rs' → review each hit
 
 rust/RE-03  Never `.unwrap()` in production paths.
-            check: rg '\.unwrap\(' src/ --glob '!**/tests/**' → 0
+            check: rg '\.unwrap\(' src/ --glob '!**/tests/**' → review each hit; none outside `#[cfg(test)]`
 
 rust/RE-04  `.expect()` only for documented invariants, with an explanatory comment.
 
 rust/RE-05  Fallible operations return `Result<T, E>`. Propagate with `?`.
 
-rust/RE-06  A `.map_err` at a call site means a `From` impl is missing — add the impl, never the patch.
-
-rust/RE-07  The public API boundary converts domain errors into the gateway type via `From`.
+rust/RE-06  The public API boundary converts domain errors into the gateway type via `From`.
 
 ## input-parsing
 

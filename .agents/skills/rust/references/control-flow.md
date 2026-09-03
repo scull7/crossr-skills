@@ -26,4 +26,4 @@ Priority is strict:
 
 Arrow code, triple-nested loops, and `match` inside `if let` inside `for` fail this topic. Extract until the happy path reads left-to-right.
 
-`map_err` in a combinator chain that *defines* a conversion is not the call-site `.map_err` that error-handling forbids. If you are wrapping at the use site, you want a `From` impl instead.
+If a chain needs a type conversion, put it in a `From` impl and use `?` — do not leave a `.map_err` at the call site (RE-02).
