@@ -122,7 +122,7 @@
   <div class="scroll"><table>
     <thead><tr><th>PR</th><th>Repo</th><th>State</th><th>Evidence</th></tr></thead><tbody>
       <tr><td class="mono">5a</td><td>skills</td><td class="good">Landed</td><td><a href="https://github.com/sycamore-hq/crossr-skills/pull/117">#117</a>, rebase-merged 2026-09-03 as <code>ecc1e62</code>..<code>94e3a15</code> (7 commits). 15 review threads, all resolved.</td></tr>
-      <tr><td class="mono">5b</td><td>skills</td><td class="warn">In flight</td><td>Dispatched to a separate agent. No branch on origin yet. <code>ocaml-code-writer</code> (19,551 B) still unabsorbed.</td></tr>
+      <tr><td class="mono">5b</td><td>skills</td><td class="warn">In flight</td><td><a href="https://github.com/sycamore-hq/crossr-skills/pull/118">#118</a>, branch <code>claude/ocaml-book-pr-5b-633ooj</code>. <code>ocaml-code-writer</code> (19,551 B) still unabsorbed on main.</td></tr>
       <tr><td class="mono">5c</td><td>skills</td><td>Not started</td><td>5c acceptance grep hits 13 files. No skills tag exists; <code>v1-one-law</code> uncut.</td></tr>
       <tr><td class="mono">5d</td><td>loops</td><td>Not started</td><td><code>graphs/code-gan.json</code> still names <code>rust-code-writer</code> / <code>rust-code-reviewer</code> / <code>rust-code-tester</code>. Pins <code>skills = v1-gan-layers</code>, <code>loops = v0</code>.</td></tr>
       <tr><td class="mono">5e</td><td>harness</td><td>Not started</td><td><code>HARNESS-SPEC.md:196-197</code>, <code>AGENTS.md:12</code>, <code>templates/harness/AGENTS.md.template:12</code> still name dead skills. Pins <code>v1-gan-layers</code> / <code>v1-cards</code>.</td></tr>
@@ -142,7 +142,7 @@
     <li><strong>Rule retirement is supersession, not deletion.</strong> §3.7 applied to ids: keep the bare id in the topic <code>## Rules</code> block, rewrite the body to <code>Superseded by &lt;book&gt;/&lt;PREFIX&gt;-nn</code>, drop that rule&rsquo;s <code>check:</code> and <code>tag:</code>. Write and <code>--check</code> stay green because the id did not disappear. No <code>--retire</code> flag, no <code>retired:</code> list on the card. Documented in the <code>scripts/extract-rules</code> docstring. Append-only began at the #117 merge.</li>
     <li><strong>Prefix rows live only in <code>docs/book-topics.md</code>.</strong> The rust card links to the registry instead of carrying a second copy (&ldquo;Left to the human&rdquo; item 4 said card + registry). 5b appends <code>RM</code> there.</li>
     <li><strong>Append-only guard anchors ids at line start</strong>, so an id mentioned in another rule&rsquo;s prose no longer masks a disappeared rule. Ids with three or more digits parse; a second <code>check:</code> / <code>tag:</code> on one rule fails loud.</li>
-    <li><strong>Rules dedupe from review:</strong> RE-06 folded into RE-02 (then-uncommitted, so legal); RD-01 points at RP-01 for wire strings; RD-06 keeps the builder-with-private-fields mandate; RE-02 / RE-03 checks are review-each-hit and name no directory.</li>
+    <li><strong>Rules dedupe from review:</strong> RE-06 folded into RE-02 (then-uncommitted, so legal); RD-01 points at RP-01 for wire strings; RD-06 keeps the builder-with-private-fields mandate; RE-02 / RE-03 checks are review-each-hit; RE-02 names no directory; RE-03 still names <code>src/</code> (the #117 RE-03 thread kept that path).</li>
   </ul>
 </section>
 
@@ -269,7 +269,7 @@ THE PROJECTION CONTRACT (universal; every book obeys it, now and for Elm/TS/JS):
   RE error-handling, RP input-parsing, RD type-system-and-data, RL layering,
   RF control-flow, RT testing, RA api-surface, RC tooling,
   RS safety-performance-and-security.
-- Put that table in the rust book card AND in docs/book-topics.md (the cross-book
+- Put that table in docs/book-topics.md only; the rust card links to the registry (the cross-book
   prefix registry). A third book that needs a topic not in this list allocates a
   prefix there. The extractor ACCEPTS unknown prefixes; it does not enforce this
   list. Sharing prefixes is optional — do not require OCaml to reuse RF for monads.
@@ -281,7 +281,7 @@ CREATE .agents/skills/rust/ with `metadata.book: &quot;true&quot;` in SKILL.md f
   *shape*, not the size — pointing at a 6 KB exemplar for a 2 KB target will
   land as a 6 KB card). Which reference applies to which situation, nothing else.
   No persona. A one-sentence contract-summary mandate is allowed per the 8920866
-  foundation-mandate decision; keep it to one sentence. Carry the prefix table.
+  foundation-mandate decision; keep it to one sentence. Link the prefix registry.
 - references/error-handling.md      RE  — absorbs rust-errors/SKILL.md (5,470 B).
                                         SOLE OWNER of unwrap: &quot;Never `.unwrap()`
                                         in production paths&quot;. RS does not restate it.
