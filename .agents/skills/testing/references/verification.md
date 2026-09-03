@@ -1,4 +1,4 @@
-# Verification
+## Verification
 
 In a fresh activation the following behaviors are directly observable and scorable:
 
