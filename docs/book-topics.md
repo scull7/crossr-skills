@@ -17,3 +17,19 @@ Humans allocate prefixes here. The extractor does **not** read this file as a cl
 | RS | safety-performance-and-security | rust |
 
 Later books append rows. Do not reuse a prefix for a different idea inside one book.
+
+## ocaml
+
+Shares the baseline prefixes for the same ideas. Mints `RM`. Has no `RD`: OCaml's type surface is the `.mli` and lives under `RA`.
+
+| Prefix | Topic | Book |
+|---|---|---|
+| RE | error-handling | ocaml |
+| RP | input-parsing | ocaml |
+| RL | layering | ocaml |
+| RF | control-flow | ocaml |
+| RM | monads | ocaml |
+| RT | testing | ocaml |
+| RA | api-surface | ocaml |
+| RC | tooling | ocaml |
+| RS | safety-performance-and-security | ocaml |

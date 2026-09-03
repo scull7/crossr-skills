@@ -20,7 +20,13 @@
     {
       "name": "ocaml-code-writer",
       "category": "OCaml Core",
-      "purpose": "Idiomatic, pure, stratified OCaml: fail-closed combinators, no nested match, domain types at the adapter edge"
+      "purpose": "Idiomatic, pure, stratified OCaml: fail-closed combinators, no nested match, domain types at the adapter edge",
+      "status": "superseded-by: ocaml"
+    },
+    {
+      "name": "ocaml",
+      "category": "OCaml Book",
+      "purpose": "OCaml language book: situational Rules + How, generated RULES.md"
     },
     {
       "name": "rust-code-reviewer",
