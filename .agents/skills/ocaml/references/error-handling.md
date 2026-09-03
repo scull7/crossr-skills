@@ -30,19 +30,19 @@ One error variant per layer, wrapped once at the seam:
 ```ocaml
 (*_ store.mli *)
 type error = Not_found | Sql of string
-val find_user : id:Id.User.t -> (User.t, error) result
+val load_user : id:Id.User.t -> (User.t, error) result
 
 (* service.ml *)
 type error = Store of Store.error | Forbidden
 
 let get_user ~id =
-  Store.find_user ~id |> Result.map_error (fun e -> Store e)
+  Store.load_user ~id |> Result.map_error (fun e -> Store e)
 ```
 
 Bad — the same wrap, pasted at every call site, and a nested match doing what `Result.map_error` already does:
 
 ```ocaml
-match Store.find_user ~id with
+match Store.load_user ~id with
 | Ok u -> Ok u
 | Error e -> Error (Store e)
 ```

@@ -5,7 +5,7 @@ One gate. Pinned formatter. Stdlib first. `open` hygiene.
 ## Rules
 
 RC-01  The completion gate is `dune build @check @fmt @runtest`. It is clean before any change is done.
-       check: dune build @check @fmt @runtest
+       check: dune build @check @fmt @runtest; on a project without `.ocamlformat`, the RC-03 gate `dune build @check @runtest`
 
 RC-02  Zero warnings, warnings as errors. Fix the warning: exhaustive match, rename the unused binding.
 

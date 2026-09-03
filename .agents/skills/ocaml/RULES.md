@@ -108,7 +108,7 @@ ocaml/RL-07  One compilation unit, one responsibility. File `user_profile.ml` is
 ## monads
 
 ocaml/RM-01  `let*` is always `Result.bind`; `let**` is always `Option.bind`. Neither symbol is bound to anything else in any file of the codebase.
-            check: rg 'let \( *let\* *\) *=' --glob '*.ml' → every hit is `Result.bind`; rg 'open Option\.Syntax' --glob '*.ml' → 0
+            check: rg 'let \( *let\*\*? *\) *=' --glob '*.ml' → every `let*` hit is `Result.bind`, every `let**` hit is `Option.bind`; rg 'open [A-Z][A-Za-z_.]*\.Syntax' --glob '*.ml' → every hit is `Result.Syntax`
 
 ocaml/RM-02  Both operators are declared at the top of the module that needs them (OCaml < 5.4): `let (let*) = Result.bind` and `let (let**) = Option.bind`.
 
@@ -172,7 +172,7 @@ ocaml/RT-06  Tests run via `dune runtest`. Never commit a commented-out test.
 ## tooling
 
 ocaml/RC-01  The completion gate is `dune build @check @fmt @runtest`. It is clean before any change is done.
-            check: dune build @check @fmt @runtest
+            check: dune build @check @fmt @runtest; on a project without `.ocamlformat`, the RC-03 gate `dune build @check @runtest`
 
 ocaml/RC-02  Zero warnings, warnings as errors. Fix the warning: exhaustive match, rename the unused binding.
 
