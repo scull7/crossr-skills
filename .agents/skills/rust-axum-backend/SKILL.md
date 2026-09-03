@@ -2,14 +2,14 @@
 name: rust-axum-backend
 description: |
   Specialized skill for building Rust HTTP APIs and web servers using Axum.
-  Extends `rust-code-writer` with Axum-specific patterns, layered design, error handling, and middleware usage.
-  Harness-layer domain skill with clean stratified disclosure. Fully portable across agentskills.io environments and models when paired with a compatible harness. Always activate together with `code-writer` + `rust-code-writer`.
+  Extends `code-writer` + the `rust` book with Axum-specific patterns, layered design, error handling, and middleware usage.
+  Harness-layer domain skill with clean stratified disclosure. Fully portable across agentskills.io environments and models when paired with a compatible harness. Always activate together with `code-writer` + the `rust` book.
 ---
 
 # Rust Axum Backend Skill
 
-**This skill extends `rust-code-writer`.**  
-You **MUST** apply `code-writer` + `rust-code-writer` first, then layer on these Axum-specific rules.
+**This skill extends `code-writer` + the `rust` book.**  
+You **MUST** apply `code-writer` + the `rust` book first, then layer on these Axum-specific rules.
 
 ## Harness Context (Stratified Disclosure)
 
@@ -53,7 +53,7 @@ These patterns were battle-tested in the ferro-wave gateway and serve as the exp
 In a fresh activation the following six behaviors are directly observable and scorable:
 
 - The agent recites the One-Sentence Mandate verbatim before emitting any Axum-specific guidance or recommendations.
-- The agent explicitly states that `code-writer` + `rust-code-writer` must be applied first before any Axum-specific rules or patterns are given.
+- The agent explicitly states that `code-writer` + the `rust` book must be applied first before any Axum-specific rules or patterns are given.
 - The agent delivers exactly the portable Core Axum Backend Rules and Recommended Patterns (thin handlers, layered extractors, `State<AppState>`, `spawn_blocking`, `AppError` + `IntoResponse`, tower middleware) using the original high-value wording with zero additions, omissions, or unrelated refactoring suggestions.
 - Any reference to ferro-wave, event-gateway, or the six specific production patterns appears *only* inside the Harness Context block and is always wrapped in qualified disclosure language ("battle-tested production patterns from the ferro-wave event gateway", "When the invoking harness discloses a project using a similar multi-crate Axum architecture", "high-signal patterns (refined in that codebase) are recommended realizations", "projects whose harness discloses equivalent architectural constraints").
 - The agent never promotes ferro-wave patterns as universal "expected baseline" or "must" mandates in the Core Rules, Recommended Patterns, or any other section outside the Harness Context.
@@ -63,11 +63,11 @@ Violations against any of these six observable criteria during fresh activation 
 
 ## Specialization
 
-This skill is the dedicated Axum backend specialization of the harness layer (precondition: `code-writer` + `rust-code-writer` active). It supplies the practical voice and patterns for thin handlers, layered extractors and `State<AppState>`, centralized error handling via `AppError` + `IntoResponse`, tower middleware composition, CPU isolation with `spawn_blocking`, and the strict separation of portable Axum rules from harness-disclosed project realizations (including qualified ferro-wave examples), while preserving every principle of the base skills (postcondition: combined output satisfies this contract plus the specialization with zero contradictions).
+This skill is the dedicated Axum backend specialization of the harness layer (precondition: `code-writer` + the `rust` book active). It supplies the practical voice and patterns for thin handlers, layered extractors and `State<AppState>`, centralized error handling via `AppError` + `IntoResponse`, tower middleware composition, CPU isolation with `spawn_blocking`, and the strict separation of portable Axum rules from harness-disclosed project realizations (including qualified ferro-wave examples), while preserving every principle of the base skills (postcondition: combined output satisfies this contract plus the specialization with zero contradictions).
 
 ## One-Sentence Mandate (Memorize This)
 
-> “Apply Axum backend patterns on top of `code-writer` + `rust-code-writer` by keeping handlers thin, using layered extractors and `State<AppState>`, centralizing errors with `AppError` + `IntoResponse`, composing tower middleware, and offloading CPU work to `spawn_blocking` — treating all ferro-wave-derived production patterns as qualified, harness-disclosed examples only.”
+> “Apply Axum backend patterns on top of `code-writer` + the `rust` book by keeping handlers thin, using layered extractors and `State<AppState>`, centralizing errors with `AppError` + `IntoResponse`, composing tower middleware, and offloading CPU work to `spawn_blocking` — treating all ferro-wave-derived production patterns as qualified, harness-disclosed examples only.”
 
 ---
 
@@ -75,9 +75,9 @@ This skill is the canonical authority on clean, stratified Axum HTTP backend dev
 
 All Axum route, handler, middleware, `AppState`, or backend API work **MUST** route through this skill (combined with the prerequisites) to guarantee portable, high-signal patterns without harness coupling.
 
-**When using this skill**: Always combine it with the core `code-writer` + `rust-code-writer`. Reference any project-specific realizations (e.g. exact `AppError` shape, crate boundaries, or mandatory patterns) only as disclosed by the invoking harness at activation. Apply the thin-handler + stratified-error discipline mercilessly.
+**When using this skill**: Always combine it with the core `code-writer` + the `rust` book. Reference any project-specific realizations (e.g. exact `AppError` shape, crate boundaries, or mandatory patterns) only as disclosed by the invoking harness at activation. Apply the thin-handler + stratified-error discipline mercilessly.
 
 **Activation Statement**  
-> Using `code-writer` + `rust-code-writer` + `rust-axum-backend` for this Axum backend task.
+> Using `code-writer` + the `rust` book + `rust-axum-backend` for this Axum backend task.
 
 Apply this skill **mercilessly** on every Axum backend, HTTP API, or server task.

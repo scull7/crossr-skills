@@ -37,17 +37,15 @@ New projects: bootstrap from [sycamore-hq/crossr-harness](https://github.com/syc
 
 All skills are designed with the same standards applied to production Rust code: functional purity, stratified design, zero technical debt, and handover-clean artifacts.
 
-Public catalog SSOT: [`docs/public-skills.json`](docs/public-skills.json) (23 skills). Names below must match that file.
+Public catalog SSOT: [`docs/public-skills.json`](docs/public-skills.json) (20 skills). Names below must match that file.
 
 | Skill                  | Purpose                                              | Category      |
 |------------------------|------------------------------------------------------|---------------|
 | `code-writer`          | Core coding philosophy (Grokking Simplicity + SICP) | Foundation    |
-| `rust-code-writer`     | Idiomatic, pure, stratified, flat-combinator Rust    | Rust Core     |
 | `rust`                 | Rust language book: situational Rules + How, generated RULES.md | Rust Book |
-| `ocaml-code-writer`    | Idiomatic, pure, stratified OCaml: fail-closed combinators, no nested match, domain types at the edge | OCaml Core |
 | `ocaml`                | OCaml language book: situational Rules + How, generated RULES.md | OCaml Book |
-| `rust-code-reviewer`   | Ruthless Rust code quality guardian                  | Quality       |
-| `rust-code-tester`     | Obsessive test coverage and error-path verification  | Quality       |
+| `code-review`          | Ruthless code quality guardian                       | Quality       |
+| `testing`              | Obsessive test coverage and error-path verification  | Quality       |
 | `architecture`         | System-level architecture gate: stratification, layers, 2-year maintainability | Architecture  |
 | `brick-specifier`       | BRICK stage 1 — approved tasks to pruned Gherkin | Orchestration |
 | `brick-coder`          | BRICK stage 2 — Gherkin to red tests then green code | Orchestration |
@@ -56,7 +54,6 @@ Public catalog SSOT: [`docs/public-skills.json`](docs/public-skills.json) (23 sk
 | `rust-axum-backend`    | Clean layered Axum HTTP APIs with policy gates       | Backend       |
 | `rust-frontend`        | Leptos + WASM + Polars with anti-slop guidance       | Frontend      |
 | `rust-tui`             | ratatui Component + Action + two-phase dispatch      | TUI           |
-| `rust-errors`          | Layered thiserror handling (no anyhow)               | Backend       |
 | `agent-harness`        | Full harness process (stacked PRs, GAN, HTML-first)  | Harness       |
 | `skill-evaluator`      | Audit and remediate agent skills against CrossR standards | Meta     |
 | `voice-dna`            | CrossR sharp-human writing voice with full unslop pattern list | Writing       |
@@ -79,7 +76,7 @@ This mindset applies to every skill.
 
 ## Principles
 
-- **No garbage** — Every skill is reviewed by `rust-code-reviewer`, `rust-code-tester`, and `architecture`.
+- **No garbage** — Every skill is reviewed by `code-review`, `testing`, and `architecture`.
 - **Small and focused** — One skill = one clear responsibility.
 - **Self-verifying** — Skills contain their own usage rules and activation statements.
 - **Portable** — A catalog skill loads without CrossR process. Process lives in [crossr-harness](https://github.com/sycamore-hq/crossr-harness). Loops live in [crossr-loops](https://github.com/sycamore-hq/crossr-loops).

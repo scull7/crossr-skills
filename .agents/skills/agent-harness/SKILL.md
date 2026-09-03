@@ -7,12 +7,12 @@ description: |
   Plan-Execute-Test-Commit loop, and Revfactory Harness patterns.
   Use this skill whenever you need agents to maintain state, make incremental
   progress, and leave production-ready code across multiple sessions.
-  Harness-layer skill with clean stratified disclosure. Fully portable across agentskills.io environments and models when paired with a compatible harness. Always activate together with `code-writer` (add `rust-code-writer` + domain skills only when working in Rust projects).
+  Harness-layer skill with clean stratified disclosure. Fully portable across agentskills.io environments and models when paired with a compatible harness. Always activate together with `code-writer` + the disclosed book (and domain skills the harness discloses).
 ---
 
 # Agent Harness Skill
 
-**This skill extends `code-writer`.** (Rust projects layer on `rust-code-writer` + relevant domain skills.)  
+**This skill extends `code-writer`.** (Layer on the disclosed book + relevant domain skills when a language book is disclosed.)  
 You **MUST** apply the core coding philosophy first, then layer on these harness-specific rules for any project using a compatible harness.
 
 **Primary reference:** Reference the harness specification disclosed at activation via the invoking harness (typically through its root rules file and equivalent spec artifact). This skill is the practical implementation guide.
@@ -82,7 +82,7 @@ Repeat every session:
 
 1. **Plan** — Read current progress / tracking + git log → propose next task + plan.
 2. **Execute** — Implement using appropriate skills + reference to the harness spec.
-3. **Test** — Full matrix + `rust-code-reviewer` + `rust-code-tester` + `architecture` (or equivalent GAN).
+3. **Test** — Full matrix + `code-review` + `testing` + `architecture` (or equivalent GAN).
 4. **Commit** — Small, reviewable diff + update artifacts + append to progress log.
 
 GAN gate verdicts and report envelopes follow the `gan-verdict` catalog skill — the contract lives there, not here.
@@ -92,7 +92,7 @@ GAN gate verdicts and report envelopes follow the `gan-verdict` catalog skill �
 Every agent **begins** by executing the harness's disclosed minimal start-of-session ritual. This typically surfaces git state, recent progress, the current tracking snapshot, bootstraps the environment, and runs quick validation checks. The agent then consults the tracking artifact for the next pending granular item.
 
 - Agents must self-verify before marking work complete.
-- Use `rust-code-reviewer` (and the full GAN when appropriate) ruthlessly on every code change.
+- Use `code-review` (and the full GAN when appropriate) ruthlessly on every code change.
 - Git is the safety net — **never** force-push; always commit.
 - If state is broken, re-bootstrap via the harness entrypoint and revert to last good commit.
 
@@ -123,7 +123,7 @@ Violations against any of these six observable criteria during fresh activation 
 
 ## Specialization
 
-This skill is the dedicated harness-layer specialization (precondition: `code-writer` active; Rust projects add `rust-code-writer` + domain skills as needed). It supplies the practical, battle-tested voice and patterns for turning the three inspirations into reliable long-running agent behavior — persistent artifacts for state continuity, the Plan-Execute-Test-Commit loop with integrated GAN self-critique, strict agentskills.io compliance, stacked incremental delivery, and clean handovers — while preserving every principle of the base skills (postcondition: combined output satisfies this contract plus the specialization with zero contradictions).
+This skill is the dedicated harness-layer specialization (precondition: `code-writer` active; add the disclosed book + domain skills as needed). It supplies the practical, battle-tested voice and patterns for turning the three inspirations into reliable long-running agent behavior — persistent artifacts for state continuity, the Plan-Execute-Test-Commit loop with integrated GAN self-critique, strict agentskills.io compliance, stacked incremental delivery, and clean handovers — while preserving every principle of the base skills (postcondition: combined output satisfies this contract plus the specialization with zero contradictions).
 
 ## One-Sentence Mandate (Memorize This)
 
@@ -135,7 +135,7 @@ This skill is the canonical authority on effective harnesses for long-running AI
 
 All multi-session or long-running agent work **MUST** be structured inside a harness (defined via the invoking harness's specification or equivalent) that incorporates the patterns and discipline from this skill.
 
-**When using this skill**: Always combine it with the core `code-writer` (plus `rust-code-writer` + domain skills in Rust projects). Reference the harness specification disclosed at activation for exact artifact names, commands, and rituals. Apply the Plan → Execute → Test → Commit loop and ruthless self-critique on every task. Keep the practical, battle-tested voice.
+**When using this skill**: Always combine it with the core `code-writer` (plus the disclosed book + domain skills when a language book is disclosed). Reference the harness specification disclosed at activation for exact artifact names, commands, and rituals. Apply the Plan → Execute → Test → Commit loop and ruthless self-critique on every task. Keep the practical, battle-tested voice.
 
 **Activation Statement**  
 > Using `code-writer` + `agent-harness` + [relevant domain skills] (reference the harness specification disclosed at activation for this task).
