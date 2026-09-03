@@ -3,7 +3,8 @@ name: rust
 description: |
   Rust language book. Card routes to situational references. Generator loads How + Rules for the situation; adversaries load the generated RULES.md only.
   Fully portable across agentskills.io environments and models. Always activate together with `code-writer`.
-book: true
+metadata:
+  book: "true"
 ---
 
 # Rust Book

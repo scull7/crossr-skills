@@ -1,9 +1,10 @@
 #!/usr/bin/env python3
 """extract-rules — generate <book>/RULES.md from book topic references.
 
-Selects skill directories whose SKILL.md frontmatter has `book: true`.
-Iterates only those dirs' references/*.md. Emits one RULES.md per book,
-outside references/, so this script never ingests its own output.
+Selects skill directories whose SKILL.md frontmatter marks a book via
+`metadata.book` (string "true"/"yes") or, during transition, top-level
+`book:`. Iterates only those dirs' references/*.md. Emits one RULES.md
+per book, outside references/, so this script never ingests its own output.
 
 Usage:
     scripts/extract-rules           # write RULES.md for every book
@@ -48,7 +49,12 @@ def parse_frontmatter(text: str) -> dict[str, str]:
 
 
 def is_book(skill_md: Path) -> bool:
-    return parse_frontmatter(skill_md.read_text(encoding="utf-8")).get("book") in {"true", "yes"}
+    # Dual-read: prefer metadata.book (agentskills.io), accept top-level book
+    # until 5b's next book lands on metadata only. Line-splitter is indentation-
+    # blind, so nested `book: "true"` still lands in fields["book"].
+    fm = parse_frontmatter(skill_md.read_text(encoding="utf-8"))
+    raw = fm.get("book") or fm.get("metadata.book") or ""
+    return raw.strip("\"'").lower() in {"true", "yes", "1"}
 
 
 def discover_books(skills_root: Path) -> list[Path]:
