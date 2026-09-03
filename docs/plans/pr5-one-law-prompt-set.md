@@ -56,7 +56,7 @@ hand-maintained and must agree.
 | PR | Repo | State | Evidence |
 |---|---|---|---|
 | 5a | skills | **Landed** | [#117](https://github.com/sycamore-hq/crossr-skills/pull/117), rebase-merged 2026-09-03 as `ecc1e62`..`94e3a15` (7 commits). 15 review threads, all resolved. |
-| 5b | skills | **In flight** | Dispatched to a separate agent. No branch on origin yet. `ocaml-code-writer` (19,551 B) still unabsorbed. |
+| 5b | skills | **In flight** | [#118](https://github.com/sycamore-hq/crossr-skills/pull/118), branch `claude/ocaml-book-pr-5b-633ooj`. `ocaml-code-writer` (19,551 B) still unabsorbed on main. |
 | 5c | skills | Not started | 5c acceptance grep hits 13 files. No skills tag exists; `v1-one-law` uncut. |
 | 5d | loops | Not started | `graphs/code-gan.json` still names `rust-code-writer` / `rust-code-reviewer` / `rust-code-tester`. Pins `skills = v1-gan-layers`, `loops = v0`. |
 | 5e | harness | Not started | `HARNESS-SPEC.md:196-197`, `AGENTS.md:12`, `templates/harness/AGENTS.md.template:12` still name dead skills. Pins `v1-gan-layers` / `v1-cards`. |
@@ -94,7 +94,8 @@ hand-maintained and must agree.
    `check:` / `tag:` on one rule fails loud.
 5. **Rules dedupe from review:** RE-06 folded into RE-02 (then-uncommitted, so legal); RD-01
    points at RP-01 for wire strings; RD-06 keeps the builder-with-private-fields mandate;
-   RE-02 / RE-03 checks are review-each-hit and name no directory.
+   RE-02 / RE-03 checks are review-each-hit; RE-02 names no directory; RE-03 still names
+   `src/` (the #117 RE-03 thread kept that path).
 
 ---
 
@@ -240,7 +241,7 @@ THE PROJECTION CONTRACT (universal; every book obeys it, now and for Elm/TS/JS):
   RE error-handling, RP input-parsing, RD type-system-and-data, RL layering,
   RF control-flow, RT testing, RA api-surface, RC tooling,
   RS safety-performance-and-security.
-- Put that table in the rust book card AND in docs/book-topics.md (the cross-book
+- Put that table in docs/book-topics.md only; the rust card links to the registry (the cross-book
   prefix registry). A third book that needs a topic not in this list allocates a
   prefix there. The extractor ACCEPTS unknown prefixes; it does not enforce this
   list. Sharing prefixes is optional — do not require OCaml to reuse RF for monads.
@@ -252,7 +253,7 @@ CREATE .agents/skills/rust/ with `metadata.book: "true"` in SKILL.md frontmatter
   *shape*, not the size — pointing at a 6 KB exemplar for a 2 KB target will
   land as a 6 KB card). Which reference applies to which situation, nothing else.
   No persona. A one-sentence contract-summary mandate is allowed per the 8920866
-  foundation-mandate decision; keep it to one sentence. Carry the prefix table.
+  foundation-mandate decision; keep it to one sentence. Link the prefix registry.
 - references/error-handling.md      RE  — absorbs rust-errors/SKILL.md (5,470 B).
                                         SOLE OWNER of unwrap: "Never `.unwrap()`
                                         in production paths". RS does not restate it.
