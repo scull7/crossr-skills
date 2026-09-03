@@ -18,6 +18,14 @@ Explain the current topic of conversation visually. Skip the preamble
 and keep prose brief. Pick the smallest view that makes the key point
 clear.
 
+## Harness Context (Stratified Disclosure)
+
+The house palette, the artifact location, and the open command are
+supplied by the invoking harness. The palette in HTML is the CrossR
+disclosure example; other harnesses substitute their own. Place the
+file next to the work or under the harness's plan directory. Open it
+with whatever preview the environment provides.
+
 ## When
 
 - Pull request: shape-diff of the call tree, file tree, or component
@@ -164,9 +172,8 @@ House palette when the artifact is for Sycamore / CrossR:
 - Canopy shade `#2E342C`
 
 Write the file next to the work (`show-me-<slug>.html` or under
-`docs/plans/`). Open it with whatever the environment has (`open`,
-`xdg-open`, or the harness preview). Do not require Claude-Code
-`Bash(open …)`.
+`docs/plans/`). Open it with whatever preview the environment
+provides; do not depend on any one harness's open command.
 
 ## Guidance
 
@@ -177,5 +184,5 @@ current question.
 This skill presents shape. It does not review, bless, reject, or
 open a PR.
 
-Adapted from HumanLayer `show-me` (MIT).
-https://github.com/humanlayer/skills
+Adapted from HumanLayer show-me. Copyright (c) 2026 HumanLayer.
+MIT License — see https://github.com/humanlayer/skills/blob/main/LICENSE
