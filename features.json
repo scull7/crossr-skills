@@ -872,12 +872,12 @@
     ]
   },
   "show-me": {
-    "status": "in_progress",
+    "status": "completed",
     "commits": [
       {
         "id": "show-me-01",
         "title": "Add show-me Writing skill: compact visuals for PRs, plans, and architecture plans",
-        "status": "in_progress",
+        "status": "completed",
         "features": [
           "show-me-skill",
           "show-me-catalog",
