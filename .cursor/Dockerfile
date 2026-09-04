@@ -36,6 +36,19 @@ RUN curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs \
     | sh -s -- -y --default-toolchain "${RUST_VERSION}" --profile minimal \
       --component rustfmt,clippy \
  && chmod -R a+w /usr/local/rustup /usr/local/cargo \
+ && for b in cargo rustc rustup rustfmt cargo-clippy; do \
+      ln -sf "/usr/local/cargo/bin/${b}" "/usr/local/bin/${b}"; \
+    done \
+ && printf '%s\n' \
+      'PATH="/usr/local/cargo/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin"' \
+      'RUSTUP_HOME=/usr/local/rustup' \
+      'CARGO_HOME=/usr/local/cargo' \
+      > /etc/environment \
+ && printf '%s\n' \
+      'export RUSTUP_HOME=/usr/local/rustup' \
+      'export CARGO_HOME=/usr/local/cargo' \
+      'export PATH="/usr/local/cargo/bin:${PATH}"' \
+      > /etc/profile.d/cargo-path.sh \
  && rustc --version && cargo --version
 
 USER ubuntu
