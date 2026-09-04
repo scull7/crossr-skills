@@ -22,7 +22,7 @@ RUN apt-get update \
       sudo \
       unzip \
  && rm -rf /var/lib/apt/lists/* \
- && id -u ubuntu >/dev/null 2>&1 || useradd -m -s /bin/bash ubuntu \
+ && if ! id -u ubuntu >/dev/null 2>&1; then useradd -m -s /bin/bash ubuntu; fi \
  && echo "ubuntu ALL=(ALL) NOPASSWD:ALL" > /etc/sudoers.d/ubuntu \
  && chmod 0440 /etc/sudoers.d/ubuntu
 
@@ -35,7 +35,7 @@ ARG RUST_VERSION=1.83.0
 RUN curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs \
     | sh -s -- -y --default-toolchain "${RUST_VERSION}" --profile minimal \
       --component rustfmt,clippy \
- && chmod -R a+rX /usr/local/rustup /usr/local/cargo \
+ && chmod -R a+w /usr/local/rustup /usr/local/cargo \
  && rustc --version && cargo --version
 
 USER ubuntu
